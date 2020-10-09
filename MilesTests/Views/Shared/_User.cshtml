@@ -1,4 +1,4 @@
-﻿@model MilesTests.Models.RegisterNewViewModel
+﻿@model MilesTests.Models.EditUserViewModel
 
 @{
     Layout = null;
@@ -10,6 +10,7 @@
     <title>Miles Tests</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <!-- bootstrap-css -->
     <link rel="stylesheet" href="~/template/css/bootstrap.min.css">
     <!-- //bootstrap-css -->
@@ -32,34 +33,19 @@
 </head>
 
 <body>
-    <div class="reg-w3">
-        <div class="w3layouts-main">
-            <h2>Register Now</h2>
-            <form method="post">
-                <div asp-validation-summary="ModelOnly"></div>
 
-                <span asp-validation-for="UserName"></span>
-                <input asp-for="UserName" type="email" class="ggg" name="UserName" placeholder="E-MAIL">
+    <span asp-validation-for="FirstName"></span>
+    <input asp-for="FirstName" type="text" class="ggg" name="FirstName" placeholder="First Name">
 
-                <partial name="_User" />
+    <span asp-validation-for="LastName"></span>
+    <input asp-for="LastName" type="text" class="ggg" name="LastName" placeholder="Last Name">
 
-                <span asp-validation-for="Password"></span>
-                <input asp-for="Password" type="password" class="ggg" name="Password" placeholder="PASSWORD" required="">
+    <span asp-validation-for="Address"></span>
+    <input asp-for="Address" type="text" class="ggg" name="Address" placeholder="Address">
 
-                <h4><input type="checkbox" />I agree to the Terms of Service and Privacy Policy</h4>
+    <span asp-validation-for="PhoneNumber"></span>
+    <input asp-for="PhoneNumber" type="text" class="ggg" name="PhoneNumber" placeholder="Phone Number" >
 
-                <div class="clearfix"></div>
-                <input type="submit" value="submit" name="register">
-            </form>
-            <p>Already Registered.<a asp-action="Login">Login</a></p>
-        </div>
-        <div class="text-success">
-            <p>
-                @ViewBag.Message
-            </p>
-        </div>
-
-    </div>
     <script src="js/bootstrap.js"></script>
     <script src="js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="js/scripts.js"></script>
@@ -70,6 +56,3 @@
 </body>
 </html>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

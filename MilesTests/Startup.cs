@@ -39,11 +39,11 @@ namespace MilesTests
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = true;
+                cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = true;
-                cfg.Password.RequireNonAlphanumeric = true;
-                cfg.Password.RequireUppercase = true;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequireUppercase = false;
                 cfg.Password.RequiredLength = 6;
 
             })

@@ -1,0 +1,14 @@
+﻿<environment include="Development">
+    <script>
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || !isNaN(Globalize.parseFloat(value));
+        }
+    </script>
+</environment>
+<environment exclude="Development">
+    <script>
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || !isNaN(Globalize.parseFloat(value));
+        }
+    </script>
+</environment>

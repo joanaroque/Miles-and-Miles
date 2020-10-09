@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using MilesTests.Models;
+
+using System.Diagnostics;
 
 namespace MilesTests.Controllers
 {
@@ -38,6 +36,12 @@ namespace MilesTests.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
         }
     }
 }

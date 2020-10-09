@@ -2,44 +2,27 @@
 
 namespace MilesTests.Models
 {
-    public class RegisterNewViewModel
+    public class RegisterNewViewModel : EditUserViewModel
     {
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-
-        [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-
-        [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string Address { get; set; }
-
-
-        [Display(Name = "Phone Number")]
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"\d{9}",
-        ErrorMessage = "Must insert the {0} correct.")]
-        [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string PhoneNumber { get; set; }
-
-
-        [Required]
         [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [EmailAddress]
         public string UserName { get; set; }
 
-        [Required]
+
+        [Display(Name = "New Password")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
         public string Password { get; set; }
 
-        [Required]
+
+        [Display(Name = "Password Confirm")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
         [Compare("Password")]
-        public string Confirm { get; set; }
-
-
-        public RoleViewModel Roles { get; set; }
+        public string PasswordConfirm { get; set; }
     }
 }

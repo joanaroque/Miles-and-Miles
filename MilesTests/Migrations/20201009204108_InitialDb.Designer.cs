@@ -10,7 +10,7 @@ using MilesTests.Data;
 namespace MilesTests.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201009150548_InitialDb")]
+    [Migration("20201009204108_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

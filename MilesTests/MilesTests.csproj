@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201009144939_InitialDb.cs" />
-    <Compile Remove="Migrations\20201009144939_InitialDb.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -20,6 +15,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
     <PackageReference Include="MimeKit" Version="2.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Repositories\" />
   </ItemGroup>
 
 </Project>
