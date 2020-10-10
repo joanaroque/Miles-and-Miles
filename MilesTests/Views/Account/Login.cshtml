@@ -44,7 +44,7 @@
                 <input asp-for="Password" type="password" class="ggg" name="Password" placeholder="PASSWORD">
 
                 <span asp-validation-for="RememberMe">
-                    <input asp-for="RememberMe" type="checkbox" name="RememberMe"/>Remember Me
+                    <input asp-for="RememberMe" type="checkbox" name="RememberMe" />Remember Me
                 </span>
                 <h6><a asp-action="RecoverPassword">Forgot Password?</a></h6>
                 <div class="clearfix"></div>
@@ -73,6 +73,14 @@
                                         type="submit" class="btn btn-block btn-google" value="@provider.Name"
                                         title="Log in using your @provider.DisplayName account" name="provider">
                                     <i class="fa fa-google"></i> Google
+                                </button>
+                            }
+                            else if (provider.Name == "LinkedIn")
+                            {
+                                <button data-onsuccess="onSignIn"
+                                        type="submit" class="btn btn-block btn-link" value="@provider.Name"
+                                        title="Log in using your @provider.DisplayName account" name="provider">
+                                    <i class="fa fa-linkedin-square"></i> LinkedIn
                                 </button>
                             }
                         }

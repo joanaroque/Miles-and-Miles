@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,7 @@ using MilesTests.Helpers;
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MilesTests
 {
@@ -81,6 +83,25 @@ namespace MilesTests
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                  })
 
+                .AddLinkedIn(options =>
+                {
+                    options.ClientId = Configuration["Authentication:LinkedIn:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:LinkedIn:ClientSecret"];
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
+
+                    options.Events = new OAuthEvents()
+                    {
+                        OnRemoteFailure = loginFailureHandler =>
+                      {
+                          var authProperties =
+                         options.StateDataFormat.Unprotect(loginFailureHandler.Request.Query["state"]);
+                          loginFailureHandler.Response.Redirect("/Account/login");
+                          loginFailureHandler.HandleResponse();
+                          return Task.FromResult(0);
+                      }
+                    };
+
+                })
                  .AddCookie(options =>
                  {
                      options.Cookie.Name = ".AspNet.ExternalCookie";
