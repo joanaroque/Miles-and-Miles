@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+﻿@model IEnumerable<MilesTests.Data.Entities.User>
 
 @{
     Layout = null;
@@ -381,20 +381,36 @@
                             <table class="table table-striped b-t b-light">
                                 <thead>
                                     <tr>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Telephone</th>
                                         <th>Role</th>
-                                        <th>Role Id</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var role in Model)
+                                    @foreach (var user in Model)
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => role.Name)
+                                                @Html.DisplayFor(modelItem => user.FirstName)
+                                                @Html.DisplayFor(modelItem => user.LastName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => role.Id)
+                                                @Html.DisplayFor(modelItem => user.Address)
                                             </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => user.UserName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => user.PhoneNumber)
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <a asp-controller="Administrator" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-info"> <i class="fa fa-edit"></i> </a>
+                                                <a asp-controller="Administrator" asp-action="DeleteUser" asp-route-id="@user.Id" onclick="return confirm('Are you sure you want to delete @user.FirstName?')"
+                                                   class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
                                         </tr>
                                     }
                                 </tbody>
