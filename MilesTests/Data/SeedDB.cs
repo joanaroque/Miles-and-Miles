@@ -27,8 +27,9 @@ namespace MilesTests.Data
 
             await CheckOrCreateRoles();
 
-            await FillUserAsync();
-
+            await FillUser1Async();
+            await FillUser2Async();
+            await FillUser3Async();
 
 
 
@@ -37,71 +38,13 @@ namespace MilesTests.Data
 
         }
 
-        private async Task FillUserAsync()
+        private async Task FillUser3Async()
         {
-            var user1 = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
+            var user = await _userHelper.GetUserByEmailAsync("Joao.Oliveira.Felix@formandos.cinel.pt");
 
-            if (user1 == null)
+            if (user == null)
             {
-                user1 = new User
-                {
-                    FirstName = "Joana",
-                    LastName = "Roque",
-                    Email = "joanatpsi@gmail.com",
-                    UserName = "joanatpsi@gmail.com",
-                    PhoneNumber = "965214744",
-                    Address = "Rua da Programação",
-                    EmailConfirmed = true
-
-                };
-
-                await _userHelper.AddUserAsync(user1, "123456");
-
-                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user1);
-                await _userHelper.ConfirmEmailAsync(user1, token);
-            }
-
-            var isInRole1 = await _userHelper.IsUserInRoleAsync(user1, "Admin");
-
-            if (!isInRole1)
-            {
-                await _userHelper.AddUSerToRoleAsync(user1, "Admin");
-            }
-
-            var user2 = await _userHelper.GetUserByEmailAsync("catia-96@hotmail.com");
-
-            if (user2 == null)
-            {
-                user2 = new User
-                {
-                    FirstName = "Cátia",
-                    LastName = "Oliveira",
-                    Email = "catia-96@hotmail.com",
-                    UserName = "catia-96@hotmail.com",
-                    PhoneNumber = "102547455",
-                    Address = "Rua da Luz",
-                    EmailConfirmed = true
-
-                };
-
-                await _userHelper.AddUserAsync(user2, "123456");
-
-                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user2);
-                await _userHelper.ConfirmEmailAsync(user2, token);
-            }
-
-            var isInRole2 = await _userHelper.IsUserInRoleAsync(user2, "Admin");
-
-            if (!isInRole2)
-            {
-                await _userHelper.AddUSerToRoleAsync(user2, "Admin");
-            }
-
-            var user3 = await _userHelper.GetUserByEmailAsync("Joao.Oliveira.Felix@formandos.cinel.pt");
-
-            if (user3 == null)
-            {
-                user3 = new User
+                user = new User
                 {
                     FirstName = "João",
                     LastName = "Felix",
@@ -113,20 +56,85 @@ namespace MilesTests.Data
 
                 };
 
-                await _userHelper.AddUserAsync(user2, "123456");
+                await _userHelper.AddUserAsync(user, "123456");
 
-                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user3);
-                await _userHelper.ConfirmEmailAsync(user3, token);
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole3 = await _userHelper.IsUserInRoleAsync(user3, "Admin");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
 
-            if (!isInRole3)
+            if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user3, "Admin");
+                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task FillUser2Async()
+        {
+            var user = await _userHelper.GetUserByEmailAsync("catia-96@hotmail.com");
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Cátia",
+                    LastName = "Oliveira",
+                    Email = "catia-96@hotmail.com",
+                    UserName = "catia-96@hotmail.com",
+                    PhoneNumber = "102547455",
+                    Address = "Rua da Luz",
+                    EmailConfirmed = true
+
+                };
+
+                await _userHelper.AddUserAsync(user, "123456");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
             }
 
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
 
+            if (!isInRole)
+            {
+                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task FillUser1Async()
+        {
+            var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Joana",
+                    LastName = "Roque",
+                    Email = "joanatpsi@gmail.com",
+                    UserName = "joanatpsi@gmail.com",
+                    PhoneNumber = "965214744",
+                    Address = "Rua da Programação",
+                    EmailConfirmed = true
+
+                };
+
+                await _userHelper.AddUserAsync(user, "123456");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
+            }
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+            if (!isInRole)
+            {
+                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+            }
             await _context.SaveChangesAsync();
         }
 

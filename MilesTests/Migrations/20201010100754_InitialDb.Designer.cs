@@ -10,7 +10,7 @@ using MilesTests.Data;
 namespace MilesTests.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201009204108_InitialDb")]
+    [Migration("20201010100754_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,10 +150,10 @@ namespace MilesTests.Migrations
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
-                        .IsRequired();
+                        .HasMaxLength(50);
 
                     b.Property<string>("LastName")
-                        .IsRequired();
+                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled");
 

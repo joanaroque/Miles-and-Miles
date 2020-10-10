@@ -148,10 +148,10 @@ namespace MilesTests.Migrations
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
-                        .IsRequired();
+                        .HasMaxLength(50);
 
                     b.Property<string>("LastName")
-                        .IsRequired();
+                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled");
 
