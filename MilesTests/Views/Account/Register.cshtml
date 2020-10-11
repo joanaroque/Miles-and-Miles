@@ -43,8 +43,12 @@
 
                 <partial name="_User" />
 
-                <span asp-validation-for="Password"></span>
-                <input asp-for="Password" type="password" class="ggg" name="Password" placeholder="PASSWORD" required="">
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <span asp-validation-for="SelectedRole"></span>
+                    <select asp-for="SelectedRole" asp-items="@Model.Roles" class="form-control"></select>
+                }
 
                 <h4><input type="checkbox" />I agree to the Terms of Service and Privacy Policy</h4>
 
@@ -60,16 +64,43 @@
         </div>
 
     </div>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/jquery.slimscroll.js"></script>
-    <script src="js/jquery.nicescroll.js"></script>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-    <script src="js/jquery.scrollTo.js"></script>
+    <script src="~/template/js/bootstrap.js"></script>
+    <script src="~/template/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/template/js/scripts.js"></script>
+    <script src="~/template/js/jquery.slimscroll.js"></script>
+    <script src="~/template/js/jquery.nicescroll.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="~/template/js/flot-chart/excanvas.min.js"></script><![endif]-->
+    <script src="~/template/js/jquery.scrollTo.js"></script>
 </body>
 </html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CountryId").change(function () {
+                $("#CityId").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCitiesAsync")',
+                    dataType: 'json',
+                    data: { countryId: $("#CountryId").val() },
+                    success: function (cities) {
+                        debugger;
+                        $("#CityId").append('<option value="0">(Select a city...)</option>');
+                        $.each(cities, function (i, city) {
+                            $("#CityId").append('<option value="'
+                                + city.id + '">'
+                                + city.name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve cities.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
 }
+

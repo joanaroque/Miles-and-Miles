@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models
 {
-    public class UserRoleViewModel
+    public class UserRoleViewModel : EditUserViewModel
     {
         public string UserId { get; set; }
 
@@ -11,12 +12,9 @@ namespace MilesBackOffice.Web.Models
         public string Name { get; set; }
 
 
-
+        [DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
-
-
-        public bool IsSelected { get; set; }
 
 
 

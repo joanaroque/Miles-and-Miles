@@ -416,9 +416,9 @@
                             <div class="col-lg-4">
                                 <section class="panel">
                                     <div class="panel-body">
-                                        <label asp-for="City"></label>
-                                        <input asp-for="City" type="text" name="City" />
-                                        <span asp-validation-for="City" class="text-danger"></span>
+                                        <label asp-for="DateOfBirth"></label>
+                                        <input asp-for="DateOfBirth" type="date" name="DateOfBirth" />
+                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                                     </div>
                                 </section>
                             </div>
@@ -439,6 +439,15 @@
                                         <label asp-for="CountryId"></label>
                                         <select asp-for="CountryId" asp-items="@Model.Countries"></select>
                                         <span asp-validation-for="CountryId" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-3">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="CityId"></label>
+                                        <select asp-for="CityId" asp-items="@Model.Cities" class="form-control"></select>
+                                        <span asp-validation-for="CityId" class="text-danger"></span>
                                     </div>
                                 </section>
                             </div>

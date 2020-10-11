@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Data.Entities.User>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.UserRoleViewModel>
 
 @{
     Layout = null;
@@ -407,7 +407,7 @@
                                                 @Html.DisplayFor(modelItem => user.PhoneNumber)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => user.RoleId.ToList())
+                                                @string.Join(" , ", user.Roles.ToList())
                                             </td>
                                             <td>
                                                 <a asp-controller="Administrator" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-info"> <i class="fa fa-edit"></i> </a>

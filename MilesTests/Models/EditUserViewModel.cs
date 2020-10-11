@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
+using MilesBackOffice.Web.CustomValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -42,6 +43,13 @@ namespace MilesBackOffice.Web.Models
         public string SelectedRole { get; set; }
 
 
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date Of Birth")]
+        [CustomBirthDateValidator(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
+        public DateTime? DateOfBirth { get; set; }
+
 
         [Required]
         [Display(Name = "Country")]
@@ -51,7 +59,11 @@ namespace MilesBackOffice.Web.Models
 
         [Required]
         [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
-        public string City { get; set; }
+        public int CityId { get; set; }
+
+
+        public IEnumerable<SelectListItem> Cities { get; set; }
+
 
 
         public IEnumerable<SelectListItem> Countries { get; set; }

@@ -4,6 +4,7 @@ namespace MilesBackOffice.Web.Models
 {
     public class CityViewModel
     {
+
         public int CountryId { get; set; }
 
 
