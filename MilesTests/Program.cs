@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-using MilesTests.Data;
+using MilesBackOffice.Web.Data;
 
-namespace MilesTests
+namespace MilesBackOffice.Web
 {
     public class Program
     {

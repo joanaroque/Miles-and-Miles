@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using MilesTests.Data.Entities;
-using MilesTests.Models;
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Models;
 using System.Threading.Tasks;
 
-namespace MilesTests.Data.Repositories
+namespace MilesBackOffice.Web.Data.Repositories
 {
     public class UserHelper : IUserHelper
     {

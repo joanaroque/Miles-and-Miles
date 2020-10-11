@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using MilesTests.CustomValidation;
+using MilesBackOffice.Web.CustomValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesTests.Data.Entities
+namespace MilesBackOffice.Web.Data.Entities
 {
     public class User : IdentityUser
     {

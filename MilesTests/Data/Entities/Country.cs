@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesTests.Data.Entities
+namespace MilesBackOffice.Web.Data.Entities
 {
     public class Country : IEntity
     {

@@ -2,7 +2,7 @@
 
 using System.Net;
 
-namespace MilesTests.Helpers
+namespace MilesBackOffice.Web.Helpers
 {
     public class NotFoundViewResult : ViewResult
     {

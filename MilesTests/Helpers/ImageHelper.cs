@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MilesTests.Helpers
+namespace MilesBackOffice.Web.Helpers
 {
     public class ImageHelper : IImageHelper
     {

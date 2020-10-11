@@ -1,4 +1,4 @@
-﻿namespace MilesTests.Data.Repositories
+﻿namespace MilesBackOffice.Web.Data.Repositories
 {
     public interface ILog
     {

@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using MilesTests.Data;
-using MilesTests.Data.Entities;
-using MilesTests.Helpers;
-using MilesTests.Models;
+using MilesBackOffice.Web.Data;
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Helpers;
+using MilesBackOffice.Web.Models;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MilesTests.Controllers
+namespace MilesBackOffice.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller

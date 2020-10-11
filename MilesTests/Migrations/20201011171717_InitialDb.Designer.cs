@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MilesTests.Data;
+using MilesBackOffice.Web.Data;
 
-namespace MilesTests.Migrations
+namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201011164823_InitialDb")]
+    [Migration("20201011171717_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,7 +131,7 @@ namespace MilesTests.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.City", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace MilesTests.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.Country", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,7 +185,7 @@ namespace MilesTests.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.User", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -274,7 +274,7 @@ namespace MilesTests.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.User")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -282,7 +282,7 @@ namespace MilesTests.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.User")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -295,7 +295,7 @@ namespace MilesTests.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MilesTests.Data.Entities.User")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -303,33 +303,33 @@ namespace MilesTests.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.User")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.City", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.City", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.Country")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId");
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.Country", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Country", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.User", "CreatedBy")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
 
-                    b.HasOne("MilesTests.Data.Entities.User", "ModifiedBy")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById");
                 });
 
-            modelBuilder.Entity("MilesTests.Data.Entities.User", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.User", b =>
                 {
-                    b.HasOne("MilesTests.Data.Entities.City", "City")
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
                 });

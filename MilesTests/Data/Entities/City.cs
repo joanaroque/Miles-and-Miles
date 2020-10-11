@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MilesTests.Data.Entities
+namespace MilesBackOffice.Web.Data.Entities
 {
     public class City : IEntity
     {

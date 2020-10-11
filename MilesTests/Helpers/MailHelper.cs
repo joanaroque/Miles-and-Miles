@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 
-namespace MilesTests.Helpers
+namespace MilesBackOffice.Web.Helpers
 {
     public class MailHelper : IMailHelper
     {

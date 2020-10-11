@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using MilesTests.Data.Entities;
+using MilesBackOffice.Web.Data.Entities;
 using System.Collections;
 using System.Linq;
 
 
-namespace MilesTests.Data
+namespace MilesBackOffice.Web.Data
 {
     public class DataContext : IdentityDbContext<User>
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using MilesTests.Models;
+using MilesBackOffice.Web.Models;
 
 using System.Diagnostics;
 
-namespace MilesTests.Controllers
+namespace MilesBackOffice.Web.Controllers
 {
     public class HomeController : Controller
     {

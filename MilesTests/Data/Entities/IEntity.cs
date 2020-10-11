@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MilesTests.Data.Entities
+namespace MilesBackOffice.Web.Data.Entities
 {
     public interface IEntity
     {

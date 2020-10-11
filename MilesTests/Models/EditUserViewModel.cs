@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesTests.Models
+namespace MilesBackOffice.Web.Models
 {
     public class EditUserViewModel
     {

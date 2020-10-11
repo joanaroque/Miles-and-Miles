@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesTests.CustomValidation
+namespace MilesBackOffice.Web.CustomValidation
 {
     public class CustomBirthDateValidator : ValidationAttribute
     {

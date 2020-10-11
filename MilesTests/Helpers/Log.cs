@@ -1,7 +1,7 @@
-﻿using MilesTests.Data.Repositories;
+﻿using MilesBackOffice.Web.Data.Repositories;
 using System;
 
-namespace MilesTests.Helpers
+namespace MilesBackOffice.Web.Helpers
 {
     public class Log : ILog
     {

@@ -1,4 +1,4 @@
-﻿namespace MilesTests.Models
+﻿namespace MilesBackOffice.Web.Models
 {
     public class RoleViewModel
     {

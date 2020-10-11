@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using MilesTests.Data;
-using MilesTests.Data.Entities;
-using MilesTests.Helpers;
-using MilesTests.Models;
+using MilesBackOffice.Web.Data;
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Helpers;
+using MilesBackOffice.Web.Models;
 
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilesTests.Controllers
+namespace MilesBackOffice.Web.Controllers
 {
     public class AccountController : Controller
     {

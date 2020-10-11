@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MilesTests.Data.Entities;
+using MilesBackOffice.Web.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MilesTests.Data
+namespace MilesBackOffice.Web.Data
 {
     public class SeedDB
     {

@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 
-namespace MilesTests.Helpers
+namespace MilesBackOffice.Web.Helpers
 {
     public interface IImageHelper
     {

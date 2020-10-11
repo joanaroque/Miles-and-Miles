@@ -9,16 +9,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-using MilesTests.Data;
-using MilesTests.Data.Entities;
-using MilesTests.Data.Repositories;
-using MilesTests.Helpers;
+using MilesBackOffice.Web.Data;
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Data.Repositories;
+using MilesBackOffice.Web.Helpers;
 
 using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilesTests
+namespace MilesBackOffice.Web
 {
     public class Startup
     {
