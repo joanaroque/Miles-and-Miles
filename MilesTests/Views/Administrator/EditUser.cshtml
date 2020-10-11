@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MilesTests.Data.Entities.User>
+﻿@model MilesTests.Models.EditUserViewModel
 
 @{
     Layout = null;
@@ -130,7 +130,7 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="photo"><img alt="avatar" src="images/3.png"></span>
+                                    <span class="photo"><img alt="avatar" src="~/template/images/3.png"></span>
                                     <span class="subject">
                                         <span class="from">Jonathan Smith</span>
                                         <span class="time">Just now</span>
@@ -142,7 +142,7 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="photo"><img alt="avatar" src="images/1.png"></span>
+                                    <span class="photo"><img alt="avatar" src="~/template/images/1.png"></span>
                                     <span class="subject">
                                         <span class="from">Jane Doe</span>
                                         <span class="time">2 min ago</span>
@@ -154,7 +154,7 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="photo"><img alt="avatar" src="images/3.png"></span>
+                                    <span class="photo"><img alt="avatar" src="~/template/images/3.png"></span>
                                     <span class="subject">
                                         <span class="from">Tasi sam</span>
                                         <span class="time">2 days ago</span>
@@ -166,7 +166,7 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="photo"><img alt="avatar" src="images/2.png"></span>
+                                    <span class="photo"><img alt="avatar" src="~/template/images/2.png"></span>
                                     <span class="subject">
                                         <span class="from">Mr. Perfect</span>
                                         <span class="time">2 hour ago</span>
@@ -233,7 +233,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="images/2.png">
+                            <img alt="" src="~/template/images/2.png">
                             <span class="username">John Doe</span>
                             <b class="caret"></b>
                         </a>
@@ -286,13 +286,13 @@
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a class="active" href="javascript:;">
+                            <a href="javascript:;">
                                 <i class="fa fa-th"></i>
                                 <span>Data Tables</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="basic_table.html">Basic Table</a></li>
-                                <li><a class="active" href="responsive_table.html">Responsive Table</a></li>
+                                <li><a href="responsive_table.html">Responsive Table</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -348,7 +348,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">
+                            <a href="login.html">
                                 <i class="fa fa-user"></i>
                                 <span>Login Page</span>
                             </a>
@@ -361,80 +361,95 @@
         <!--sidebar end-->
         <!--main content start-->
         <section id="main-content">
-            <section class="wrapper">
-                <div class="table-agile-info">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Roles
-                        </div>
-                        <div class="row w3-res-tb">
-                            <div class="col-sm-3 pull-right">
-                                <div class="input-group">
-                                    <input type="text" class="input-sm form-control" placeholder="Search">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-default" type="button">Go!</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped b-t b-light">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th>Email</th>
-                                        <th>Telephone</th>
-                                        <th>Role</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var user in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => user.FirstName)
-                                                @Html.DisplayFor(modelItem => user.LastName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => user.Address)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => user.UserName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => user.PhoneNumber)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => user.RoleId.ToList())
-                                            </td>
-                                            <td>
-                                                <a asp-controller="Administrator" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-info"> <i class="fa fa-edit"></i> </a>
-                                                <a asp-controller="Administrator" asp-action="DeleteUser" asp-route-id="@user.Id" onclick="return confirm('Are you sure you want to delete @user.FirstName?')"
-                                                   class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <footer class="panel-footer">
-                            <div class="row">
+            <section class=" wrapper">
+                <div class="agile-grid">
+                    <h2 class="w3ls_head">Edit User</h2>
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
 
-                                <div class="col-sm-5 text-center">
-                                    <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                                </div>
-                                <div class="col-sm-7 text-right text-center-xs">
-                                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                                        <li><a href="">1</a></li>
-                                        <li><a href="">2</a></li>
-                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                                    </ul>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-12"> <p class="hd-title">Base on Bootstrap grid system.</p></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="FirstName"></label>
+                                        <input asp-for="FirstName" type="text" name="FirstName" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </section>
                             </div>
-                        </footer>
-                    </div>
+
+                            <div class="col-lg-6">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="LastName"></label>
+                                        <input asp-for="LastName" type="text" name="LastName" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="PhoneNumber"></label>
+                                        <input type="tel" asp-for="PhoneNumber" name="PhoneNumber" />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-4">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="Address"></label>
+                                        <input asp-for="Address" type="text" name="Address" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-4">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="City"></label>
+                                        <input asp-for="City" type="text" name="City" />
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="SelectedRole"></label>
+                                        <select asp-for="SelectedRole" asp-items="@Model.Roles"></select>
+                                        <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-3">
+                                <section class="panel">
+                                    <div class="panel-body">
+                                        <label asp-for="CountryId"></label>
+                                        <select asp-for="CountryId" asp-items="@Model.Countries"></select>
+                                        <span asp-validation-for="CountryId" class="text-danger"></span>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <input type="submit" value="Save" class="btn btn-success" />
+                        <a asp-action="ListUsers" class="btn btn-warning pull-right">
+                            <i class="fa fa-backward"> Back</i>
+                        </a>
+                    </form>
                 </div>
             </section>
             <!-- footer -->
@@ -457,8 +472,8 @@
     <script src="~/template/js/jquery.scrollTo.js"></script>
 </body>
 </html>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
 }
+
+

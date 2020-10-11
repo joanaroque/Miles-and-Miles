@@ -33,13 +33,28 @@ namespace MilesTests.Models
         public string PhoneNumber { get; set; }
 
 
+
         public IEnumerable<SelectListItem> Roles { get; set; }
+
 
 
         [Display(Name = "Role")]
         public string SelectedRole { get; set; }
 
 
+
+        [Required]
+        [Display(Name = "Country")]
+        public int CountryId { get; set; }
+
+
+
+        [Required]
+        [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
+        public string City { get; set; }
+
+
+        public IEnumerable<SelectListItem> Countries { get; set; }
 
     }
 }

@@ -44,7 +44,7 @@
     <input asp-for="Address" type="text" class="ggg" name="Address" placeholder="Address">
 
     <span asp-validation-for="PhoneNumber"></span>
-    <input asp-for="PhoneNumber" type="text" class="ggg" name="PhoneNumber" placeholder="Phone Number" >
+    <input asp-for="PhoneNumber" type="text" class="ggg" name="PhoneNumber" placeholder="Phone Number" pattern="\d{9}">
 
     <script src="js/bootstrap.js"></script>
     <script src="js/jquery.dcjqaccordion.2.7.js"></script>

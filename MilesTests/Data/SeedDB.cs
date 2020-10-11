@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MilesTests.Data.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MilesTests.Data
@@ -30,7 +32,7 @@ namespace MilesTests.Data
             await FillUser1Async();
             await FillUser2Async();
             await FillUser3Async();
-
+            await FillCountriesAsync();
 
 
 
@@ -52,7 +54,12 @@ namespace MilesTests.Data
                     UserName = "Joao.Oliveira.Felix@formandos.cinel.pt",
                     PhoneNumber = "965201474",
                     Address = "Rua do Ouro",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    Gender = "Male",
+                    City = _context.Cities.FirstOrDefault(),
+                    TIN = "212121218",
+                    Document = "20174255"
 
                 };
 
@@ -85,7 +92,12 @@ namespace MilesTests.Data
                     UserName = "catia-96@hotmail.com",
                     PhoneNumber = "102547455",
                     Address = "Rua da Luz",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("01/09/1997"),
+                    Gender = "Female",
+                    City = _context.Cities.FirstOrDefault(),
+                    TIN = "212121217",
+                    Document = "2014742955"
 
                 };
 
@@ -119,8 +131,12 @@ namespace MilesTests.Data
                     UserName = "joanatpsi@gmail.com",
                     PhoneNumber = "965214744",
                     Address = "Rua da Programação",
-                    EmailConfirmed = true
-
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("27/11/1988"),
+                    Gender = "Female",
+                    City = _context.Cities.FirstOrDefault(),
+                    TIN = "212121212",
+                    Document = "201474255"
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
@@ -143,6 +159,32 @@ namespace MilesTests.Data
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("User");
             await _userHelper.CheckRoleAsync("SuperUser");
+        }
+
+        private async Task FillCountriesAsync()
+        {
+            if (!_context.Countries.Any())
+            {
+                var cities = new List<City>
+                {
+                    new City { Name = "Lisboa" },
+                    new City { Name = "Porto" },
+                    new City { Name = "Coimbra" },
+                    new City { Name = "Faro" }
+                };
+
+
+                _context.Countries.Add(new Country
+                {
+                    Cities = cities,
+                    Name = "Portugal"
+                });
+
+
+                await _context.SaveChangesAsync();
+            }
+
+
         }
     }
 }

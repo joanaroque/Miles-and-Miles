@@ -83,25 +83,7 @@ namespace MilesTests
                      options.SignInScheme = IdentityConstants.ExternalScheme;
                  })
 
-                .AddLinkedIn(options =>
-                {
-                    options.ClientId = Configuration["Authentication:LinkedIn:ClientId"];
-                    options.ClientSecret = Configuration["Authentication:LinkedIn:ClientSecret"];
-                    options.SignInScheme = IdentityConstants.ExternalScheme;
-
-                    options.Events = new OAuthEvents()
-                    {
-                        OnRemoteFailure = loginFailureHandler =>
-                      {
-                          var authProperties =
-                         options.StateDataFormat.Unprotect(loginFailureHandler.Request.Query["state"]);
-                          loginFailureHandler.Response.Redirect("/Account/login");
-                          loginFailureHandler.HandleResponse();
-                          return Task.FromResult(0);
-                      }
-                    };
-
-                })
+               
                  .AddCookie(options =>
                  {
                      options.Cookie.Name = ".AspNet.ExternalCookie";

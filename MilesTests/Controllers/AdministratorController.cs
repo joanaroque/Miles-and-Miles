@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
 using MilesTests.Data;
 using MilesTests.Data.Entities;
 using MilesTests.Helpers;
 using MilesTests.Models;
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,11 +41,35 @@ namespace MilesTests.Controllers
 
 
         [HttpGet]
-        public IActionResult ListUsers()
-        {
-            var users = _userManager.Users.ToList();
+        //public IActionResult ListUsers()
+        //{
+        //    var users = _userManager.Users.ToList();
 
-            return View(users);
+        //    return View(users);
+        //}
+        public async Task<ActionResult> ListUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userRolesViewModel = new List<UserRoleViewModel>();
+
+            foreach (User user in users)
+            {
+                var thisViewModel = new UserRoleViewModel
+                {
+                    UserId = user.Id,
+                    Name = user.FullName,
+                    UserName = user.Email,
+                    Roles = await GetUserRoles(user)
+                };
+                userRolesViewModel.Add(thisViewModel);
+            }
+
+            return View(userRolesViewModel);
+        }
+
+        private async Task<List<string>> GetUserRoles(User user)
+        {
+            return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
 

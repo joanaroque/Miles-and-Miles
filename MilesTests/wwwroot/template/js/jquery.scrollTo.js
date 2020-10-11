@@ -33,7 +33,6 @@
 		return $(window)._scrollable();
 	};
 
-	// Hack, hack, hack :)
 	// Returns the real elements to scroll (supports window/iframes, documents and regular nodes)
 	$.fn._scrollable = function() {
 		return this.map(function() {

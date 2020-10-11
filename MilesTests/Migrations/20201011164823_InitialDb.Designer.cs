@@ -10,7 +10,7 @@ using MilesTests.Data;
 namespace MilesTests.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201010100754_InitialDb")]
+    [Migration("20201011164823_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,60 @@ namespace MilesTests.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MilesTests.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CountryId");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("MilesTests.Data.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.ToTable("Countries");
+                });
+
             modelBuilder.Entity("MilesTests.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -141,8 +195,17 @@ namespace MilesTests.Migrations
                     b.Property<string>("Address")
                         .HasMaxLength(100);
 
+                    b.Property<int?>("CityId");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired();
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -151,6 +214,10 @@ namespace MilesTests.Migrations
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Gender");
+
+                    b.Property<Guid>("ImageId");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50);
@@ -167,13 +234,15 @@ namespace MilesTests.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<string>("Phone");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RoleId");
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("TIN");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -181,6 +250,8 @@ namespace MilesTests.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -236,6 +307,31 @@ namespace MilesTests.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MilesTests.Data.Entities.City", b =>
+                {
+                    b.HasOne("MilesTests.Data.Entities.Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId");
+                });
+
+            modelBuilder.Entity("MilesTests.Data.Entities.Country", b =>
+                {
+                    b.HasOne("MilesTests.Data.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("MilesTests.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+                });
+
+            modelBuilder.Entity("MilesTests.Data.Entities.User", b =>
+                {
+                    b.HasOne("MilesTests.Data.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
                 });
 #pragma warning restore 612, 618
         }
