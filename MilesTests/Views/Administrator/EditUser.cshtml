@@ -389,7 +389,6 @@
                                         <label asp-for="LastName"></label>
                                         <input asp-for="LastName" type="text" name="LastName" />
                                         <span asp-validation-for="LastName" class="text-danger"></span>
-
                                     </div>
                                 </section>
                             </div>
@@ -399,7 +398,7 @@
                                 <section class="panel">
                                     <div class="panel-body">
                                         <label asp-for="PhoneNumber"></label>
-                                        <input type="tel" asp-for="PhoneNumber" name="PhoneNumber" />
+                                        <input type="tel" asp-for="PhoneNumber" name="PhoneNumber" pattern="\d{9}"/>
                                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                     </div>
                                 </section>

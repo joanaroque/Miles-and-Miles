@@ -24,18 +24,24 @@ namespace MilesBackOffice.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly ICountryRepository _countryRepository;
+        private readonly IBlobHelper _blobHelper;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
             SignInManager<User> signInManager,
-              UserManager<User> userManager)
+              UserManager<User> userManager,
+              ICountryRepository countryRepository,
+              IBlobHelper blobHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
             _signInManager = signInManager;
             _userManager = userManager;
+            _countryRepository = countryRepository;
+            _blobHelper = blobHelper;
         }
 
 
@@ -183,7 +189,13 @@ namespace MilesBackOffice.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            var model = new RegisterNewViewModel
+            {
+                Countries = _countryRepository.GetComboCountries(),
+                Cities = _countryRepository.GetComboCities(0),
+                Roles = _userHelper.GetComboRoles()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -191,75 +203,65 @@ namespace MilesBackOffice.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+                //Guid imageId = Guid.Empty;
 
+                //if (model.ImageFile != null)
+                //{
+                //    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                //}
+                //var user = await _userHelper.AddUserWithImageAsync(model, imageId, model.SelectedRole);
+
+                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
                 if (user == null)
                 {
-
-                    user = new User
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Email = model.UserName,
-                        UserName = model.UserName,
-                        Address = model.Address,
-                        PhoneNumber = model.PhoneNumber
-
-                    };
-
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-
-                    if (result != IdentityResult.Success)
-                    {
-                        ModelState.AddModelError(string.Empty, "User couldn't be created.");
-                        return View(model);
-                    }
-
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                    {
-                        userid = user.Id,
-                        token = myToken
-                    }, protocol: HttpContext.Request.Scheme);
-
-                    try
-                    {
-                        _mailHelper.SendMail(model.UserName, "Email confirmation",
-                       $" <td style = 'background-color: #ecf0f1'>" +
-                       $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
-                       $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
-                       $"                    <p style = 'margin: 2px; font-size: 15px'>" +
-                       $"                      The best specialized Plants Store in Lisbon focused on providing various and beautiful plants!<br>" +
-                       $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
-                       $"  </div>" +
-                       $"  <div style = 'width: 100%; text-align: center'>" +
-                       $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
-                       $"    To allow the user, please click in this link:</br></br> " +
-                       $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{tokenLink}\">Confirm Email</a>" +
-                       $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0'> Online Plants Store 2020 </p>" +
-                       $"  </div>" +
-                       $" </td >" +
-                       $"</tr>" +
-                       $"</table>");
-
-                        ModelState.Clear();
-                        ViewBag.Message = "The instructions to allow your user has been sent to email.";
-
-                    }
-                    catch (Exception exception)
-                    {
-                        ModelState.AddModelError(string.Empty, exception.Message);
-                    }
-
-
+                    ModelState.AddModelError(string.Empty, "This username is already registered.");
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
+                    model.Roles = _userHelper.GetComboRoles();
                     return View(model);
                 }
 
-                ModelState.AddModelError(string.Empty, "This username is already registered.");
-            }
+                var result = await _userHelper.AddUserAsync(user, model.Password);
 
+                if (result != IdentityResult.Success)
+                {
+                    ModelState.AddModelError(string.Empty, "User couldn't be created.");
+                    return View(model);
+                }
+
+                var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme);
+
+                try
+                {
+                    _mailHelper.SendMail(model.UserName, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                   $"To allow the user, " +
+                    $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+
+                    //ModelState.Clear();
+                    ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            model.Countries = _countryRepository.GetComboCountries();
+            model.Cities = _countryRepository.GetComboCities(model.CountryId);
+            model.Roles = _userHelper.GetComboRoles();
             return View(model);
         }
+
+        public async Task<JsonResult> GetCitiesAsync(int countryId)
+        {
+            var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
+            return Json(country.Cities.OrderBy(c => c.Name));
+        }
+
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
@@ -280,11 +282,11 @@ namespace MilesBackOffice.Web.Controllers
                 return NotFound();
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Customer");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "User");
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "Customer");
+                await _userHelper.AddUSerToRoleAsync(user, "User");
             }
 
             return View();
@@ -358,11 +360,11 @@ namespace MilesBackOffice.Web.Controllers
 
                 try
                 {
-                    _mailHelper.SendMail(model.Email, "Plants Store Password Reset", $"<h1>Plants Store Password Reset</h1>" +
-               $"To reset the password click in this link:</br></br>" +
-               $"<a href = \"{link}\">Reset Password</a>");
+                    _mailHelper.SendMail(model.Email, "Password Reset", $"<h1>Password Reset</h1>" +
+                    $"To reset the password click in this link:</br></br>" +
+                    $"<a href = \"{link}\">Reset Password</a>");
 
-                    ModelState.Clear();
+                    //ModelState.Clear();
                     ViewBag.Message = "The instructions to recover your password has been sent to email.";
 
                 }

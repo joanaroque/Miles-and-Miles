@@ -22,14 +22,17 @@ namespace MilesBackOffice.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly ICountryRepository _countryRepository;
 
         public AdministratorController(IUserHelper userHelper,
             RoleManager<IdentityRole> roleManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            ICountryRepository countryRepository)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
             _userManager = userManager;
+            _countryRepository = countryRepository;
         }
 
         [HttpGet]
@@ -41,30 +44,24 @@ namespace MilesBackOffice.Web.Controllers
 
 
         [HttpGet]
-        //public IActionResult ListUsers()
-        //{
-        //    var users = _userManager.Users.ToList();
-
-        //    return View(users);
-        //}
         public async Task<ActionResult> ListUsers()
         {
             var users = await _userManager.Users.ToListAsync();
-            var userRolesViewModel = new List<UserRoleViewModel>();
+            var model = new List<UserRoleViewModel>();
 
             foreach (User user in users)
             {
-                var thisViewModel = new UserRoleViewModel
+                var viewModel = new UserRoleViewModel
                 {
                     UserId = user.Id,
                     Name = user.FullName,
                     UserName = user.Email,
                     Roles = await GetUserRoles(user)
                 };
-                userRolesViewModel.Add(thisViewModel);
+                model.Add(viewModel);
             }
 
-            return View(userRolesViewModel);
+            return View(model);
         }
 
         private async Task<List<string>> GetUserRoles(User user)
@@ -72,10 +69,9 @@ namespace MilesBackOffice.Web.Controllers
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
-
         // GET: Administrator/Edit/5
         [HttpGet]
-        public async Task<IActionResult> EditUser(string id) // todo passar o role
+        public async Task<IActionResult> EditUser(string id) 
         {
             var user = await _userHelper.GetUserByIdAsync(id);
 
@@ -93,6 +89,8 @@ namespace MilesBackOffice.Web.Controllers
                 LastName = user.LastName,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                Countries = _countryRepository.GetComboCountries(),
                 Roles = _roleManager.Roles.ToList().Select(
                     x => new SelectListItem()
                     {
@@ -103,6 +101,24 @@ namespace MilesBackOffice.Web.Controllers
             };
 
             return View(model);
+        }
+
+        public async Task<IActionResult> DetailsUser(string id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            return View(user);
         }
 
         /// <summary>

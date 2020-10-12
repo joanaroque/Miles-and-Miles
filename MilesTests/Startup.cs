@@ -108,10 +108,12 @@ namespace MilesBackOffice.Web
 
             services.AddTransient<SeedDB>();
             services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IImageHelper, ImageHelper>();
-            // services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IBlobHelper, BlobHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ILog, Log>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+
 
 
             services.Configure<CookiePolicyOptions>(options =>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.CustomValidation;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,21 @@ namespace MilesBackOffice.Web.Models
         [Display(Name = "Date Of Birth")]
         [CustomBirthDateValidator(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
         public DateTime? DateOfBirth { get; set; }
+
+
+        [MaxLength(20)]
+        [Required]
+        public string Document { get; set; }
+
+
+        [Display(Name = "Image")]
+        public Guid ImageId { get; set; }
+
+
+
+        [Display(Name = "Image")]
+        public IFormFile ImageFile { get; set; }
+
 
 
         [Required]

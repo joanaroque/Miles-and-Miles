@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Data
@@ -140,5 +142,18 @@ namespace MilesBackOffice.Web.Data
         /// <param name="password">password</param>
         /// <returns>user new password</returns>
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+
+
+
+        IEnumerable<SelectListItem> GetComboRoles();
+
+
+
+        Task<User> AddUserWithImageAsync(RegisterNewViewModel model, Guid imageId, string roleName);
+
+
+
+        Task<User> GetUserImageAsync(Guid userId);
     }
 }
