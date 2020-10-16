@@ -10,7 +10,7 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201016161008_InitialDb")]
+    [Migration("20201016192841_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,11 +166,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<string>("CreatedById");
-
                     b.Property<bool>("IsConfirm");
-
-                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -182,10 +178,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
                     b.ToTable("Countries");
                 });
 
@@ -196,39 +188,34 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
+                    b.Property<string>("Address");
 
                     b.Property<int?>("CityId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<int?>("CountryId");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
 
-                    b.Property<string>("Document")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("Document");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Gender");
 
                     b.Property<Guid>("ImageId");
 
-                    b.Property<string>("LastName")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -248,9 +235,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("RoleId");
-
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("SelectedRole");
 
                     b.Property<string>("TIN");
 
@@ -262,6 +249,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -326,22 +315,15 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("CountryId");
                 });
 
-            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Country", b =>
-                {
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-                });
-
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.User", b =>
                 {
                     b.HasOne("MilesBackOffice.Web.Data.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
+
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
                 });
 #pragma warning restore 612, 618
         }
