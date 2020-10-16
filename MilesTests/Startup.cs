@@ -70,18 +70,18 @@ namespace MilesBackOffice.Web
             services
                 .AddAuthentication()
 
-                 .AddGoogle(options =>
-                 {
-                     options.ClientId = Configuration["App:GoogleClientId"];
-                     options.ClientSecret = Configuration["App:GoogleClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
-                 .AddFacebook(options =>
-                 {
-                     options.ClientId = Configuration["App:FacebookClientId"];
-                     options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
+                 //.AddGoogle(options =>
+                 //{
+                 //    options.ClientId = Configuration["App:GoogleClientId"];
+                 //    options.ClientSecret = Configuration["App:GoogleClientSecret"];
+                 //    options.SignInScheme = IdentityConstants.ExternalScheme;
+                 //})
+                 //.AddFacebook(options =>
+                 //{
+                 //    options.ClientId = Configuration["App:FacebookClientId"];
+                 //    options.ClientSecret = Configuration["App:FacebookClientSecret"];
+                 //    options.SignInScheme = IdentityConstants.ExternalScheme;
+                 //})
 
                
                  .AddCookie(options =>
@@ -96,14 +96,15 @@ namespace MilesBackOffice.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //if (_env.IsDevelopment())
+                //{
+                //    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //}
+                //else
+                //{
+                //    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                //}
             });
 
             services.AddTransient<SeedDB>();

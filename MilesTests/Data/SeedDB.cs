@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MilesBackOffice.Web.Data.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,38 +27,36 @@ namespace MilesBackOffice.Web.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-
-
+            
             await CheckOrCreateRoles();
+
+            await FillCountriesAsync();
 
             await FillUser1Async();
             await FillUser2Async();
             await FillUser3Async();
-            await FillCountriesAsync();
-
-
-
-
 
         }
 
         private async Task FillUser3Async()
         {
-            var user = await _userHelper.GetUserByEmailAsync("Joao.Oliveira.Felix@formandos.cinel.pt");
+            var user = await _userHelper.GetUserByEmailAsync("jpofelix@gmail.com");
 
             if (user == null)
             {
+
                 user = new User
                 {
                     Name = "João Felix",
-                    Email = "Joao.Oliveira.Felix@formandos.cinel.pt",
+                    Email = "jpofelix@gmail.com",
                     UserName = "JoaoFelix",
                     PhoneNumber = "965201474",
                     Address = "Rua do Ouro",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Male",
-                    //CityId = 1,
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
                     Document = "20174255"
 
@@ -83,6 +83,7 @@ namespace MilesBackOffice.Web.Data
 
             if (user == null)
             {
+                
                 user = new User
                 {
                     Name = "Cátia Oliveira",
@@ -93,7 +94,8 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/09/1997"),
                     Gender = "Female",
-                    //CityId = 1,
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121217",
                     Document = "2014742955"
 
@@ -131,7 +133,8 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("27/11/1988"),
                     Gender = "Female",
-                    //CityId = 1,
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121212",
                     Document = "201474255"
                 };
@@ -180,8 +183,6 @@ namespace MilesBackOffice.Web.Data
 
                 await _context.SaveChangesAsync();
             }
-
-
         }
     }
 }

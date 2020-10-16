@@ -10,6 +10,26 @@ namespace MilesBackOffice.Web.Data.Entities
 
         public int Id { get; set; }
 
+        
+        public User CreatedBy { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
+
+
+        public DateTime UpdateDate { get; set; }
+
+        
+        public User ModifiedBy { get; set; }
+
+
+        public bool IsConfirm { get; set; }
+
+
+        public int Status { get ; set ; }
+
+        /*************OBJECT PROPERTIES*********************/
+
 
         [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
         [Required]
@@ -23,28 +43,5 @@ namespace MilesBackOffice.Web.Data.Entities
 
         [Display(Name = "# Cities")]
         public int NumberCities { get { return Cities == null ? 0 : Cities.Count; } }
-
-
-
-        [NotMapped]
-        public User CreatedBy { get; set; }
-
-
-
-        public DateTime CreateDate { get; set; }
-
-
-
-        public DateTime UpdateDate { get; set; }
-
-
-        [NotMapped]
-        public User ModifiedBy { get; set; }
-
-
-
-        public bool IsConfirm { get; set; }
-
-        public int Status { get ; set ; }
     }
 }
