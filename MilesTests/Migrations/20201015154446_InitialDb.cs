@@ -169,6 +169,7 @@ namespace MilesBackOffice.Web.Migrations
                     Document = table.Column<string>(maxLength: 20, nullable: false),
                     RoleId = table.Column<string>(nullable: true),
                     Address = table.Column<string>(maxLength: 100, nullable: true),
+                    PendingTier = table.Column<bool>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     TIN = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),

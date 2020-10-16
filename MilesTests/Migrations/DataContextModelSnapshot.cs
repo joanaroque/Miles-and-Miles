@@ -232,6 +232,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<bool>("PendingTier");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");

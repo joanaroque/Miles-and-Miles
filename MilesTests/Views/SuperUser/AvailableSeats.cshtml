@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.TierChangeViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.AvailableSeatsViewModel>
 
 @{
-    ViewData["Title"] = "TierChange";
+    ViewData["Title"] = "AvailableSeats";
 }
 
 @{
@@ -362,7 +362,7 @@
                 <div class="table-agile-info">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Tier Change
+                            List of Flights
                         </div>
                         <div class="row w3-res-tb">
                             <div class="col-sm-3 pull-right">
@@ -378,11 +378,9 @@
                             <table class="table table-striped b-t b-light">
                                 <thead>
                                     <tr>
-                                        <th>Client Name</th>
-                                        <th>Old Tier</th>
-                                        <th>New Tier</th>
-                                        <th>Number Of Flights</th>
-                                        <th>Number Of Miles</th>
+                                        <th>Flight number</th>
+                                        <th>Number of seats</th>
+                                        <th>Available seats</th>
                                         <td></td>
                                     </tr>
                                 </thead>
@@ -391,25 +389,16 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
+                                                @Html.DisplayFor(modelItem => item.FlightNumber)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.OldTier)
+                                                @Html.DisplayFor(modelItem => item.NumberOfSeats)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.NewTier)
+                                                @Html.DisplayFor(modelItem => item.AvailableSeats)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfFlights)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfMiles)
-                                            </td>
-                                            <td>
-                                                @if (!item.IsConfirm)
-                                                {
-                                                    // fazer confirm or cancel
-                                                }
+                                                fazer confirm or cancel
                                             </td>
                                         </tr>
                                     }

@@ -36,6 +36,9 @@ namespace MilesBackOffice.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
 
+        public bool PendingTier { get; set; }
+
+
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Date)]
@@ -59,6 +62,7 @@ namespace MilesBackOffice.Web.Data.Entities
 
         [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
         public City City { get; set; }
+
 
     }
 }

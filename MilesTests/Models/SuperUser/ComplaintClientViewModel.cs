@@ -13,11 +13,13 @@ namespace MilesBackOffice.Web.Models
 
 
         [Required]
-
         public string Title { get; set; }
 
 
-        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
         public DateTime Date { get; set; }
 
 
@@ -26,7 +28,7 @@ namespace MilesBackOffice.Web.Models
 
 
 
-        public string Replay { get; set; }
+        public string Reply { get; set; }
 
 
 

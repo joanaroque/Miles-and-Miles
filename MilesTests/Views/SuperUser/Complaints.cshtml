@@ -299,16 +299,11 @@
                                 <span> Manage Complaints</span>
                             </a>
                         </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-tasks"></i>
-                                <span>Form Components</span>
+                        <li>
+                            <a asp-controller="SuperUser" asp-action="AvailableSeats">
+                                <i class="fa fa-plane"></i>
+                                <span> Available Seats</span>
                             </a>
-                            <ul class="sub">
-                                <li><a href="form_component.html">Form Elements</a></li>
-                                <li><a href="form_validation.html">Form Validation</a></li>
-                                <li><a href="dropzone.html">Dropzone</a></li>
-                            </ul>
                         </li>
                         <li class="sub-menu">
                             <a href="javascript:;">
@@ -405,7 +400,7 @@
                                                 @Html.DisplayFor(modelItem => item.Title)
                                             </td>
                                             <td>
-                                                <a asp-controller="SuperUser" asp-action="ComplaintReplay" class="btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
+                                                fazer confirm or cancel
                                             </td>
                                         </tr>
                                     }

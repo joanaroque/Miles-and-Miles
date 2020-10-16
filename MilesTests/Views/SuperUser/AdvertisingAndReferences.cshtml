@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.TierChangeViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.AdvertisingViewModel>
 
 @{
-    ViewData["Title"] = "TierChange";
+    ViewData["Title"] = "AdvertisingAndReferences";
 }
 
 @{
@@ -362,7 +362,7 @@
                 <div class="table-agile-info">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Tier Change
+                            Manage Complaints
                         </div>
                         <div class="row w3-res-tb">
                             <div class="col-sm-3 pull-right">
@@ -378,40 +378,31 @@
                             <table class="table table-striped b-t b-light">
                                 <thead>
                                     <tr>
-                                        <th>Client Name</th>
-                                        <th>Old Tier</th>
-                                        <th>New Tier</th>
-                                        <th>Number Of Flights</th>
-                                        <th>Number Of Miles</th>
-                                        <td></td>
+                                        <td>Image</td>
+                                        <th>Title</th>
+                                        <th>Content</th>
+                                        <td>End Date here?</td>
+                                        <td>Confirmation</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OldTier)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NewTier)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfFlights)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfMiles)
-                                            </td>
-                                            <td>
-                                                @if (!item.IsConfirm)
-                                                {
-                                                    // fazer confirm or cancel
-                                                }
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>aqui fica a img</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Content)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                        <td>
+                                                        fazer confirm or cancel
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -460,5 +451,6 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }
+
 
 

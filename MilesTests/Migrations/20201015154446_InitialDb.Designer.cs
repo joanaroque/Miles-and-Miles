@@ -10,7 +10,7 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201011171717_InitialDb")]
+    [Migration("20201015154446_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -233,6 +233,8 @@ namespace MilesBackOffice.Web.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
+
+                    b.Property<bool>("PendingTier");
 
                     b.Property<string>("PhoneNumber");
 

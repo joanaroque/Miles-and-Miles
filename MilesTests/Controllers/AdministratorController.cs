@@ -69,6 +69,24 @@ namespace MilesBackOffice.Web.Controllers
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
+        public async Task<IActionResult> DetailsUser(string id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            return View(user);
+        }
+
         // GET: Administrator/Edit/5
         [HttpGet]
         public async Task<IActionResult> EditUser(string id) 
@@ -101,24 +119,6 @@ namespace MilesBackOffice.Web.Controllers
             };
 
             return View(model);
-        }
-
-        public async Task<IActionResult> DetailsUser(string id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            return View(user);
         }
 
         /// <summary>

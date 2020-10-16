@@ -6,6 +6,7 @@ using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
+using MilesBackOffice.Web.Models.SuperUser;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -51,6 +52,7 @@ namespace MilesBackOffice.Web.Controllers
             }
 
             //update to confirm
+            
 
             return View(); // same view
         }
@@ -65,8 +67,6 @@ namespace MilesBackOffice.Web.Controllers
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ComplaintReplay(ComplaintClientViewModel model)
         {
             var user = await _userHelper.GetUserByIdAsync(model.Id);
@@ -82,11 +82,12 @@ namespace MilesBackOffice.Web.Controllers
         [HttpGet]
         public ActionResult AvailableSeats()
         {
-            //lista de voos
-           
+            //lista de de lugares por confirmar
+            List<AvailableSeatsViewModel> modelList = _clientRepository.GetSeatsToBeConfirm();
 
 
-            return View();
+            return View(modelList);
+
         }
 
         [HttpPost]
@@ -104,20 +105,13 @@ namespace MilesBackOffice.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> AdvertisingAndReferences(string clientId)
+        public ActionResult AdvertisingAndReferences()
         {
-            var user = await _userHelper.GetUserByIdAsync(clientId);
-
-            //verifica se o clientId é null
-            if (clientId == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            //
+            //lista de publicidade por confirmar
+            List<AdvertisingViewModel> modelList = _clientRepository.GetAdvertisingToBeConfirm();
 
 
-            return View();
+            return View(modelList);
         }
 
         [HttpPost]

@@ -35,5 +35,10 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
         public bool IsConfirm { get; set; }
+
+
+
+        public int Status { get; set; }
+    
     }
 }
