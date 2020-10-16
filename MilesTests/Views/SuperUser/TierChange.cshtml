@@ -303,15 +303,11 @@
                                 <span> Available Seats</span>
                             </a>
                         </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-envelope"></i>
-                                <span>Mail </span>
+                        <li>
+                            <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences">
+                                <i class="fa fa-mars"></i>
+                                <span> Advertising And References</span>
                             </a>
-                            <ul class="sub">
-                                <li><a href="mail.html">Inbox</a></li>
-                                <li><a href="mail_compose.html">Compose Mail</a></li>
-                            </ul>
                         </li>
                         <li class="sub-menu">
                             <a href="javascript:;">
@@ -389,29 +385,26 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OldTier)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NewTier)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfFlights)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NumberOfMiles)
-                                            </td>
-                                            <td>
-                                                @if (!item.IsConfirm)
-                                                {
-                                                    // fazer confirm or cancel
-                                                }
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OldTier)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NewTier)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumberOfFlights)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumberOfMiles)
+                                        </td>
+                                        <td>
+                                            fazer confirm or cancel                  
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

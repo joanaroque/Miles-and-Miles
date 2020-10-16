@@ -145,6 +145,8 @@ namespace MilesBackOffice.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("Status");
+
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
@@ -171,6 +173,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<int>("Status");
 
                     b.Property<DateTime>("UpdateDate");
 
@@ -231,6 +235,10 @@ namespace MilesBackOffice.Web.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
+
+                    b.Property<bool>("PendingAdvertising");
+
+                    b.Property<bool>("PendingSeatsAvailable");
 
                     b.Property<bool>("PendingTier");
 

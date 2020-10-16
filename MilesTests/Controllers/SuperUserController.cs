@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.SuperUser;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,16 +19,19 @@ namespace MilesBackOffice.Web.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly IClientRepository _clientRepository;
+        private readonly IMailHelper _mailHelper;
 
         public SuperUserController(IUserHelper userHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IMailHelper mailHelper)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
             _userManager = userManager;
             _clientRepository = clientRepository;
+            _mailHelper = mailHelper;
         }
 
 
@@ -44,17 +48,39 @@ namespace MilesBackOffice.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmTierChange(string clientUserId)
         {
-            var user = await _userHelper.GetUserByIdAsync(clientUserId);
-
-            if (user == null)
+            if (string.IsNullOrEmpty(clientUserId))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            //update to confirm
-            
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(clientUserId);
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
 
-            return View(); // same view
+                //confirm tier change
+                user.PendingTier = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+                if (result.Succeeded)
+                {
+                    _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+                   $"<h1>You can now use our service as a --------------.</h1>");
+                }//todo: por nome do novo tier
+                else
+                {
+                    TempData["Message"] = "An error ocurred. Try again please.";
+                }
+                return RedirectToAction(nameof(TierChange));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
         }
 
         [HttpGet]
@@ -63,11 +89,10 @@ namespace MilesBackOffice.Web.Controllers
             //lista reclamaçoes nao processadas
             List<ComplaintClientViewModel> modelList = _clientRepository.GetClientComplaint();
 
-
             return View(modelList);
         }
 
-        public async Task<IActionResult> ComplaintReplay(ComplaintClientViewModel model)
+        public async Task<IActionResult> ComplaintReply(ComplaintClientViewModel model)
         {
             var user = await _userHelper.GetUserByIdAsync(model.Id);
 
@@ -75,6 +100,9 @@ namespace MilesBackOffice.Web.Controllers
             {
                 return new NotFoundViewResult("UserNotFound");
             }
+
+
+
 
             return View();
         }
@@ -85,23 +113,39 @@ namespace MilesBackOffice.Web.Controllers
             //lista de de lugares por confirmar
             List<AvailableSeatsViewModel> modelList = _clientRepository.GetSeatsToBeConfirm();
 
-
             return View(modelList);
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AvailableSeatsModel(string aquiVaiModelclientId)
+        public async Task<IActionResult> ConfirmAvailableSeats(string clientUserId)
         {
-            var user = await _userHelper.GetUserByIdAsync(aquiVaiModelclientId);
-
-            if (user == null)
+            if (string.IsNullOrEmpty(clientUserId))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            return View();
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(clientUserId);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                user.PendingSeatsAvailable = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+
+                return RedirectToAction(nameof(AvailableSeats));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+
+            }
         }
 
         [HttpGet]
@@ -110,23 +154,39 @@ namespace MilesBackOffice.Web.Controllers
             //lista de publicidade por confirmar
             List<AdvertisingViewModel> modelList = _clientRepository.GetAdvertisingToBeConfirm();
 
-
             return View(modelList);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdvertisingAndReferencesModel(string aquiVaiModelclientId)
+        public async Task<IActionResult> ConfirmAdvertisingAndReferencesl(string clientUserId)
         {
-            var user = await _userHelper.GetUserByIdAsync(aquiVaiModelclientId);
-
-            if (user == null)
+            if (string.IsNullOrEmpty(clientUserId))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            return View();
-        }
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(clientUserId);
 
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                user.PendingAdvertising = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+
+                return RedirectToAction(nameof(AvailableSeats));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+
+            }
+        }
     }
 }

@@ -36,7 +36,17 @@ namespace MilesBackOffice.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
 
+
         public bool PendingTier { get; set; }
+
+
+
+        public bool PendingSeatsAvailable { get; set; }
+
+
+
+
+        public bool PendingAdvertising { get; set; }
 
 
 

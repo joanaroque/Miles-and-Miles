@@ -259,14 +259,7 @@
                 <!-- sidebar menu start-->
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
-                        <li>
-                            <a class="active" href="index.html">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-
-
+                   
                         @if (User.IsInRole("Admin"))
                         {
                             <li>
@@ -301,15 +294,11 @@
                                 <span> Available Seats</span>
                             </a>
                         </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-envelope"></i>
-                                <span>Mail </span>
+                        <li>
+                            <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences">
+                                <i class="fa fa-mars"></i>
+                                <span> Advertising And References</span>
                             </a>
-                            <ul class="sub">
-                                <li><a href="mail.html">Inbox</a></li>
-                                <li><a href="mail_compose.html">Compose Mail</a></li>
-                            </ul>
                         </li>
                         <li class="sub-menu">
                             <a href="javascript:;">

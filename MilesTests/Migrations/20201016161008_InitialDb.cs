@@ -115,7 +115,8 @@ namespace MilesBackOffice.Web.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    IsConfirm = table.Column<bool>(nullable: false)
+                    IsConfirm = table.Column<bool>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,6 +133,7 @@ namespace MilesBackOffice.Web.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     IsConfirm = table.Column<bool>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     CountryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -170,6 +172,8 @@ namespace MilesBackOffice.Web.Migrations
                     RoleId = table.Column<string>(nullable: true),
                     Address = table.Column<string>(maxLength: 100, nullable: true),
                     PendingTier = table.Column<bool>(nullable: false),
+                    PendingSeatsAvailable = table.Column<bool>(nullable: false),
+                    PendingAdvertising = table.Column<bool>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     TIN = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
