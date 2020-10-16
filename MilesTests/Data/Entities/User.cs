@@ -50,16 +50,10 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-       // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
+        // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
         public City City { get; set; }
 
-
-
-        public int CountryId { get; set; }
-
-
-
-        public int CityId { get; set; }
+        public Country Country { get; set; }
 
 
 

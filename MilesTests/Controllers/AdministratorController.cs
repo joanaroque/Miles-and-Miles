@@ -48,7 +48,7 @@ namespace MilesBackOffice.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var model = new RegisterNewViewModel
+            var model = new RegisterUserViewModel
             {
                 Countries = _countryRepository.GetComboCountries(),
                 Cities = _countryRepository.GetComboCities(0),
@@ -59,7 +59,7 @@ namespace MilesBackOffice.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterNewViewModel model)
+        public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -75,8 +75,8 @@ namespace MilesBackOffice.Web.Controllers
                             UserName = model.Username,
                             Address = model.Address,
                             PhoneNumber = model.PhoneNumber,
-                            CityId = model.CityId,
-                            CountryId = model.CountryId,
+                            //City = model.CityId,
+                            //Country = model.CountryId,
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth
                         };

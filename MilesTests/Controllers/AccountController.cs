@@ -69,7 +69,7 @@ namespace MilesBackOffice.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
                 if (user != null && !user.EmailConfirmed &&
                              (await _userManager.CheckPasswordAsync(user, model.Password)))
@@ -94,7 +94,7 @@ namespace MilesBackOffice.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
-            return View(model);
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

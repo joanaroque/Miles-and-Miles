@@ -1,17 +1,14 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
+﻿using MilesBackOffice.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {
-    public class ClientRepository :  IClientRepository
+    public class DummyClientRepository : IClientRepository
     {
         private readonly DataContext _context;
 
-        public ClientRepository(DataContext context)
+        public DummyClientRepository(DataContext context)
         {
             _context = context;
 

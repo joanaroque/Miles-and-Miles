@@ -33,7 +33,7 @@ namespace MilesBackOffice.Web.Data.Repositories
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<User> AddUserWithImageAsync(RegisterNewViewModel model, Guid imageId, string roleName)
+        public async Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, string roleName)
         {
             User user = new User
             {
@@ -124,6 +124,11 @@ namespace MilesBackOffice.Web.Data.Repositories
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
         }
 
         public async Task<User> GetUserByIdAsync(string userId)

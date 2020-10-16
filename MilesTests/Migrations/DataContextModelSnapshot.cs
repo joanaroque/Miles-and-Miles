@@ -145,6 +145,8 @@ namespace MilesBackOffice.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("Status");
+
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
@@ -162,23 +164,17 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
-                    b.Property<string>("CreatedById");
-
                     b.Property<bool>("IsConfirm");
-
-                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("Status");
+
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Countries");
                 });
@@ -196,6 +192,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<int?>("CountryId");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
@@ -243,6 +241,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -307,22 +307,15 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("CountryId");
                 });
 
-            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Country", b =>
-                {
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-                });
-
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.User", b =>
                 {
                     b.HasOne("MilesBackOffice.Web.Data.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
+
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
                 });
 #pragma warning restore 612, 618
         }
