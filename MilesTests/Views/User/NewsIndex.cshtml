@@ -1,0 +1,81 @@
+﻿@model MilesBackOffice.Web.Models.NewsViewModel
+
+@{
+    ViewData["Title"] = "Miles News";
+}
+
+<link rel="stylesheet" href="~/css/user.css" />
+
+<div>
+    <h2>Miles News</h2>
+</div>
+
+<div class="news_cards">
+    <div class="news_card">
+        <header>
+            <h1>The END IS NEAR</h1>
+            @*@Html.DisplayFor(news => item.Title)*@
+        </header>
+        <div>
+            <img src="~/template/images/g1.jpg" alt="" height="200" width="300" />
+            @*TODO carrosel of photos if more than one is uploaded*@
+            <p>
+                Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.
+                @*@Html.DisplayFor(news => item.Body)*@
+            </p>
+        </div>
+    </div>
+    <div class="news_card">
+        <header>
+            <h1>The END IS NEAR</h1>
+            @*@Html.DisplayFor(news => item.Title)*@
+        </header>
+        <div>
+            <img src="~/template/images/g1.jpg" alt="" height="200" width="300" />
+            @*TODO carrosel of photos if more than one is uploaded*@
+            <p>
+                Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.
+                @*@Html.DisplayFor(news => item.Body)*@
+            </p>
+        </div>
+    </div>
+    <div class="news_card">
+        <header>
+            <h1>The END IS NEAR</h1>
+            @*@Html.DisplayFor(news => item.Title)*@
+        </header>
+        <div>
+            <img src="~/template/images/g1.jpg" alt="" height="200" width="300" />
+            @*TODO carrosel of photos if more than one is uploaded*@
+            <p>
+                Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.
+                @*@Html.DisplayFor(news => item.Body)*@
+            </p>
+        </div>
+    </div>
+    @*@foreach (var item in Model.Newspaper)
+        {
+            <div class="news_card">
+                <header>
+                    @Html.DisplayFor(news => item.Title)
+                </header>
+                <div>
+                    <div>
+                    </div>
+                    <p>
+                        @Html.DisplayFor(news => item.Body)
+                    </p>
+                </div>
+            </div>
+        }*@
+</div>
+
+<div>
+    <button id="btn_publishNews">New Headline</button>
+</div>
+
+<div>
+    <div>
+
+    </div>
+</div>

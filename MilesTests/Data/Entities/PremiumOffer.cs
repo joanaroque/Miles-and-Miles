@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MilesBackOffice.Web.Data.Entities
+{
+    public class PremiumOffer: IEntity
+    {
+        public int Id { get; set; }
+        public User CreatedBy { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public User ModifiedBy { get; set; }
+        public bool IsConfirm { get; set; }
+        public int Status { get; set; }
+
+        /************OBJECT PROPERTIES****************************/
+
+        public string Title { get; set; }
+
+        public string Flight { get; set; }
+
+        public Partner Partner { get; set; }
+
+        public int Quantity { get; set; }
+
+        public int Price { get; set; }
+
+        /// <summary>
+        /// for vouchers
+        /// </summary>
+        public string Conditions { get; set; }
+
+        public TypePremium Type { get; set; }
+    }
+}
