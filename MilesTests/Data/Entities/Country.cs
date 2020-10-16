@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilesBackOffice.Web.Data.Entities
 {
@@ -25,6 +26,7 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
+        [NotMapped]
         public User CreatedBy { get; set; }
 
 
@@ -36,15 +38,13 @@ namespace MilesBackOffice.Web.Data.Entities
         public DateTime UpdateDate { get; set; }
 
 
-
+        [NotMapped]
         public User ModifiedBy { get; set; }
 
 
 
         public bool IsConfirm { get; set; }
 
-
-
-        public int Status { get; set; }
+        public int Status { get ; set ; }
     }
 }

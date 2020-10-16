@@ -4,6 +4,8 @@ using MilesBackOffice.Web.CustomValidation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Models
 {
@@ -12,20 +14,13 @@ namespace MilesBackOffice.Web.Models
         public string Id { get; set; }
 
 
-        [Display(Name = "First Name")]
-        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Display(Name = "Full Name")]
+        //[MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
 
-        [Display(Name = "Last Name")]
-        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
-        public string LastName { get; set; }
-
-
-
-        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 
 
@@ -53,7 +48,7 @@ namespace MilesBackOffice.Web.Models
 
 
         [MaxLength(20)]
-        [Required]
+        //[Required]
         public string Document { get; set; }
 
 
@@ -67,14 +62,13 @@ namespace MilesBackOffice.Web.Models
 
 
 
-        [Required]
+        //[Required]
         [Display(Name = "Country")]
         public int CountryId { get; set; }
 
 
 
-        [Required]
-        [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
+        //[Required]
         public int CityId { get; set; }
 
 
@@ -83,6 +77,5 @@ namespace MilesBackOffice.Web.Models
 
 
         public IEnumerable<SelectListItem> Countries { get; set; }
-
     }
 }

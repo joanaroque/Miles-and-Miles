@@ -69,7 +69,7 @@ namespace MilesBackOffice.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
                 if (user != null && !user.EmailConfirmed &&
                              (await _userManager.CheckPasswordAsync(user, model.Password)))
@@ -94,7 +94,7 @@ namespace MilesBackOffice.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
-            return View(model);
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -184,76 +184,6 @@ namespace MilesBackOffice.Web.Controllers
         {
             await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            var model = new RegisterNewViewModel
-            {
-                Countries = _countryRepository.GetComboCountries(),
-                Cities = _countryRepository.GetComboCities(0),
-                Roles = _userHelper.GetComboRoles()
-            };
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterNewViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                //Guid imageId = Guid.Empty;
-
-                //if (model.ImageFile != null)
-                //{
-                //    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
-                //}
-                //var user = await _userHelper.AddUserWithImageAsync(model, imageId, model.SelectedRole);
-
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
-                if (user == null)
-                {
-                    ModelState.AddModelError(string.Empty, "This username is already registered.");
-                    model.Countries = _countryRepository.GetComboCountries();
-                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
-                    model.Roles = _userHelper.GetComboRoles();
-                    return View(model);
-                }
-
-                var result = await _userHelper.AddUserAsync(user, model.Password);
-
-                if (result != IdentityResult.Success)
-                {
-                    ModelState.AddModelError(string.Empty, "User couldn't be created.");
-                    return View(model);
-                }
-
-                var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                {
-                    userid = user.Id,
-                    token = myToken
-                }, protocol: HttpContext.Request.Scheme);
-
-                try
-                {
-                    _mailHelper.SendMail(model.UserName, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                   $"To allow the user, " +
-                    $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
-
-                    //ModelState.Clear();
-                    ViewBag.Message = "The instructions to allow your user has been sent to email.";
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-            }
-            model.Countries = _countryRepository.GetComboCountries();
-            model.Cities = _countryRepository.GetComboCities(model.CountryId);
-            model.Roles = _userHelper.GetComboRoles();
-            return View(model);
         }
 
         public async Task<JsonResult> GetCitiesAsync(int countryId)

@@ -10,6 +10,10 @@ namespace MilesBackOffice.Web.Data
 {
     public interface IUserHelper
     {
+
+        Task<User> GetUserByUsernameAsync(string username);
+
+
         /// <summary>
         /// find user by email
         /// </summary>
@@ -150,7 +154,7 @@ namespace MilesBackOffice.Web.Data
 
 
 
-        Task<User> AddUserWithImageAsync(RegisterNewViewModel model, Guid imageId, string roleName);
+        Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, string roleName);
 
 
 
