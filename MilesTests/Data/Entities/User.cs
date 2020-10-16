@@ -3,37 +3,30 @@
 using MilesBackOffice.Web.CustomValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilesBackOffice.Web.Data.Entities
 {
     public class User : IdentityUser
     {
 
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string FirstName { get; set; }
+        //[MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
+        public string Name { get; set; }
 
 
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        public string LastName { get; set; }
-
-
-        [MaxLength(20, ErrorMessage = "The filed {0} must contain less than {1} characteres.")]
-        [Required]
+        //[MaxLength(20, ErrorMessage = "The filed {0} must contain less than {1} characteres.")]
+        //[Required]
         public string Document { get; set; }
 
 
+        [Display(Name = "Role")]
+        public string SelectedRole { get; set; }
 
-        public string RoleId { get; set; }
 
 
-
-        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 
-
-
-        [Display(Name = "Full Name")]
-        public string FullName => $"{FirstName} {LastName}";
 
 
 
@@ -57,8 +50,18 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-        [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
+       // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
         public City City { get; set; }
+
+
+
+        public int CountryId { get; set; }
+
+
+
+        public int CityId { get; set; }
+
+
 
     }
 }

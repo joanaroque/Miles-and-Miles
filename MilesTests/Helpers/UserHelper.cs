@@ -37,16 +37,15 @@ namespace MilesBackOffice.Web.Data.Repositories
         {
             User user = new User
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                Name = model.Name,
                 ImageId = imageId,
-                Email = model.UserName,
-                UserName = model.UserName,
+                Email = model.EmailAddress,
+                UserName = model.Username,
                 Address = model.Address,
                 PhoneNumber = model.PhoneNumber,
                 Document = model.Document,
-                City = await _context.Cities.FindAsync(model.CityId),
-                RoleId = model.SelectedRole,
+                //CityId = model.CityId,
+                SelectedRole = model.SelectedRole,
                 DateOfBirth = model.DateOfBirth
             };
 
@@ -56,15 +55,14 @@ namespace MilesBackOffice.Web.Data.Repositories
                 return null;
             }
 
-            User newUser = await GetUserAsync(model.UserName);
-            await AddUSerToRoleAsync(newUser, user.RoleId);
+            User newUser = await GetUserAsync(model.Username);
+            await AddUSerToRoleAsync(newUser, user.SelectedRole);
             return newUser;
         }
 
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.City)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
@@ -173,8 +171,7 @@ namespace MilesBackOffice.Web.Data.Repositories
         public async Task<User> GetUserImageAsync(Guid userId)
         {
             return await _context.Users
-               .Include(u => u.City)
-               .FirstOrDefaultAsync(u => u.Id == userId.ToString());
+                              .FirstOrDefaultAsync(u => u.Id == userId.ToString());
         }
     }
 }

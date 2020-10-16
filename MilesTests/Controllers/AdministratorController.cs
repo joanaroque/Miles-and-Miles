@@ -8,14 +8,14 @@ using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //todo [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
 
@@ -23,17 +23,121 @@ namespace MilesBackOffice.Web.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly ICountryRepository _countryRepository;
+        private readonly IMailHelper _mailHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly DataContext _context;
 
-        public AdministratorController(IUserHelper userHelper,
+        public AdministratorController(
+            IUserHelper userHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager,
-            ICountryRepository countryRepository)
+            ICountryRepository countryRepository,
+            IMailHelper mailHelper,
+            IConverterHelper converterHelper,
+            DataContext context)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
             _userManager = userManager;
             _countryRepository = countryRepository;
+            _mailHelper = mailHelper;
+            _converterHelper = converterHelper;
+            _context = context;
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var model = new RegisterNewViewModel
+            {
+                Countries = _countryRepository.GetComboCountries(),
+                Cities = _countryRepository.GetComboCities(0),
+                Roles = _userHelper.GetComboRoles()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterNewViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.EmailAddress);
+                if (user == null)
+                {
+                    try
+                    {
+                        user = new User
+                        {
+                            Name = model.Name,
+                            Email = model.EmailAddress,
+                            UserName = model.Username,
+                            Address = model.Address,
+                            PhoneNumber = model.PhoneNumber,
+                            CityId = model.CityId,
+                            CountryId = model.CountryId,
+                            SelectedRole = model.SelectedRole,
+                            DateOfBirth = model.DateOfBirth
+                        };
+
+                        var result = await _userHelper.AddUserAsync(user, "Miles123*");
+
+                        if (result != IdentityResult.Success)
+                        {
+                            ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                            return View(model);
+                        }
+
+                        var roleName = await _roleManager.FindByIdAsync(user.SelectedRole);
+                        var register = await _userManager.FindByIdAsync(user.Id);
+                        await _userManager.AddToRoleAsync(register, roleName.ToString());
+                        ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
+
+                        var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                        var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                        {
+                            userid = user.Id,
+                            token = myToken
+                        }, protocol: HttpContext.Request.Scheme);
+
+                        try
+                        {
+                            _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                           $"To allow the user, " +
+                            $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+
+                            //ModelState.Clear();
+                            ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
+
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "This username is already registered.");
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
+                    model.Roles = _userHelper.GetComboRoles();
+                    return View(model);
+                }
+                
+                return View(model);
+            }
+
+            ModelState.AddModelError(string.Empty, "This user already exists.");
+            return View(model);
+        }
+
+
 
         [HttpGet]
         public IActionResult ListRoles()
@@ -54,7 +158,7 @@ namespace MilesBackOffice.Web.Controllers
                 var viewModel = new UserRoleViewModel
                 {
                     UserId = user.Id,
-                    Name = user.FullName,
+                    Name = user.Name,
                     UserName = user.Email,
                     Roles = await GetUserRoles(user)
                 };
@@ -71,7 +175,7 @@ namespace MilesBackOffice.Web.Controllers
 
         // GET: Administrator/Edit/5
         [HttpGet]
-        public async Task<IActionResult> EditUser(string id) 
+        public async Task<IActionResult> EditUser(string id)
         {
             var user = await _userHelper.GetUserByIdAsync(id);
 
@@ -85,8 +189,7 @@ namespace MilesBackOffice.Web.Controllers
             var model = new EditUserViewModel
             {
                 Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                Name = user.Name,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
@@ -148,8 +251,7 @@ namespace MilesBackOffice.Web.Controllers
                     return new NotFoundViewResult("UserNotFound");
                 }
 
-                user.FirstName = editUser.FirstName;
-                user.LastName = editUser.LastName;
+                user.Name = editUser.Name;
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
 
@@ -238,5 +340,11 @@ namespace MilesBackOffice.Web.Controllers
         {
             return new NotFoundViewResult("UserNotFound");
         }
+
+
+        //public IActionResult ConfirmUser()
+        //{
+        //    //var user = _context.Users.Where(u => )
+        //}
     }
 }

@@ -48,16 +48,15 @@ namespace MilesBackOffice.Web.Data
             {
                 user = new User
                 {
-                    FirstName = "João",
-                    LastName = "Felix",
+                    Name = "João Felix",
                     Email = "Joao.Oliveira.Felix@formandos.cinel.pt",
-                    UserName = "Joao.Oliveira.Felix@formandos.cinel.pt",
+                    UserName = "JoaoFelix",
                     PhoneNumber = "965201474",
                     Address = "Rua do Ouro",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Male",
-                    City = _context.Cities.FirstOrDefault(),
+                    //CityId = 1,
                     TIN = "212121218",
                     Document = "20174255"
 
@@ -86,16 +85,15 @@ namespace MilesBackOffice.Web.Data
             {
                 user = new User
                 {
-                    FirstName = "Cátia",
-                    LastName = "Oliveira",
+                    Name = "Cátia Oliveira",
                     Email = "catia-96@hotmail.com",
-                    UserName = "catia-96@hotmail.com",
+                    UserName = "CatiaOliveira",
                     PhoneNumber = "102547455",
                     Address = "Rua da Luz",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/09/1997"),
                     Gender = "Female",
-                    City = _context.Cities.FirstOrDefault(),
+                    //CityId = 1,
                     TIN = "212121217",
                     Document = "2014742955"
 
@@ -125,16 +123,15 @@ namespace MilesBackOffice.Web.Data
             {
                 user = new User
                 {
-                    FirstName = "Joana",
-                    LastName = "Roque",
+                    Name = "Joana Roque",
                     Email = "joanatpsi@gmail.com",
-                    UserName = "joanatpsi@gmail.com",
+                    UserName = "JoanaRoque",
                     PhoneNumber = "965214744",
                     Address = "Rua da Programação",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("27/11/1988"),
                     Gender = "Female",
-                    City = _context.Cities.FirstOrDefault(),
+                    //CityId = 1,
                     TIN = "212121212",
                     Document = "201474255"
                 };

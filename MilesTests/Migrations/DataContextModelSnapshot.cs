@@ -190,8 +190,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
+                    b.Property<string>("Address");
 
                     b.Property<int?>("CityId");
 
@@ -201,28 +200,22 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
 
-                    b.Property<string>("Document")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("Document");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Gender");
 
                     b.Property<Guid>("ImageId");
 
-                    b.Property<string>("LastName")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -236,9 +229,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("RoleId");
-
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("SelectedRole");
 
                     b.Property<string>("TIN");
 
