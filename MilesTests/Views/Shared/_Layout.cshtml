@@ -33,63 +33,63 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- Left navbar links -->
-                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                    @if (this.User.IsInRole("Admin"))
                     {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/Administrator/ListUsers" class="nav-link">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/Tickets/Admin" class="nav-link">Tickets</a>
-                    </li>
-                </ul>
-                }
-                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("SuperUser"))
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="/Administrator/ListUsers" class="nav-link">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Tickets/Admin" class="nav-link">Tickets</a>
+                            </li>
+                        </ul>
+                    }
+                    @if (this.User.IsInRole("SuperUser"))
                     {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/Administrator/ListUsers" class="nav-link">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/Tickets/Admin" class="nav-link">Tickets</a>
-                    </li>
-                     <li>
-                            <a asp-controller="SuperUser" asp-action="TierChange">
-                                <i class="fa fa-bell"></i>
-                                <span> Tier Change</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="Complaints">
-                                <i class="fa fa-spoon"></i>
-                                <span> Manage Complaints</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="AvailableSeats">
-                                <i class="fa fa-plane"></i>
-                                <span> Available Seats</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences">
-                                <i class="fa fa-mars"></i>
-                                <span> Advertising And References</span>
-                            </a>
-                        </li>
-                </ul>
-                }
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="/Administrator/ListUsers" class="nav-link">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Tickets/Admin" class="nav-link">Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="TierChange">
+                                    <i class="fa fa-bell"></i>
+                                    Tier Change
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="Complaints">
+                                    <i class="fa fa-spoon"></i>
+                                    Manage Complaints
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="AvailableSeats">
+                                    <i class="fa fa-plane"></i>
+                                    Available Seats
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences">
+                                    <i class="fa fa-mars"></i>
+                                    Advertising And References
+                                </a>
+                            </li>
+                        </ul>
+                    }
 
-                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("User"))
+                    @if (this.User.IsInRole("User"))
                     {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/Administrator/ListUsers" class="nav-link">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/Tickets/Admin" class="nav-link">Tickets</a>
-                    </li>
-                </ul>}
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="/Administrator/ListUsers" class="nav-link">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Tickets/Admin" class="nav-link">Tickets</a>
+                            </li>
+                        </ul>}
 
 
                 </div>
