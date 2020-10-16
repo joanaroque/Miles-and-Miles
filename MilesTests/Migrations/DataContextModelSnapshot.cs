@@ -139,7 +139,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
+                    b.Property<string>("CreatedById");
+
                     b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -164,7 +168,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
+                    b.Property<string>("CreatedById");
+
                     b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201016215710_InitDB.cs" />
+    <Compile Remove="Migrations\20201016215710_InitDB.Designer.cs" />
+    <Compile Remove="Migrations\20201016224504_Changes_to_City_Country.cs" />
+    <Compile Remove="Migrations\20201016224504_Changes_to_City_Country.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="2.0.0-rc2-final" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />

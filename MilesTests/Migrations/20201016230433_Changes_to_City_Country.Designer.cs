@@ -10,8 +10,8 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201016215710_InitDB")]
-    partial class InitDB
+    [Migration("20201016230433_Changes_to_City_Country")]
+    partial class Changes_to_City_Country
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -141,7 +141,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
+                    b.Property<string>("CreatedById");
+
                     b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -166,7 +170,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("CreateDate");
 
+                    b.Property<string>("CreatedById");
+
                     b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
