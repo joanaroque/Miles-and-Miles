@@ -13,7 +13,33 @@ namespace MilesBackOffice.Web.Data
 
         public DbSet<Country> Countries { get; set; }
 
+
         public DbSet<City> Cities { get; set; }
+
+
+        public DbSet<Advertising> Advertisings { get; set; }
+
+
+        public DbSet<ClientComplaint> ClientComplaints { get; set; }
+
+
+        public DbSet<News> News { get; set; }
+
+
+        public DbSet<Partner> Partners { get; set; }
+
+
+        public DbSet<PremiumOffer> PremiumOffers { get; set; }
+
+
+        public DbSet<SeatsAvailable> SeatsAvailables { get; set; }
+
+
+        public DbSet<TierChange> TierChanges { get; set; }
+
+
+        public DbSet<TypePremium> TypePremiuns { get; set; }
+
 
 
 

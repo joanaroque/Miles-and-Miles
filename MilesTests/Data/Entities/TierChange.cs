@@ -1,18 +1,21 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿using System;
+
+namespace MilesBackOffice.Web.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public class News : IEntity
+    public class TierChange : IEntity
     {
-        public string Title { get; set; }
+
+        public string OldTier { get; set; }
 
 
-        public string Body { get; set; }
+        public string NewTier { get; set; }
 
-        [NotMapped]
-        public List<byte> Images { get; set; }
+
+        public int NumberOfFlights { get; set; }
+
+
+        public long NumberOfMiles { get; set; }
+
 
         /************OBJECT PROPERTIES****************************/
 

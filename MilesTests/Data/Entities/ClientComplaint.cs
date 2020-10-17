@@ -1,18 +1,28 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-    public class News : IEntity
+namespace MilesBackOffice.Web.Data.Entities
+{
+    public class ClientComplaint : IEntity
     {
+
+        [Required]
         public string Title { get; set; }
 
 
-        public string Body { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
-        [NotMapped]
-        public List<byte> Images { get; set; }
+
+        public DateTime Date { get; set; }
+
+
+
+        public string Subject { get; set; }
+
+
+
+        public string Reply { get; set; }
 
         /************OBJECT PROPERTIES****************************/
 
@@ -35,5 +45,6 @@
 
 
         public int Status { get; set; }
+
     }
 }

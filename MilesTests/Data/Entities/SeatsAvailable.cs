@@ -1,18 +1,19 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿using System;
+
+namespace MilesBackOffice.Web.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    public class News : IEntity
+    public class SeatsAvailable : IEntity
     {
-        public string Title { get; set; }
+
+        public int FlightNumber { get; set; }
 
 
-        public string Body { get; set; }
 
-        [NotMapped]
-        public List<byte> Images { get; set; }
+        public int NumberOfSeats { get; set; }
+
+
+
+        public int AvailableSeats { get; set; }
 
         /************OBJECT PROPERTIES****************************/
 
