@@ -28,8 +28,9 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-2">    
                     <div class="col-sm-6">
+                        <br />
                         <h1>Tier change</h1>
                     </div>
                     <div class="col-sm-6">
@@ -86,7 +87,7 @@
                                                 <td>
                                                     @if (!item.IsConfirm)
                                                     {
-                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.Id">
+                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.UserId">
                                                             <span class="fa-stack">
                                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                                 <i class="fa fa-check fa-stack-1x fa-inverse"></i>
@@ -95,7 +96,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <span class="label-success">Confirmed</span>
+                                                        <label class="label-success">Confirmed</label>
                                                     }
                                                 </td>
                                             </tr>

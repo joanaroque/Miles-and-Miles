@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Enums;
 
 namespace MilesBackOffice.Web.Data
 {
@@ -37,6 +38,125 @@ namespace MilesBackOffice.Web.Data
             await FillUser2Async();
             await FillUser3Async();
 
+            // Clientes
+            await FillUser4Async();
+            await FillUser5Async();
+            await FillUser6Async();
+
+        }
+
+        private async Task FillUser6Async()
+        {
+            var user6 = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com");
+
+            if (user6 == null)
+            {
+                user6 = new User
+                {
+                    Name = "Marilia",
+                    Email = "mariliaa@yopmail.com",
+                    UserName = "Mariliazinha",
+                    PhoneNumber = "965201474",
+                    Address = "Rua do teto",
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    Gender = "Female",
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
+                    TIN = "2121218",
+                    Document = "201742255"
+                };
+
+                await _userHelper.AddUserAsync(user6, "123456");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user6);
+                await _userHelper.ConfirmEmailAsync(user6, token);
+
+                var isInRole = await _userHelper.IsUserInRoleAsync(user6, "Client");
+
+                if (!isInRole)
+                {
+                    await _userHelper.AddUSerToRoleAsync(user6, "Client");
+                }
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task FillUser5Async()
+        {
+            var user5 = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com");
+
+            if (user5 == null)
+            {
+                user5 = new User
+                {
+                    Name = "Jacinto",
+                    Email = "jacintoafonso@yopmail.com",
+                    UserName = "Jacinto",
+                    PhoneNumber = "965201474",
+                    Address = "Rua do telefone",
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    Gender = "Male",
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
+                    TIN = "21121218",
+                    Document = "2017742255"
+                };
+
+                await _userHelper.AddUserAsync(user5, "123456");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user5);
+                await _userHelper.ConfirmEmailAsync(user5, token);
+
+                var isInRole = await _userHelper.IsUserInRoleAsync(user5, "Client");
+
+                if (!isInRole)
+                {
+                    await _userHelper.AddUSerToRoleAsync(user5, "Client");
+                }
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task FillUser4Async()
+        {
+            var user4 = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com");
+
+            if (user4 == null)
+            {
+                user4 = new User
+                {
+                    Name = "Pedro",
+                    Email = "estevescardoso@yopmail.com",
+                    UserName = "Pedro",
+                    PhoneNumber = "965201474",
+                    Address = "Rua da taça",
+                    EmailConfirmed = true,
+                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    Gender = "Male",
+                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
+                    TIN = "21821218",
+                    Document = "2017422055"
+                };
+
+                await _userHelper.AddUserAsync(user4, "123456");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user4);
+                await _userHelper.ConfirmEmailAsync(user4, token);
+
+                var isInRole = await _userHelper.IsUserInRoleAsync(user4, "Client");
+
+                if (!isInRole)
+                {
+                    await _userHelper.AddUSerToRoleAsync(user4, "Client");
+                }
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task FillUser3Async()
@@ -69,11 +189,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "User");
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+                await _userHelper.AddUSerToRoleAsync(user, "User");
             }
             await _context.SaveChangesAsync();
         }
@@ -160,6 +280,7 @@ namespace MilesBackOffice.Web.Data
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("User");
             await _userHelper.CheckRoleAsync("SuperUser");
+            await _userHelper.CheckRoleAsync("Client");
         }
 
         private async Task FillCountriesAsync()

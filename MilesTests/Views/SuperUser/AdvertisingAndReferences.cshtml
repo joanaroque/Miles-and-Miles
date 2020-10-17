@@ -30,7 +30,8 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Advertising</h1>
+                        <br />
+                        <h1>Advertising And References</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -50,9 +51,7 @@
                         <!-- /.card -->
 
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Tier change</h3>
-                            </div>
+           
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped">
@@ -80,7 +79,7 @@
                                                     @Html.DisplayFor(modelItem => item.EndDate)
                                                 </td>
                                                 <td>
-                                                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id">
+                                                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.UserId">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                             <i class="fa fa-check fa-stack-1x fa-inverse"></i>

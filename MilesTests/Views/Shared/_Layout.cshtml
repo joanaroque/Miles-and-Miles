@@ -51,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- Left navbar links -->
-                    @if (!this.User.IsInRole("User"))
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <ul class="navbar-nav">
                             <li class="nav-item">
@@ -86,7 +86,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                         </ul>
                     }
-                    else
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("SuperUser"))
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="TierChange" class="nav-link">
+                                    Tier Change
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="Complaints" class="nav-link">
+                                    Manage Complaints
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="AvailableSeats" class="nav-link">
+                                    Available Seats
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences" class="nav-link">
+                                    Advertising And References
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {
                         <ul class="navbar-nav">
                             <li class="nav-item">
@@ -203,16 +228,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>
-                            <a asp-area="" asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name !</a>
+                            <a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name !</a>
                         </li>
                         <li>
-                            <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            <a asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     }
                     else
                     {
                         <li>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            <a asp-controller="Account" asp-action="Login">Login</a>
                         </li>
                     }
                 </ul>

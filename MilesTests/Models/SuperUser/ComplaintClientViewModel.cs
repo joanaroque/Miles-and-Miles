@@ -6,7 +6,11 @@ namespace MilesBackOffice.Web.Models
     public class ComplaintClientViewModel
     {
 
-        public string Id { get; set; }
+        public string ComplaintId { get; set; }
+
+
+
+        public string UserId { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -32,7 +36,7 @@ namespace MilesBackOffice.Web.Models
 
 
 
-        public bool NotProcessed { get; set; }
+        public bool IsProcessed { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity;
@@ -35,33 +36,39 @@
             _mailHelper = mailHelper;
         }
 
-
+        /// <summary>
+        /// get list of unconfirm tiers
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult TierChange()
+        public async Task<ActionResult> TierChange()
         {
-            //lista de clientes com tier pendente
-            List<TierChangeViewModel> modelList = _clientRepository.GetPendingTierClient();
+            List<TierChangeViewModel> modelList = await _clientRepository.GetPendingTierClient();
 
             return View(modelList);
         }
 
-
-        public async Task<IActionResult> ConfirmTierChange(string clientUserId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> ConfirmTierChange(string id)
         {
-            if (string.IsNullOrEmpty(clientUserId))
+            if (string.IsNullOrEmpty(id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(clientUserId);
+                var user = await _userHelper.GetUserByIdAsync(id);
                 if (user == null)
                 {
                     return new NotFoundViewResult("UserNotFound");
                 }
 
-                //confirm tier change
                 user.PendingTier = true;
 
                 var result = await _userHelper.UpdateUserAsync(user);
@@ -83,49 +90,108 @@
             }
         }
 
+        /// <summary>
+        /// get list of unprocessed complaints
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult Complaints()
+        public async Task<ActionResult> Complaints()
         {
-            //lista reclamaçoes nao processadas
-            List<ComplaintClientViewModel> modelList = _clientRepository.GetClientComplaint();
+            List<ComplaintClientViewModel> modelList = await _clientRepository.GetClientComplaints();
 
             return View(modelList);
         }
 
+        /// <summary>
+        /// receive complaint Id and return "Complaint details" view model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET 
+        [HttpGet]
+        public async Task<IActionResult> ComplaintReply(string id)
+        {
+            var list = await _clientRepository.GetClientComplaints();
+
+            ComplaintClientViewModel selectedViewModel = list
+                                                   .Where(complaint => complaint.ComplaintId.Equals(id))
+                                                   .FirstOrDefault();
+
+            return View(selectedViewModel);
+        }
+
+        /// <summary>
+        /// validate if reply is filled. If not, send error. Otherwise, continue.
+        /// update repository with new reply for the incoming complaint Id and change IsProcessed to 'true'.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
         public async Task<IActionResult> ComplaintReply(ComplaintClientViewModel model)
         {
-            var user = await _userHelper.GetUserByIdAsync(model.Id);
-
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return new NotFoundViewResult("UserNotFound");
+                try
+                {
+                    var user = await _userHelper.GetUserByIdAsync(model.UserId);
+
+                    if (user == null)
+                    {
+                        return new NotFoundViewResult("UserNotFound");
+                    }
+
+                    model.IsProcessed = true;
+
+                    var result = await _userHelper.UpdateUserAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
+                       $"<h1>You are very important for us.\nThank you very much.</h1>");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "An error ocurred. Try again please.";
+                    }
+                    return RedirectToAction(nameof(Complaints));
+
+                }
+                catch (Exception)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
             }
+            return View(model);
 
-
-
-
-            return View();
         }
 
+        /// <summary>
+        /// get list of seats to be confirmed
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult AvailableSeats()
+        public async Task<ActionResult> AvailableSeats()
         {
-            //lista de de lugares por confirmar
-            List<AvailableSeatsViewModel> modelList = _clientRepository.GetSeatsToBeConfirm();
+            List<AvailableSeatsViewModel> modelList = await _clientRepository.GetSeatsToBeConfirm();
 
             return View(modelList);
         }
 
-        public async Task<IActionResult> ConfirmAvailableSeats(string clientUserId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ConfirmAvailableSeats(string Id)
         {
-            if (string.IsNullOrEmpty(clientUserId))
+            if (string.IsNullOrEmpty(Id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(clientUserId);
+                var user = await _userHelper.GetUserByIdAsync(Id);
 
                 if (user == null)
                 {
@@ -146,26 +212,33 @@
             }
         }
 
+        /// <summary>
+        /// get list of advertising to be confirmed
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult AdvertisingAndReferences()
+        public async Task<ActionResult> AdvertisingAndReferences()
         {
-            //lista de publicidade por confirmar
-            List<AdvertisingViewModel> modelList = _clientRepository.GetAdvertisingToBeConfirm();
+            List<AdvertisingViewModel> modelList = await _clientRepository.GetAdvertisingToBeConfirm();
 
             return View(modelList);
         }
 
-
-        public async Task<IActionResult> ConfirmAdvertisingAndReferences(string clientUserId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ConfirmAdvertisingAndReferences(string Id)
         {
-            if (string.IsNullOrEmpty(clientUserId))
+            if (string.IsNullOrEmpty(Id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(clientUserId);
+                var user = await _userHelper.GetUserByIdAsync(Id);
 
                 if (user == null)
                 {

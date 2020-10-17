@@ -30,6 +30,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
+                        <br />
                         <h1>Available Seats</h1>
                     </div>
                     <div class="col-sm-6">
@@ -50,9 +51,7 @@
                         <!-- /.card -->
 
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Tier change</h3>
-                            </div>
+                           
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped">
@@ -78,12 +77,19 @@
                                                     @Html.DisplayFor(modelItem => item.AvailableSeats)
                                                 </td>
                                                 <td>
-                                                    <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.Id">
-                                                        <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                                                        </span>
-                                                    </a>
+                                                    @if (!item.IsConfirm)
+                                                    {
+                                                        <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.UserId">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="label-success">Confirmed</label>
+                                                    }
                                                 </td>
                                             </tr>
                                         }

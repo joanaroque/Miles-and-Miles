@@ -5,7 +5,12 @@ namespace MilesBackOffice.Web.Models.SuperUser
 {
     public class AdvertisingViewModel
     {
-        public string Id { get; set; }
+
+        public string AdvertisingId { get; set; }
+
+
+
+        public string UserId { get; set; }
 
 
 

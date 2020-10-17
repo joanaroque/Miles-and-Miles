@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.SuperUser;
 
@@ -7,20 +7,20 @@ namespace MilesBackOffice.Web.Data.Repositories
 {
     public interface IClientRepository
     {
-        List<TierChangeViewModel> GetPendingTierClient();
+        Task<List<TierChangeViewModel>> GetPendingTierClient();
 
 
 
-        List<ComplaintClientViewModel> GetClientComplaint();
+        Task<List<ComplaintClientViewModel>> GetClientComplaints();
 
 
 
-        List<AvailableSeatsViewModel> GetSeatsToBeConfirm();
+        Task<List<AvailableSeatsViewModel>> GetSeatsToBeConfirm();
 
 
 
 
-        List<AdvertisingViewModel> GetAdvertisingToBeConfirm();
+        Task<List<AdvertisingViewModel>> GetAdvertisingToBeConfirm();
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
+using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.SuperUser;
 
@@ -8,32 +9,38 @@ namespace MilesBackOffice.Web.Data.Repositories
 {
     public class DummyClientRepository : IClientRepository
     {
-        private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public DummyClientRepository(DataContext context)
+        public DummyClientRepository(IUserHelper userHelper)
         {
-            _context = context;
+            _userHelper = userHelper;
 
         }
 
-        public List<AdvertisingViewModel> GetAdvertisingToBeConfirm()
+        public async Task<List<AdvertisingViewModel>> GetAdvertisingToBeConfirm()
         {
             List<AdvertisingViewModel> modelList = new List<AdvertisingViewModel>();
+
+            var user4 = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com");
+
             modelList.Add(
                 new AdvertisingViewModel
                 {
-                    Id = "1",
+                    AdvertisingId = "11",
+                    UserId = user4.Id.ToString(),
                     Title = "miles and miles",
                     Content = "this is very nice",
                     EndDate = DateTime.Now.AddMonths(1),
                     PartnerId = "22",
                     IsConfirm = false
                 });
+            var user5 = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com");
 
             modelList.Add(
                 new AdvertisingViewModel
                 {
-                    Id = "2",
+                    AdvertisingId = "22",
+                    UserId = user5.Id.ToString(),
                     Title = "miles and miles and miles",
                     Content = "this is very nice indeed",
                     EndDate = DateTime.Now.AddMonths(2),
@@ -42,10 +49,13 @@ namespace MilesBackOffice.Web.Data.Repositories
 
                 });
 
+            var user6 = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com");
+
             modelList.Add(
                 new AdvertisingViewModel
                 {
-                    Id = "3",
+                    AdvertisingId = "33",
+                    UserId = user6.Id.ToString(),
                     Title = "miles and miles and miles and miles",
                     Content = "this is very nice twice",
                     EndDate = DateTime.Now.AddDays(25),
@@ -57,47 +67,57 @@ namespace MilesBackOffice.Web.Data.Repositories
             return modelList;
         }
 
-        public List<ComplaintClientViewModel> GetClientComplaint()
+        public async Task<List<ComplaintClientViewModel>> GetClientComplaints()
         {
             List<ComplaintClientViewModel> modelList = new List<ComplaintClientViewModel>();
+
+            var user4 = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com");
+
             modelList.Add(
                 new ComplaintClientViewModel
                 {
-                    Id = "1",
+                    ComplaintId = "1",
+                    UserId = user4.Id.ToString(),
                     Name = "Jeremias Matos",
                     Title = "Theft",
                     Email = "sdjklncj34@yopmail.com",
                     Date = DateTime.Now.AddDays(-5),
                     Subject = "Help help help",
                     Reply = null,
-                    NotProcessed = false
+                    IsProcessed = false
                 });
+
+            var user5 = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com");
 
             modelList.Add(
                 new ComplaintClientViewModel
                 {
-                    Id = "2",
+                    ComplaintId = "2",
+                    UserId = user5.Id.ToString(),
                     Name = "Filipe Antonio",
                     Title = "Theft",
                     Email = "43tref@yopmail.com",
                     Date = DateTime.Now.AddDays(-2),
                     Subject = "Help help help",
                     Reply = null,
-                    NotProcessed = false
+                    IsProcessed = false
 
                 });
+
+            var user6 = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com");
 
             modelList.Add(
                 new ComplaintClientViewModel
                 {
-                    Id = "3",
+                    ComplaintId = "3",
+                    UserId = user6.Id.ToString(),
                     Name = "Alfredo Amarelo",
                     Title = "Theft",
                     Email = "bghnjyu89@yopmail.com",
                     Date = DateTime.Now.AddDays(-1),
                     Subject = "Help help help",
                     Reply = null,
-                    NotProcessed = false
+                    IsProcessed = false
 
                 });
 
@@ -105,15 +125,17 @@ namespace MilesBackOffice.Web.Data.Repositories
 
         }
 
-        public List<TierChangeViewModel> GetPendingTierClient()
+        public  async Task<List<TierChangeViewModel>> GetPendingTierClient()
         {
-
             List<TierChangeViewModel> modelList = new List<TierChangeViewModel>();
+
+            var user4 = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com");
+           
             modelList.Add(
                 new TierChangeViewModel
                 {
-                    Id = "1",
-                    Name = "Maria",
+                    UserId = user4.Id.ToString(),
+                    Name = "Pedro",
                     OldTier = "Silver",
                     NewTier = "Gold",
                     NumberOfFlights = 110,
@@ -121,11 +143,12 @@ namespace MilesBackOffice.Web.Data.Repositories
                     IsConfirm = false
                 });
 
+            var user5 = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com");
             modelList.Add(
                 new TierChangeViewModel
                 {
-                    Id = "2",
-                    Name = "Antonia",
+                    UserId = user5.Id.ToString(),
+                    Name = "Jacinto",
                     OldTier = "Silver",
                     NewTier = "Gold",
                     NumberOfFlights = 105,
@@ -134,11 +157,13 @@ namespace MilesBackOffice.Web.Data.Repositories
 
                 });
 
+            var user6 = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com");
+
             modelList.Add(
                 new TierChangeViewModel
                 {
-                    Id = "3",
-                    Name = "Manuela",
+                    UserId = user6.Id.ToString(),
+                    Name = "Marilia",
                     OldTier = "Silver",
                     NewTier = "Gold",
                     NumberOfFlights = 160,
@@ -150,13 +175,16 @@ namespace MilesBackOffice.Web.Data.Repositories
             return modelList;
         }
 
-        public List<AvailableSeatsViewModel> GetSeatsToBeConfirm()
+        public async Task<List<AvailableSeatsViewModel>> GetSeatsToBeConfirm()
         {
             List<AvailableSeatsViewModel> modelList = new List<AvailableSeatsViewModel>();
+
+            var user4 = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com");
+
             modelList.Add(
                 new AvailableSeatsViewModel
                 {
-                    Id = "1",
+                    UserId = user4.Id.ToString(),
                     Name = "Maria",
                     FlightNumber = 147,
                     NumberOfSeats = 400,
@@ -164,10 +192,12 @@ namespace MilesBackOffice.Web.Data.Repositories
                     IsConfirm = false
                 });
 
+            var user5 = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com");
+
             modelList.Add(
                 new AvailableSeatsViewModel
                 {
-                    Id = "2",
+                    UserId = user5.Id.ToString(),
                     Name = "Antonia",
                     FlightNumber = 258,
                     NumberOfSeats = 350,
@@ -176,10 +206,12 @@ namespace MilesBackOffice.Web.Data.Repositories
 
                 });
 
+            var user6 = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com");
+
             modelList.Add(
                 new AvailableSeatsViewModel
                 {
-                    Id = "3",
+                    UserId = user6.Id.ToString(),
                     Name = "Manuela",
                     FlightNumber = 963,
                     NumberOfSeats = 300,

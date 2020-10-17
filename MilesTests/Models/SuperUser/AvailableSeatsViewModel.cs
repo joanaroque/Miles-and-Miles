@@ -4,7 +4,7 @@ namespace MilesBackOffice.Web.Models
 {
     public class AvailableSeatsViewModel
     {
-        public string Id { get; set; }
+        public string UserId { get; set; }
 
 
         [Required]

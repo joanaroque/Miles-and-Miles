@@ -1,8 +1,5 @@
 ﻿@model MilesBackOffice.Web.Models.ComplaintClientViewModel
 
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,12 +26,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>DataTables</h1>
+                        <br />
+                        <h1>Complaint Reply</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                            <li class="breadcrumb-item active">Tier change</li>
+                            <li class="breadcrumb-item active">Complaint Reply</li>
                         </ol>
                     </div>
                 </div>
@@ -43,30 +41,27 @@
 
         <div class="col-md-9">
             <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">Compose New Message</h3>
-                </div>
+               
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="form-group">
-                        <form method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <form method="post" asp-action="ComplaintReply">
 
                             <div class="form-group">
-                                <label>Title:</label>
-                                <input asp-for="Title" type="text" class="form-control">
+                                <label asp-for="Title" class="control-label"></label>
+                                <input asp-for="@Model.Title" class="form-control" disabled>
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
-                                <label>Subject:</label>
-                                <input asp-for="Subject" type="text" class="form-control">
+                                <label asp-for="Subject" class="control-label"></label>
+                                <input asp-for="@Model.Subject" class="form-control" disabled>
                                 <span asp-validation-for="Subject" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
-                                <label>Reply:</label>
-                                <textarea asp-for="Reply" class="form-control" />
+                                <label asp-for="Reply" class="control-label"></label>
+                                <textarea asp-for="Reply" class="form-control"> </textarea>
                                 <span asp-validation-for="Reply" class="text-danger"></span>
                             </div>
 
