@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace MilesBackOffice.Web.CustomValidation
+﻿namespace MilesBackOffice.Web.CustomValidation
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class CustomBirthDateValidator : ValidationAttribute
     {
         /// <summary>

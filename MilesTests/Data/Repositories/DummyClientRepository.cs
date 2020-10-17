@@ -1,8 +1,8 @@
-﻿using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.SuperUser;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using MilesBackOffice.Web.Models;
+using MilesBackOffice.Web.Models.SuperUser;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {

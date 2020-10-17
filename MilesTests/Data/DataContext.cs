@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Linq;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data.Entities;
-using System.Collections;
-using System.Linq;
 
 
 namespace MilesBackOffice.Web.Data
@@ -25,8 +24,44 @@ namespace MilesBackOffice.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<City>(entity =>
+            {
+                entity.Property<string>("CreatedById");
+                entity.Property<string>("ModifiedById");
 
-            modelBuilder.Ignore<ICollection>();
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
+                .WithOne()
+                .HasForeignKey("User", "CreatedById");
+
+
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
+                .WithOne()
+                .HasForeignKey("User", "ModifiedById");
+            });
+
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.Property<string>("CreatedById");
+                entity.Property<string>("ModifiedById");
+
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
+                .WithOne()
+                .HasForeignKey("User", "CreatedById"); ;
+
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
+                .WithOne()
+                .HasForeignKey("User", "ModifiedById");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.City", "City")
+                .WithMany();
+
+                entity.HasOne("MilesBackOffice.Web.Data.Entities.Country", "Country")
+                .WithMany();
+            });
+
 
 
 

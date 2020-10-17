@@ -101,39 +101,32 @@ namespace MilesBackOffice.Web.Controllers
                             token = myToken
                         }, protocol: HttpContext.Request.Scheme);
 
-                        try
-                        {
-                            _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                           $"To allow the user, " +
-                            $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+                        _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                          $"To allow the user, " +
+                           $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
 
-                            //ModelState.Clear();
-                            ViewBag.Message = "The instructions to allow your user has been sent to email.";
-                        }
-                        catch (Exception ex)
-                        {
-                            ModelState.AddModelError(string.Empty, ex.Message);
-                        }
+                        //ModelState.Clear();
+                        ViewBag.Message = "The instructions to allow your user has been sent to email.";
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-
-                else
+                else //user != null
                 {
                     ModelState.AddModelError(string.Empty, "This username is already registered.");
-                    model.Countries = _countryRepository.GetComboCountries();
-                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
-                    model.Roles = _userHelper.GetComboRoles();
-                    return View(model);
                 }
-                
-                return View(model);
             }
+            else //ModelState.IsValid = false
+            {
+                ModelState.AddModelError(string.Empty, "This user already exists.");
+            }
+            
+            model.Countries = _countryRepository.GetComboCountries();
+            model.Cities = _countryRepository.GetComboCities(model.CountryId);
+            model.Roles = _userHelper.GetComboRoles();
 
-            ModelState.AddModelError(string.Empty, "This user already exists.");
             return View(model);
         }
 

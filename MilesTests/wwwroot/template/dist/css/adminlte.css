@@ -11225,24 +11225,8 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
   margin-bottom: 0;
 }
 
-.layout-footer-fixed .wrapper .control-sidebar {
-  bottom: 0;
-}
-
-.layout-footer-fixed .wrapper .main-footer {
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  z-index: 1032;
-}
-
 .layout-footer-fixed .wrapper .content-wrapper {
   padding-bottom: calc(3.5rem + 1px);
-}
-
-.layout-footer-not-fixed .wrapper .main-footer {
-  position: static;
 }
 
 @media (min-width: 576px) {

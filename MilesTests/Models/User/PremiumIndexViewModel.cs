@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-using MilesBackOffice.Web.Data.Entities;
-
-namespace MilesBackOffice.Web.Models
+﻿namespace MilesBackOffice.Web.Models.User
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using MilesBackOffice.Web.Data.Entities;
+
     public class PremiumIndexViewModel
     {
         public IEnumerable<PremiumOffer> PremiumOffers { get; set; }
@@ -35,7 +32,7 @@ namespace MilesBackOffice.Web.Models
         public int FlightId { get; set; }
 
 
-        
+
         public IEnumerable<Partner> PartnersList { get; set; }
 
         [Required]
