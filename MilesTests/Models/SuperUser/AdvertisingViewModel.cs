@@ -21,7 +21,9 @@ namespace MilesBackOffice.Web.Models.SuperUser
         public Guid ImageId { get; set; }
 
 
-
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
 

@@ -58,11 +58,11 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <td>Image</td>
+                                            <th>Image</th>
                                             <th>Title</th>
                                             <th>Content</th>
-                                            <td>End Date here?</td>
-                                            <td>Confirmation</td>
+                                            <th>End Date here?</th>
+                                            <th>Pending Confirmation</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -80,7 +80,12 @@
                                                     @Html.DisplayFor(modelItem => item.EndDate)
                                                 </td>
                                                 <td>
-                                                    fazer confirm or cancel
+                                                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }

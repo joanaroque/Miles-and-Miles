@@ -45,8 +45,7 @@
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> ConfirmTierChange(string clientUserId)
         {
             if (string.IsNullOrEmpty(clientUserId))
@@ -74,7 +73,7 @@
                 }//todo: por nome do novo tier
                 else
                 {
-                    TempData["Message"] = "An error ocurred. Try again please.";
+                    ViewBag.Message = "An error ocurred. Try again please.";
                 }
                 return RedirectToAction(nameof(TierChange));
             }
@@ -117,8 +116,6 @@
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmAvailableSeats(string clientUserId)
         {
             if (string.IsNullOrEmpty(clientUserId))
@@ -158,8 +155,7 @@
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> ConfirmAdvertisingAndReferences(string clientUserId)
         {
             if (string.IsNullOrEmpty(clientUserId))
