@@ -22,13 +22,12 @@ namespace MilesBackOffice.Web
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
+        //private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration,
-            IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _env = env;
+            //_env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -115,7 +114,6 @@ namespace MilesBackOffice.Web
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IClientRepository, DummyClientRepository>();
-
 
 
             services.Configure<CookiePolicyOptions>(options =>

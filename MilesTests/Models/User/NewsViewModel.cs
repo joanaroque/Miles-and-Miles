@@ -1,7 +1,8 @@
-﻿namespace MilesBackOffice.Web.Models
+﻿namespace MilesBackOffice.Web.Models.User
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using MilesBackOffice.Web.Data.Entities;
 
     public class NewsViewModel

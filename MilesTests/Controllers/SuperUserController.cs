@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.SuperUser;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Data;
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories;
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.SuperUser;
+
     public class SuperUserController : Controller
     {
         private readonly IUserHelper _userHelper;
@@ -159,7 +160,7 @@ namespace MilesBackOffice.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmAdvertisingAndReferencesl(string clientUserId)
+        public async Task<IActionResult> ConfirmAdvertisingAndReferences(string clientUserId)
         {
             if (string.IsNullOrEmpty(clientUserId))
             {

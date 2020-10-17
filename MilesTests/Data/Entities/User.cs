@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-using MilesBackOffice.Web.CustomValidation;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Identity;
+
+    using MilesBackOffice.Web.CustomValidation;
+
     public class User : IdentityUser
     {
 

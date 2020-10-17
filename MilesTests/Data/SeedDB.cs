@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MilesBackOffice.Web.Data.Entities;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+using MilesBackOffice.Web.Data.Entities;
 
 namespace MilesBackOffice.Web.Data
 {
@@ -27,7 +28,7 @@ namespace MilesBackOffice.Web.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            
+
             await CheckOrCreateRoles();
 
             await FillCountriesAsync();
@@ -83,7 +84,7 @@ namespace MilesBackOffice.Web.Data
 
             if (user == null)
             {
-                
+
                 user = new User
                 {
                     Name = "Cátia Oliveira",

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Linq;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data.Entities;
-using System.Collections;
-using System.Linq;
 
 
 namespace MilesBackOffice.Web.Data
@@ -33,7 +32,7 @@ namespace MilesBackOffice.Web.Data
                 entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                 .WithOne()
                 .HasForeignKey("User", "CreatedById");
-                
+
 
                 entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
                 .WithOne()
