@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- Left navbar links -->
-                    @if (!this.User.IsInRole("User"))
+                    @if (User.Identity.IsAuthenticated && !User.IsInRole("User"))
                     {
                         <ul class="navbar-nav">
                             <li class="nav-item">
@@ -66,12 +66,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
                             <li class="nav-item">
                                 <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences" class="nav-link">
-                                    Advertising And References
+                                    Advertising
                                 </a>
                             </li>
                         </ul>
                     }
-                    else
+                    else if(User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {
                         <ul class="navbar-nav">
                             <li class="nav-item">
@@ -180,12 +180,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                            <i class="fas fa-th-large"></i>
-                        </a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
+                  
+                    @if (this.User.Identity.IsAuthenticated)
                     {
                         <li>
                             <a asp-area="" asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name !</a>
