@@ -4,430 +4,107 @@
     Layout = null;
 }
 
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Miles Tests</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>AdminLTE 3 | jsGrid</title>
 
-    <!-- bootstrap-css -->
-    <link rel="stylesheet" href="~/template/css/bootstrap.min.css">
-    <!-- //bootstrap-css -->
-    <!-- Custom CSS -->
-    <link href="~/template/css/style.css" rel='stylesheet' type='text/css' />
-    <link href="~/template/css/style-responsive.css" rel="stylesheet" />
-    <!-- font CSS -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <!-- font-awesome icons -->
-    <link rel="stylesheet" href="~/template/css/font.css" type="text/css" />
-    <link href="~/template/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/template/css/morris.css" type="text/css" />
-    <!-- calendar -->
-    <link rel="stylesheet" href="~/template/css/monthly.css">
-    <!-- //calendar -->
-    <!-- //font-awesome icons -->
-    <script src="~/template/js/jquery2.0.3.min.js"></script>
-    <script src="~/template/js/raphael-min.js"></script>
-    <script src="~/template/js/morris.js"></script>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/template/plugins/fontawesome-free/css/all.min.css">
+    <!-- jsGrid -->
+    <link rel="stylesheet" href="~/template//plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/template/dist/css/adminlte.min.css">
 </head>
-<body>
-    <section id="container">
-        <!--header start-->
-        <header class="header fixed-top clearfix">
-            <!--logo start-->
-            <div class="brand">
-                <a asp-action="Index" asp-controller="home" class="logo">
-                    Miles
-                </a>
-                <div class="sidebar-toggle-box">
-                    <div class="fa fa-bars"></div>
-                </div>
-            </div>
-            <!--logo end-->
+<body class="hold-transition sidebar-mini">
 
-            <div class="nav notify-row" id="top_menu">
-                <!--  notification start -->
-                <ul class="nav top-menu">
-                    <!-- settings start -->
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="fa fa-tasks"></i>
-                            <span class="badge bg-success">8</span>
-                        </a>
-                        <ul class="dropdown-menu extended tasks-bar">
-                            <li>
-                                <p class="">You have 8 pending tasks</p>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info clearfix">
-                                        <div class="desc pull-left">
-                                            <h5>Target Sell</h5>
-                                            <p>25% , Deadline  12 June’13</p>
-                                        </div>
-                                        <span class="notification-pie-chart pull-right" data-percent="45">
-                                            <span class="percent"></span>
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info clearfix">
-                                        <div class="desc pull-left">
-                                            <h5>Product Delivery</h5>
-                                            <p>45% , Deadline  12 June’13</p>
-                                        </div>
-                                        <span class="notification-pie-chart pull-right" data-percent="78">
-                                            <span class="percent"></span>
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info clearfix">
-                                        <div class="desc pull-left">
-                                            <h5>Payment collection</h5>
-                                            <p>87% , Deadline  12 June’13</p>
-                                        </div>
-                                        <span class="notification-pie-chart pull-right" data-percent="60">
-                                            <span class="percent"></span>
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="task-info clearfix">
-                                        <div class="desc pull-left">
-                                            <h5>Target Sell</h5>
-                                            <p>33% , Deadline  12 June’13</p>
-                                        </div>
-                                        <span class="notification-pie-chart pull-right" data-percent="90">
-                                            <span class="percent"></span>
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li class="external">
-                                <a href="#">See All Tasks</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- settings end -->
-                    <!-- inbox dropdown start-->
-                    <li id="header_inbox_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge bg-important">4</span>
-                        </a>
-                        <ul class="dropdown-menu extended inbox">
-                            <li>
-                                <p class="red">You have 4 Mails</p>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="~/template/images/3.png"></span>
-                                    <span class="subject">
-                                        <span class="from">Jonathan Smith</span>
-                                        <span class="time">Just now</span>
-                                    </span>
-                                    <span class="message">
-                                        Hello, this is an example msg.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="~/template/images/1.png"></span>
-                                    <span class="subject">
-                                        <span class="from">Jane Doe</span>
-                                        <span class="time">2 min ago</span>
-                                    </span>
-                                    <span class="message">
-                                        Nice admin template
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="~/template/images/3.png"></span>
-                                    <span class="subject">
-                                        <span class="from">Tasi sam</span>
-                                        <span class="time">2 days ago</span>
-                                    </span>
-                                    <span class="message">
-                                        This is an example msg.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="~/template/images/2.png"></span>
-                                    <span class="subject">
-                                        <span class="from">Mr. Perfect</span>
-                                        <span class="time">2 hour ago</span>
-                                    </span>
-                                    <span class="message">
-                                        Hi there, its a test
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">See all messages</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- inbox dropdown end -->
-                    <!-- notification dropdown start-->
-                    <li id="header_notification_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-
-                            <i class="fa fa-bell-o"></i>
-                            <span class="badge bg-warning">3</span>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <li>
-                                <p>Notifications</p>
-                            </li>
-                            <li>
-                                <div class="alert alert-info clearfix">
-                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                    <div class="noti-info">
-                                        <a href="#"> Server #1 overloaded.</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="alert alert-danger clearfix">
-                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                    <div class="noti-info">
-                                        <a href="#"> Server #2 overloaded.</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="alert alert-success clearfix">
-                                    <span class="alert-icon"><i class="fa fa-bolt"></i></span>
-                                    <div class="noti-info">
-                                        <a href="#"> Server #3 overloaded.</a>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <!-- notification dropdown end -->
-                </ul>
-                <!--  notification end -->
-            </div>
-            <div class="top-nav clearfix">
-                <!--search & user info start-->
-                <ul class="nav pull-right top-menu">
-                    <li>
-                        <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
-                    <!-- user login dropdown start-->
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="~/template/images/2.png">
-                            <span class="username">John Doe</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu extended logout">
-                            <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-key"></i> Log Out</a></li>
-                        </ul>
-                    </li>
-                    <!-- user login dropdown end -->
-
-                </ul>
-                <!--search & user info end-->
-            </div>
-        </header>
-        <!--header end-->
-        <!--sidebar start-->
-        <aside>
-            <div id="sidebar" class="nav-collapse">
-                <!-- sidebar menu start-->
-                <div class="leftside-navigation">
-                    <ul class="sidebar-menu" id="nav-accordion">
-                        <li>
-                            <a href="index.html">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li>
-                                <a asp-controller="Administrator" asp-action="ListUsers">
-                                    <i class="fa fa-eye"></i>
-                                    <span> Users</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-controller="Administrator" asp-action="ListRoles">
-                                    <i class="fa fa-eye"></i>
-                                    <span> Roles</span>
-                                </a>
-                            </li>
-                        }
-
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="TierChange">
-                                <i class="fa fa-times"></i>
-                                <span> Tier Change</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="Complaints">
-                                <i class="fa fa-spoon"></i>
-                                <span> Manage Complaints</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="AvailableSeats">
-                                <i class="fa fa-plane"></i>
-                                <span> Available Seats</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences">
-                                <i class="fa fa-mars"></i>
-                                <span> Advertising And References</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class=" fa fa-bar-chart-o"></i>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="chartjs.html">Chart js</a></li>
-                                <li><a href="flot_chart.html">Flot Charts</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class=" fa fa-bar-chart-o"></i>
-                                <span>Maps</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="google_map.html">Google Map</a></li>
-                                <li><a href="vector_map.html">Vector Map</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-glass"></i>
-                                <span>Extra</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="gallery.html">Gallery</a></li>
-                                <li><a href="404.html">404 Error</a></li>
-                                <li><a href="registration.html">Registration</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">
-                                <i class="fa fa-user"></i>
-                                <span>Login Page</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar menu end-->
-            </div>
-        </aside>
-        <!--sidebar end-->
-        <!--main content start-->
-        <section id="main-content">
-            <section class="wrapper">
-                <div class="table-agile-info">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Complaint Replay
-                        </div>
-
-                        <div class="col-sm-9 mail-w3agile">
-                            <section class="panel">
-                                <header class="panel-heading wht-bg">
-                                    <h4 class="gen-case"> Compose Mail </h4>
-                                    <form action="#" class="pull-right mail-src-position">
-                                        <div class="input-append">
-                                            <input type="text" class="form-control " placeholder="Search Mail">
-                                        </div>
-                                    </form>
-                                </header>
-
-                                <div class="panel-body">
-
-                                    <div class="compose-mail">
-                                        <form method="post">
-                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                                            <div class="form-group">
-                                                <label for="subject" class="">Subject:</label>
-                                                <input asp-for="Title" type="text" tabindex="1" id="subject" class="form-control">
-                                                <span asp-validation-for="Title" class="text-danger"></span>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="subject" class="">Subject:</label>
-                                                <input asp-for="Subject" type="text" tabindex="1" id="subject" class="form-control">
-                                                <span asp-validation-for="Subject" class="text-danger"></span>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="subject" class="">Subject:</label>
-                                                <input asp-for="Reply" type="text" tabindex="1" id="subject" class="form-control">
-                                                <span asp-validation-for="Reply" class="text-danger"></span>
-                                            </div>
-
-                                            <div class="compose-btn">
-                                                <button class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Send</button>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>DataTables</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                            <li class="breadcrumb-item active">Tier change</li>
+                        </ol>
                     </div>
                 </div>
-            </section>
-            <!-- footer -->
-            <div class="footer">
-                <div class="wthree-copyright">
-                    <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-                </div>
-            </div>
-            <!-- / footer -->
+            </div><!-- /.container-fluid -->
         </section>
 
-        <!--main content end-->
-    </section>
-    <script src="~/template/js/bootstrap.js"></script>
-    <script src="~/template/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="~/template/js/scripts.js"></script>
-    <script src="~/template/js/jquery.slimscroll.js"></script>
-    <script src="~/template/js/jquery.nicescroll.js"></script>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="~/template/js/flot-chart/excanvas.min.js"></script><![endif]-->
-    <script src="~/template/js/jquery.scrollTo.js"></script>
+        <div class="col-md-9">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Compose New Message</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="form-group">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input asp-for="Title" type="text" class="form-control">
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subject:</label>
+                                <input asp-for="Subject" type="text" class="form-control">
+                                <span asp-validation-for="Subject" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Reply:</label>
+                                <textarea asp-for="Reply" class="form-control" />
+                                <span asp-validation-for="Reply" class="text-danger"></span>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/template/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/template/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/template/dist/js/demo.js"></script>
+    <!-- Summernote -->
+    <script src="~/template/plugins/summernote/summernote-bs4.min.js"></script>
+
 </body>
 </html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
 
+        $(function () {
+            $('#compose-textarea').summernote()
+        })
+    </script>
 }
 
 
