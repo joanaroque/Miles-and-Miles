@@ -26,13 +26,15 @@ namespace MilesBackOffice.Web.Migrations
                 name: "Countries",
                 columns: table => new
                 {
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     IsConfirm = table.Column<bool>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    CreatedById = table.Column<string>(nullable: true),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,14 +66,16 @@ namespace MilesBackOffice.Web.Migrations
                 name: "Cities",
                 columns: table => new
                 {
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     IsConfirm = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    CountryId = table.Column<int>(nullable: true)
+                    CountryId = table.Column<int>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: true),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -115,7 +119,9 @@ namespace MilesBackOffice.Web.Migrations
                     Gender = table.Column<string>(nullable: true),
                     ImageId = table.Column<Guid>(nullable: false),
                     CityId = table.Column<int>(nullable: true),
-                    CountryId = table.Column<int>(nullable: true)
+                    CountryId = table.Column<int>(nullable: true),
+                    CreatedById = table.Column<int>(nullable: true),
+                    ModifiedById = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,6 +135,30 @@ namespace MilesBackOffice.Web.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Countries_CountryId",
                         column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Cities_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Countries_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Cities_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Countries_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -255,6 +285,20 @@ namespace MilesBackOffice.Web.Migrations
                 name: "IX_AspNetUsers_CountryId",
                 table: "AspNetUsers",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CreatedById",
+                table: "AspNetUsers",
+                column: "CreatedById",
+                unique: true,
+                filter: "[CreatedById] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ModifiedById",
+                table: "AspNetUsers",
+                column: "ModifiedById",
+                unique: true,
+                filter: "[ModifiedById] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",

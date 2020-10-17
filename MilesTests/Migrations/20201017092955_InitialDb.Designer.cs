@@ -10,8 +10,8 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201016230433_Changes_to_City_Country")]
-    partial class Changes_to_City_Country
+    [Migration("20201017092955_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201016215710_InitDB.cs" />
-    <Compile Remove="Migrations\20201016215710_InitDB.Designer.cs" />
-    <Compile Remove="Migrations\20201016224504_Changes_to_City_Country.cs" />
-    <Compile Remove="Migrations\20201016224504_Changes_to_City_Country.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="web.config" />
   </ItemGroup>
 

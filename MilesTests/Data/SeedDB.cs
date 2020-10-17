@@ -146,11 +146,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "SuperUser");
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+                var identityResult = await _userHelper.AddUSerToRoleAsync(user, "SuperUser");
             }
             await _context.SaveChangesAsync();
         }
