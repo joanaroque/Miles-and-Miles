@@ -5,6 +5,7 @@ namespace MilesBackOffice.Web.Models.SuperUser
 {
     public class TierChangeViewModel : TierChange
     {
+
         public int TierChangeId { get; set; }
 
 

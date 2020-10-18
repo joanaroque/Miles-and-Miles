@@ -7,6 +7,7 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
     public interface IClientComplaintRepository : IGenericRepository<ClientComplaint>
     {
+
         Task<List<ClientComplaint>> GetClientComplaintsAsync();
 
 

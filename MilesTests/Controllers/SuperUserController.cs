@@ -79,10 +79,6 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                tierChange.IsConfirm = true;
-
-                await _tierChangeRepository.UpdateAsync(tierChange);
-
                 var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
 
                 if (user == null)
@@ -90,6 +86,11 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
+                tierChange.IsConfirm = true;
+                tierChange.CreatedBy = user;
+                tierChange.CreateDate = DateTime.Now;
+
+                await _tierChangeRepository.UpdateAsync(tierChange);
 
                 _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
                $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
@@ -135,7 +136,8 @@
                                                    .Where(complaint => complaint.Id.Equals(id.Value))
                                                    .FirstOrDefault();
 
-            return View(selectedComplaint);
+
+            return View(_converterHelper.ToComplaintClientViewModel(selectedComplaint));
         }
 
         /// <summary>
@@ -159,10 +161,6 @@
 
                     }
 
-                    complaint.PendingComplaint = true;
-
-                    await _clientComplaintRepository.UpdateAsync(complaint);
-
                     var user = await _userHelper.GetUserByIdAsync(complaint.Client.Id);
 
                     if (user == null)
@@ -170,6 +168,13 @@
                         return new NotFoundViewResult("_UserNotFound");
                     }
 
+                    complaint.PendingComplaint = true;
+                    complaint.CreatedBy = user;
+                    complaint.CreateDate = DateTime.Now;
+
+                    await _clientComplaintRepository.UpdateAsync(complaint);
+
+                   
 
                     _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
                        $"<h1>You are very important for us.\nThank you very much.</h1>");
@@ -272,18 +277,14 @@
                 if (advertising == null)
                 {
                     return new NotFoundViewResult("_UserNotFound");
-
                 }
 
                 advertising.PendingPublish = true;
+               
                 await _advertisingRepository.UpdateAsync(advertising);
 
-                var user = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
-
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
+                advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
+                advertising.CreateDate = DateTime.Now; //todo: fazer cancel ao pe do confirm
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
