@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-namespace MilesBackOffice.Web.Helpers
+namespace MilesBackOffice.Web.Data.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

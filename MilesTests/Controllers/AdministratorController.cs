@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,10 +13,6 @@ using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Controllers
 {
@@ -118,7 +118,7 @@ namespace MilesBackOffice.Web.Controllers
                             return View(model);
                         }
 
-                        var roleName = await _roleManager.FindByIdAsync(user.SelectedRole);
+                        var roleName = await _roleManager.FindByIdAsync(user.SelectedRole.ToString());
                         var register = await _userManager.FindByIdAsync(user.Id);
                         await _userManager.AddToRoleAsync(register, roleName.ToString());
                         ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
@@ -281,8 +281,8 @@ namespace MilesBackOffice.Web.Controllers
         /// <summary>
         /// gets the user by id
         /// assign new properties to current user
-        /// Remove roles already associated with the user, which was not selected
-        /// If the role has not selected and is in use, I remove the role
+        /// Remove roles already associated with the user, which were not selected
+        /// If the role was not selected and is in use, I remove the role
         /// Assign new role
         /// Update user after assigning new role
         /// If the update operation is successful, send to the user list page
@@ -309,18 +309,9 @@ namespace MilesBackOffice.Web.Controllers
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
 
-                var selectedRole = await _roleManager.FindByIdAsync(editUser.SelectedRole);
+                await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
 
-                foreach (var currentRole in _roleManager.Roles.ToList())
-                {
-                    var isSelectedRole = selectedRole.Name.Equals(currentRole.Name);
-                    if (!isSelectedRole && await _userHelper.IsUserInRoleAsync(user, currentRole.Name))
-                    {
-                        await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
-                    }
-                }
-
-                await _userHelper.AddUSerToRoleAsync(user, selectedRole.Name);
+                await _userHelper.AddUSerToRoleAsync(user, editUser.SelectedRole);
 
                 var result = await _userHelper.UpdateUserAsync(user);
 

@@ -17,7 +17,16 @@ namespace MilesBackOffice.Web.Data.Entities
         public long NumberOfMiles { get; set; }
 
 
-        /************OBJECT PROPERTIES****************************/
+
+        public bool IsConfirm { get; set; }
+
+
+
+        public User Client { get; set; }
+
+
+        public int Status { get; set; }
+
 
         public int Id { get; set; }
 
@@ -34,9 +43,6 @@ namespace MilesBackOffice.Web.Data.Entities
         public User ModifiedBy { get; set; }
 
 
-        public bool IsConfirm { get; set; }
 
-
-        public int Status { get; set; }
     }
 }

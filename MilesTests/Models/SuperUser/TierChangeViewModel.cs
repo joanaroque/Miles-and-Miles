@@ -1,35 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MilesBackOffice.Web.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace MilesBackOffice.Web.Models
+namespace MilesBackOffice.Web.Models.SuperUser
 {
-    public class TierChangeViewModel
+    public class TierChangeViewModel : TierChange
     {
-
         public string UserId { get; set; }
 
 
         [Required]
-        public string Name { get; set; }
-
-
-
-        public string OldTier { get; set; }
-
-
-
-        public string NewTier { get; set; }
-
-
-
-        public bool IsConfirm { get; set; }
-
-
-
-        public int NumberOfFlights { get; set; }
-
-
-
-        public long NumberOfMiles { get; set; }
+        public string ClientName { get; set; }
 
     }
 }

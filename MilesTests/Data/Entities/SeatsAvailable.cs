@@ -9,11 +9,16 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-        public int NumberOfSeats { get; set; }
-
+        public int MaximumSeats { get; set; }
 
 
         public int AvailableSeats { get; set; }
+
+
+
+        public bool PendingSeatsAvailable { get; set; }
+
+
 
         /************OBJECT PROPERTIES****************************/
 
@@ -31,8 +36,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
         public User ModifiedBy { get; set; }
 
-
-        public bool IsConfirm { get; set; }
 
 
         public int Status { get; set; }

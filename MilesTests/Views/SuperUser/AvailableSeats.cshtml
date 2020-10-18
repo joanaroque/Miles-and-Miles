@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.AvailableSeatsViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.AvailableSeatsViewModel>
 
 @{
     ViewData["Title"] = "AvailableSeats";
@@ -71,13 +71,13 @@
                                                     @Html.DisplayFor(modelItem => item.FlightNumber)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.NumberOfSeats)
+                                                    @Html.DisplayFor(modelItem => item.MaximumSeats)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.AvailableSeats)
                                                 </td>
                                                 <td>
-                                                    @if (!item.IsConfirm)
+                                                    @if (!item.PendingSeatsAvailable)
                                                     {
                                                         <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.UserId">
                                                             <span class="fa-stack">

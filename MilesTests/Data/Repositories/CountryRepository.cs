@@ -9,7 +9,7 @@ using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
 
-namespace MilesBackOffice.Web.Helpers
+namespace MilesBackOffice.Web.Data.Repositories
 {
     public class CountryRepository : GenericRepository<Country>, ICountryRepository
     {

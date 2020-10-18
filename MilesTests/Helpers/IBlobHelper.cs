@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-
-using System;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Helpers
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+
+
     public interface IBlobHelper
     {
         Task<Guid> UploadBlobAsync(IFormFile file, string containerName);

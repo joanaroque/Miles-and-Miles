@@ -24,7 +24,11 @@ namespace MilesBackOffice.Web.Data.Entities
 
         public string Reply { get; set; }
 
-        /************OBJECT PROPERTIES****************************/
+
+
+        public bool PendingComplaint { get; set; }
+
+
 
         public int Id { get; set; }
 
@@ -40,8 +44,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
         public User ModifiedBy { get; set; }
 
-
-        public bool IsConfirm { get; set; }
 
 
         public int Status { get; set; }

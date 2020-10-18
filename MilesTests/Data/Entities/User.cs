@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Identity;
 
     using MilesBackOffice.Web.CustomValidation;
+    using MilesBackOffice.Web.Enums;
 
     public class User : IdentityUser
     {
@@ -20,25 +21,12 @@
 
 
         [Display(Name = "Role")]
-        public string SelectedRole { get; set; }
+        public UserType SelectedRole { get; set; }
 
 
 
         //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
-
-
-
-        public bool PendingTier { get; set; }
-
-
-
-        public bool PendingSeatsAvailable { get; set; }
-
-
-
-        public bool PendingAdvertising { get; set; }
-
 
 
         [Required(ErrorMessage = "Must insert the {0}")]

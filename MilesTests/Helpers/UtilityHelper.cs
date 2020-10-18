@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class UtilityHelper
     {
         public static string Generate(

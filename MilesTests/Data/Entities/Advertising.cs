@@ -14,6 +14,10 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
+        public bool PendingPublish { get; set; }
+
+
+
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
 
@@ -23,7 +27,7 @@ namespace MilesBackOffice.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
-        /************OBJECT PROPERTIES****************************/
+
 
         public int Id { get; set; }
 
@@ -31,16 +35,17 @@ namespace MilesBackOffice.Web.Data.Entities
         public User CreatedBy { get; set; }
 
 
+
         public DateTime CreateDate { get; set; }
+
 
 
         public DateTime UpdateDate { get; set; }
 
 
+
         public User ModifiedBy { get; set; }
 
-
-        public bool IsConfirm { get; set; }
 
 
         public int Status { get; set; }
