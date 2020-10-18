@@ -16,6 +16,15 @@ namespace MilesBackOffice.Web.Data.Repositories
             _context = context;
 
         }
+        
+
+        //public IQueryable GetPendingClients()
+        //{
+        //    var clients = _context.Users
+        //        .Where(u => u.)
+        //}
+
+
 
         public List<ComplaintClientViewModel> GetClientComplaint()
         {

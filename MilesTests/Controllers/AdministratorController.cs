@@ -78,10 +78,13 @@ namespace MilesBackOffice.Web.Controllers
                             //City = model.CityId,
                             //Country = model.CountryId,
                             SelectedRole = model.SelectedRole,
-                            DateOfBirth = model.DateOfBirth
+                            DateOfBirth = model.DateOfBirth,
+                            IsActive = model.IsActive
                         };
 
-                        var result = await _userHelper.AddUserAsync(user, "Miles123*");
+                        var password = UtilityHelper.Generate();
+
+                        var result = await _userHelper.AddUserAsync(user, password);
 
                         if (result != IdentityResult.Success)
                         {
@@ -103,9 +106,9 @@ namespace MilesBackOffice.Web.Controllers
 
                         try
                         {
-                            _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                           $"To allow the user, " +
-                            $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+                            _mailHelper.SendMail(model.EmailAddress, "Welcome to the team!", $"To allow the user, " +
+                            $"Your username is: {user.UserName}. " +
+                            $"Your password is: {password}. Please login and then change it, follow the link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
 
                             //ModelState.Clear();
                             ViewBag.Message = "The instructions to allow your user has been sent to email.";
@@ -129,7 +132,7 @@ namespace MilesBackOffice.Web.Controllers
                     model.Roles = _userHelper.GetComboRoles();
                     return View(model);
                 }
-                
+
                 return View(model);
             }
 
@@ -160,7 +163,7 @@ namespace MilesBackOffice.Web.Controllers
                     UserId = user.Id,
                     Name = user.Name,
                     UserName = user.Email,
-                    Roles = await GetUserRoles(user)
+                    Roles = await GetUserRoles(user),
                 };
                 model.Add(viewModel);
             }
@@ -193,6 +196,9 @@ namespace MilesBackOffice.Web.Controllers
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
+                Username = user.UserName,
+                Email = user.Email,
+                IsActive = user.IsActive,
                 Countries = _countryRepository.GetComboCountries(),
                 Roles = _roleManager.Roles.ToList().Select(
                     x => new SelectListItem()

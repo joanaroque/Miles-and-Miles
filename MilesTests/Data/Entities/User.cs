@@ -57,5 +57,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
+        public bool IsActive { get; set; }
     }
 }

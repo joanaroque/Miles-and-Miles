@@ -112,7 +112,8 @@ namespace MilesBackOffice.Web.Migrations
                     Gender = table.Column<string>(nullable: true),
                     ImageId = table.Column<Guid>(nullable: false),
                     CityId = table.Column<int>(nullable: true),
-                    CountryId = table.Column<int>(nullable: true)
+                    CountryId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
