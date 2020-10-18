@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesBackOffice.Web.Models
+namespace MilesBackOffice.Web.Models.SuperUser
 {
     public class ComplaintClientViewModel : ClientComplaint
     {

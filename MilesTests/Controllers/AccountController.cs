@@ -13,8 +13,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
 
-    using MilesBackOffice.Web.Data;
     using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories;
     using MilesBackOffice.Web.Enums;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;

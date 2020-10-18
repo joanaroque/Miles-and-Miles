@@ -1,11 +1,11 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.SuperUser;
-
-using System;
-
-namespace MilesBackOffice.Web.Helpers
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.SuperUser;
+
     public interface IConverterHelper
     {
         Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew);

@@ -1,6 +1,6 @@
 ﻿using MilesBackOffice.Web.Data.Entities;
 
-namespace MilesBackOffice.Web.Models
+namespace MilesBackOffice.Web.Models.SuperUser
 {
     public class AvailableSeatsViewModel : SeatsAvailable
     {

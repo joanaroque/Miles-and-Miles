@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 
-namespace MilesBackOffice.Web.Helpers
+namespace MilesBackOffice.Web.Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {

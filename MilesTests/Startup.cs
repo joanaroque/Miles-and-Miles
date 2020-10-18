@@ -118,6 +118,7 @@ namespace MilesBackOffice.Web
             services.AddScoped<ISeatsAvailableRepository, SeatsAvailableRepository>();
             services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
             services.AddScoped<ITierChangeRepository, TierChangeRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

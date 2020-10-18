@@ -514,6 +514,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<bool>("IsApproved");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");

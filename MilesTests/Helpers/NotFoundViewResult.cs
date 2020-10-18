@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using System.Net;
-
-namespace MilesBackOffice.Web.Helpers
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using Microsoft.AspNetCore.Mvc;
+
+    using System.Net;
+
     public class NotFoundViewResult : ViewResult
     {
         public NotFoundViewResult(string viewName)
