@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Data.Repositories.SuperUser;
 using MilesBackOffice.Web.Helpers;
 
 using System.Collections.Generic;

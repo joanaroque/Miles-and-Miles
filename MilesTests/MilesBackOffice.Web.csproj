@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Repositories\DummyClientRepository.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <Content Remove="web.config" />
   </ItemGroup>
 

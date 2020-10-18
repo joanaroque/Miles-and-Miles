@@ -10,8 +10,8 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201018143657_ChangedUser")]
-    partial class ChangedUser
+    [Migration("20201018172812_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,9 +147,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<Guid>("ImageId");
 
-                    b.Property<bool>("IsConfirm");
-
                     b.Property<string>("ModifiedById");
+
+                    b.Property<bool>("PendingPublish");
 
                     b.Property<int>("Status");
 
@@ -203,6 +203,8 @@ namespace MilesBackOffice.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ClientId");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
@@ -211,9 +213,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("IsConfirm");
-
                     b.Property<string>("ModifiedById");
+
+                    b.Property<bool>("PendingComplaint");
 
                     b.Property<string>("Reply");
 
@@ -227,6 +229,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -385,17 +389,17 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("AvailableSeats");
 
+                    b.Property<bool>("ConfirmSeatsAvailable");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
 
                     b.Property<int>("FlightNumber");
 
-                    b.Property<bool>("IsConfirm");
+                    b.Property<int>("MaximumSeats");
 
                     b.Property<string>("ModifiedById");
-
-                    b.Property<int>("NumberOfSeats");
 
                     b.Property<int>("Status");
 
@@ -415,6 +419,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -437,6 +443,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -526,19 +534,13 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<bool>("PendingAdvertising");
-
-                    b.Property<bool>("PendingSeatsAvailable");
-
-                    b.Property<bool>("PendingTier");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("SelectedRole");
+                    b.Property<int>("SelectedRole");
 
                     b.Property<string>("TIN");
 
@@ -637,6 +639,10 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.ClientComplaint", b =>
                 {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -700,6 +706,10 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
                 {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

@@ -1,20 +1,17 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories.SuperUser;
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models.SuperUser;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-
-    using MilesBackOffice.Web.Data;
-    using MilesBackOffice.Web.Data.Entities;
-    using MilesBackOffice.Web.Data.Repositories;
-    using MilesBackOffice.Web.Data.Repositories.SuperUser;
-    using MilesBackOffice.Web.Helpers;
-    using MilesBackOffice.Web.Models;
-    using MilesBackOffice.Web.Models.SuperUser;
 
     public class SuperUserController : Controller
     {
@@ -182,7 +179,7 @@
                     _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
                        $"<h1>You are very important for us.\nThank you very much.</h1>");
 
-                  //todo:  ViewBag.Message = "An error ocurred. Try again please.";
+                    //todo:  ViewBag.Message = "An error ocurred. Try again please.";
 
                     return RedirectToAction(nameof(Complaints));
 
@@ -235,7 +232,7 @@
                 seatsAvailable.ConfirmSeatsAvailable = true;
 
                 await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
-               
+
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
