@@ -1,5 +1,6 @@
 ﻿'use strict'
 
+//opens the Create menus in Premium Index
 function openMenu() {
     //gets the value from the button that triggered the event
     const value = event.currentTarget.getAttribute('data-value');
@@ -16,6 +17,19 @@ function openMenu() {
     byID(value).classList.remove('hidden');
 }
 
+
+//opens the Edit partial in Premium Index
+function openPartial() {
+    const id = event.currentTarget.getAttribute("data-value");
+
+    $('#detailsPremium').load('@Url.Action("Details")', id);
+}
+
+function openPartialCreate() {
+    const action = event.currentTarget.getAttribute("data-value");
+
+    $('#detailsPremium').load('@Url.Action("'+{action}+'")');
+}
 
 function byID(elementId) {
     return document.getElementById(elementId);
