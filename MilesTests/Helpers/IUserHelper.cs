@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace MilesBackOffice.Web.Data
         /// <param name="user">user</param>
         /// <param name="roleName">role Name</param>
         /// <returns>if the user is in the role</returns>
-        Task<bool> IsUserInRoleAsync(User user, string roleName);
+        Task<bool> IsUserInRoleAsync(User user, UserType roleName);
 
 
 
@@ -100,7 +101,7 @@ namespace MilesBackOffice.Web.Data
         /// <param name="user">user</param>
         /// <param name="roleName">role Name</param>
         /// <returns>user in role</returns>
-        Task<IdentityResult> AddUSerToRoleAsync(User user, string roleName);
+        Task<IdentityResult> AddUSerToRoleAsync(User user, UserType roleName);
 
 
 
@@ -159,5 +160,18 @@ namespace MilesBackOffice.Web.Data
 
 
         Task<User> GetUserImageAsync(Guid userId);
+
+
+
+
+        Task<IdentityRole> FindRoleByTypeAsync(UserType role);
+
+
+
+       
+
+
+
+        Task RemoveRoleAsync(User user, UserType type);
     }
 }

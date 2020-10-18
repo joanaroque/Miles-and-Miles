@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Identity;
 
     using MilesBackOffice.Web.CustomValidation;
+    using MilesBackOffice.Web.Enums;
 
     public class User : IdentityUser
     {
@@ -20,7 +21,7 @@
 
 
         [Display(Name = "Role")]
-        public string SelectedRole { get; set; }
+        public UserType SelectedRole { get; set; }
 
 
 

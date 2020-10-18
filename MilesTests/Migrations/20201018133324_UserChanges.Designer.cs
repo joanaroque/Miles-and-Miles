@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MilesBackOffice.Web.Data;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201018133324_UserChanges")]
+    partial class UserChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,8 +151,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<bool>("PendingPublish");
-
                     b.Property<int>("Status");
 
                     b.Property<string>("Title");
@@ -211,9 +211,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("ModifiedById");
+                    b.Property<bool>("IsConfirm");
 
-                    b.Property<bool>("PendingComplaint");
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Reply");
 
@@ -391,11 +391,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("FlightNumber");
 
-                    b.Property<int>("MaximumSeats");
+                    b.Property<bool>("IsConfirm");
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<bool>("PendingSeatsAvailable");
+                    b.Property<int>("NumberOfSeats");
 
                     b.Property<int>("Status");
 
@@ -415,8 +415,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClientId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -439,8 +437,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -527,6 +523,12 @@ namespace MilesBackOffice.Web.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
+
+                    b.Property<bool>("PendingAdvertising");
+
+                    b.Property<bool>("PendingSeatsAvailable");
+
+                    b.Property<bool>("PendingTier");
 
                     b.Property<string>("PhoneNumber");
 
@@ -696,10 +698,6 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
                 {
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
