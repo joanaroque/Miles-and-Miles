@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilesBackOffice.Web.Migrations
 {
-    public partial class TierChanges : Migration
+    public partial class InitialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -117,6 +117,7 @@ namespace MilesBackOffice.Web.Migrations
                     ImageId = table.Column<Guid>(nullable: false),
                     CityId = table.Column<int>(nullable: true),
                     CountryId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     CreatedById = table.Column<int>(nullable: true),
                     ModifiedById = table.Column<int>(nullable: true)
                 },
