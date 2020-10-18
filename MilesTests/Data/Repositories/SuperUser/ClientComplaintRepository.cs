@@ -20,14 +20,19 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 
         }
 
+        public async Task<ClientComplaint> GetByIdWithIncludesAsync(int id)
+        {
+            var complaint = await _context.ClientComplaints
+                  .Include(t => t.CreatedBy)
+                  .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+
+            return complaint;
+        }
+
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
             return await _context.ClientComplaints
-                .Include(c => c.CreatedBy)
-                .Include(c => c.Title)
-                .Include(c => c.Email)
-                .Include(c => c.Date)
-                .Include(c => c.Subject)
+               // .Include(c => c.CreatedBy)  
                 .Where(c => c.PendingComplaint == false).ToListAsync();
         }
     }

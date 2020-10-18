@@ -23,11 +23,17 @@ namespace MilesBackOffice.Web.Data.Repositories
         public async Task<List<Advertising>> GetAdvertisingToBeConfirmAsync()
         {
             return await _context.Advertisings
-                 .Include(a => a.CreatedBy)
-                 .Include(a => a.Title)
-                 .Include(a => a.Content)
-                 .Include(a => a.EndDate)
-                 .Where(a => a.IsConfirm == false).ToListAsync();
+                // .Include(a => a.CreatedBy)
+                 .Where(a => a.PendingPublish == false).ToListAsync();
+        }
+
+        public async Task<Advertising> GetByIdWithIncludesAsync(int id)
+        {
+            var advertising = await _context.Advertisings
+                 .Include(t => t.CreatedBy)
+                 .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+
+            return advertising;
         }
     }
 }

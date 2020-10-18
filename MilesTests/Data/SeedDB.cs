@@ -52,58 +52,73 @@ namespace MilesBackOffice.Web.Data
 
         private async Task AddClientComplaint()
         {
-            _context.ClientComplaints.Add(new ClientComplaint
+            if (!_context.ClientComplaints.Any())
             {
-                Title = "help",
-                Email = "mariliaa@yopmail.com",
-                Date = DateTime.Now.AddDays(-5),
-                Subject = "bla bla bla",
-                PendingComplaint = false,
-                Reply = string.Empty
+                _context.ClientComplaints.Add(new ClientComplaint
+                {
+                    Title = "help",
+                    Email = "mariliaa@yopmail.com",
+                    Date = DateTime.Now.AddDays(-5),
+                    Subject = "bla bla bla",
+                    PendingComplaint = false,
+                    Reply = string.Empty
 
-            });
+                });
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+
+            }
+
         }
 
         private async Task AddAdvertising()
         {
-            _context.Advertisings.Add(new Advertising
+            if (!_context.Advertisings.Any())
             {
-                Title = "New Promotion",
-                Content = "bla bla bla",
-                PendingPublish = false
-            });
+                _context.Advertisings.Add(new Advertising
+                {
+                    Title = "New Promotion",
+                    Content = "bla bla bla",
+                    PendingPublish = false
+                });
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+
+            }
         }
 
         private async Task AddSeatsAvailable()
         {
-            _context.SeatsAvailables.Add(new SeatsAvailable
+            if (!_context.SeatsAvailables.Any())
             {
-                FlightNumber = 53454534,
-                MaximumSeats = 44444,
-                AvailableSeats = 34,
-                PendingSeatsAvailable = false
-            });
+                _context.SeatsAvailables.Add(new SeatsAvailable
+                {
+                    FlightNumber = 53454534,
+                    MaximumSeats = 44444,
+                    AvailableSeats = 34,
+                    ConfirmSeatsAvailable = false
+                });
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task AddTierChanges()
         {
-            _context.TierChanges.Add(new TierChange
+            if (!_context.TierChanges.Any())
             {
-                OldTier = "Silver",
-                NewTier = "Gold",
-                NumberOfFlights = 3434,
-                NumberOfMiles = 34234,
-                Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                IsConfirm = false
-            });
+                _context.TierChanges.Add(new TierChange
+                {
+                    OldTier = "Silver",
+                    NewTier = "Gold",
+                    NumberOfFlights = 3434,
+                    NumberOfMiles = 34234,
+                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
+                    IsConfirm = false
+                });
 
-             await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task FillUser6Async()

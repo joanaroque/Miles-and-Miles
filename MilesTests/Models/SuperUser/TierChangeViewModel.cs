@@ -5,7 +5,7 @@ namespace MilesBackOffice.Web.Models
 {
     public class TierChangeViewModel : TierChange
     {
-        public string UserId { get; set; }
+        public int TierChangeId { get; set; }
 
 
         [Required]

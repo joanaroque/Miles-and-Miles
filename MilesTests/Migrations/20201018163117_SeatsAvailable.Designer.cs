@@ -10,8 +10,8 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201018132656_InitialDb")]
-    partial class InitialDb
+    [Migration("20201018163117_SeatsAvailable")]
+    partial class SeatsAvailable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,8 +147,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<Guid>("ImageId");
 
-                    b.Property<bool>("IsConfirm");
-
                     b.Property<string>("ModifiedById");
 
                     b.Property<bool>("PendingPublish");
@@ -205,6 +203,8 @@ namespace MilesBackOffice.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ClientId");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
@@ -229,6 +229,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -387,6 +389,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("AvailableSeats");
 
+                    b.Property<bool>("ConfirmSeatsAvailable");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
@@ -396,8 +400,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<int>("MaximumSeats");
 
                     b.Property<string>("ModifiedById");
-
-                    b.Property<bool>("PendingSeatsAvailable");
 
                     b.Property<int>("Status");
 
@@ -536,7 +538,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("SelectedRole");
+                    b.Property<int>("SelectedRole");
 
                     b.Property<string>("TIN");
 
@@ -635,6 +637,10 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.ClientComplaint", b =>
                 {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

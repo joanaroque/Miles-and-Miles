@@ -24,7 +24,7 @@ namespace MilesBackOffice.Web.Helpers
                 CreatedBy = model.CreatedBy,
                 CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
-                IsConfirm = model.IsConfirm,
+                PendingPublish = model.PendingPublish,
                 Status = model.Status
             };
 
@@ -33,7 +33,7 @@ namespace MilesBackOffice.Web.Helpers
 
         public AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising)
         {
-            return new AdvertisingViewModel
+            var advertisings = new AdvertisingViewModel
             {
                 AdvertisingId = advertising.Id,
                 Title = advertising.Title,
@@ -43,27 +43,29 @@ namespace MilesBackOffice.Web.Helpers
                 CreatedBy = advertising.CreatedBy,
                 CreateDate = advertising.CreateDate,
                 UpdateDate = DateTime.Now,
-                IsConfirm = advertising.IsConfirm,
+                PendingPublish = advertising.PendingPublish,
                 Status = advertising.Status,
                 ModifiedBy = advertising.ModifiedBy
             };
+            return advertisings;
         }
 
         public AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable)
         {
-            return new AvailableSeatsViewModel
+            var seats = new AvailableSeatsViewModel
             {
                 Id = seatsAvailable.Id,
                 CreatedBy = seatsAvailable.CreatedBy,
                 CreateDate = seatsAvailable.CreateDate,
                 UpdateDate = DateTime.Now,
-                PendingSeatsAvailable = seatsAvailable.PendingSeatsAvailable,
+                ConfirmSeatsAvailable = seatsAvailable.ConfirmSeatsAvailable,
                 Status = seatsAvailable.Status,
                 ModifiedBy = seatsAvailable.ModifiedBy,
                 MaximumSeats = seatsAvailable.MaximumSeats,
                 FlightNumber = seatsAvailable.FlightNumber,
                 AvailableSeats = seatsAvailable.AvailableSeats
             };
+            return seats;
         }
 
         public ClientComplaint ToClientComplaint(ComplaintClientViewModel model, bool isNew)
@@ -89,7 +91,7 @@ namespace MilesBackOffice.Web.Helpers
 
         public ComplaintClientViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint)
         {
-            return new ComplaintClientViewModel
+            var complaint = new ComplaintClientViewModel
             {
                 ComplaintId = clientComplaint.Id,
                 CreatedBy = clientComplaint.CreatedBy,
@@ -105,6 +107,8 @@ namespace MilesBackOffice.Web.Helpers
                 Reply = clientComplaint.Reply
 
             };
+
+            return complaint;
         }
 
         public SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew)
@@ -118,7 +122,7 @@ namespace MilesBackOffice.Web.Helpers
                 FlightNumber = model.FlightNumber,
                 MaximumSeats = model.MaximumSeats,
                 AvailableSeats = model.AvailableSeats,
-                PendingSeatsAvailable = model.PendingSeatsAvailable,
+                ConfirmSeatsAvailable = model.ConfirmSeatsAvailable,
                 Status = model.Status
 
             };
@@ -148,7 +152,7 @@ namespace MilesBackOffice.Web.Helpers
 
         public TierChangeViewModel ToTierChangeViewModel(TierChange tierChange)
         {
-            return new TierChangeViewModel
+            var tierChanges = new TierChangeViewModel
             {
                 Id = tierChange.Id,
                 CreatedBy = tierChange.CreatedBy,
@@ -161,6 +165,7 @@ namespace MilesBackOffice.Web.Helpers
                 IsConfirm = tierChange.IsConfirm,
                 Status = tierChange.Status
             };
+            return tierChanges;
         }
     }
 }

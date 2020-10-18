@@ -9,5 +9,10 @@ namespace MilesBackOffice.Web.Data.Repositories
     public interface IClientComplaintRepository : IGenericRepository<ClientComplaint>
     {
         Task<List<ClientComplaint>> GetClientComplaintsAsync();
+
+
+
+        Task<ClientComplaint> GetByIdWithIncludesAsync(int id);
+
     }
 }

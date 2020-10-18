@@ -14,6 +14,10 @@ namespace MilesBackOffice.Web.Data.Entities
         public string Email { get; set; }
 
 
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
 
@@ -31,6 +35,11 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
         public int Id { get; set; }
+
+
+
+        public User Client { get; set; }
+
 
 
         public User CreatedBy { get; set; }

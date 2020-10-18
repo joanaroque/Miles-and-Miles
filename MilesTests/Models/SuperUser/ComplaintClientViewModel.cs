@@ -1,5 +1,5 @@
 ﻿using MilesBackOffice.Web.Data.Entities;
-using System;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models
@@ -10,11 +10,8 @@ namespace MilesBackOffice.Web.Models
         public int ComplaintId { get; set; }
 
 
-
-        public string UserId { get; set; }
-
         [Required]
-        public string Name { get; set; }
+        public string ClientName { get; set; }
 
 
 

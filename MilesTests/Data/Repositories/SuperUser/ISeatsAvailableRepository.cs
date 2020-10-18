@@ -10,5 +10,8 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
     {
         Task<List<SeatsAvailable>> GetSeatsToBeConfirmAsync();
 
+
+        Task<SeatsAvailable> GetByIdWithIncludesAsync(int id);
+
     }
 }

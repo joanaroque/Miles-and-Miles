@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+
+using System;
 using System.IO;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace MilesBackOffice.Web.Helpers
 {
@@ -15,8 +16,8 @@ namespace MilesBackOffice.Web.Helpers
         public BlobHelper(IConfiguration configuration)
         {
             string keys = configuration["Blob:ConnectionString"];
-            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse(keys);
-            //_blobClient = storageAccount.CreateCloudBlobClient();
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(keys);
+            _blobClient = storageAccount.CreateCloudBlobClient();
         }
 
 

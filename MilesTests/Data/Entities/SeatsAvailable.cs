@@ -16,7 +16,7 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-        public bool PendingSeatsAvailable { get; set; }
+        public bool ConfirmSeatsAvailable { get; set; }
 
 
 

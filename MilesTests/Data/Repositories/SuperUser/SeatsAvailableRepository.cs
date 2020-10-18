@@ -20,14 +20,20 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 
         }
 
+        public async Task<SeatsAvailable> GetByIdWithIncludesAsync(int id)
+        {
+            var seatsAvailable = await _context.SeatsAvailables
+                  .Include(t => t.CreatedBy)
+                  .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+
+            return seatsAvailable;
+        }
+
         public async Task<List<SeatsAvailable>> GetSeatsToBeConfirmAsync()
         {
             return await _context.SeatsAvailables
-                .Include(s => s.CreatedBy)
-                .Include(s => s.FlightNumber)
-                .Include(s => s.MaximumSeats)
-                .Include(s => s.AvailableSeats)
-                .Where(s => s.PendingSeatsAvailable == false).ToListAsync();
+                //.Include(s => s.CreatedBy)
+                .Where(s => s.ConfirmSeatsAvailable == false).ToListAsync();
         }
     }
 }

@@ -73,6 +73,11 @@
         [HttpGet]
         public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
         {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
             try
             {
                 TierChange tierChange = await _tierChangeRepository.GetByIdWithIncludesAsync(id.Value);
@@ -97,13 +102,13 @@
                 _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
                $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
 
-                //    ViewBag.Message = "An error ocurred. Try again please.";
+                //  todo:  ViewBag.Message = "An error ocurred. Try again please.";
 
                 return RedirectToAction(nameof(TierChange));
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("UserNotFound"); //todo: mudar erros
             }
         }
 
@@ -138,9 +143,7 @@
                                                    .Where(complaint => complaint.Id.Equals(id))
                                                    .FirstOrDefault();
 
-            var view = _converterHelper.ToComplaintClientViewModel(selectedComplaint);
-
-            return View(view);
+            return View(selectedComplaint);
         }
 
         /// <summary>
@@ -154,34 +157,33 @@
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByIdAsync(model.UserId);
-
-                if (user == null)
-                {
-                    return new NotFoundViewResult("UserNotFound");
-                }
-
                 try
                 {
-                    var complaint = _converterHelper.ToClientComplaint(model, false);
+                    var complaint = await _clientComplaintRepository.GetByIdAsync(model.ComplaintId);
 
-                    complaint.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    if (complaint == null)
+                    {
+                        return new NotFoundViewResult("UserNotFound");
 
-                    model.IsProcessed = true;
+                    }
+
+                    complaint.PendingComplaint = true;
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
 
-                    var result = await _userHelper.UpdateUserAsync(user);
+                    var user = await _userHelper.GetUserByIdAsync(complaint.Client.Id);
 
-                    if (result.Succeeded)
+                    if (user == null)
                     {
-                        _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
+                        return new NotFoundViewResult("UserNotFound");
+                    }
+
+
+                    _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
                        $"<h1>You are very important for us.\nThank you very much.</h1>");
-                    }
-                    else
-                    {
-                        ViewBag.Message = "An error ocurred. Try again please.";
-                    }
+
+                  //todo:  ViewBag.Message = "An error ocurred. Try again please.";
+
                     return RedirectToAction(nameof(Complaints));
 
                 }
@@ -214,33 +216,32 @@
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> ConfirmAvailableSeats(string Id)
+        public async Task<IActionResult> ConfirmAvailableSeats(int? id)
         {
-            if (string.IsNullOrEmpty(Id))
+            if (id == null)
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(Id);
+                SeatsAvailable seatsAvailable = await _seatsAvailableRepository.GetByIdWithIncludesAsync(id.Value);
 
-                if (user == null)
+                if (seatsAvailable == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("UserNotFound"); //todo mudar erros
                 }
 
-            //    user.PendingSeatsAvailable = true;
+                seatsAvailable.ConfirmSeatsAvailable = true;
 
-                var result = await _userHelper.UpdateUserAsync(user);
-
+                await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
+               
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
             catch (Exception)
             {
                 return new NotFoundViewResult("UserNotFound");
-
             }
         }
 
@@ -265,26 +266,32 @@
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> ConfirmAdvertisingAndReferences(string Id)
+        public async Task<IActionResult> ConfirmAdvertisingAndReferences(int? id)
         {
-            if (string.IsNullOrEmpty(Id))
+            if (id == null)
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(Id);
+                Advertising advertising = await _advertisingRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (advertising == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+
+                }
+
+                advertising.PendingPublish = true;
+                await _advertisingRepository.UpdateAsync(advertising);
+
+                var user = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
 
                 if (user == null)
                 {
                     return new NotFoundViewResult("UserNotFound");
                 }
-
-                //user.PendingAdvertising = true;
-
-                var result = await _userHelper.UpdateUserAsync(user);
-
 
                 return RedirectToAction(nameof(AvailableSeats));
             }

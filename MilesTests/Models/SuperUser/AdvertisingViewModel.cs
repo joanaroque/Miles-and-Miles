@@ -9,10 +9,6 @@ namespace MilesBackOffice.Web.Models.SuperUser
 
 
 
-        public string UserId { get; set; }
-
-
-
         public string PartnerId { get; set; }
 
 

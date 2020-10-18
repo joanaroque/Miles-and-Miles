@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilesBackOffice.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class SeatsAvailable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -109,7 +109,7 @@ namespace MilesBackOffice.Web.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Document = table.Column<string>(nullable: true),
-                    SelectedRole = table.Column<string>(nullable: true),
+                    SelectedRole = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     TIN = table.Column<string>(nullable: true),
@@ -171,7 +171,6 @@ namespace MilesBackOffice.Web.Migrations
                     PendingPublish = table.Column<bool>(nullable: false),
                     ImageId = table.Column<Guid>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    IsConfirm = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
@@ -294,6 +293,7 @@ namespace MilesBackOffice.Web.Migrations
                     PendingComplaint = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClientId = table.Column<string>(nullable: true),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
@@ -303,6 +303,12 @@ namespace MilesBackOffice.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClientComplaints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientComplaints_AspNetUsers_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClientComplaints_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
@@ -392,7 +398,7 @@ namespace MilesBackOffice.Web.Migrations
                     FlightNumber = table.Column<int>(nullable: false),
                     MaximumSeats = table.Column<int>(nullable: false),
                     AvailableSeats = table.Column<int>(nullable: false),
-                    PendingSeatsAvailable = table.Column<bool>(nullable: false),
+                    ConfirmSeatsAvailable = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
@@ -616,6 +622,11 @@ namespace MilesBackOffice.Web.Migrations
                 name: "IX_Cities_CountryId",
                 table: "Cities",
                 column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientComplaints_ClientId",
+                table: "ClientComplaints",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientComplaints_CreatedById",

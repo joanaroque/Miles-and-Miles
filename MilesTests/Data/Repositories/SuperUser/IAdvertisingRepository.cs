@@ -10,5 +10,9 @@ namespace MilesBackOffice.Web.Data.Repositories
     {
         Task<List<Advertising>> GetAdvertisingToBeConfirmAsync();
 
+
+
+        Task<Advertising> GetByIdWithIncludesAsync(int id);
+
     }
 }
