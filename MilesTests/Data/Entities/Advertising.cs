@@ -28,8 +28,6 @@ namespace MilesBackOffice.Web.Data.Entities
         public DateTime EndDate { get; set; }
 
 
-        public bool IsConfirm { get; set; }
-
 
         public int Id { get; set; }
 
