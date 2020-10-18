@@ -16,8 +16,6 @@
     public class SuperUserController : Controller
     {
         private readonly IUserHelper _userHelper;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<User> _userManager;
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IMailHelper _mailHelper;
         private readonly IConverterHelper _converterHelper;
@@ -26,8 +24,7 @@
         private readonly ISeatsAvailableRepository _seatsAvailableRepository;
 
         public SuperUserController(IUserHelper userHelper,
-            RoleManager<IdentityRole> roleManager,
-            UserManager<User> userManager,
+
             IAdvertisingRepository advertisingRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
@@ -36,8 +33,6 @@
             ISeatsAvailableRepository seatsAvailableRepository)
         {
             _userHelper = userHelper;
-            _roleManager = roleManager;
-            _userManager = userManager;
             _advertisingRepository = advertisingRepository;
             _mailHelper = mailHelper;
             _converterHelper = converterHelper;
@@ -72,7 +67,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");
             }
 
             try
@@ -81,7 +76,7 @@
 
                 if (tierChange == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound");
                 }
 
                 tierChange.IsConfirm = true;
@@ -92,7 +87,7 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound");
                 }
 
 
@@ -105,7 +100,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("UserNotFound"); //todo: mudar erros
+                return new NotFoundViewResult("_UserNotFound"); //todo: mudar erros
             }
         }
 
@@ -119,7 +114,7 @@
             var list = await _clientComplaintRepository.GetClientComplaintsAsync();
 
             var modelList = new List<ComplaintClientViewModel>(
-                list.Select(a => _converterHelper.ToComplaintClientViewModel(a))
+                list.Select(c => _converterHelper.ToComplaintClientViewModel(c))
                 .ToList());
 
             return View(modelList);
@@ -132,12 +127,12 @@
         /// <returns></returns>
         // GET 
         [HttpGet]
-        public async Task<IActionResult> ComplaintReply(string id)
+        public async Task<IActionResult> ComplaintReply(int? id)
         {
             var entityList = await _clientComplaintRepository.GetClientComplaintsAsync();
 
             ClientComplaint selectedComplaint = entityList
-                                                   .Where(complaint => complaint.Id.Equals(id))
+                                                   .Where(complaint => complaint.Id.Equals(id.Value))
                                                    .FirstOrDefault();
 
             return View(selectedComplaint);
@@ -160,7 +155,7 @@
 
                     if (complaint == null)
                     {
-                        return new NotFoundViewResult("UserNotFound");
+                        return new NotFoundViewResult("_UserNotFound");
 
                     }
 
@@ -172,7 +167,7 @@
 
                     if (user == null)
                     {
-                        return new NotFoundViewResult("UserNotFound");
+                        return new NotFoundViewResult("_UserNotFound");
                     }
 
 
@@ -186,7 +181,7 @@
                 }
                 catch (Exception)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound");
                 }
             }
             return View(model);
@@ -217,7 +212,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");
             }
 
             try
@@ -226,7 +221,7 @@
 
                 if (seatsAvailable == null)
                 {
-                    return new NotFoundViewResult("UserNotFound"); //todo mudar erros
+                    return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
                 }
 
                 seatsAvailable.ConfirmSeatsAvailable = true;
@@ -238,7 +233,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");
             }
         }
 
@@ -267,7 +262,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");
             }
 
             try
@@ -276,7 +271,7 @@
 
                 if (advertising == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound");
 
                 }
 
@@ -287,14 +282,14 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound");
                 }
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");
 
             }
         }

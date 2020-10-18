@@ -1,25 +1,5 @@
 ﻿@model MilesBackOffice.Web.Models.SuperUser.ComplaintClientViewModel
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | jsGrid</title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/template/plugins/fontawesome-free/css/all.min.css">
-    <!-- jsGrid -->
-    <link rel="stylesheet" href="~/template//plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="~/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/template/dist/css/adminlte.min.css">
-</head>
-<body class="hold-transition sidebar-mini">
-
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -45,17 +25,18 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="form-group">
-                        <form method="post" asp-action="ComplaintReply">
+                        <form asp-action="ComplaintReply">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="form-group">
                                 <label asp-for="Title" class="control-label"></label>
-                                <input asp-for="@Model.Title" class="form-control" disabled>
+                                <input asp-for="Title" class="form-control" disabled>
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">
                                 <label asp-for="Subject" class="control-label"></label>
-                                <input asp-for="@Model.Subject" class="form-control" disabled>
+                                <input asp-for="Subject" class="form-control" disabled>
                                 <span asp-validation-for="Subject" class="text-danger"></span>
                             </div>
 
@@ -78,19 +59,7 @@
         </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="~/template/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/template/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/template/dist/js/demo.js"></script>
-    <!-- Summernote -->
-    <script src="~/template/plugins/summernote/summernote-bs4.min.js"></script>
 
-</body>
-</html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
