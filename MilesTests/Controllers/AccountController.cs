@@ -15,6 +15,7 @@
 
     using MilesBackOffice.Web.Data;
     using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Enums;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
@@ -94,7 +95,7 @@
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-
+            //TODO redirect to logged User Home
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -213,11 +214,11 @@
                 return NotFound();
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "User");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.User);
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "User");
+                await _userHelper.AddUSerToRoleAsync(user, UserType.User);
             }
 
             return View();

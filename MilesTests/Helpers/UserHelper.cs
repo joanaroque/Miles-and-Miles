@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -66,9 +67,9 @@ namespace MilesBackOffice.Web.Data.Repositories
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<IdentityResult> AddUSerToRoleAsync(User user, string roleName)
+        public async Task<IdentityResult> AddUSerToRoleAsync(User user, UserType roleName)
         {
-            return await _userManager.AddToRoleAsync(user, roleName);
+            return await _userManager.AddToRoleAsync(user, roleName.ToString());
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
@@ -92,6 +93,14 @@ namespace MilesBackOffice.Web.Data.Repositories
         {
             return await _userManager.ConfirmEmailAsync(user, token);
         }
+
+
+        public async Task<IdentityRole> FindRoleByTypeAsync(UserType role)
+        {
+            return await _roleManager.FindByNameAsync(role.ToString());
+        }
+
+
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
         {
@@ -121,6 +130,8 @@ namespace MilesBackOffice.Web.Data.Repositories
             return list;
         }
 
+
+       
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
@@ -136,9 +147,9 @@ namespace MilesBackOffice.Web.Data.Repositories
             return await _userManager.FindByIdAsync(userId);
         }
 
-        public async Task<bool> IsUserInRoleAsync(User user, string roleName)
+        public async Task<bool> IsUserInRoleAsync(User user, UserType roleName)
         {
-            return await _userManager.IsInRoleAsync(user, roleName);
+            return await _userManager.IsInRoleAsync(user, roleName.ToString());
         }
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
@@ -154,6 +165,13 @@ namespace MilesBackOffice.Web.Data.Repositories
         {
             await _signInManager.SignOutAsync();
         }
+
+
+        public async Task RemoveRoleAsync(User user, UserType type)
+        {
+            await _userManager.RemoveFromRoleAsync(user, type.ToString());
+        }
+
 
         public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
         {

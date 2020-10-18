@@ -72,11 +72,11 @@ namespace MilesBackOffice.Web.Data
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user6);
                 await _userHelper.ConfirmEmailAsync(user6, token);
 
-                var isInRole = await _userHelper.IsUserInRoleAsync(user6, "Client");
+                var isInRole = await _userHelper.IsUserInRoleAsync(user6, UserType.Client);
 
                 if (!isInRole)
                 {
-                    await _userHelper.AddUSerToRoleAsync(user6, "Client");
+                    await _userHelper.AddUSerToRoleAsync(user6, UserType.Client);
                 }
 
                 await _context.SaveChangesAsync();
@@ -110,11 +110,11 @@ namespace MilesBackOffice.Web.Data
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user5);
                 await _userHelper.ConfirmEmailAsync(user5, token);
 
-                var isInRole = await _userHelper.IsUserInRoleAsync(user5, "Client");
+                var isInRole = await _userHelper.IsUserInRoleAsync(user5, UserType.Client);
 
                 if (!isInRole)
                 {
-                    await _userHelper.AddUSerToRoleAsync(user5, "Client");
+                    await _userHelper.AddUSerToRoleAsync(user5, UserType.Client);
                 }
 
                 await _context.SaveChangesAsync();
@@ -148,11 +148,11 @@ namespace MilesBackOffice.Web.Data
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user4);
                 await _userHelper.ConfirmEmailAsync(user4, token);
 
-                var isInRole = await _userHelper.IsUserInRoleAsync(user4, "Client");
+                var isInRole = await _userHelper.IsUserInRoleAsync(user4, UserType.Client);
 
                 if (!isInRole)
                 {
-                    await _userHelper.AddUSerToRoleAsync(user4, "Client");
+                    await _userHelper.AddUSerToRoleAsync(user4, UserType.Client);
                 }
 
                 await _context.SaveChangesAsync();
@@ -189,11 +189,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "User");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "User");
+                await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
             }
             await _context.SaveChangesAsync();
         }
@@ -228,11 +228,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+                await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
             }
 
             await _context.SaveChangesAsync();
@@ -266,21 +266,22 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, "SuperUser");
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
 
             if (!isInRole)
             {
-                var identityResult = await _userHelper.AddUSerToRoleAsync(user, "SuperUser");
+                var identityResult = await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
             }
             await _context.SaveChangesAsync();
         }
 
         private async Task CheckOrCreateRoles()
         {
-            await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("User");
-            await _userHelper.CheckRoleAsync("SuperUser");
-            await _userHelper.CheckRoleAsync("Client");
+            await _userHelper.CheckRoleAsync(UserType.Developer.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.SuperUser.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _userHelper.CheckRoleAsync(UserType.Client.ToString());
         }
 
         private async Task FillCountriesAsync()

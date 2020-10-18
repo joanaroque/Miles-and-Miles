@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.CustomValidation;
+using MilesBackOffice.Web.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -64,7 +65,7 @@ namespace MilesBackOffice.Web.Models
 
 
         [Display(Name = "Role")]
-        public string SelectedRole { get; set; }
+        public UserType SelectedRole { get; set; }
 
 
 
