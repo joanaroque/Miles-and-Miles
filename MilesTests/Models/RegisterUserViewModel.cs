@@ -3,6 +3,7 @@ using MilesBackOffice.Web.CustomValidation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MilesBackOffice.Web.Models
 {
@@ -95,6 +96,10 @@ namespace MilesBackOffice.Web.Models
 
 
         public string PhoneNumber { get; set; }
+
+
+
+        public bool IsActive { get; set; }
 
     }
 }

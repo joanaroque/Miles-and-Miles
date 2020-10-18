@@ -510,6 +510,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<Guid>("ImageId");
 
+                    b.Property<bool>("IsActive");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");

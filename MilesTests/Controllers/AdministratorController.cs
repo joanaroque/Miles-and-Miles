@@ -78,10 +78,13 @@ namespace MilesBackOffice.Web.Controllers
                             //City = model.CityId,
                             //Country = model.CountryId,
                             SelectedRole = model.SelectedRole,
-                            DateOfBirth = model.DateOfBirth
+                            DateOfBirth = model.DateOfBirth,
+                            IsActive = model.IsActive
                         };
 
-                        var result = await _userHelper.AddUserAsync(user, "Miles123*");
+                        var password = UtilityHelper.Generate();
+
+                        var result = await _userHelper.AddUserAsync(user, password);
 
                         if (result != IdentityResult.Success)
                         {
@@ -101,32 +104,39 @@ namespace MilesBackOffice.Web.Controllers
                             token = myToken
                         }, protocol: HttpContext.Request.Scheme);
 
-                        _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                          $"To allow the user, " +
-                           $"please click in this link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+                        try
+                        {
+                            _mailHelper.SendMail(model.EmailAddress, "Welcome to the team!", $"To allow the user, " +
+                            $"Your username is: {user.UserName}. " +
+                            $"Your password is: {password}. Please login and then change it, follow the link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
 
-                        //ModelState.Clear();
-                        ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                            //ModelState.Clear();
+                            ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError(string.Empty, ex.Message);
+                        }
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-                else //user != null
+
+                else
                 {
                     ModelState.AddModelError(string.Empty, "This username is already registered.");
+                    model.Countries = _countryRepository.GetComboCountries();
+                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
+                    model.Roles = _userHelper.GetComboRoles();
+                    return View(model);
                 }
-            }
-            else //ModelState.IsValid = false
-            {
-                ModelState.AddModelError(string.Empty, "This user already exists.");
-            }
-            
-            model.Countries = _countryRepository.GetComboCountries();
-            model.Cities = _countryRepository.GetComboCities(model.CountryId);
-            model.Roles = _userHelper.GetComboRoles();
 
+                return View(model);
+            }
+
+            ModelState.AddModelError(string.Empty, "This user already exists.");
             return View(model);
         }
 
@@ -153,7 +163,7 @@ namespace MilesBackOffice.Web.Controllers
                     UserId = user.Id,
                     Name = user.Name,
                     UserName = user.Email,
-                    Roles = await GetUserRoles(user)
+                    Roles = await GetUserRoles(user),
                 };
                 model.Add(viewModel);
             }
@@ -164,24 +174,6 @@ namespace MilesBackOffice.Web.Controllers
         private async Task<List<string>> GetUserRoles(User user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
-        }
-
-        public async Task<IActionResult> DetailsUser(string id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            return View(user);
         }
 
         // GET: Administrator/Edit/5
@@ -204,6 +196,9 @@ namespace MilesBackOffice.Web.Controllers
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
+                Username = user.UserName,
+                Email = user.Email,
+                IsActive = user.IsActive,
                 Countries = _countryRepository.GetComboCountries(),
                 Roles = _roleManager.Roles.ToList().Select(
                     x => new SelectListItem()
@@ -215,6 +210,24 @@ namespace MilesBackOffice.Web.Controllers
             };
 
             return View(model);
+        }
+
+        public async Task<IActionResult> DetailsUser(string id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            return View(user);
         }
 
         /// <summary>

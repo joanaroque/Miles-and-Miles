@@ -56,5 +56,6 @@
 
         public Country Country { get; set; }
 
+        public bool IsActive { get; set; }
     }
 }
