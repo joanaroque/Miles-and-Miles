@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
+using MilesBackOffice.Web.Data.Repositories.SuperUser;
 using MilesBackOffice.Web.Helpers;
 
 using System;
@@ -113,7 +114,10 @@ namespace MilesBackOffice.Web
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IClientRepository, DummyClientRepository>();
+            services.AddScoped<IAdvertisingRepository, AdvertisingRepository>();
+            services.AddScoped<ISeatsAvailableRepository, SeatsAvailableRepository>();
+            services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
+            services.AddScoped<ITierChangeRepository, TierChangeRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MilesBackOffice.Web.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models
 {
-    public class AvailableSeatsViewModel
+    public class AvailableSeatsViewModel : SeatsAvailable
     {
         public string UserId { get; set; }
 
@@ -10,20 +11,5 @@ namespace MilesBackOffice.Web.Models
         [Required]
         public string Name { get; set; }
 
-
-
-        public int FlightNumber { get; set; }
-
-
-
-        public int NumberOfSeats { get; set; }
-
-
-
-        public int AvailableSeats { get; set; }
-
-
-
-        public bool IsConfirm { get; set; }
     }
 }

@@ -19,8 +19,6 @@
         User ModifiedBy { get; set; }
 
 
-        bool IsConfirm { get; set; }
-
         /// <summary>
         /// Defines the object current status:
         /// 0 - Approved by a SU

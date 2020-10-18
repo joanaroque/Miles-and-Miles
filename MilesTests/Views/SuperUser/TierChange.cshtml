@@ -70,7 +70,7 @@
                                         {
                                             <tr>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                    @Html.DisplayFor(modelItem => item.ClientName)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.OldTier)
@@ -87,7 +87,7 @@
                                                 <td>
                                                     @if (!item.IsConfirm)
                                                     {
-                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.UserId">
+                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.Id">
                                                             <span class="fa-stack">
                                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                                 <i class="fa fa-check fa-stack-1x fa-inverse"></i>

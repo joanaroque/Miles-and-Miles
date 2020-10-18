@@ -38,10 +38,27 @@ namespace MilesBackOffice.Web.Data
             await FillUser2Async();
             await FillUser3Async();
 
-            // Clientes
+            // Clients
             await FillUser4Async();
             await FillUser5Async();
             await FillUser6Async();
+
+            //SU tests
+            await AddTierChanges();
+        }
+        public async Task AddTierChanges()
+        {
+            _context.TierChanges.Add(new TierChange
+            {
+                OldTier = "Silver",
+                NewTier = "Gold",
+                NumberOfFlights = 3434,
+                NumberOfMiles = 34234,
+                Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
+                IsConfirm = false
+            });
+
+            await _context.SaveChangesAsync();
 
         }
 

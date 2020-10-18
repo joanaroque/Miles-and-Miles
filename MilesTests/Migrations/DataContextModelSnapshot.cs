@@ -149,6 +149,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("ModifiedById");
 
+                    b.Property<bool>("PendingPublish");
+
                     b.Property<int>("Status");
 
                     b.Property<string>("Title");
@@ -209,9 +211,9 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("IsConfirm");
-
                     b.Property<string>("ModifiedById");
+
+                    b.Property<bool>("PendingComplaint");
 
                     b.Property<string>("Reply");
 
@@ -389,11 +391,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("FlightNumber");
 
-                    b.Property<bool>("IsConfirm");
+                    b.Property<int>("MaximumSeats");
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<int>("NumberOfSeats");
+                    b.Property<bool>("PendingSeatsAvailable");
 
                     b.Property<int>("Status");
 
@@ -413,6 +415,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -435,6 +439,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -519,12 +525,6 @@ namespace MilesBackOffice.Web.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
-
-                    b.Property<bool>("PendingAdvertising");
-
-                    b.Property<bool>("PendingSeatsAvailable");
-
-                    b.Property<bool>("PendingTier");
 
                     b.Property<string>("PhoneNumber");
 
@@ -694,6 +694,10 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
                 {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

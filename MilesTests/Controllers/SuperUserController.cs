@@ -11,6 +11,7 @@
     using MilesBackOffice.Web.Data;
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Data.Repositories;
+    using MilesBackOffice.Web.Data.Repositories.SuperUser;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -20,20 +21,32 @@
         private readonly IUserHelper _userHelper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
-        private readonly IClientRepository _clientRepository;
+        private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IMailHelper _mailHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly ITierChangeRepository _tierChangeRepository;
+        private readonly IClientComplaintRepository _clientComplaintRepository;
+        private readonly ISeatsAvailableRepository _seatsAvailableRepository;
 
         public SuperUserController(IUserHelper userHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager,
-            IClientRepository clientRepository,
-            IMailHelper mailHelper)
+            IAdvertisingRepository advertisingRepository,
+            IMailHelper mailHelper,
+            IConverterHelper converterHelper,
+            ITierChangeRepository tierChangeRepository,
+            IClientComplaintRepository clientComplaintRepository,
+            ISeatsAvailableRepository seatsAvailableRepository)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
             _userManager = userManager;
-            _clientRepository = clientRepository;
+            _advertisingRepository = advertisingRepository;
             _mailHelper = mailHelper;
+            _converterHelper = converterHelper;
+            _tierChangeRepository = tierChangeRepository;
+            _clientComplaintRepository = clientComplaintRepository;
+            _seatsAvailableRepository = seatsAvailableRepository;
         }
 
         /// <summary>
@@ -43,7 +56,11 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            List<TierChangeViewModel> modelList = await _clientRepository.GetPendingTierClient();
+            var list = await _tierChangeRepository.GetPendingTierClientListAsync();
+
+            var modelList = new List<TierChangeViewModel>(
+                list.Select(a => _converterHelper.ToTierChangeViewModel(a))
+                .ToList());
 
             return View(modelList);
         }
@@ -54,34 +71,34 @@
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> ConfirmTierChange(string id)
+        public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
             try
             {
-                var user = await _userHelper.GetUserByIdAsync(id);
+                TierChange tierChange = await _tierChangeRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (tierChange == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                tierChange.IsConfirm = true;
+
+                await _tierChangeRepository.UpdateAsync(tierChange);
+
+                var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
+
                 if (user == null)
                 {
                     return new NotFoundViewResult("UserNotFound");
                 }
 
-                user.PendingTier = true;
 
-                var result = await _userHelper.UpdateUserAsync(user);
+                _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+               $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
 
-                if (result.Succeeded)
-                {
-                    _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
-                   $"<h1>You can now use our service as a --------------.</h1>");
-                }//todo: por nome do novo tier
-                else
-                {
-                    ViewBag.Message = "An error ocurred. Try again please.";
-                }
+                //    ViewBag.Message = "An error ocurred. Try again please.";
+
                 return RedirectToAction(nameof(TierChange));
             }
             catch (Exception)
@@ -97,7 +114,11 @@
         [HttpGet]
         public async Task<ActionResult> Complaints()
         {
-            List<ComplaintClientViewModel> modelList = await _clientRepository.GetClientComplaints();
+            var list = await _clientComplaintRepository.GetClientComplaintsAsync();
+
+            var modelList = new List<ComplaintClientViewModel>(
+                list.Select(a => _converterHelper.ToComplaintClientViewModel(a))
+                .ToList());
 
             return View(modelList);
         }
@@ -111,13 +132,15 @@
         [HttpGet]
         public async Task<IActionResult> ComplaintReply(string id)
         {
-            var list = await _clientRepository.GetClientComplaints();
+            var entityList = await _clientComplaintRepository.GetClientComplaintsAsync();
 
-            ComplaintClientViewModel selectedViewModel = list
-                                                   .Where(complaint => complaint.ComplaintId.Equals(id))
+            ClientComplaint selectedComplaint = entityList
+                                                   .Where(complaint => complaint.Id.Equals(id))
                                                    .FirstOrDefault();
 
-            return View(selectedViewModel);
+            var view = _converterHelper.ToComplaintClientViewModel(selectedComplaint);
+
+            return View(view);
         }
 
         /// <summary>
@@ -131,16 +154,22 @@
         {
             if (ModelState.IsValid)
             {
+                var user = await _userHelper.GetUserByIdAsync(model.UserId);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
                 try
                 {
-                    var user = await _userHelper.GetUserByIdAsync(model.UserId);
+                    var complaint = _converterHelper.ToClientComplaint(model, false);
 
-                    if (user == null)
-                    {
-                        return new NotFoundViewResult("UserNotFound");
-                    }
+                    complaint.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     model.IsProcessed = true;
+
+                    await _clientComplaintRepository.UpdateAsync(complaint);
 
                     var result = await _userHelper.UpdateUserAsync(user);
 
@@ -162,7 +191,6 @@
                 }
             }
             return View(model);
-
         }
 
         /// <summary>
@@ -172,7 +200,11 @@
         [HttpGet]
         public async Task<ActionResult> AvailableSeats()
         {
-            List<AvailableSeatsViewModel> modelList = await _clientRepository.GetSeatsToBeConfirm();
+            var list = await _seatsAvailableRepository.GetSeatsToBeConfirmAsync();
+
+            var modelList = new List<AvailableSeatsViewModel>(
+                list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
+                .ToList());
 
             return View(modelList);
         }
@@ -198,7 +230,7 @@
                     return new NotFoundViewResult("UserNotFound");
                 }
 
-                user.PendingSeatsAvailable = true;
+            //    user.PendingSeatsAvailable = true;
 
                 var result = await _userHelper.UpdateUserAsync(user);
 
@@ -219,7 +251,11 @@
         [HttpGet]
         public async Task<ActionResult> AdvertisingAndReferences()
         {
-            List<AdvertisingViewModel> modelList = await _clientRepository.GetAdvertisingToBeConfirm();
+            var list = await _advertisingRepository.GetAdvertisingToBeConfirmAsync();
+
+            var modelList = new List<AdvertisingViewModel>(
+                list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
+                .ToList());
 
             return View(modelList);
         }
@@ -245,7 +281,7 @@
                     return new NotFoundViewResult("UserNotFound");
                 }
 
-                user.PendingAdvertising = true;
+                //user.PendingAdvertising = true;
 
                 var result = await _userHelper.UpdateUserAsync(user);
 

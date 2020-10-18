@@ -29,17 +29,6 @@
 
 
 
-        public bool PendingTier { get; set; }
-
-
-
-        public bool PendingSeatsAvailable { get; set; }
-
-
-
-        public bool PendingAdvertising { get; set; }
-
-
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Date)]

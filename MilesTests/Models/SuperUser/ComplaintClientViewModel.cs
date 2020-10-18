@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MilesBackOffice.Web.Data.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models
 {
-    public class ComplaintClientViewModel
+    public class ComplaintClientViewModel : ClientComplaint
     {
 
-        public string ComplaintId { get; set; }
+        public int ComplaintId { get; set; }
 
 
 
@@ -14,25 +15,6 @@ namespace MilesBackOffice.Web.Models
 
         [Required]
         public string Name { get; set; }
-
-
-        [Required]
-        public string Title { get; set; }
-
-
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
-
-        public DateTime Date { get; set; }
-
-
-
-        public string Subject { get; set; }
-
-
-
-        public string Reply { get; set; }
 
 
 
