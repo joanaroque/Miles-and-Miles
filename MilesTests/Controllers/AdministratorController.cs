@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
 using System;
@@ -26,6 +27,7 @@ namespace MilesBackOffice.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly DataContext _context;
+        private readonly IClientRepository _clientRepository;
 
         public AdministratorController(
             IUserHelper userHelper,
@@ -34,7 +36,8 @@ namespace MilesBackOffice.Web.Controllers
             ICountryRepository countryRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
-            DataContext context)
+            DataContext context,
+            IClientRepository clientRepository)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
@@ -43,6 +46,7 @@ namespace MilesBackOffice.Web.Controllers
             _mailHelper = mailHelper;
             _converterHelper = converterHelper;
             _context = context;
+            _clientRepository = clientRepository;
         }
 
         [HttpGet]
@@ -56,6 +60,27 @@ namespace MilesBackOffice.Web.Controllers
             };
             return View(model);
         }
+
+
+        public IActionResult InactiveClients()
+        {
+            return View(_clientRepository.GetInactiveClients());
+        }
+
+
+        public IActionResult ConfirmClient()
+        {
+            return View();
+        }
+
+
+
+        //[HttpPost]
+        //public IActionResult ConfirmClient()
+        //{
+        //    return View(_clientRepository.GetInactiveClients());
+        //}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,7 +104,8 @@ namespace MilesBackOffice.Web.Controllers
                             //Country = model.CountryId,
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
-                            IsActive = model.IsActive
+                            IsActive = true,
+                            IsApproved = true
                         };
 
                         var password = UtilityHelper.Generate();
@@ -106,11 +132,34 @@ namespace MilesBackOffice.Web.Controllers
 
                         try
                         {
-                            _mailHelper.SendMail(model.EmailAddress, "Welcome to the team!", $"To allow the user, " +
-                            $"Your username is: {user.UserName}. " +
-                            $"Your password is: {password}. Please login and then change it, follow the link:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+                            if (roleName.ToString() == "Client")
+                            {
+                                //  TODO email para user que se auto regista ---------------
+                                //_mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
+                                //$"Hello, {model.Name}<br/>" +
+                                //$"Your account is waiting for approval.<br/>" +
+                                //$"Click on the link below to confirm your email and then please allow a couple of days " +
+                                //$"for your account to be approved.<p><a href = \"{tokenLink}\">Confirm Email</a></p>" +
+                                //$"<br/>Thank you,<br/>CinelAir Miles");
 
-                            //ModelState.Clear();
+
+
+                                _mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
+                          $"Hello, {model.Name}<br/>" +
+                          $"Click on the link below to confirm your email" +
+                          $"<p><a href = \"{tokenLink}\">Confirm Email</a></p>" +
+                          $"<br/>Thank you,<br/>CinelAir Miles");
+                            }
+
+                            else
+                            {
+                                _mailHelper.SendMail(model.EmailAddress, "Welcome to the team!", $"<h1>Email Confirmation</h1>" +
+                          $"Hello, {model.Name}<br/>" +
+                          $"Your user is: {model.Username} and your password {password}.<br/>" +
+                          $"Click this link to confirm your email and be able to login:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
+
+                            }
+
                             ViewBag.Message = "The instructions to allow your user has been sent to email.";
                         }
                         catch (Exception ex)
@@ -136,7 +185,6 @@ namespace MilesBackOffice.Web.Controllers
                 return View(model);
             }
 
-            ModelState.AddModelError(string.Empty, "This user already exists.");
             return View(model);
         }
 
@@ -176,6 +224,24 @@ namespace MilesBackOffice.Web.Controllers
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
+        public async Task<IActionResult> DetailsUser(string id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            return View(user);
+        }
+
         // GET: Administrator/Edit/5
         [HttpGet]
         public async Task<IActionResult> EditUser(string id)
@@ -210,24 +276,6 @@ namespace MilesBackOffice.Web.Controllers
             };
 
             return View(model);
-        }
-
-        public async Task<IActionResult> DetailsUser(string id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            return View(user);
         }
 
         /// <summary>

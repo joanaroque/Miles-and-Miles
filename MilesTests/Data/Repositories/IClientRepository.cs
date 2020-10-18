@@ -1,26 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.SuperUser;
+﻿using System.Linq;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {
     public interface IClientRepository
     {
-        Task<List<TierChangeViewModel>> GetPendingTierClient();
+
+        IQueryable GetNewClients();
 
 
-
-        Task<List<ComplaintClientViewModel>> GetClientComplaints();
-
+        IQueryable GetActiveClients();
 
 
-        Task<List<AvailableSeatsViewModel>> GetSeatsToBeConfirm();
-
-
-
-
-        Task<List<AdvertisingViewModel>> GetAdvertisingToBeConfirm();
+        IQueryable GetInactiveClients();
 
     }
 }

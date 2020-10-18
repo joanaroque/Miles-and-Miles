@@ -64,7 +64,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "2121218",
-                    Document = "201742255"
+                    Document = "201742255",
+                    IsActive = true,
+                    IsApproved = true
                 };
 
                 await _userHelper.AddUserAsync(user6, "123456");
@@ -102,7 +104,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21121218",
-                    Document = "2017742255"
+                    Document = "2017742255",
+                    IsActive = true,
+                    IsApproved = false
                 };
 
                 await _userHelper.AddUserAsync(user5, "123456");
@@ -140,7 +144,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21821218",
-                    Document = "2017422055"
+                    Document = "2017422055",
+                    IsActive = true,
+                    IsApproved = false
                 };
 
                 await _userHelper.AddUserAsync(user4, "123456");
@@ -179,7 +185,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
-                    Document = "20174255"
+                    Document = "20174255",
+                    IsActive = true,
+                    IsApproved = true
 
                 };
 
@@ -218,7 +226,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121217",
-                    Document = "2014742955"
+                    Document = "2014742955",
+                    IsActive = true,
+                    IsApproved = true
 
                 };
 
@@ -257,7 +267,9 @@ namespace MilesBackOffice.Web.Data
                     City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121212",
-                    Document = "201474255"
+                    Document = "201474255",
+                    IsActive = true,
+                    IsApproved = true
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

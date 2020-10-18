@@ -60,12 +60,14 @@
         public Guid ImageId { get; set; }
 
 
-
-        // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
         public City City { get; set; }
 
 
         public Country Country { get; set; }
+
+
+        public bool IsApproved { get; set; }
+
 
         public bool IsActive { get; set; }
     }

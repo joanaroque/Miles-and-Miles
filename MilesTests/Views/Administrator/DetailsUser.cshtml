@@ -1,13 +1,12 @@
 ﻿@model MilesBackOffice.Web.Data.Entities.User
 
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h3 class="m-0 text-dark">@Html.DisplayFor(model => model.Name)</h3>
-                </div><!-- /.col -->
+                <h5>@Html.DisplayFor(model => model.Name)</h5>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -15,53 +14,49 @@
     <!-- Main content -->
     <div class="content">
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <!-- Content Header (Page header) -->
-                        @using (Html.BeginForm("DetailsUser", "Administrator", FormMethod.Post, new { @autocomplete = "on" }))
-                        {
-                            <div class="card-body">
-                                <div class="container">
-                                    <dl class="row">
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.UserName)</dt>
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.TIN)</dt>
-                                        <div class="w-100"></div>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.UserName)</dd>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.TIN)</dd>
-                                    </dl>
-                                    <dl class="row">
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.Address)</dt>
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.City)</dt>
-                                        <div class="w-100"></div>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.Address)</dd>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.City)</dd>
-                                    </dl>
-                                    <dl class="row">
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.Country)</dt>
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.Email)</dt>
-                                        <div class="w-100"></div>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.Country)</dd>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.Email)</dd>
-                                    </dl>
-                                    <dl class="row">
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.Email)</dt>
-                                        <dt class="col col-lg-3">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
-                                        <div class="w-100"></div>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.Email)</dd>
-                                        <dd class="col col-lg-3">@Html.DisplayFor(model => model.PhoneNumber)</dd>
-                                    </dl>
-
-                                    <div>
-                                        <a asp-action="EditUser" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                    </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.UserName)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Email)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Address)</div>
+                                <div class="w-100"></div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.UserName)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Email)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Address)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.DateOfBirth)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.TIN)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.City)</div>
+                                <div class="w-100"></div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.DateOfBirth)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.TIN)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.City)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Gender)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Country)</div>
+                                <div class="w-100"></div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Gender)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.PhoneNumber)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Country)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col py-3 px-lg-5 bg-light">
+                                    <a class="btn btn-info pull-right" asp-action="EditUser" asp-route-id="@Model.Id">Edit User</a>
                                 </div>
                             </div>
-                        }
-                    </div>
+
+                        </div>
+                    <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
             </div>
+            <!-- /.col -->
         </div>
     </div>
 </div>
@@ -71,30 +66,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <!-- InputMask -->
-    <script src="~/~/plugins/moment/moment.min.js"></script>
-    <script src="~/~/plugins/inputmask/jquery.inputmask.min.js"></script>
-    <!-- date-range-picker -->
-    <script src="~/~/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- jQuery -->
-    <script src="~/~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap4 Duallistbox -->
-    <script src=".~/~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="~/~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- DataTables -->
-    <script src="~/~/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/~/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/~/dist/js/demo.js"></script>
-    <!-- page script -->
-
+    <!--main content end-->
+    <script src="~/template/js/bootstrap.js"></script>
+    <script src="~/template/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/template/js/scripts.js"></script>
+    <script src="~/template/js/jquery.slimscroll.js"></script>
+    <script src="~/template/js/jquery.nicescroll.js"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="~/template/js/flot-chart/excanvas.min.js"></script><![endif]-->
+    <script src="~/template/js/jquery.scrollTo.js"></script>
 }
-
-

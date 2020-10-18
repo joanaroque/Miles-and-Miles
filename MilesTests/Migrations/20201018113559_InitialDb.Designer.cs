@@ -10,7 +10,7 @@ using MilesBackOffice.Web.Data;
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201017181526_InitialDb")]
+    [Migration("20201018113559_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -505,6 +505,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<string>("Gender");
 
                     b.Property<Guid>("ImageId");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<bool>("LockoutEnabled");
 

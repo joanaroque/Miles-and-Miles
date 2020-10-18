@@ -120,6 +120,7 @@ namespace MilesBackOffice.Web.Migrations
                     ImageId = table.Column<Guid>(nullable: false),
                     CityId = table.Column<int>(nullable: true),
                     CountryId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     CreatedById = table.Column<int>(nullable: true),
                     ModifiedById = table.Column<int>(nullable: true)
                 },

@@ -113,7 +113,7 @@ namespace MilesBackOffice.Web
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IClientRepository, DummyClientRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>
