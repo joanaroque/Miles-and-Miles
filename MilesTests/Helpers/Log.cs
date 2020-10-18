@@ -1,8 +1,7 @@
-﻿using MilesBackOffice.Web.Data.Repositories;
-using System;
-
-namespace MilesBackOffice.Web.Helpers
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+
     public class Log : ILog
     {
         public void Append(string message)

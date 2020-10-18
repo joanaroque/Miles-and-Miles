@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MilesBackOffice.Web.CustomValidation;
-using MilesBackOffice.Web.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+using MilesBackOffice.Web.CustomValidation;
+using MilesBackOffice.Web.Enums;
 
 namespace MilesBackOffice.Web.Models
 {

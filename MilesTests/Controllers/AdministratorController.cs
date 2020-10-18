@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,13 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Enums;
+using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Controllers
 {
@@ -263,7 +263,7 @@ namespace MilesBackOffice.Web.Controllers
                 user.PhoneNumber = editUser.PhoneNumber;
 
                 await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
-                
+
                 await _userHelper.AddUSerToRoleAsync(user, editUser.SelectedRole);
 
                 var result = await _userHelper.UpdateUserAsync(user);

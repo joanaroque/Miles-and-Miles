@@ -1,10 +1,9 @@
 ﻿using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MilesBackOffice.Web.Data.Repositories
+namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
     public interface IAdvertisingRepository : IGenericRepository<Advertising>
     {

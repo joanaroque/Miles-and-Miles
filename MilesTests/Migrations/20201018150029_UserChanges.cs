@@ -6,31 +6,31 @@ namespace MilesBackOffice.Web.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "IsConfirm",
+                table: "Advertisings");
+
             migrationBuilder.AlterColumn<int>(
                 name: "SelectedRole",
                 table: "AspNetUsers",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "AspNetUsers");
-
             migrationBuilder.AlterColumn<string>(
                 name: "SelectedRole",
                 table: "AspNetUsers",
                 nullable: true,
                 oldClrType: typeof(int));
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsConfirm",
+                table: "Advertisings",
+                nullable: false,
+                defaultValue: false);
         }
     }
 }

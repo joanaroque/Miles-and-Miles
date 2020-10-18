@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Enums;
-using MilesBackOffice.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+
+    using MilesBackOffice.Web.Data;
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Enums;
+    using MilesBackOffice.Web.Models;
+
+
     public class UserHelper : IUserHelper
     {
         private readonly UserManager<User> _userManager;
@@ -131,7 +135,7 @@ namespace MilesBackOffice.Web.Data.Repositories
         }
 
 
-       
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);

@@ -24,7 +24,6 @@ namespace MilesBackOffice.Web.Helpers
                 CreatedBy = model.CreatedBy,
                 CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
-                IsConfirm = model.IsConfirm,
                 Status = model.Status
             };
 
@@ -43,7 +42,6 @@ namespace MilesBackOffice.Web.Helpers
                 CreatedBy = advertising.CreatedBy,
                 CreateDate = advertising.CreateDate,
                 UpdateDate = DateTime.Now,
-                IsConfirm = advertising.IsConfirm,
                 Status = advertising.Status,
                 ModifiedBy = advertising.ModifiedBy
             };

@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Repositories\DummyClientRepository.cs" />
     <Compile Remove="Migrations\20201018115159_UserChanges.cs" />
     <Compile Remove="Migrations\20201018115159_UserChanges.Designer.cs" />
     <Compile Remove="Migrations\20201018115542_UserChanges.cs" />
     <Compile Remove="Migrations\20201018115542_UserChanges.Designer.cs" />
+    <Compile Remove="Migrations\20201018133324_UserChanges.cs" />
+    <Compile Remove="Migrations\20201018133324_UserChanges.Designer.cs" />
+    <Compile Remove="Migrations\20201018145647_NewUserChanges.cs" />
+    <Compile Remove="Migrations\20201018145647_NewUserChanges.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

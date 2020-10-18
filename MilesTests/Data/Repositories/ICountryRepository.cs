@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
 
-namespace MilesBackOffice.Web.Helpers
+namespace MilesBackOffice.Web.Data.Repositories
 {
     public interface ICountryRepository : IGenericRepository<Country>
     {

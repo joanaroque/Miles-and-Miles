@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Enums;
+using MilesBackOffice.Web.Helpers;
 
 namespace MilesBackOffice.Web.Data
 {

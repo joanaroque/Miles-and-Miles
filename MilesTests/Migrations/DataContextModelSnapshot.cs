@@ -145,8 +145,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<Guid>("ImageId");
 
-                    b.Property<bool>("IsConfirm");
-
                     b.Property<string>("ModifiedById");
 
                     b.Property<bool>("PendingPublish");

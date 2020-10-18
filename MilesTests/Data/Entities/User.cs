@@ -29,8 +29,6 @@
         public string Address { get; set; }
 
 
-
-
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -48,7 +46,6 @@
 
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
-
 
 
         // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
