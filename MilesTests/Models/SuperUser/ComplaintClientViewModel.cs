@@ -6,18 +6,24 @@ namespace MilesBackOffice.Web.Models
     public class ComplaintClientViewModel
     {
 
-        public string Id { get; set; }
+        public string ComplaintId { get; set; }
+
+
+
+        public string UserId { get; set; }
 
         [Required]
         public string Name { get; set; }
 
 
         [Required]
-
         public string Title { get; set; }
 
 
-        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
         public DateTime Date { get; set; }
 
 
@@ -26,11 +32,11 @@ namespace MilesBackOffice.Web.Models
 
 
 
-        public string Replay { get; set; }
+        public string Reply { get; set; }
 
 
 
-        public bool NotProcessed { get; set; }
+        public bool IsProcessed { get; set; }
 
     }
 }

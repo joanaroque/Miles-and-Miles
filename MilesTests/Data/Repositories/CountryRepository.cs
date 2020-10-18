@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Helpers
 {

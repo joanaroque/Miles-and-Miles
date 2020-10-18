@@ -1,16 +1,21 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Data.Entities
 {
-    public class City : IEntity
+    public class SeatsAvailable : IEntity
     {
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        [Required]
-        [Display(Name = "City")]
-        public string Name { get; set; }
 
-        /*************OBJECT PROPERTIES*********************/
+        public int FlightNumber { get; set; }
+
+
+
+        public int NumberOfSeats { get; set; }
+
+
+
+        public int AvailableSeats { get; set; }
+
+        /************OBJECT PROPERTIES****************************/
 
         public int Id { get; set; }
 
@@ -31,7 +36,5 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
         public int Status { get; set; }
-
-
     }
 }

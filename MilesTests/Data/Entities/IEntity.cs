@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    using System;
+
     public interface IEntity
     {
         int Id { get; set; }

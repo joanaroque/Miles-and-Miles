@@ -1,138 +1,262 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Data;
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories;
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.SuperUser;
+
     public class SuperUserController : Controller
     {
         private readonly IUserHelper _userHelper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly IClientRepository _clientRepository;
+        private readonly IMailHelper _mailHelper;
 
         public SuperUserController(IUserHelper userHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IMailHelper mailHelper)
         {
             _userHelper = userHelper;
             _roleManager = roleManager;
             _userManager = userManager;
             _clientRepository = clientRepository;
+            _mailHelper = mailHelper;
         }
 
-
+        /// <summary>
+        /// get list of unconfirm tiers
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult TierChange()
+        public async Task<ActionResult> TierChange()
         {
-            //lista de clientes com tier pendente
-            List<TierChangeViewModel> modelList = _clientRepository.GetPendingTierClient();
+            List<TierChangeViewModel> modelList = await _clientRepository.GetPendingTierClient();
 
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmTierChange(string clientUserId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> ConfirmTierChange(string id)
         {
-            var user = await _userHelper.GetUserByIdAsync(clientUserId);
-
-            if (user == null)
+            if (string.IsNullOrEmpty(id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            //update to confirm
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(id);
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
 
-            return View(); // same view
+                user.PendingTier = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+                if (result.Succeeded)
+                {
+                    _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+                   $"<h1>You can now use our service as a --------------.</h1>");
+                }//todo: por nome do novo tier
+                else
+                {
+                    ViewBag.Message = "An error ocurred. Try again please.";
+                }
+                return RedirectToAction(nameof(TierChange));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
         }
 
+        /// <summary>
+        /// get list of unprocessed complaints
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult Complaints()
+        public async Task<ActionResult> Complaints()
         {
-            //lista reclamaçoes nao processadas
-            List<ComplaintClientViewModel> modelList = _clientRepository.GetClientComplaint();
-
+            List<ComplaintClientViewModel> modelList = await _clientRepository.GetClientComplaints();
 
             return View(modelList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ComplaintReplay(ComplaintClientViewModel model)
-        {
-            var user = await _userHelper.GetUserByIdAsync(model.Id);
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            return View();
-        }
-
+        /// <summary>
+        /// receive complaint Id and return "Complaint details" view model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET 
         [HttpGet]
-        public ActionResult AvailableSeats()
+        public async Task<IActionResult> ComplaintReply(string id)
         {
-            //lista de voos
-           
+            var list = await _clientRepository.GetClientComplaints();
 
+            ComplaintClientViewModel selectedViewModel = list
+                                                   .Where(complaint => complaint.ComplaintId.Equals(id))
+                                                   .FirstOrDefault();
 
-            return View();
+            return View(selectedViewModel);
         }
 
+        /// <summary>
+        /// validate if reply is filled. If not, send error. Otherwise, continue.
+        /// update repository with new reply for the incoming complaint Id and change IsProcessed to 'true'.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AvailableSeatsModel(string aquiVaiModelclientId)
+        public async Task<IActionResult> ComplaintReply(ComplaintClientViewModel model)
         {
-            var user = await _userHelper.GetUserByIdAsync(aquiVaiModelclientId);
-
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return new NotFoundViewResult("UserNotFound");
-            }
+                try
+                {
+                    var user = await _userHelper.GetUserByIdAsync(model.UserId);
 
-            return View();
+                    if (user == null)
+                    {
+                        return new NotFoundViewResult("UserNotFound");
+                    }
+
+                    model.IsProcessed = true;
+
+                    var result = await _userHelper.UpdateUserAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
+                       $"<h1>You are very important for us.\nThank you very much.</h1>");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "An error ocurred. Try again please.";
+                    }
+                    return RedirectToAction(nameof(Complaints));
+
+                }
+                catch (Exception)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+            }
+            return View(model);
+
         }
 
+        /// <summary>
+        /// get list of seats to be confirmed
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> AdvertisingAndReferences(string clientId)
+        public async Task<ActionResult> AvailableSeats()
         {
-            var user = await _userHelper.GetUserByIdAsync(clientId);
+            List<AvailableSeatsViewModel> modelList = await _clientRepository.GetSeatsToBeConfirm();
 
-            //verifica se o clientId é null
-            if (clientId == null)
+            return View(modelList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ConfirmAvailableSeats(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            //
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(Id);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                user.PendingSeatsAvailable = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
 
 
-            return View();
+                return RedirectToAction(nameof(AvailableSeats));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+
+            }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdvertisingAndReferencesModel(string aquiVaiModelclientId)
+        /// <summary>
+        /// get list of advertising to be confirmed
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> AdvertisingAndReferences()
         {
-            var user = await _userHelper.GetUserByIdAsync(aquiVaiModelclientId);
+            List<AdvertisingViewModel> modelList = await _clientRepository.GetAdvertisingToBeConfirm();
 
-            if (user == null)
+            return View(modelList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ConfirmAdvertisingAndReferences(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
             {
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            return View();
-        }
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(Id);
 
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                user.PendingAdvertising = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+
+                return RedirectToAction(nameof(AvailableSeats));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("UserNotFound");
+
+            }
+        }
     }
 }

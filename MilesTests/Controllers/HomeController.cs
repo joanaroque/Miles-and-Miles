@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using MilesBackOffice.Web.Models;
-
-using System.Diagnostics;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System.Diagnostics;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Models;
+
     public class HomeController : Controller
     {
         public IActionResult Index()

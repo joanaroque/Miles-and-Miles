@@ -1,0 +1,89 @@
+﻿@model MilesBackOffice.Web.Models.User.PartnerViewModel
+
+@{
+    ViewData["Title"] = "Partnerships";
+}
+
+<link rel="stylesheet" href="~/css/user.css" />
+
+<div>
+    <h2>Partnerships</h2>
+</div>
+
+<div>
+    <div class="stats-info stats-last widget-shadow">
+        <div class="stats-last-agile">
+            <table class="table stats-table">
+                <tr>
+                    <th>Partner ID</th>
+                    <th>Company Name</th>
+                    <th>Link</th>
+                    <th>Partner Since</th>
+                </tr>
+                @*@foreach (var item in Model.Partners)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CompanyName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Url)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+                        </tr>
+                    }*@
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    <button id="btn_newPartner" data-value="newPartner">Add New Partnership</button>
+</div>
+
+
+<div id="newPartner" class="hidden">
+    <h2>Premium Ticket</h2>
+    <div class="row">
+        <form action="CreatePartner" method="post" class="form-group">
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.Name"></label>
+                <input asp-for="CreatePartnerViewModel.Name" type="text" />
+                <span asp-validation-for="CreatePartnerViewModel.Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.Address"></label>
+                <input asp-for="CreatePartnerViewModel.Address" type="text" />
+                <span asp-validation-for="CreatePartnerViewModel.Address"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.Url"></label>
+                <input asp-for="CreatePartnerViewModel.Url" type="text" />
+                <span asp-validation-for="CreatePartnerViewModel.Url"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.Designation"></label>
+                <input asp-for="CreatePartnerViewModel.Designation" type="text" />
+                <span asp-validation-for="CreatePartnerViewModel.Designation"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.LogoImage"></label>
+                <input asp-for="CreatePartnerViewModel.LogoImage" type="file" />
+                <span asp-validation-for="CreatePartnerViewModel.LogoImage"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatePartnerViewModel.Description"></label>
+                <input asp-for="CreatePartnerViewModel.Description" type="file" />
+                <span asp-validation-for="CreatePartnerViewModel.Description"></span>
+            </div>
+            <div>
+                <button type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+</div>

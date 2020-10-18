@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-using MilesBackOffice.Web.CustomValidation;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Identity;
+
+    using MilesBackOffice.Web.CustomValidation;
+
     public class User : IdentityUser
     {
 
@@ -27,6 +27,17 @@ namespace MilesBackOffice.Web.Data.Entities
         //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 
+
+
+        public bool PendingTier { get; set; }
+
+
+
+        public bool PendingSeatsAvailable { get; set; }
+
+
+
+        public bool PendingAdvertising { get; set; }
 
 
 
@@ -53,9 +64,8 @@ namespace MilesBackOffice.Web.Data.Entities
         // [MaxLength(50, ErrorMessage = "The field {0} can only contain {1} characters")]
         public City City { get; set; }
 
+
         public Country Country { get; set; }
-
-
 
         public bool IsActive { get; set; }
     }

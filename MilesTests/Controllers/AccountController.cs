@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
+
+    using MilesBackOffice.Web.Data;
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;

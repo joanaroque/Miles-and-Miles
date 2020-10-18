@@ -22,13 +22,12 @@ namespace MilesBackOffice.Web
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
+        //private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration,
-            IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _env = env;
+            //_env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -70,18 +69,18 @@ namespace MilesBackOffice.Web
             services
                 .AddAuthentication()
 
-                 .AddGoogle(options =>
-                 {
-                     options.ClientId = Configuration["App:GoogleClientId"];
-                     options.ClientSecret = Configuration["App:GoogleClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
-                 .AddFacebook(options =>
-                 {
-                     options.ClientId = Configuration["App:FacebookClientId"];
-                     options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
+                 //.AddGoogle(options =>
+                 //{
+                 //    options.ClientId = Configuration["App:GoogleClientId"];
+                 //    options.ClientSecret = Configuration["App:GoogleClientSecret"];
+                 //    options.SignInScheme = IdentityConstants.ExternalScheme;
+                 //})
+                 //.AddFacebook(options =>
+                 //{
+                 //    options.ClientId = Configuration["App:FacebookClientId"];
+                 //    options.ClientSecret = Configuration["App:FacebookClientSecret"];
+                 //    options.SignInScheme = IdentityConstants.ExternalScheme;
+                 //})
 
                
                  .AddCookie(options =>
@@ -96,14 +95,15 @@ namespace MilesBackOffice.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //if (_env.IsDevelopment())
+                //{
+                //    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //}
+                //else
+                //{
+                //    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                //}
             });
 
             services.AddTransient<SeedDB>();
@@ -113,7 +113,7 @@ namespace MilesBackOffice.Web
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-
+            services.AddScoped<IClientRepository, DummyClientRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.TierChangeViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.AdvertisingViewModel>
 
 @{
-    ViewData["Title"] = "TierChange";
+    ViewData["Title"] = "AdvertisingAndReferences";
 }
 
 
@@ -28,15 +28,15 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">    
+                <div class="row mb-2">
                     <div class="col-sm-6">
                         <br />
-                        <h1>Tier change</h1>
+                        <h1>Advertising And References</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                            <li class="breadcrumb-item active">Tier change</li>
+                            <li class="breadcrumb-item active">Advertising And References</li>
                         </ol>
                     </div>
                 </div>
@@ -51,17 +51,16 @@
                         <!-- /.card -->
 
                         <div class="card">
-
+           
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Client Name</th>
-                                            <th>Old Tier</th>
-                                            <th>New Tier</th>
-                                            <th>Number Of Flights</th>
-                                            <th>Number Of Miles</th>
+                                            <th>Image</th>
+                                            <th>Title</th>
+                                            <th>Content</th>
+                                            <th>End Date here?</th>
                                             <th>Pending Confirmation</th>
                                         </tr>
                                     </thead>
@@ -69,48 +68,29 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
+                                                <td>aqui fica a img</td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                    @Html.DisplayFor(modelItem => item.Title)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.OldTier)
+                                                    @Html.DisplayFor(modelItem => item.Content)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.NewTier)
+                                                    @Html.DisplayFor(modelItem => item.EndDate)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.NumberOfFlights)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NumberOfMiles)
-                                                </td>
-                                                <td>
-                                                    @if (!item.IsConfirm)
-                                                    {
-                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.UserId">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <label class="label-success">Confirmed</label>
-                                                    }
+                                                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.UserId">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                             </div>
-
-
-                            <span>
-                                @ViewBag.Message
-                            </span>
-
-
                         </div>
                     </div>
                 </div>

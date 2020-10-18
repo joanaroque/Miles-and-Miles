@@ -3,14 +3,28 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Data.Entities
 {
-    public class City : IEntity
+    public class ClientComplaint : IEntity
     {
-        [MaxLength(50, ErrorMessage = "The field {0} only can contain {1} characters.")]
-        [Required]
-        [Display(Name = "City")]
-        public string Name { get; set; }
 
-        /*************OBJECT PROPERTIES*********************/
+        [Required]
+        public string Title { get; set; }
+
+
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
+        public DateTime Date { get; set; }
+
+
+
+        public string Subject { get; set; }
+
+
+
+        public string Reply { get; set; }
+
+        /************OBJECT PROPERTIES****************************/
 
         public int Id { get; set; }
 
@@ -31,7 +45,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
         public int Status { get; set; }
-
 
     }
 }

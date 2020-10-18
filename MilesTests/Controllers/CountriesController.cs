@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+
     public class CountriesController : Controller
     {
         private readonly ICountryRepository _countryRepository;

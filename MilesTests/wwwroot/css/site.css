@@ -1,0 +1,14 @@
+﻿
+.hidden{
+    display: none;
+}
+
+.content-wrapper{
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.main-footer{
+    position: relative;
+}
