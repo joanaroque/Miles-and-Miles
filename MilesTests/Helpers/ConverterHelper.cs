@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Models.SuperUser;
@@ -182,6 +182,78 @@ namespace MilesBackOffice.Web.Helpers
                 Type = PremiumType.Ticket,
                 Status = 1
             };
+        }
+
+
+        public PremiumOffer ToPremiumUpgrade(CreateUpgradeViewModel model)
+        {
+            return new PremiumOffer
+            {
+                Flight = model.FlightId.ToString(),
+                Title = model.Title,
+                Quantity = model.Quantity,
+                Price = model.Price,
+                Type = PremiumType.Upgrade,
+                Status = 1
+            };
+        }
+
+
+        public PremiumOffer ToPremiumVoucher(CreateVoucherViewModel model)
+        {
+            return new PremiumOffer
+            {
+                Title = model.Title,
+                Quantity = model.Quantity,
+                Price = model.Price,
+                Type = PremiumType.Voucher,
+                Conditions = model.Conditions,
+                Status = 1
+            };
+        }
+
+
+        public async Task UpdateOfferAsync(PremiumOffer current, PremiumOffer edit)
+        {
+            await Task.Run(() =>
+            {
+                current.Flight = string.IsNullOrEmpty(edit.Flight) ? string.Empty : edit.Flight;
+                current.Conditions = string.IsNullOrEmpty(edit.Conditions) ? string.Empty : edit.Conditions;
+                current.Partner = edit.Partner;
+                current.Quantity = edit.Quantity;
+                current.Price = edit.Price;
+                current.Status = 1;
+            });
+            
+        }
+
+
+        public Partner ToPartnerModel(CreatePartnerViewModel model)
+        {
+            return new Partner
+            {
+                CompanyName = model.Name,
+                Address = model.Address,
+                Url = model.Url,
+                Designation = model.Designation,
+                Description = model.Description,
+                Status = 1
+            };
+        }
+
+
+        public async Task UpdatePartnerAsync(Partner current, Partner edit)
+        {
+            await Task.Run(() =>
+            {
+                current.CompanyName = edit.CompanyName;
+                current.Address = edit.Address;
+                current.Description = edit.Description;
+                current.Designation = edit.Designation;
+                current.Logo = edit.Logo;
+                current.Url = edit.Url;
+                current.Status = 1;
+            });
         }
     }
 }

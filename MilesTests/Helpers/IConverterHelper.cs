@@ -1,7 +1,7 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
     using System;
-
+    using System.Threading.Tasks;
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -31,6 +31,23 @@
 
 
         TierChangeViewModel ToTierChangeViewModel(TierChange tierChange);
+
+
         PremiumOffer ToPremiumTicket(CreateTicketViewModel model);
+
+
+        PremiumOffer ToPremiumUpgrade(CreateUpgradeViewModel model);
+
+
+        PremiumOffer ToPremiumVoucher(CreateVoucherViewModel model);
+
+
+        Task UpdateOfferAsync(PremiumOffer current, PremiumOffer edit);
+
+
+        Partner ToPartnerModel(CreatePartnerViewModel model);
+
+
+        Task UpdatePartnerAsync(Partner current, Partner edit);
     }
 }
