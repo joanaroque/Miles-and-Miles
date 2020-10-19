@@ -20,5 +20,6 @@
         /// </summary>
         /// <returns></returns>
         IEnumerable<PremiumOffer> GetAllOffers();
+        Task<Response> UpdateOfferAsync(PremiumOffer model);
     }
 }

@@ -2,36 +2,28 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Helpers;
 
-    public class PremiumRepository : GenericRepository<PremiumOffer>, IPremiumRepository
+    public class PartnerRepository : GenericRepository<Partner>, IPartnerRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _context;
 
-        public PremiumRepository(DataContext dataContext) : base(dataContext)
+        public PartnerRepository(DataContext context)
+            : base(context)
         {
-            _dataContext = dataContext;
+            _context = context;
         }
 
 
-        public IEnumerable<PremiumOffer> GetAllOffers()
-        {
-            return _dataContext.PremiumOffers.AsNoTracking();
-        }
-
-
-        public async Task<Response> CreateEntryAsync(PremiumOffer item)
+        public async Task<Response> AddPartnerAsync(Partner model)
         {
             try
             {
-                //adds entry
-                var result = await CreateAsync(item);
+                var result = await CreateAsync(model);
 
                 if (result)
                 {
@@ -42,9 +34,8 @@
                 }
                 return new Response
                 {
-                    //returns true, false if nothing was saved
                     Success = false,
-                    Message = "Your data was not saved. Please try again.\n If the problem persists contact an Administrator."
+                    Message = "The Partner was not added. Please try again.\n If the problem persists contact an Administrator."
                 };
             }
             catch (Exception ex)
@@ -58,7 +49,22 @@
         }
 
 
-        public async Task<Response> UpdateOfferAsync(PremiumOffer model)
+        public async Task<IEnumerable<SelectListItem>> GetComboPartners()
+        {
+            var list = new List<SelectListItem>();
+            await Task.Run(() =>
+            {
+                list = _context.Partners.Select(item => new SelectListItem
+                {
+                    Text = item.CompanyName,
+                    Value = item.Id.ToString()
+                }).ToList();
+            });
+            return list;
+        }
+
+
+        public async Task<Response> UpdatePartnerAsync(Partner model)
         {
             try
             {
@@ -74,7 +80,7 @@
                 return new Response
                 {
                     Success = false,
-                    Message = "The update was not saved.Please try again.\n If the problem persists contact an Administrator."
+                    Message = "Could not update the entry. Please try again.\n  If the problem persists contact an Administrator."
                 };
             }
             catch (Exception ex)
