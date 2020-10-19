@@ -36,9 +36,9 @@
                                 @Html.DisplayFor(modelItem => item.CreateDate)
                             </td>
                             <td>
-                                <a class="btn btn-info pull-right" data-value="@item.Id" id="btn_editItem"><i class="fa fa-user-edit"></i></a>
+                                <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
                                 <a class="btn btn-danger pull-right" asp-action="Delete" 
-                                   asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
+                                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
                                 <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -62,11 +62,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
-        window.addEventListener('load', function () {
+        
+        window.addEventListener('DOMContentLoaded', function () {
             byID('btn_newTicket').addEventListener('click', openPartialCreate);
             byID('btn_newUpgrade').addEventListener('click', openPartialCreate);
             byID('btn_newVoucher').addEventListener('click', openPartialCreate);
-            byID('btn_editItem').addEventListener('click', openPartial)
         });
 
     </script>

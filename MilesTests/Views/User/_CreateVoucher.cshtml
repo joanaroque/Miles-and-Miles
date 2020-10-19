@@ -4,7 +4,7 @@
 <div id="newVoucher">
     <div>
         <h2>New Premium Voucher</h2>
-        <form method="post" asp-action="CreateTicket">
+        <form method="post" asp-action="CreateVoucher">
             <div class="form-group">
                 <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" name="title" required />
@@ -17,7 +17,7 @@
             </div>
             <div>
                 <label asp-for="Conditions"></label>
-                <textarea type="text" asp-for="Conditions" name="conditions" required class="os-textarea"></textarea>
+                <textarea type="text" asp-for="Conditions" name="conditions" required class="textarea"></textarea>
                 <span asp-validation-for="Conditions"></span>
             </div>
             <div class="form-group">
