@@ -102,8 +102,8 @@
         {
             try
             {
-                //get current user
-                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                
+                //var user = await GetUserByName();
                 //if (user == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -160,7 +160,7 @@
         {
             try
             {
-                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //var user = await GetUserByName();
                 //if (user == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -205,7 +205,7 @@
         {
             try
             {
-                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //var user = await GetUserByName();
                 //if (user == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -259,7 +259,7 @@
         {
             try
             {
-                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //var currentUser = await GetUserByName();
                 //if (currentUser == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -302,8 +302,6 @@
         #endregion
 
 
-
-
         #region PartnerShips - Create / Edit / Delete
 
         public IActionResult AddNewPartner()
@@ -317,7 +315,7 @@
         {
             try
             {
-                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //var currentUser = await GetUserByName();
                 //if (currentUser == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -368,7 +366,7 @@
         {
             try
             {
-                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //var currentUser = await GetUserByName();
                 //if (currentUser == null)
                 //{
                 //    return new NotFoundViewResult("_UserNotFound");
@@ -399,5 +397,109 @@
             }
         }
         #endregion
+
+
+        #region NewsFeed - Create / Edit / Delete
+
+        [HttpGet]
+        public IActionResult PublishPost()
+        {
+            return PartialView("_PublishPost");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> PublishPost(PublishNewsViewModel model)
+        {
+            try
+            {
+                //var currentUser = await GetUserByName();
+                //if (currentUser == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
+
+                var post = _converter.ToNewsModel(model);
+                //post.CreatedBy = currentUser;
+                post.CreateDate = DateTime.UtcNow;
+
+                var result = await _newsRepository.CreatePostAsync(post);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+
+                return RedirectToAction(nameof(NewsIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditPost(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_ItemNotFound");
+            }
+            try
+            {
+                var item = await _newsRepository.GetByIdAsync(id.Value);
+                if (item == null)
+                {
+                    return new NotFoundViewResult("_ItemNotFound");
+                }
+
+                return PartialView("_EditPost", item);
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditPost(News model)
+        {
+            try
+            {
+                var currentUser = await GetUserByName();
+                if (currentUser == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                var post = await _newsRepository.GetByIdAsync(model.Id);
+
+                await _converter.UpdatePostAsync(post, model);
+                //post.ModifiedBy = currentUser;
+                post.UpdateDate = DateTime.UtcNow;
+
+                var result = await _newsRepository.UpdatePostAsync(post);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+
+                return RedirectToAction(nameof(NewsIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
+        }
+        #endregion
+
+
+
+        private async Task<User> GetUserByName()
+        {
+            return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+        }
     }
 }

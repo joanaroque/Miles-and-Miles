@@ -1,0 +1,32 @@
+﻿@model MilesBackOffice.Web.Models.User.PublishNewsViewModel
+
+<h4>Publish</h4>
+<hr />
+<div class="col">
+
+    <form asp-action="PublishPost">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Body" class="control-label"></label>
+            <textarea asp-for="Body" class="form-control" required cols="10"></textarea>
+            <span asp-validation-for="Body" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </form>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

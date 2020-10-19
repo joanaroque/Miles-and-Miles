@@ -12,3 +12,20 @@
 .main-footer{
     position: relative;
 }
+
+
+.news_cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(33%, auto));
+    grid-auto-rows: auto;
+    grid-gap: 1rem;
+}
+
+.news_card {
+    border: 2px solid #e7e7e7;
+    border-radius: 4px;
+    padding: .5rem;
+    cursor: pointer;
+}
+
+
