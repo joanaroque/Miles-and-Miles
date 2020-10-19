@@ -1,13 +1,13 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories.SuperUser
+﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
+    using MilesBackOffice.Web.Data.Entities;
+
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IAdvertisingRepository : IGenericRepository<Advertising>
     {
-        Task<List<Advertising>> GetAdvertisingToBeConfirmAsync();
+        Task<List<Advertising>> GetAllAdvertisingAsync();
 
 
 

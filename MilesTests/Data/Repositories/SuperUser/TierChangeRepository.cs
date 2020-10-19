@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories.SuperUser
+﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
+    using Microsoft.EntityFrameworkCore;
+
+    using MilesBackOffice.Web.Data.Entities;
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+
     public class TierChangeRepository : GenericRepository<TierChange>, ITierChangeRepository
     {
         private readonly DataContext _context;
@@ -28,13 +28,9 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
             return tierChange;
         }
 
-        public async Task<List<TierChange>> GetPendingTierClientListAsync()
+        public async Task<List<TierChange>> GetAllClientListAsync()
         {
-            var tierList = await _context.TierChanges
-                //.Include(t => t.CreatedBy)
-                .Where(t => t.IsConfirm == false).ToListAsync();
-
-            return tierList;
+            return await _context.TierChanges.ToListAsync();
         }
     }
 }

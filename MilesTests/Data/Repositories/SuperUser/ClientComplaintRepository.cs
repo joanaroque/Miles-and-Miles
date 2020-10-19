@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories.SuperUser
+﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
+    using Microsoft.EntityFrameworkCore;
+
+    using MilesBackOffice.Web.Data.Entities;
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+
     public class ClientComplaintRepository : GenericRepository<ClientComplaint>, IClientComplaintRepository
     {
         private readonly DataContext _context;
@@ -32,7 +32,7 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
             return await _context.ClientComplaints
-               // .Include(c => c.CreatedBy)  
+                // .Include(c => c.CreatedBy)  
                 .Where(c => c.PendingComplaint == false).ToListAsync();
         }
     }

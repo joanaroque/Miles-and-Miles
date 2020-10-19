@@ -1,8 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+
     public class Advertising : IEntity
     {
 

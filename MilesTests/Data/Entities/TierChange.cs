@@ -1,7 +1,9 @@
-﻿using System;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    
+    using System;
+
+
     public class TierChange : IEntity
     {
 

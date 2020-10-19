@@ -1,11 +1,30 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-
-namespace MilesBackOffice.Web.Models.SuperUser
+﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
-    public class AvailableSeatsViewModel : SeatsAvailable
+
+    public class AvailableSeatsViewModel
     {
 
-        //sem nada por enquanto
+        public int FlightId { get; set; }
+
+
+
+        public bool ConfirmSeatsAvailable { get; set; }
+
+
+
+        public int FlightNumber { get; set; }
+
+
+
+        public int MaximumSeats { get; set; }
+
+
+
+        public int AvailableSeats { get; set; }
+
+
+
+        public string Observations { get; set; }
 
     }
 }

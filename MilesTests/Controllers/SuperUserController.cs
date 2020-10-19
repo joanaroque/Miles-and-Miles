@@ -1,6 +1,5 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     using MilesBackOffice.Web.Data.Entities;
@@ -48,7 +47,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            var list = await _tierChangeRepository.GetPendingTierClientListAsync();
+            var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
                 list.Select(a => _converterHelper.ToTierChangeViewModel(a))
@@ -174,7 +173,7 @@
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
 
-                   
+
 
                     _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
                        $"<h1>You are very important for us.\nThank you very much.</h1>");
@@ -199,7 +198,7 @@
         [HttpGet]
         public async Task<ActionResult> AvailableSeats()
         {
-            var list = await _seatsAvailableRepository.GetSeatsToBeConfirmAsync();
+            var list = await _seatsAvailableRepository.GetAllSeatsAsync();
 
             var modelList = new List<AvailableSeatsViewModel>(
                 list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
@@ -230,6 +229,8 @@
                 }
 
                 seatsAvailable.ConfirmSeatsAvailable = true;
+                seatsAvailable.CreateDate = DateTime.Now;
+                seatsAvailable.CreatedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
 
                 await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
 
@@ -249,7 +250,7 @@
         [HttpGet]
         public async Task<ActionResult> AdvertisingAndReferences()
         {
-            var list = await _advertisingRepository.GetAdvertisingToBeConfirmAsync();
+            var list = await _advertisingRepository.GetAllAdvertisingAsync();
 
             var modelList = new List<AdvertisingViewModel>(
                 list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
@@ -280,11 +281,11 @@
                 }
 
                 advertising.PendingPublish = true;
-               
+
                 await _advertisingRepository.UpdateAsync(advertising);
 
                 advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
-                advertising.CreateDate = DateTime.Now; //todo: fazer cancel ao pe do confirm
+                advertising.CreateDate = DateTime.Now; 
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
@@ -294,5 +295,93 @@
 
             }
         }
+
+        public async Task<IActionResult> CancelPublishAdvertising(AdvertisingViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var advertising = await _advertisingRepository.GetByIdAsync(model.AdvertisingId);
+
+                    if (advertising == null)
+                    {
+                        return new NotFoundViewResult("_UserNotFound");
+
+                    }
+
+                    advertising.Status = 2;
+                    advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
+                    advertising.UpdateDate = DateTime.Now;
+
+                    return RedirectToAction(nameof(AdvertisingAndReferences));
+
+                }
+                catch (Exception)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+            }
+            return RedirectToAction(nameof(AdvertisingAndReferences));
+        }
+
+        public async Task<IActionResult> CancelTierChange(TierChangeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var tierChange = await _tierChangeRepository.GetByIdAsync(model.TierChangeId);
+
+                    if (tierChange == null)
+                    {
+                        return new NotFoundViewResult("_UserNotFound");
+
+                    }
+
+                    tierChange.Status = 2;
+                    tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString()); //******************************************************************
+                    tierChange.UpdateDate = DateTime.Now;
+
+                    return RedirectToAction(nameof(TierChange));
+
+                }
+                catch (Exception)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+            }
+            return RedirectToAction(nameof(TierChange));
+        }
+
+        public async Task<IActionResult> CancelSeatsAvailable(AvailableSeatsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var seatsAvailable = await _seatsAvailableRepository.GetByIdAsync(model.FlightId);
+
+                    if (seatsAvailable == null)
+                    {
+                        return new NotFoundViewResult("_UserNotFound");
+
+                    }
+
+                    seatsAvailable.Status = 2;
+                    seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString()); //******************************************************************
+                    seatsAvailable.UpdateDate = DateTime.Now;
+
+                    return RedirectToAction(nameof(AvailableSeats));
+
+                }
+                catch (Exception)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+            }
+            return RedirectToAction(nameof(AvailableSeats));
+        }
+
     }
 }

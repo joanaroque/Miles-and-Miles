@@ -5,79 +5,89 @@
 }
 
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <br />
-                        <h1>Advertising And References</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                            <li class="breadcrumb-item active">Advertising And References</li>
-                        </ol>
-                    </div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Advertising And References</h1>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Advertising And References</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
 
-                        <!-- /.card -->
+                    <!-- /.card -->
 
-                        <div class="card">
-           
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Content</th>
+                                        <th>End Date here?</th>
+                                        <th>Pending Confirmation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>Image</th>
-                                            <th>Title</th>
-                                            <th>Content</th>
-                                            <th>End Date here?</th>
-                                            <th>Pending Confirmation</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>aqui fica a img</td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Title)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Content)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.EndDate)
-                                                </td>
-                                                <td>
+                                            <td>aqui fica a img</td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Content)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                            </td>
+                                            <td>
+                                                @if (!item.PendingPublish)
+                                                {
                                                     <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.AdvertisingId">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                             <i class="fa fa-check fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                                    <a asp-action="CancelPublish" asp-route-id="@item.AdvertisingId">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
+
 
 
 @section Scripts {

@@ -23,11 +23,9 @@ namespace MilesBackOffice.Web.Helpers
                 Content = model.Content,
                 ImageId = imageId,
                 EndDate = model.EndDate,
-                CreatedBy = model.CreatedBy,
-                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
                 PendingPublish = model.PendingPublish,
-                Status = model.Status
+                Status = 1
             };
 
             return advertisng;
@@ -42,12 +40,7 @@ namespace MilesBackOffice.Web.Helpers
                 Content = advertising.Content,
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
-                CreatedBy = advertising.CreatedBy,
-                CreateDate = advertising.CreateDate,
-                UpdateDate = DateTime.Now,
                 PendingPublish = advertising.PendingPublish,
-                Status = advertising.Status,
-                ModifiedBy = advertising.ModifiedBy
             };
             return advertisings;
         }
@@ -56,13 +49,8 @@ namespace MilesBackOffice.Web.Helpers
         {
             var seats = new AvailableSeatsViewModel
             {
-                Id = seatsAvailable.Id,
-                CreatedBy = seatsAvailable.CreatedBy,
-                CreateDate = seatsAvailable.CreateDate,
-                UpdateDate = DateTime.Now,
+                FlightId = seatsAvailable.Id,
                 ConfirmSeatsAvailable = seatsAvailable.ConfirmSeatsAvailable,
-                Status = seatsAvailable.Status,
-                ModifiedBy = seatsAvailable.ModifiedBy,
                 MaximumSeats = seatsAvailable.MaximumSeats,
                 FlightNumber = seatsAvailable.FlightNumber,
                 AvailableSeats = seatsAvailable.AvailableSeats
@@ -75,11 +63,8 @@ namespace MilesBackOffice.Web.Helpers
             var complaint = new ClientComplaint
             {
                 Id = isNew ? 0 : model.ComplaintId,
-                CreatedBy = model.CreatedBy,
-                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
-                PendingComplaint = model.PendingComplaint,
-                Status = model.Status,
+                Status = 1,
                 Title = model.Title,
                 Email = model.Email,
                 Date = model.Date,
@@ -96,12 +81,6 @@ namespace MilesBackOffice.Web.Helpers
             var complaint = new ComplaintClientViewModel
             {
                 ComplaintId = clientComplaint.Id,
-                CreatedBy = clientComplaint.CreatedBy,
-                CreateDate = clientComplaint.CreateDate,
-                UpdateDate = DateTime.Now,
-                PendingComplaint = clientComplaint.PendingComplaint,
-                Status = clientComplaint.Status,
-                ModifiedBy = clientComplaint.ModifiedBy,
                 Title = clientComplaint.Title,
                 Email = clientComplaint.Email,
                 Date = clientComplaint.Date,
@@ -117,16 +96,13 @@ namespace MilesBackOffice.Web.Helpers
         {
             var seats = new SeatsAvailable
             {
-                Id = isNew ? 0 : model.Id,
-                CreatedBy = model.CreatedBy,
-                CreateDate = isNew ? DateTime.Now : model.CreateDate,
+                Id = isNew ? 0 : model.FlightId,
                 UpdateDate = DateTime.Now,
                 FlightNumber = model.FlightNumber,
                 MaximumSeats = model.MaximumSeats,
                 AvailableSeats = model.AvailableSeats,
                 ConfirmSeatsAvailable = model.ConfirmSeatsAvailable,
-                Status = model.Status
-
+                Status = 1
             };
 
             return seats;
@@ -136,17 +112,14 @@ namespace MilesBackOffice.Web.Helpers
         {
             var tier = new TierChange
             {
-                Id = isNew ? 0 : model.Id,
-                CreatedBy = model.CreatedBy,
-                CreateDate = isNew ? DateTime.Now : model.CreateDate,
+                Id = isNew ? 0 : model.TierChangeId,
                 UpdateDate = DateTime.Now,
                 OldTier = model.OldTier,
                 NewTier = model.NewTier,
                 NumberOfFlights = model.NumberOfFlights,
                 NumberOfMiles = model.NumberOfMiles,
                 IsConfirm = model.IsConfirm,
-                Status = model.Status
-
+                Status = 1
             };
 
             return tier;
@@ -156,16 +129,12 @@ namespace MilesBackOffice.Web.Helpers
         {
             var tierChanges = new TierChangeViewModel
             {
-                Id = tierChange.Id,
-                CreatedBy = tierChange.CreatedBy,
-                CreateDate = tierChange.CreateDate,
-                UpdateDate = DateTime.Now,
+                TierChangeId = tierChange.Id,
                 OldTier = tierChange.OldTier,
                 NewTier = tierChange.NewTier,
                 NumberOfFlights = tierChange.NumberOfFlights,
                 NumberOfMiles = tierChange.NumberOfMiles,
-                IsConfirm = tierChange.IsConfirm,
-                Status = tierChange.Status
+                IsConfirm = tierChange.IsConfirm
             };
             return tierChanges;
         }

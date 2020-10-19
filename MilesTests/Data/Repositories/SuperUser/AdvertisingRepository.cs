@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Data.Repositories.SuperUser;
-using MilesBackOffice.Web.Helpers;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories
+﻿namespace MilesBackOffice.Web.Data.Repositories
 {
+    using Microsoft.EntityFrameworkCore;
+
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories.SuperUser;
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+
     public class AdvertisingRepository : GenericRepository<Advertising>, IAdvertisingRepository
     {
         private readonly DataContext _context;
@@ -21,11 +21,10 @@ namespace MilesBackOffice.Web.Data.Repositories
 
         }
 
-        public async Task<List<Advertising>> GetAdvertisingToBeConfirmAsync()
+        public async Task<List<Advertising>> GetAllAdvertisingAsync()
         {
-            return await _context.Advertisings
-                // .Include(a => a.CreatedBy)
-                 .Where(a => a.PendingPublish == false).ToListAsync();
+            return await _context.Advertisings.ToListAsync();
+
         }
 
         public async Task<Advertising> GetByIdWithIncludesAsync(int id)

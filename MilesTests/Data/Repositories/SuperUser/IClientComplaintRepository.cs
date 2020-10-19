@@ -1,10 +1,10 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories.SuperUser
+﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
+    using MilesBackOffice.Web.Data.Entities;
+
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IClientComplaintRepository : IGenericRepository<ClientComplaint>
     {
 

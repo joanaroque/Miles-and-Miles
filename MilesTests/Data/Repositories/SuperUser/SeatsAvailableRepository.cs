@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Helpers;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Repositories.SuperUser
+﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
+
+    using Microsoft.EntityFrameworkCore;
+
+    using MilesBackOffice.Web.Data.Entities;
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+
     public class SeatsAvailableRepository : GenericRepository<SeatsAvailable>, ISeatsAvailableRepository
     {
         private readonly DataContext _context;
@@ -29,11 +30,9 @@ namespace MilesBackOffice.Web.Data.Repositories.SuperUser
             return seatsAvailable;
         }
 
-        public async Task<List<SeatsAvailable>> GetSeatsToBeConfirmAsync()
+        public async Task<List<SeatsAvailable>> GetAllSeatsAsync()
         {
-            return await _context.SeatsAvailables
-                //.Include(s => s.CreatedBy)
-                .Where(s => s.ConfirmSeatsAvailable == false).ToListAsync();
+            return await _context.SeatsAvailables.ToListAsync();
         }
     }
 }

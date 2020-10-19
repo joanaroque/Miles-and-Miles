@@ -1,7 +1,9 @@
-﻿using System;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
+    
+    using System;
+
+
     public class SeatsAvailable : IEntity
     {
 
@@ -19,8 +21,6 @@ namespace MilesBackOffice.Web.Data.Entities
         public bool ConfirmSeatsAvailable { get; set; }
 
 
-
-        /************OBJECT PROPERTIES****************************/
 
         public int Id { get; set; }
 

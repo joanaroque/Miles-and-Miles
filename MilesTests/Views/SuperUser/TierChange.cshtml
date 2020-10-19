@@ -6,99 +6,105 @@
 
 
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">    
-                    <div class="col-sm-6">
-                        <br />
-                        <h1>Tier change</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                            <li class="breadcrumb-item active">Tier change</li>
-                        </ol>
-                    </div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Tier change</h1>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Tier change</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
 
-                        <!-- /.card -->
+                    <!-- /.card -->
 
-                        <div class="card">
+                    <div class="card">
 
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <th>Old Tier</th>
+                                        <th>New Tier</th>
+                                        <th>Number Of Flights</th>
+                                        <th>Number Of Miles</th>
+                                        <th>Confirm or Cancel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>Client Name</th>
-                                            <th>Old Tier</th>
-                                            <th>New Tier</th>
-                                            <th>Number Of Flights</th>
-                                            <th>Number Of Miles</th>
-                                            <th>Pending Confirmation</th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Client.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OldTier)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NewTier)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NumberOfFlights)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NumberOfMiles)
+                                            </td>
+                                            <td>
+                                                @if (!item.IsConfirm)
+                                                {
+                                                    <a asp-action="ConfirmTierChange" asp-route-id="@item.TierChangeId">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a asp-action="CancelTierChange" asp-route-id="@item.TierChangeId">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <label class="label-success">Confirmed</label>
+                                                }
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ClientName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.OldTier)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NewTier)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NumberOfFlights)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NumberOfMiles)
-                                                </td>
-                                                <td>
-                                                    @if (!item.IsConfirm)
-                                                    {
-                                                        <a asp-action="ConfirmTierChange" asp-route-id="@item.Id">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <label class="label-success">Confirmed</label>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-                            <span>
-                                @ViewBag.Message
-                            </span>
-
-
+                                    }
+                                </tbody>
+                            </table>
                         </div>
+
+
+                        <span>
+                            @ViewBag.Message
+                        </span>
+
+
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 
 
 
