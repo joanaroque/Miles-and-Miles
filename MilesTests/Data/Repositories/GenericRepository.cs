@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
-using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 
 namespace MilesBackOffice.Web.Data.Repositories
@@ -19,10 +18,10 @@ namespace MilesBackOffice.Web.Data.Repositories
 
 
 
-        public async Task CreateAsync(T entity)
+        public async Task<bool> CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await SaveAllAsync();
+            return await SaveAllAsync();
         }
 
 
@@ -32,10 +31,10 @@ namespace MilesBackOffice.Web.Data.Repositories
         }
 
 
-        public async Task DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            await SaveAllAsync();
+            return await SaveAllAsync();
         }
 
 
@@ -60,10 +59,10 @@ namespace MilesBackOffice.Web.Data.Repositories
 
 
 
-        public async Task UpdateAsync(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await SaveAllAsync();
+            return await SaveAllAsync();
         }
     }
 }
