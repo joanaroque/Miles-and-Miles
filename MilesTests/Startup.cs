@@ -120,6 +120,8 @@ namespace MilesBackOffice.Web
             services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
             services.AddScoped<ITierChangeRepository, TierChangeRepository>();
             services.AddScoped<IPremiumRepository, PremiumRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IPartnerRepository, PartnerRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>
