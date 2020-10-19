@@ -18,9 +18,6 @@
 
 
 
-        public bool ConfirmSeatsAvailable { get; set; }
-
-
 
         public int Id { get; set; }
 

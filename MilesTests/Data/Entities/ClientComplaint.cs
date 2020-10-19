@@ -30,9 +30,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-        public bool PendingComplaint { get; set; }
-
-
 
         public int Id { get; set; }
 

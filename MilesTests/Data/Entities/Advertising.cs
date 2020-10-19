@@ -15,10 +15,6 @@
 
 
 
-        public bool PendingPublish { get; set; }
-
-
-
         [Display(Name = "Image")]
         public Guid ImageId { get; set; }
 

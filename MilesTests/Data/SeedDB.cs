@@ -105,19 +105,18 @@ namespace MilesBackOffice.Web.Data
             {
                 _context.ClientComplaints.Add(new ClientComplaint
                 {
+                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
                     Title = "help",
                     Email = "mariliaa@yopmail.com",
                     Date = DateTime.Now.AddDays(-5),
                     Subject = "bla bla bla",
-                    PendingComplaint = false,
-                    Reply = string.Empty
+                    Reply = string.Empty,
+                    Status = 1
 
                 });
 
                 await _context.SaveChangesAsync();
-
             }
-
         }
 
         private async Task AddAdvertising()
@@ -128,7 +127,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     Title = "New Promotion",
                     Content = "bla bla bla",
-                    PendingPublish = false
+                    Status = 1
                 });
 
                 await _context.SaveChangesAsync();
@@ -145,7 +144,7 @@ namespace MilesBackOffice.Web.Data
                     FlightNumber = 53454534,
                     MaximumSeats = 44444,
                     AvailableSeats = 34,
-                    ConfirmSeatsAvailable = false
+                    Status = 1
                 });
 
                 await _context.SaveChangesAsync();
@@ -163,7 +162,7 @@ namespace MilesBackOffice.Web.Data
                     NumberOfFlights = 3434,
                     NumberOfMiles = 34234,
                     Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                    IsConfirm = false
+                    Status = 1
                 });
 
                 await _context.SaveChangesAsync();

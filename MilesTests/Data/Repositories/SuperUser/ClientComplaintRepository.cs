@@ -31,9 +31,7 @@
 
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
-            return await _context.ClientComplaints
-                // .Include(c => c.CreatedBy)  
-                .Where(c => c.PendingComplaint == false).ToListAsync();
+            return await _context.ClientComplaints.ToListAsync();
         }
     }
 }

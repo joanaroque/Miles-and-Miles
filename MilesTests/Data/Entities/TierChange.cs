@@ -20,10 +20,6 @@
 
 
 
-        public bool IsConfirm { get; set; }
-
-
-
         public User Client { get; set; }
 
 

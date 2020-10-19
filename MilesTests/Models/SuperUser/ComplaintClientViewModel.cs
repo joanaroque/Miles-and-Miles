@@ -33,7 +33,7 @@
         public string Reply { get; set; }
 
 
-        [Required]
+        //[Required]
         public User Client { get; set; }
 
 

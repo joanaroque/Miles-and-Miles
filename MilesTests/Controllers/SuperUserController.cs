@@ -88,6 +88,7 @@
                 tierChange.IsConfirm = true;
                 tierChange.CreatedBy = user;
                 tierChange.CreateDate = DateTime.Now;
+                tierChange.Status = 0;
 
                 await _tierChangeRepository.UpdateAsync(tierChange);
 
@@ -152,7 +153,7 @@
             {
                 try
                 {
-                    var complaint = await _clientComplaintRepository.GetByIdAsync(model.ComplaintId);
+                    var complaint = await _clientComplaintRepository.GetByIdWithIncludesAsync(model.ComplaintId);
 
                     if (complaint == null)
                     {
@@ -170,6 +171,8 @@
                     complaint.PendingComplaint = true;
                     complaint.CreatedBy = user;
                     complaint.CreateDate = DateTime.Now;
+                    model.IsProcessed = true;
+                    complaint.Status = 0;
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
 
@@ -231,7 +234,7 @@
                 seatsAvailable.ConfirmSeatsAvailable = true;
                 seatsAvailable.CreateDate = DateTime.Now;
                 seatsAvailable.CreatedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
-
+                seatsAvailable.Status = 0;
                 await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
 
 
@@ -281,11 +284,11 @@
                 }
 
                 advertising.PendingPublish = true;
+                advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
+                advertising.CreateDate = DateTime.Now;
+                advertising.Status = 0;
 
                 await _advertisingRepository.UpdateAsync(advertising);
-
-                advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
-                advertising.CreateDate = DateTime.Now; 
 
                 return RedirectToAction(nameof(AvailableSeats));
             }
@@ -313,6 +316,9 @@
                     advertising.Status = 2;
                     advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
                     advertising.UpdateDate = DateTime.Now;
+
+                    await _advertisingRepository.UpdateAsync(advertising);
+
 
                     return RedirectToAction(nameof(AdvertisingAndReferences));
 
@@ -342,6 +348,9 @@
                     tierChange.Status = 2;
                     tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString()); //******************************************************************
                     tierChange.UpdateDate = DateTime.Now;
+                    
+                    await _tierChangeRepository.UpdateAsync(tierChange);
+
 
                     return RedirectToAction(nameof(TierChange));
 
@@ -371,6 +380,9 @@
                     seatsAvailable.Status = 2;
                     seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString()); //******************************************************************
                     seatsAvailable.UpdateDate = DateTime.Now;
+
+                    await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
+
 
                     return RedirectToAction(nameof(AvailableSeats));
 
