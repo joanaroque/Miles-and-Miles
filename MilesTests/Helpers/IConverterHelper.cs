@@ -49,5 +49,11 @@
 
 
         Task UpdatePartnerAsync(Partner current, Partner edit);
+
+
+        News ToNewsModel(PublishNewsViewModel model);
+
+
+        Task UpdatePostAsync(News current, News edit);
     }
 }

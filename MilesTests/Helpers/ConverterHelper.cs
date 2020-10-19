@@ -218,5 +218,27 @@ namespace MilesBackOffice.Web.Helpers
                 current.Status = 1;
             });
         }
+
+
+        public News ToNewsModel(PublishNewsViewModel model)
+        {
+            return new News
+            {
+                Title = model.Title,
+                Body = model.Body,
+                Status = 1
+            };
+        }
+
+        public async Task UpdatePostAsync(News current, News edit)
+        {
+            await Task.Run(() =>
+            {
+                current.Title = edit.Title;
+                current.Body = edit.Body;
+                current.Images = edit.Images;
+                current.Status = 1;
+            });
+        }
     }
 }
