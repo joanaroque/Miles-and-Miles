@@ -85,7 +85,6 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                tierChange.IsConfirm = true;
                 tierChange.CreatedBy = user;
                 tierChange.CreateDate = DateTime.Now;
                 tierChange.Status = 0;
@@ -168,7 +167,6 @@
                         return new NotFoundViewResult("_UserNotFound");
                     }
 
-                    complaint.PendingComplaint = true;
                     complaint.CreatedBy = user;
                     complaint.CreateDate = DateTime.Now;
                     model.IsProcessed = true;
@@ -231,10 +229,10 @@
                     return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
                 }
 
-                seatsAvailable.ConfirmSeatsAvailable = true;
                 seatsAvailable.CreateDate = DateTime.Now;
                 seatsAvailable.CreatedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
                 seatsAvailable.Status = 0;
+
                 await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
 
 
@@ -283,9 +281,9 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                advertising.PendingPublish = true;
                 advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
                 advertising.CreateDate = DateTime.Now;
+
                 advertising.Status = 0;
 
                 await _advertisingRepository.UpdateAsync(advertising);

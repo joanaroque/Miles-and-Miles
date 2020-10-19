@@ -24,7 +24,6 @@ namespace MilesBackOffice.Web.Helpers
                 ImageId = imageId,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
-                PendingPublish = model.PendingPublish,
                 Status = 1
             };
 
@@ -40,7 +39,6 @@ namespace MilesBackOffice.Web.Helpers
                 Content = advertising.Content,
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
-                PendingPublish = advertising.PendingPublish,
             };
             return advertisings;
         }
@@ -50,7 +48,6 @@ namespace MilesBackOffice.Web.Helpers
             var seats = new AvailableSeatsViewModel
             {
                 FlightId = seatsAvailable.Id,
-                ConfirmSeatsAvailable = seatsAvailable.ConfirmSeatsAvailable,
                 MaximumSeats = seatsAvailable.MaximumSeats,
                 FlightNumber = seatsAvailable.FlightNumber,
                 AvailableSeats = seatsAvailable.AvailableSeats
@@ -101,7 +98,6 @@ namespace MilesBackOffice.Web.Helpers
                 FlightNumber = model.FlightNumber,
                 MaximumSeats = model.MaximumSeats,
                 AvailableSeats = model.AvailableSeats,
-                ConfirmSeatsAvailable = model.ConfirmSeatsAvailable,
                 Status = 1
             };
 
@@ -118,7 +114,6 @@ namespace MilesBackOffice.Web.Helpers
                 NewTier = model.NewTier,
                 NumberOfFlights = model.NumberOfFlights,
                 NumberOfMiles = model.NumberOfMiles,
-                IsConfirm = model.IsConfirm,
                 Status = 1
             };
 
@@ -134,7 +129,6 @@ namespace MilesBackOffice.Web.Helpers
                 NewTier = tierChange.NewTier,
                 NumberOfFlights = tierChange.NumberOfFlights,
                 NumberOfMiles = tierChange.NumberOfMiles,
-                IsConfirm = tierChange.IsConfirm
             };
             return tierChanges;
         }
