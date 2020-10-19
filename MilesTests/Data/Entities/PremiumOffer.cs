@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
-    public class PremiumOffer: IEntity
+    using System;
+
+    using MilesBackOffice.Web.Enums;
+
+    public class PremiumOffer : IEntity
     {
         public string Title { get; set; }
 
@@ -28,7 +27,7 @@ namespace MilesBackOffice.Web.Data.Entities
         public string Conditions { get; set; }
 
 
-        public TypePremium Type { get; set; }
+        public PremiumType Type { get; set; }
 
 
         /************OBJECT PROPERTIES****************************/

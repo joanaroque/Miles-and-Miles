@@ -7,7 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\template\**" />
+    <Content Remove="wwwroot\template\**" />
+    <EmbeddedResource Remove="wwwroot\template\**" />
+    <None Remove="wwwroot\template\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Data\Repositories\DummyClientRepository.cs" />
+    <Compile Remove="Migrations\20201018165208_TypePremiumChanged.cs" />
+    <Compile Remove="Migrations\20201018165208_TypePremiumChanged.Designer.cs" />
+    <Compile Remove="Migrations\20201018172812_InitialDb.cs" />
+    <Compile Remove="Migrations\20201018172812_InitialDb.Designer.cs" />
+    <Compile Remove="Migrations\20201018174442_NewEntities.cs" />
+    <Compile Remove="Migrations\20201018174442_NewEntities.Designer.cs" />
   </ItemGroup>
 
 

@@ -1,0 +1,24 @@
+﻿namespace MilesBackOffice.Web.Data.Repositories.User
+{
+    using MilesBackOffice.Web.Data.Repositories;
+    using MilesBackOffice.Web.Data.Entities;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using MilesBackOffice.Web.Helpers;
+
+    public interface IPremiumRepository : IGenericRepository<PremiumOffer>
+    {
+        /// <summary>
+        /// Creates a new entry in DataContext and saves the tracked modification
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>A Response with the success of the operation, otherwise throws an error</returns>
+        Task<Response> CreateEntryAsync(PremiumOffer item);
+
+        /// <summary>
+        /// Gets all entries in DataContext
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<PremiumOffer> GetAllOffers();
+    }
+}

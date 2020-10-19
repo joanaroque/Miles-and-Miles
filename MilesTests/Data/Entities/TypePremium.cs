@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Data.Entities
+﻿namespace MilesBackOffice.Web.Data.Entities
 {
-    public class TypePremium: IEntity
+    using System;
+
+    public class TypePremium : IEntity
     {
         public string Description { get; set; }
 

@@ -3,18 +3,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     using MilesBackOffice.Web.Data.Entities;
 
     public class PremiumIndexViewModel
     {
         public IEnumerable<PremiumOffer> PremiumOffers { get; set; }
-
-        public CreateTicketViewModel TicketViewModel { get; set; }
-
-        public CreateUpgradeViewModel UpgradeViewModel { get; set; }
-
-        public CreateVoucherViewModel VoucherViewModel { get; set; }
-
     }
 
     public class CreateUpgradeViewModel
@@ -25,7 +20,7 @@
         /// <summary>
         /// list of flights
         /// </summary>
-        public IEnumerable<string> Flights { get; set; }
+        public IEnumerable<SelectListItem> Flights { get; set; }
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
@@ -33,7 +28,7 @@
 
 
 
-        public IEnumerable<Partner> PartnersList { get; set; }
+        public IEnumerable<SelectListItem> PartnersList { get; set; }
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
@@ -57,7 +52,8 @@
         public string Title { get; set; }
 
 
-        public IEnumerable<Partner> PartnersList { get; set; }
+        public IEnumerable<SelectListItem> PartnersList { get; set; }
+
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
@@ -73,6 +69,7 @@
         [Range(1, double.MaxValue, ErrorMessage = "Value must be a positive number!")]
         public int Price { get; set; }
 
+
         [Required]
         public string Conditions { get; set; }
     }
@@ -85,7 +82,8 @@
         /// <summary>
         /// list of flights
         /// </summary>
-        public IEnumerable<string> Flights { get; set; }
+        public IEnumerable<SelectListItem> Flights { get; set; }
+
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
@@ -93,7 +91,8 @@
 
 
 
-        public IEnumerable<Partner> PartnersList { get; set; }
+        public IEnumerable<SelectListItem> PartnersList { get; set; }
+
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]

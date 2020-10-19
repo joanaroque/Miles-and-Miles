@@ -18,8 +18,9 @@
                     <th>Type</th>
                     <th>Quantity Available</th>
                     <th>Created On</th>
+                    <th></th>
                 </tr>
-                @*@foreach (var item in Model.PremiumOffers)
+                @foreach (var item in Model.PremiumOffers)
                     {
                         <tr>
                             <td>
@@ -34,131 +35,39 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.CreateDate)
                             </td>
+                            <td>
+                                <a class="btn btn-info pull-right" data-value="@item.Id" id="btn_editItem"><i class="fa fa-user-edit"></i></a>
+                                <a class="btn btn-danger pull-right" asp-action="Delete" 
+                                   asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
+                                <i class="fa fa-trash"></i></a>
+                            </td>
                         </tr>
-                    }*@
+                    }
             </table>
         </div>
     </div>
 </div>
 
-
 <div>
-    <button id="btn_newTicket" data-value="newTicket">Create Premium Ticket</button>
-    <button id="btn_newUpgrade" data-value="newUpgrade">Create Premium Upgrade</button>
-    <button id="btn_newVoucher" data-value="newVoucher">Create Premium Voucher</button>
+    <button id="btn_newTicket" action="CreateTicket" controller="User">Create Premium Ticket</button>
+    <button id="btn_newUpgrade" action="CreateUpgrade" controller="User">Create Premium Upgrade</button>
+    <button id="btn_newVoucher" action="CreateVoucher" controller="User">Create Premium Voucher</button>
 </div>
 
 <div id="form_container">
-    <div id="newTicket" class="hidden">
-        <div>
-            <h2>New Premium Ticket</h2>
-            <form method="post" asp-action="CreateTicket">
-                <div class="form-group">
-                    <label asp-for="TicketViewModel.Title"></label>
-                    <input type="text" asp-for="TicketViewModel.Title" />
-                    <span asp-validation-for="TicketViewModel.Title"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TicketViewModel.PartnerId"></label>
-                    <select type="text" asp-for="TicketViewModel.PartnerId"><option>Select a Partner</option></select>
-                    <span asp-validation-for="TicketViewModel.PartnerId"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TicketViewModel.FlightId"></label>
-                    <select type="text" asp-for="TicketViewModel.FlightId"><option>Select a flight</option></select>
-                    <span asp-validation-for="TicketViewModel.FlightId"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TicketViewModel.Quantity"></label>
-                    <input type="text" asp-for="TicketViewModel.Quantity" />
-                    <span asp-validation-for="TicketViewModel.Quantity"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TicketViewModel.Price"></label>
-                    <input type="text" asp-for="TicketViewModel.Price" />
-                    <span asp-validation-for="TicketViewModel.Price"></span>
-                </div>
-                <button type="submit" class="btn btn-outline-success">Create</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="newUpgrade" class="hidden">
-        <div>
-            <h2>New Premium Upgrade</h2>
-            <form method="post" asp-action="CreateTicket">
-                <div class="form-group">
-                    <label asp-for="UpgradeViewModel.Title"></label>
-                    <input type="text" asp-for="UpgradeViewModel.Title" />
-                    <span asp-validation-for="UpgradeViewModel.Title"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpgradeViewModel.PartnerId"></label>
-                    <select type="text" asp-for="UpgradeViewModel.PartnerId"><option>Select a Partner</option></select>
-                    <span asp-validation-for="UpgradeViewModel.PartnerId"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpgradeViewModel.FlightId"></label>
-                    <select type="text" asp-for="UpgradeViewModel.FlightId"><option>Select a flight</option></select>
-                    <span asp-validation-for="UpgradeViewModel.FlightId"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpgradeViewModel.Quantity"></label>
-                    <input type="text" asp-for="UpgradeViewModel.Quantity" />
-                    <span asp-validation-for="UpgradeViewModel.Quantity"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="UpgradeViewModel.Price"></label>
-                    <input type="text" asp-for="UpgradeViewModel.Price" />
-                    <span asp-validation-for="UpgradeViewModel.Price"></span>
-                </div>
-                <button type="submit" class="btn btn-outline-success">Create</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="newVoucher" class="hidden">
-        <div>
-            <h2>New Premium Voucher</h2>
-            <form method="post" asp-action="CreateTicket">
-                <div class="form-group">
-                    <label asp-for="VoucherViewModel.Title"></label>
-                    <input type="text" asp-for="VoucherViewModel.Title" />
-                    <span asp-validation-for="VoucherViewModel.Title"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VoucherViewModel.PartnerId"></label>
-                    <select type="text" asp-for="VoucherViewModel.PartnerId"><option>Select a Partner</option></select>
-                    <span asp-validation-for="VoucherViewModel.PartnerId"></span>
-                </div>
-                <div>
-                    <label asp-for="VoucherViewModel.Conditions"></label>
-                    <select type="text" asp-for="VoucherViewModel.Conditions"><option>Select a Partner</option></select>
-                    <span asp-validation-for="VoucherViewModel.Conditions"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VoucherViewModel.Quantity"></label>
-                    <input type="text" asp-for="VoucherViewModel.Quantity" />
-                    <span asp-validation-for="VoucherViewModel.Quantity"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VoucherViewModel.Price"></label>
-                    <input type="text" asp-for="VoucherViewModel.Price" />
-                    <span asp-validation-for="VoucherViewModel.Price"></span>
-                </div>
-                <button type="submit" class="btn btn-outline-success">Create</button>
-            </form>
-        </div>
-    </div>
+   
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
         window.addEventListener('load', function () {
-            byID('btn_newTicket').addEventListener('click', openMenu);
-            byID('btn_newUpgrade').addEventListener('click', openMenu);
-            byID('btn_newVoucher').addEventListener('click', openMenu);
+            byID('btn_newTicket').addEventListener('click', openPartialCreate);
+            byID('btn_newUpgrade').addEventListener('click', openPartialCreate);
+            byID('btn_newVoucher').addEventListener('click', openPartialCreate);
+            byID('btn_editItem').addEventListener('click', openPartial)
         });
+
     </script>
 }
