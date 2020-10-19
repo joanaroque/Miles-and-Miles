@@ -49,6 +49,54 @@ namespace MilesBackOffice.Web.Data
             await AddSeatsAvailable();
             await AddAdvertising();
             await AddClientComplaint();
+
+            //User FakeDB
+            await AddPartnership();
+            await AddOffers();
+        }
+
+        private async Task AddPartnership()
+        {
+            if (!_context.Partners.Any())
+            {
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "CinelAir Portugal",
+                    Address = "Lisboa",
+                    Designation = "Air Transport Company",
+                    Status = 0
+                });
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "Tap Air Portugal",
+                    Address = "Lisboa",
+                    Designation = "Air Transport Company",
+                    Status = 0
+                });
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task AddOffers()
+        {
+            if (!_context.PremiumOffers.Any())
+            {
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                _context.PremiumOffers.Add(new PremiumOffer
+                {
+                    Title = "Portugal Aerial Bridge",
+                    Flight = "F192LISOPO22112010AM",
+                    Partner = partner,
+                    Type = PremiumType.Ticket,
+                    Quantity = 10,
+                    Price = 7000,
+                    Status = 0,
+                    Conditions = "Special offer for fear of flying passengers"
+                });
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         private async Task AddClientComplaint()

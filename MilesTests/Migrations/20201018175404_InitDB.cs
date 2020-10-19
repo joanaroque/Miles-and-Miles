@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilesBackOffice.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -507,7 +507,7 @@ namespace MilesBackOffice.Web.Migrations
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     Conditions = table.Column<string>(nullable: true),
-                    TypeId = table.Column<int>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
@@ -536,12 +536,6 @@ namespace MilesBackOffice.Web.Migrations
                         name: "FK_PremiumOffers_Partners_PartnerId",
                         column: x => x.PartnerId,
                         principalTable: "Partners",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PremiumOffers_TypePremiuns_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "TypePremiuns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -675,11 +669,6 @@ namespace MilesBackOffice.Web.Migrations
                 column: "PartnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PremiumOffers_TypeId",
-                table: "PremiumOffers",
-                column: "TypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SeatsAvailables_CreatedById",
                 table: "SeatsAvailables",
                 column: "CreatedById");
@@ -751,13 +740,13 @@ namespace MilesBackOffice.Web.Migrations
                 name: "TierChanges");
 
             migrationBuilder.DropTable(
+                name: "TypePremiuns");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Partners");
-
-            migrationBuilder.DropTable(
-                name: "TypePremiuns");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -362,7 +362,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int?>("TypeId");
+                    b.Property<int>("Type");
 
                     b.Property<DateTime>("UpdateDate");
 
@@ -373,8 +373,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasIndex("ModifiedById");
 
                     b.HasIndex("PartnerId");
-
-                    b.HasIndex("TypeId");
 
                     b.ToTable("PremiumOffers");
                 });
@@ -685,10 +683,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasOne("MilesBackOffice.Web.Data.Entities.Partner", "Partner")
                         .WithMany()
                         .HasForeignKey("PartnerId");
-
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.TypePremium", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
                 });
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.SeatsAvailable", b =>
