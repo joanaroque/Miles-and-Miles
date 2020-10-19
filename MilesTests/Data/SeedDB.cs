@@ -311,7 +311,7 @@ namespace MilesBackOffice.Web.Data
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
                     Document = "20174255",
-                    IsActive = true,
+                    IsActive = false,
                     IsApproved = true
 
                 };
@@ -363,11 +363,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Admin);
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
+                await _userHelper.AddUSerToRoleAsync(user, UserType.Admin);
             }
 
             await _context.SaveChangesAsync();

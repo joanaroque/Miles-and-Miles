@@ -1,29 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Enums;
+using MilesBackOffice.Web.Helpers;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {
     public class ClientRepository : IClientRepository
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public ClientRepository(DataContext context)
+        public ClientRepository(
+            DataContext context,
+            IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
-        public IQueryable GetActiveClients()
+        public IQueryable GetActiveUsers()
         {
-            //todo ver se é cliente
             return _context.Users
                 .Where(u => u.IsActive == true);
         }
 
-        public IQueryable GetInactiveClients()
+        public IQueryable GetInactiveUsers()
         {
-            //todo ver se é cliente
             return _context.Users
                 .Where(u => u.IsActive == false);
         }

@@ -13,7 +13,7 @@
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Enums;
     using MilesBackOffice.Web.Models;
-
+    using MilesBackOffice.Web.Models.Admin;
 
     public class UserHelper : IUserHelper
     {

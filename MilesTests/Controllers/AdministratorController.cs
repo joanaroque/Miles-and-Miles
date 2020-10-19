@@ -13,6 +13,7 @@ using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
+using MilesBackOffice.Web.Models.Admin;
 
 namespace MilesBackOffice.Web.Controllers
 {
@@ -62,24 +63,66 @@ namespace MilesBackOffice.Web.Controllers
         }
 
 
-        public IActionResult InactiveClients()
+        public IActionResult InactiveUsers()
         {
-            return View(_clientRepository.GetInactiveClients());
+            return View(_clientRepository.GetInactiveUsers());
+        }
+
+        public IActionResult NewClients()
+        {
+            return View(_clientRepository.GetNewClients());
         }
 
 
-        public IActionResult ConfirmClient()
+        public async Task<IActionResult> ApproveClient(string id)
         {
-            return View();
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+            var model = new ApproveClientViewModel
+            {
+                Name = user.Name,
+                Username = user.UserName,
+                Address = user.Address,
+                //CityId = user.City.Id,
+                //CountryId = user.Country.Id,
+                PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                Email = user.Email,
+            };
+
+            return View(model);
         }
 
 
 
-        //[HttpPost]
-        //public IActionResult ConfirmClient()
-        //{
-        //    return View(_clientRepository.GetInactiveClients());
-        //}
+        [HttpPost]
+        public async Task <IActionResult> ApproveClient(ApproveClientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByIdAsync(model.Id);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                user.IsApproved = model.IsApproved;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("GetNewClients");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
 
 
         [HttpPost]
@@ -201,7 +244,7 @@ namespace MilesBackOffice.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> ListUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = _clientRepository.GetActiveUsers();
             var model = new List<UserRoleViewModel>();
 
             foreach (User user in users)

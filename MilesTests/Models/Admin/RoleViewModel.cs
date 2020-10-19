@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Models
+﻿namespace MilesBackOffice.Web.Models.Admin
 {
     public class RoleViewModel
     {
