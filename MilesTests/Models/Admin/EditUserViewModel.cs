@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.CustomValidation;
 using MilesBackOffice.Web.Enums;
 
-namespace MilesBackOffice.Web.Models
+namespace MilesBackOffice.Web.Models.Admin
 {
     public class EditUserViewModel
     {

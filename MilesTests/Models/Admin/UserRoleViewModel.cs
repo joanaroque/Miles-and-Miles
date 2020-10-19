@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesBackOffice.Web.Models
+namespace MilesBackOffice.Web.Models.Admin
 {
     public class UserRoleViewModel 
     {
