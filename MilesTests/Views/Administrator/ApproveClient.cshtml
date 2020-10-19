@@ -1,6 +1,4 @@
-﻿@model MilesBackOffice.Web.Models.Admin.EditUserViewModel
-
-
+﻿@model MilesBackOffice.Web.Models.ApproveClientViewModel
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -8,7 +6,7 @@
         <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h3 class="m-0 text-dark">Edit @Html.DisplayFor(model => model.Name)'s info</h3>
+                    <h1 class="m-0 text-dark">Approve @Html.DisplayFor(model => model.Name)'s account</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -21,7 +19,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <!-- Content Header (Page header) -->
-                        @using (Html.BeginForm("EditUser", "Administrator", FormMethod.Post, new { @autocomplete = "on" }))
+                        @using (Html.BeginForm("ApproveClient", "Administrator", FormMethod.Post, new { @autocomplete = "on" }))
                         {
                             @Html.ValidationSummary(false)
                             <div class="card-body">
@@ -29,29 +27,24 @@
                                     <div class="col-md-6">
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
-                                            <label asp-for="SelectedRole" class="control-label"></label>
-                                            <select asp-for="SelectedRole" asp-items="Model.Roles" class="form-control"></select>
-                                            <span asp-validation-for="SelectedRole" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
                                             <label asp-for="Name">Full Name</label>
-                                            <input asp-for="Name" class="form-control" />
+                                            <input asp-for="Name" class="form-control" readonly />
                                             <span asp-validation-for="Name" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="Username">Username</label>
-                                            <input asp-for="Username" class="form-control" />
+                                            <input asp-for="Username" class="form-control" readonly />
                                             <span asp-validation-for="Username" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="Address">Address</label>
-                                            <input asp-for="Address" class="form-control" />
+                                            <input asp-for="Address" class="form-control" readonly />
                                             <span asp-validation-for="Address" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="CityId" class="control-label"></label>
-                                            <select asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
-                                            <span asp-validation-for="CityId" class="text-danger"></span>
+                                            <label asp-for="CountryId">Country</label>
+                                            <input asp-for="CountryId" class="form-control" readonly />
+                                            <span asp-validation-for="CountryId" class="text-warning"></span>
                                         </div>
                                         <br />
                                         <div class="form-group">
@@ -61,23 +54,30 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label asp-for="Email">Email Address</label>
-                                            <input asp-for="Email" class="form-control" />
+                                            <input asp-for="Email" class="form-control" readonly />
                                             <span asp-validation-for="Email" class="text-warning"></span>
                                         </div>
+                                        <dl>
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                                            </dt>
+                                            <dd>
+                                                @Html.DisplayFor(model => model.DateOfBirth)
+                                            </dd>
+                                        </dl>
                                         <div class="form-group">
-                                            <label asp-for="DateOfBirth">Date of Birth</label>
-                                            <input asp-for="DateOfBirth" class="form-control" />
-                                            <span asp-validation-for="DateOfBirth" class="text-warning"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label asp-for="CountryId" class="control-label"></label>
-                                            <select asp-for="CountryId" asp-items="Model.Countries" class="form-control"></select>
-                                            <span asp-validation-for="CountryId" class="text-danger"></span>
+                                            <label asp-for="CityId">City</label>
+                                            <input asp-for="CityId" class="form-control" readonly />
+                                            <span asp-validation-for="CityId" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="PhoneNumber">Phone Number</label>
-                                            <input asp-for="PhoneNumber" class="form-control" />
+                                            <input asp-for="PhoneNumber" class="form-control" readonly />
                                             <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="IsApproved">Is Approved?</label>
+                                            <input asp-for="IsApproved" type="checkbox" />
                                         </div>
                                     </div>
                                 </div>
@@ -147,4 +147,3 @@
         });
     </script>
 }
-

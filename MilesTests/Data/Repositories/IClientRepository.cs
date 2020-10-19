@@ -8,10 +8,10 @@ namespace MilesBackOffice.Web.Data.Repositories
         IQueryable GetNewClients();
 
 
-        IQueryable GetActiveClients();
+        IQueryable GetActiveUsers();
 
 
-        IQueryable GetInactiveClients();
+        IQueryable GetInactiveUsers();
 
     }
 }
