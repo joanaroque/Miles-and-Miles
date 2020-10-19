@@ -1,0 +1,43 @@
+﻿@model MilesBackOffice.Web.Models.User.CreatePartnerViewModel
+
+
+<div id="newPartner">
+    <h2>Premium Ticket</h2>
+    <div class="row">
+        <form action="CreatePartner" method="post" class="form-group">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text" required/>
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" type="text" required/>
+                <span asp-validation-for="Address"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Url"></label>
+                <input asp-for="Url" type="text" required/>
+                <span asp-validation-for="Url"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Designation"></label>
+                <input asp-for="Designation" type="text" required/>
+                <span asp-validation-for="Designation"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LogoImage"></label>
+                <input asp-for="LogoImage" type="file" />
+                <span asp-validation-for="LogoImage"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" type="text" required/>
+                <span asp-validation-for="Description"></span>
+            </div>
+            <div>
+                <button type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+</div>

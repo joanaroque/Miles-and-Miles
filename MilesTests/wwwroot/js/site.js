@@ -10,24 +10,55 @@
  * */
 function openPartial() {
     const id = event.currentTarget.getAttribute("data-value");
+    const action = event.currentTarget.getAttribute("action");
 
-    $('#form_container').load('/User/Edit?id='+id);
+    $('#form_container').load(getPath(document.location.pathname)+ '/' + action + '?id=' + id);
 }
+
+
 
 
 /**
  * Calls an action with the given parameters
  * The action called is retrieved from the html identifiers:
  * 
- * controller
  * action
  * */
 function openPartialCreate() {
     const action = event.currentTarget.getAttribute("action");
-    const controller = event.currentTarget.getAttribute("controller");
-
-    $('#form_container').load('/'+controller+'/'+action);
+    
+    $('#form_container').load(getPath(document.location.pathname) + '/' + action);
 }
+
+
+
+/**
+ * 
+ * */
+//function DeleteItem() {
+//    const routeId = event.currentTarget.getAttribute('data-id');
+//    const routeHref = document.location.pathname;
+
+//    routeHref = routeHref.splice(routeHref.lastIndexOf('/'));
+
+
+//    $("a[id*=btnDeleteItem]").click(function () {
+        
+        
+//        $('#deleteDialog').modal("show");
+//        return false;
+//    });
+
+//    $("#btnNoDelete").click(function () {
+//        $("#deleteDialog").modal('hide');
+//        return false;
+//    });
+
+//    $("#btnYesDelete").click(function () {
+//        window.location.href = '/' + routeHref + '/Delete/' + routeId;
+//    });
+//}
+
 
 
 /**
@@ -53,4 +84,8 @@ function removeClassById(elementId, className) {
 
 function changeCss(elementId, href) {
     byID(elementId).href = href;
+}
+
+function getPath(routehref) {
+    return routehref.slice(routehref.indexOf('/'), routehref.lastIndexOf('/'));
 }
