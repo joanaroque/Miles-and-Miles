@@ -17,14 +17,20 @@
         private readonly IPremiumRepository _premiumRepository;
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converter;
+        private readonly IPartnerRepository _partnerRepository;
+        private readonly INewsRepository _newsRepository;
 
         public UserController(IPremiumRepository premiumRepository,
             IUserHelper userHelper,
-            IConverterHelper converter)
+            IConverterHelper converter,
+            IPartnerRepository partnerRepository,
+            INewsRepository newsRepository)
         {
             _premiumRepository = premiumRepository;
             _userHelper = userHelper;
             _converter = converter;
+            _partnerRepository = partnerRepository;
+            _newsRepository = newsRepository;
         }
 
         /// <summary>
@@ -34,11 +40,9 @@
         /// <returns></returns>
         public IActionResult PremiumIndex()
         {
-            var list = _premiumRepository.GetAllOffers();
-
             var model = new PremiumIndexViewModel
             {
-                PremiumOffers = list
+                PremiumOffers = _premiumRepository.GetAllOffers()
             };
 
             return View(model);
@@ -47,20 +51,30 @@
 
         public IActionResult NewsIndex()
         {
-            return View();
+            var model = new NewsViewModel
+            {
+                Newspaper = _newsRepository.GetAll()
+            };
+
+            return View(model);
         }
 
 
         public IActionResult PartnerIndex()
         {
-            return View();
+            var model = new PartnerViewModel
+            {
+                Partners = _partnerRepository.GetAll()
+            };
+
+            return View(model);
         }
 
-
-
+        #region Premium Offers - Create / Edit / Delete
+        
         /***************Create********************/
         [HttpGet]
-        public IActionResult CreateTicket()
+        public async Task<IActionResult> CreateTicket()
         {
             //tests
             var flights = new List<SelectListItem>();
@@ -69,12 +83,8 @@
                     Text = "F192LISOPO121120",
                     Value = "1"
             });
-            var partners = new List<SelectListItem>();
-            partners.Add(new SelectListItem
-            {
-                Text = "CinelAir",
-                Value = "1"
-            });
+
+            var partners = await _partnerRepository.GetComboPartners();
 
 
             var model = new CreateTicketViewModel
@@ -90,39 +100,40 @@
         [HttpPost]
         public async Task<IActionResult> CreateTicket(CreateTicketViewModel model)
         {
-            //validate fields
-            if (ModelState.IsValid)
+            try
             {
                 //get current user
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
+                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
-                //add the entry to DB
+                //converts the model into the proper class
                 var ticket = _converter.ToPremiumTicket(model);
-                ticket.CreatedBy = user;
+                //ticket.CreatedBy = user;
                 ticket.CreateDate = DateTime.UtcNow;
-                ticket.Status = 1;
 
                 var result = await _premiumRepository.CreateEntryAsync(ticket);
 
                 if (!result.Success)
                 {
+                    //TODO Error DataContext
                     return new NotFoundViewResult("_DatacontextError");
                 }
 
-                //send notification to SU ? Notification.cs
-
-
+                return RedirectToAction(nameof(PremiumIndex));
             }
-            return PartialView("_CreateTicket", model);
+            catch (Exception)
+            {
+                //TODO 500 ERROR
+                return new NotFoundViewResult("_500Error");
+            }
         }
 
 
         [HttpGet]
-        public IActionResult CreateUpgrade()
+        public async Task<IActionResult> CreateUpgrade()
         {
             //tests
             var flights = new List<SelectListItem>();
@@ -131,13 +142,8 @@
                 Text = "F192LISOPO121120",
                 Value = "1"
             });
-            var partners = new List<SelectListItem>();
-            partners.Add(new SelectListItem
-            {
-                Text = "CinelAir",
-                Value = "1"
-            });
-            
+
+            var partners = await _partnerRepository.GetComboPartners();
 
             var model = new CreateUpgradeViewModel
             {
@@ -150,27 +156,40 @@
 
 
         [HttpPost]
-        public IActionResult CreateUpgrade(CreateUpgradeViewModel model)
+        public async Task<IActionResult> CreateUpgrade(CreateUpgradeViewModel model)
         {
-            //validate fields
-            //get current user
-            //add the entry to DB
-            //send notification to SU ? Notification.cs
+            try
+            {
+                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
-            return RedirectToAction("PremiumIndex");
+                var upgrade = _converter.ToPremiumUpgrade(model);
+                //upgrade.CreatedBy = user;
+                upgrade.CreateDate = DateTime.UtcNow;
+
+                var result = await _premiumRepository.CreateEntryAsync(upgrade);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+                //send notification to SU ? Notification.cs
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
         }
 
-
-        public IActionResult CreateVoucher()
+        [HttpGet]
+        public async Task<IActionResult> CreateVoucher()
         {
-            //tests
-            var partners = new List<SelectListItem>();
-            partners.Add(new SelectListItem
-            {
-                Text = "CinelAir",
-                Value = "1"
-            });
-
+            var partners = await _partnerRepository.GetComboPartners();
 
             var model = new CreateVoucherViewModel
             {
@@ -182,14 +201,34 @@
 
 
         [HttpPost]
-        public IActionResult CreateVoucher(CreateVoucherViewModel model)
+        public async Task<IActionResult> CreateVoucher(CreateVoucherViewModel model)
         {
-            //validate fields
-            //get current user
-            //add the entry to DB
-            //send notification to SU ? Notification.cs
+            try
+            {
+                //var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
-            return RedirectToAction("PremiumIndex");
+                var voucher = _converter.ToPremiumVoucher(model);
+                //voucher.CreatedBy = user;
+                voucher.CreateDate = DateTime.UtcNow;
+
+                var result = await _premiumRepository.CreateEntryAsync(voucher);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+                //send notification to SU ? Notification.cs
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
         }
 
 
@@ -206,34 +245,50 @@
             {
                 //retrieve entry from DB
                 var item = await _premiumRepository.GetByIdAsync(id.Value);
-                //check Type of entry
-                //switch (item.Type)
-                //{
-                //    case Enums.PremiumType.Ticket:
-                //        break;
-                //    case Enums.PremiumType.Upgrade:
-                //        break;
-                //    case Enums.PremiumType.Voucher:
-                //        break;
-                //    default:
-                //        break;
-                //}
-                //get view accordingly
-
+                
                 return PartialView("_Edit", item);
             }
             catch (Exception)
             {
-                throw;
+                return new NotFoundViewResult("_500Error");
             }
         }
 
         [HttpPost]
-        public IActionResult Edit(PremiumOffer model)//what will enter here??
+        public async Task<IActionResult> Edit(PremiumOffer edit)
         {
+            try
+            {
+                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (currentUser == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
+                var current = await _premiumRepository.GetByIdAsync(edit.Id);
+                if (current == null)
+                {
+                    //TODO ITEMNOTFOUND ERROR
+                    return new NotFoundViewResult("_ItemNotFound");
+                }
 
-            return RedirectToAction("PremiumIndex");
+                await _converter.UpdateOfferAsync(current, edit);
+                //current.ModifiedBy = currentUser;
+                current.UpdateDate = DateTime.UtcNow;
+
+                var result = await _premiumRepository.UpdateOfferAsync(current);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
         }
 
 
@@ -244,5 +299,105 @@
             //delete or status 5 == deleted??
             return RedirectToAction("PremiumIndex");
         }
+        #endregion
+
+
+
+
+        #region PartnerShips - Create / Edit / Delete
+
+        public IActionResult AddNewPartner()
+        {
+            return PartialView("_AddNewPartner");
+        }
+
+        /*****************CREATE******************/
+        [HttpPost]
+        public async Task<IActionResult> AddNewPartner(CreatePartnerViewModel model)
+        {
+            try
+            {
+                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (currentUser == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
+
+                var partner = _converter.ToPartnerModel(model);
+                //partner.CreatedBy = currentUser;
+                partner.CreateDate = DateTime.UtcNow;
+
+                var result = await _partnerRepository.AddPartnerAsync(partner);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+
+                return RedirectToAction(nameof(PartnerIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
+        }
+
+
+        /*************EDIT*******************/
+        [HttpGet]
+        public async Task<IActionResult> EditPartner(int? id)
+        {
+            if (id == null)
+            {
+                //or error on id is null
+                return new NotFoundViewResult("_ItemNotFound");
+            }
+
+            var item = await _partnerRepository.GetByIdAsync(id.Value);
+            if (item == null)
+            {
+                return new NotFoundViewResult("_ItemNotFound");
+            }
+
+            return PartialView("_EditPartner", item);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditPartner(Partner edit)
+        {
+            try
+            {
+                //var currentUser = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                //if (currentUser == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
+
+                var partner = await _partnerRepository.GetByIdAsync(edit.Id);
+                if (partner == null)
+                {
+                    return new NotFoundViewResult("_ItemNotFound");
+                }
+
+                await _converter.UpdatePartnerAsync(partner, edit);
+                //partner.ModifiedBy = currentUser;
+                partner.UpdateDate = DateTime.UtcNow;
+
+                var result = await _partnerRepository.UpdatePartnerAsync(partner);
+
+                if (!result.Success)
+                {
+                    return new NotFoundViewResult("_DataContextError");
+                }
+
+                return RedirectToAction(nameof(PartnerIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_500Error");
+            }
+        }
+        #endregion
     }
 }
