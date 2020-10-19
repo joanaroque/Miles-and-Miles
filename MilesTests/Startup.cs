@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.OAuth;
+﻿using System;
+using System.Text;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,23 +14,22 @@ using Microsoft.IdentityModel.Tokens;
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Data.Repositories.SuperUser;
 using MilesBackOffice.Web.Helpers;
+using MilesBackOffice.Web.Data.Repositories.SuperUser;
+using MilesBackOffice.Web.Data.Repositories.User;
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web
 {
     public class Startup
     {
-        //private readonly IHostingEnvironment _env;
+        private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,
+            IHostingEnvironment env)
         {
             Configuration = configuration;
-            //_env = env;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -83,7 +84,7 @@ namespace MilesBackOffice.Web
                  //    options.SignInScheme = IdentityConstants.ExternalScheme;
                  //})
 
-               
+
                  .AddCookie(options =>
                  {
                      options.Cookie.Name = ".AspNet.ExternalCookie";
@@ -96,15 +97,15 @@ namespace MilesBackOffice.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                //if (_env.IsDevelopment())
-                //{
-                //    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                //}
-                //else
-                //{
-                //    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                //}
+                //cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (_env.IsDevelopment())
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+                else
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                }
             });
 
             services.AddTransient<SeedDB>();
@@ -118,7 +119,7 @@ namespace MilesBackOffice.Web
             services.AddScoped<ISeatsAvailableRepository, SeatsAvailableRepository>();
             services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
             services.AddScoped<ITierChangeRepository, TierChangeRepository>();
-            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IPremiumRepository, PremiumRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

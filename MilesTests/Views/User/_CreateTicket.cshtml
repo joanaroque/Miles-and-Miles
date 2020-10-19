@@ -1,0 +1,43 @@
+﻿@model MilesBackOffice.Web.Models.User.CreateTicketViewModel
+
+
+
+<div id="newTicket">
+    <div>
+        <h2>New Premium Ticket</h2>
+        <form method="post" asp-action="CreateTicket" id="form_ticket">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input type="text" asp-for="Title" required name="title" />
+                <span asp-validation-for="Title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PartnerId"></label>
+                <select type="text" asp-for="PartnerId" required asp-items="Model.PartnersList"><option value="">Select a Partner</option></select>
+                <span asp-validation-for="PartnerId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FlightId"></label>
+                <select type="text" asp-for="FlightId" asp-items="Model.Flights" required><option value="">Select a flight</option></select>
+                <span asp-validation-for="FlightId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity"></label>
+                <input type="number" asp-for="Quantity" required min="1" value="1"/>
+                <span asp-validation-for="Quantity"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input type="number" required asp-for="Price" min="0"/>
+                <span asp-validation-for="Price"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-success">Create</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

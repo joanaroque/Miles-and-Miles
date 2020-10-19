@@ -1,7 +1,9 @@
-﻿using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Models;
+﻿using System;
+
+using MilesBackOffice.Web.Data.Entities;
+using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Models.SuperUser;
-using System;
+using MilesBackOffice.Web.Models.User;
 
 namespace MilesBackOffice.Web.Helpers
 {
@@ -166,6 +168,20 @@ namespace MilesBackOffice.Web.Helpers
                 Status = tierChange.Status
             };
             return tierChanges;
+        }
+
+
+        public PremiumOffer ToPremiumTicket(CreateTicketViewModel model)
+        {
+            return new PremiumOffer
+            {
+                Flight = model.FlightId.ToString(),
+                Title = model.Title,
+                Quantity = model.Quantity,
+                Price = model.Price,
+                Type = PremiumType.Ticket,
+                Status = 1
+            };
         }
     }
 }

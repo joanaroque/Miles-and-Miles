@@ -5,6 +5,7 @@
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
+    using MilesBackOffice.Web.Models.User;
 
     public interface IConverterHelper
     {
@@ -30,5 +31,6 @@
 
 
         TierChangeViewModel ToTierChangeViewModel(TierChange tierChange);
+        PremiumOffer ToPremiumTicket(CreateTicketViewModel model);
     }
 }
