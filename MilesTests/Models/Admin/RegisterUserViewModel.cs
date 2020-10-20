@@ -103,5 +103,9 @@ namespace MilesBackOffice.Web.Models.Admin
 
         public bool IsActive { get; set; }
 
+
+
+        public bool IsApproved { get; set; }
+
     }
 }

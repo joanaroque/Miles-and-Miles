@@ -38,7 +38,7 @@
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, string roleName)
+        public async Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, UserType roleName)
         {
             User user = new User
             {
@@ -59,6 +59,7 @@
             {
                 return null;
             }
+
 
             User newUser = await GetUserAsync(model.Username);
             await AddUSerToRoleAsync(newUser, user.SelectedRole);
@@ -118,18 +119,12 @@
 
         public IEnumerable<SelectListItem> GetComboRoles()
         {
-            var list = _context.Roles.Select(c => new SelectListItem
+            var list = Enum.GetValues(typeof(UserType)).Cast<UserType>().Select(v => new SelectListItem
             {
-                Text = c.Name,
-                Value = c.Id.ToString()
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
 
-            }).OrderBy(l => l.Text).ToList();
-
-            list.Insert(0, new SelectListItem
-            {
-                Text = "[Select a role...]",
-                Value = "0"
-            });
 
             return list;
         }

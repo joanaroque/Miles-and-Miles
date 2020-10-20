@@ -4,11 +4,13 @@
     using System.Threading.Tasks;
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
     using MilesBackOffice.Web.Models.SuperUser;
     using MilesBackOffice.Web.Models.User;
 
     public interface IConverterHelper
     {
+
         Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew);
 
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Enums;
+using MilesBackOffice.Web.Models.Admin;
 using MilesBackOffice.Web.Models.SuperUser;
 using MilesBackOffice.Web.Models.User;
 

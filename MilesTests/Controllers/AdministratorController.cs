@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
+using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.Admin;
@@ -49,19 +50,6 @@ namespace MilesBackOffice.Web.Controllers
             _context = context;
             _clientRepository = clientRepository;
         }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            var model = new RegisterUserViewModel
-            {
-                Countries = _countryRepository.GetComboCountries(),
-                Cities = _countryRepository.GetComboCities(0),
-                Roles = _userHelper.GetComboRoles()
-            };
-            return View(model);
-        }
-
 
         public IActionResult InactiveUsers()
         {
@@ -125,6 +113,22 @@ namespace MilesBackOffice.Web.Controllers
         }
 
 
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var model = new RegisterUserViewModel
+            {
+                Countries = _countryRepository.GetComboCountries(),
+                Cities = _countryRepository.GetComboCities(0),
+                Roles = _userHelper.GetComboRoles()
+            };
+            return View(model);
+        }
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel model)
@@ -132,10 +136,12 @@ namespace MilesBackOffice.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.EmailAddress);
+
                 if (user == null)
                 {
                     try
                     {
+
                         user = new User
                         {
                             Name = model.Name,
@@ -161,9 +167,12 @@ namespace MilesBackOffice.Web.Controllers
                             return View(model);
                         }
 
-                        var roleName = await _roleManager.FindByIdAsync(user.SelectedRole.ToString());
-                        var register = await _userManager.FindByIdAsync(user.Id);
-                        await _userManager.AddToRoleAsync(register, roleName.ToString());
+                        var roleName = await _roleManager.FindByNameAsync(user.SelectedRole.ToString());
+                        var roleId = await _roleManager.FindByNameAsync(roleName.ToString());
+
+
+                        var register = await _userHelper.GetUserByIdAsync(user.Id);
+                        await _userManager.AddToRoleAsync(register, roleId.ToString()); //rolename vem null
                         ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
 
                         var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -351,8 +360,9 @@ namespace MilesBackOffice.Web.Controllers
                 user.Name = editUser.Name;
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
+                user.IsActive = editUser.IsActive;
 
-                await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
+               // await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
 
                 await _userHelper.AddUSerToRoleAsync(user, editUser.SelectedRole);
 
