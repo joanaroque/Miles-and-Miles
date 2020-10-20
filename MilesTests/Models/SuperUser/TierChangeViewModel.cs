@@ -17,7 +17,8 @@
 
 
 
-        public bool IsConfirm { get; set; }
+        public int Status { get; set; }
+
 
 
 

@@ -8,11 +8,12 @@
 
 
 
-        public bool ConfirmSeatsAvailable { get; set; }
-
-
-
         public int FlightNumber { get; set; }
+
+
+
+        public int Status { get; set; }
+
 
 
 

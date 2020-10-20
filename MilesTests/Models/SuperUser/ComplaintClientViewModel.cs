@@ -39,7 +39,8 @@
 
 
 
-        public bool IsProcessed { get; set; }
+        public int Status { get; set; }
+
 
     }
 }

@@ -42,7 +42,7 @@
                                         <th>Title</th>
                                         <th>Content</th>
                                         <th>End Date here?</th>
-                                        <th>Pending Confirmation</th>
+                                        <th>Confirm or Cancel</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,7 +60,7 @@
                                                 @Html.DisplayFor(modelItem => item.EndDate)
                                             </td>
                                             <td>
-                                                @if (!item.PendingPublish)
+                                                @if (item.Status != 0)
                                                 {
                                                     <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.AdvertisingId">
                                                         <span class="fa-stack">

@@ -22,8 +22,8 @@
 
 
 
+        public int Status { get; set; }
 
-        public bool PendingPublish { get; set; }
 
 
 

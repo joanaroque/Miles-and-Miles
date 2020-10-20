@@ -39,6 +39,8 @@ namespace MilesBackOffice.Web.Helpers
                 Content = advertising.Content,
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
+                Status = advertising.Status
+
             };
             return advertisings;
         }
@@ -50,7 +52,8 @@ namespace MilesBackOffice.Web.Helpers
                 FlightId = seatsAvailable.Id,
                 MaximumSeats = seatsAvailable.MaximumSeats,
                 FlightNumber = seatsAvailable.FlightNumber,
-                AvailableSeats = seatsAvailable.AvailableSeats
+                AvailableSeats = seatsAvailable.AvailableSeats,
+                Status = seatsAvailable.Status
             };
             return seats;
         }
@@ -82,8 +85,8 @@ namespace MilesBackOffice.Web.Helpers
                 Email = clientComplaint.Email,
                 Date = clientComplaint.Date,
                 Subject = clientComplaint.Subject,
-                Reply = clientComplaint.Reply
-
+                Reply = clientComplaint.Reply,
+                Status = clientComplaint.Status
             };
 
             return complaint;
@@ -124,11 +127,13 @@ namespace MilesBackOffice.Web.Helpers
         {
             var tierChanges = new TierChangeViewModel
             {
+                Client = tierChange.Client,
                 TierChangeId = tierChange.Id,
                 OldTier = tierChange.OldTier,
                 NewTier = tierChange.NewTier,
                 NumberOfFlights = tierChange.NumberOfFlights,
                 NumberOfMiles = tierChange.NumberOfMiles,
+                Status = tierChange.Status
             };
             return tierChanges;
         }
@@ -187,7 +192,7 @@ namespace MilesBackOffice.Web.Helpers
                 current.Price = edit.Price;
                 current.Status = 1;
             });
-            
+
         }
 
 

@@ -41,7 +41,7 @@
                                             <th>Flight number</th>
                                             <th>Number of seats</th>
                                             <th>Available seats</th>
-                                            <th>Pending Confirmation</th>
+                                            <th>Confirm or Cancel</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,7 +58,7 @@
                                                     @Html.DisplayFor(modelItem => item.AvailableSeats)
                                                 </td>
                                                 <td>
-                                                    @if (!item.ConfirmSeatsAvailable)
+                                                    @if (item.Status != 0)
                                                     {
                                                         <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.FlightId">
                                                             <span class="fa-stack">

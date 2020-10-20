@@ -23,7 +23,6 @@
         private readonly ISeatsAvailableRepository _seatsAvailableRepository;
 
         public SuperUserController(IUserHelper userHelper,
-
             IAdvertisingRepository advertisingRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
@@ -169,7 +168,6 @@
 
                     complaint.CreatedBy = user;
                     complaint.CreateDate = DateTime.Now;
-                    model.IsProcessed = true;
                     complaint.Status = 0;
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
@@ -283,7 +281,6 @@
 
                 advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
                 advertising.CreateDate = DateTime.Now;
-
                 advertising.Status = 0;
 
                 await _advertisingRepository.UpdateAsync(advertising);
@@ -310,10 +307,10 @@
                         return new NotFoundViewResult("_UserNotFound");
 
                     }
-
-                    advertising.Status = 2;
+    
                     advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
                     advertising.UpdateDate = DateTime.Now;
+                    advertising.Status = 2;
 
                     await _advertisingRepository.UpdateAsync(advertising);
 
@@ -343,10 +340,11 @@
 
                     }
 
-                    tierChange.Status = 2;
+                    
                     tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString()); //******************************************************************
                     tierChange.UpdateDate = DateTime.Now;
-                    
+                    tierChange.Status = 2;
+
                     await _tierChangeRepository.UpdateAsync(tierChange);
 
 
@@ -374,10 +372,10 @@
                         return new NotFoundViewResult("_UserNotFound");
 
                     }
-
-                    seatsAvailable.Status = 2;
+ 
                     seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString()); //******************************************************************
                     seatsAvailable.UpdateDate = DateTime.Now;
+                    seatsAvailable.Status = 2;
 
                     await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
 

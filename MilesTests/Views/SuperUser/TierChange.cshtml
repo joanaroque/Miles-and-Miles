@@ -67,18 +67,16 @@
                                                 @Html.DisplayFor(modelItem => item.NumberOfMiles)
                                             </td>
                                             <td>
-                                                @if (!item.IsConfirm)
+                                                @if (item.Status != 0)
                                                 {
                                                     <a asp-action="ConfirmTierChange" asp-route-id="@item.TierChangeId">
                                                         <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                            <i class="far fa-check-circle"></i>
                                                         </span>
                                                     </a>
                                                     <a asp-action="CancelTierChange" asp-route-id="@item.TierChangeId">
                                                         <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+                                                            <i class="fas fa-ban"></i>
                                                         </span>
                                                     </a>
                                                 }

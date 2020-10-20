@@ -127,6 +127,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     Title = "New Promotion",
                     Content = "bla bla bla",
+                    EndDate = DateTime.Now.AddMonths(12),
                     Status = 1
                 });
 
