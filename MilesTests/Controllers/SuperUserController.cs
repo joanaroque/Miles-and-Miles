@@ -159,7 +159,7 @@
 
                     }
 
-                    var user = await _userHelper.GetUserByIdAsync(complaint.Client.Id);
+                    var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
 
                     if (user == null)
                     {

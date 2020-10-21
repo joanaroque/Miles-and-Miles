@@ -22,7 +22,7 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
 
-        public string Subject { get; set; }
+        public string Body { get; set; }
 
 
 
@@ -32,10 +32,6 @@ namespace MilesBackOffice.Web.Data.Entities
 
 
         public int Id { get; set; }
-
-
-
-        public User Client { get; set; }
 
 
 

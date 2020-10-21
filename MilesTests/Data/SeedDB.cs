@@ -107,11 +107,11 @@ namespace MilesBackOffice.Web.Data
             {
                 _context.ClientComplaints.Add(new ClientComplaint
                 {
-                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
                     Title = "help",
                     Email = "mariliaa@yopmail.com",
                     Date = DateTime.Now.AddDays(-5),
-                    Subject = "bla bla bla",
+                    Body = "bla bla bla",
                     Reply = string.Empty,
                     Status = 1
 

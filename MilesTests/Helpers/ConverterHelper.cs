@@ -71,7 +71,7 @@
                 Title = model.Title,
                 Email = model.Email,
                 Date = model.Date,
-                Subject = model.Subject,
+                Body = model.Body,
                 Reply = model.Reply
 
             };
@@ -87,10 +87,10 @@
                 Title = clientComplaint.Title,
                 Email = clientComplaint.Email,
                 Date = clientComplaint.Date,
-                Subject = clientComplaint.Subject,
+                Body = clientComplaint.Body,
                 Reply = clientComplaint.Reply,
                 Status = clientComplaint.Status,
-                ClientName = clientComplaint.Client.Name
+                ClientName = clientComplaint.CreatedBy.Name
             };
 
             return complaint;

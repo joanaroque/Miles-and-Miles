@@ -24,7 +24,6 @@
         {
             var complaint = await _context.ClientComplaints
                   .Include(c => c.CreatedBy)
-                  .Include(c => c.Client)
                   .Where(c => c.Id.Equals(id)).FirstOrDefaultAsync();
 
             return complaint;
@@ -32,7 +31,7 @@
 
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
-            return await _context.ClientComplaints.Include(c => c.Client).ToListAsync();
+            return await _context.ClientComplaints.Include(c => c.CreatedBy).ToListAsync();
         }
     }
 }
