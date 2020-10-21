@@ -5,90 +5,85 @@
 }
 
 
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <br />
-                        <h1>Available Seats</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                            <li class="breadcrumb-item active">Available Seats</li>
-                        </ol>
-                    </div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Available Seats</h1>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Available Seats</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
 
-                        <!-- /.card -->
+                    <!-- /.card -->
 
-                        <div class="card">
-                           
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Flight number</th>
+                                        <th>Number of seats</th>
+                                        <th>Available seats</th>
+                                        <th>Confirm or Cancel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>Flight number</th>
-                                            <th>Number of seats</th>
-                                            <th>Available seats</th>
-                                            <th>Confirm or Cancel</th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FlightNumber)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MaximumSeats)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AvailableSeats)
+                                            </td>
+                                            <td>
+                                                @if (item.Status != 0)
+                                                {
+                                                    <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.FlightId" class="btn btn-success">
+                                                        <i class="far fa-check-circle"></i>
+                                                    </a>
+                                                    <a>-  -  - </a>
+                                                    <a asp-action="CancelSeatsAvailable" asp-route-id="@item.FlightId" class="btn btn-danger">
+                                                        <i class="fas fa-ban"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <label class="label-success">Confirmed</label>
+                                                }
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.FlightNumber)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.MaximumSeats)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.AvailableSeats)
-                                                </td>
-                                                <td>
-                                                    @if (item.Status != 0)
-                                                    {
-                                                        <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.FlightId">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a asp-action="CancelSeatsAvailable" asp-route-id="@item.FlightId">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                                <i class="fa fa-close fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <label class="label-success">Confirmed</label>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 
 
 

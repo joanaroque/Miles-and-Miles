@@ -64,7 +64,9 @@
                                             <td>
                                                 @if (item.Status != 0)
                                                 {
-                                                    <a asp-action="ComplaintReply" asp-route-id="@item.ComplaintId" class="btn btn-warning"><i class="fa fa-reply"></i></a>
+                                                    <a asp-action="ComplaintReply" asp-route-id="@item.ComplaintId" class="btn btn-warning">
+                                                <i class="fa fa-reply"></i>
+                                                    </a>
                                                 }
                                                 else
                                                 {

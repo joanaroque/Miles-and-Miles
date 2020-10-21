@@ -69,15 +69,12 @@
                                             <td>
                                                 @if (item.Status != 0)
                                                 {
-                                                    <a asp-action="ConfirmTierChange" asp-route-id="@item.TierChangeId">
-                                                        <span class="fa-stack">
+                                                    <a asp-action="ConfirmTierChange" asp-route-id="@item.TierChangeId" class="btn btn-success">
                                                             <i class="far fa-check-circle"></i>
-                                                        </span>
                                                     </a>
-                                                    <a asp-action="CancelTierChange" asp-route-id="@item.TierChangeId">
-                                                        <span class="fa-stack">
+                                                    <a>-  -  - </a>
+                                                    <a asp-action="CancelTierChange" asp-route-id="@item.TierChangeId" class="btn btn-danger">
                                                             <i class="fas fa-ban"></i>
-                                                        </span>
                                                     </a>
                                                 }
                                                 else
