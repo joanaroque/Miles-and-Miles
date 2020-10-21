@@ -26,6 +26,10 @@
 
 
 
+        public Partner Partner { get; set; }
+
+
+
         public int Id { get; set; }
 
 
@@ -46,6 +50,7 @@
 
 
         public int Status { get; set; }
+
 
     }
 }

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Enums;
-using MilesBackOffice.Web.Models.SuperUser;
-using MilesBackOffice.Web.Models.User;
-
-namespace MilesBackOffice.Web.Helpers
+﻿namespace MilesBackOffice.Web.Helpers
 {
+    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Enums;
+    using MilesBackOffice.Web.Models.SuperUser;
+    using MilesBackOffice.Web.Models.User;
+
+    using System;
+    using System.Threading.Tasks;
+
+
     public class ConverterHelper : IConverterHelper
     {
         public ConverterHelper()

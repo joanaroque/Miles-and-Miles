@@ -1,16 +1,23 @@
 ﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
 
     public class AdvertisingViewModel
     {
-
         public int AdvertisingId { get; set; }
 
 
 
         public string PartnerId { get; set; }
+
+
+
+        public IEnumerable<SelectListItem> Partners { get; set; }
+
 
 
 
