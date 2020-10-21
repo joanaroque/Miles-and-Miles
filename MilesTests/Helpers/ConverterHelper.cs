@@ -2,6 +2,7 @@
 {
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Enums;
+    using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
     using MilesBackOffice.Web.Models.User;
 
@@ -48,18 +49,18 @@
             return advertisings;
         }
 
-        public AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable)
-        {
-            var seats = new AvailableSeatsViewModel
-            {
-                FlightId = seatsAvailable.Id,
-                MaximumSeats = seatsAvailable.MaximumSeats,
-                FlightNumber = seatsAvailable.FlightNumber,
-                AvailableSeats = seatsAvailable.AvailableSeats,
-                Status = seatsAvailable.Status
-            };
-            return seats;
-        }
+        //public AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable)
+        //{
+        //    var seats = new AvailableSeatsViewModel
+        //    {
+        //        FlightId = seatsAvailable.Id,
+        //        MaximumSeats = seatsAvailable.MaximumSeats,
+        //        FlightNumber = seatsAvailable.FlightNumber,
+        //        AvailableSeats = seatsAvailable.AvailableSeats,
+        //        Status = seatsAvailable.Status
+        //    };
+        //    return seats;
+        //}
 
         public ClientComplaint ToClientComplaint(ComplaintClientViewModel model, bool isNew)
         {
@@ -96,20 +97,20 @@
             return complaint;
         }
 
-        public SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew)
-        {
-            var seats = new SeatsAvailable
-            {
-                Id = isNew ? 0 : model.FlightId,
-                UpdateDate = DateTime.Now,
-                FlightNumber = model.FlightNumber,
-                MaximumSeats = model.MaximumSeats,
-                AvailableSeats = model.AvailableSeats,
-                Status = 1
-            };
+        //public SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew)
+        //{
+        //    var seats = new SeatsAvailable
+        //    {
+        //        Id = isNew ? 0 : model.FlightId,
+        //        UpdateDate = DateTime.Now,
+        //        FlightNumber = model.FlightNumber,
+        //        MaximumSeats = model.MaximumSeats,
+        //        AvailableSeats = model.AvailableSeats,
+        //        Status = 1
+        //    };
 
-            return seats;
-        }
+        //    return seats;
+        //}
 
         public TierChange ToTierChange(TierChangeViewModel model, bool isNew)
         {

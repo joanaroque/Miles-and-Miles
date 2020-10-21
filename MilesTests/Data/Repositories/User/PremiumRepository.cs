@@ -1,14 +1,14 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.User
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Helpers;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class PremiumRepository : GenericRepository<PremiumOffer>, IPremiumRepository
     {
@@ -17,12 +17,6 @@
         public PremiumRepository(DataContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
-        }
-
-
-        public IEnumerable<PremiumOffer> GetAllOffers()
-        {
-            return _dataContext.PremiumOffers.AsNoTracking();
         }
 
 
@@ -85,6 +79,20 @@
                     Message = ex.Message
                 };
             }
+        }
+
+        public async Task<PremiumOffer> GetByIdWithIncludesAsync(int id)
+        {
+            var seatsAvailable = await _dataContext.PremiumOffers
+                  .Include(t => t.CreatedBy)
+                  .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+
+            return seatsAvailable;
+        }
+
+        public async Task<List<PremiumOffer>> GetAllOffersAsync()
+        {
+            return await _dataContext.PremiumOffers.ToListAsync();
         }
     }
 }

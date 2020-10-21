@@ -1,12 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
-    using System;
-    using System.Threading.Tasks;
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Models;
-    using MilesBackOffice.Web.Models.Admin;
     using MilesBackOffice.Web.Models.SuperUser;
     using MilesBackOffice.Web.Models.User;
+
+    using System;
+    using System.Threading.Tasks;
 
     public interface IConverterHelper
     {
@@ -23,10 +23,10 @@
         ComplaintClientViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
 
 
-        SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew);
+        //SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew);
 
 
-        AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable);
+        //AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable);
 
 
         TierChange ToTierChange(TierChangeViewModel model, bool isNew);

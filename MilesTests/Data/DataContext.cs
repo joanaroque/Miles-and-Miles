@@ -32,9 +32,6 @@ namespace MilesBackOffice.Web.Data
         public DbSet<PremiumOffer> PremiumOffers { get; set; }
 
 
-        public DbSet<SeatsAvailable> SeatsAvailables { get; set; }
-
-
         public DbSet<TierChange> TierChanges { get; set; }
 
 

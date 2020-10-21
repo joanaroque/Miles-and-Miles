@@ -15,11 +15,18 @@
         /// <returns>A Response with the success of the operation, otherwise throws an error</returns>
         Task<Response> CreateEntryAsync(PremiumOffer item);
 
+       
+        Task<Response> UpdateOfferAsync(PremiumOffer model);
+
+
+
         /// <summary>
         /// Gets all entries in DataContext
         /// </summary>
         /// <returns></returns>
-        IEnumerable<PremiumOffer> GetAllOffers();
-        Task<Response> UpdateOfferAsync(PremiumOffer model);
+        Task<List<PremiumOffer>> GetAllOffersAsync();
+
+
+        Task<PremiumOffer> GetByIdWithIncludesAsync(int id);
     }
 }

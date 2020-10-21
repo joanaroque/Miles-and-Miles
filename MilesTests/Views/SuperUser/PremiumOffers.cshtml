@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.AvailableSeatsViewModel>
+﻿@model MilesBackOffice.Web.Models.PremiumIndexViewModel
 
 @{
-    ViewData["Title"] = "AvailableSeats";
+    ViewData["Title"] = "PremiumIndex";
 }
 
 
@@ -12,12 +12,12 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <br />
-                    <h1>Available Seats</h1>
+                    <h1>Premium Offers</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                        <li class="breadcrumb-item active">Available Seats</li>
+                        <li class="breadcrumb-item active">Premium Offers</li>
                     </ol>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @*@foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>
@@ -74,7 +74,7 @@
                                                 }
                                             </td>
                                         </tr>
-                                    }
+                                    }*@
                                 </tbody>
                             </table>
                         </div>

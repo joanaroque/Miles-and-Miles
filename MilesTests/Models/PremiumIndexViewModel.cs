@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Models.User
+﻿namespace MilesBackOffice.Web.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -22,6 +22,7 @@
         /// </summary>
         public IEnumerable<SelectListItem> Flights { get; set; }
 
+
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
         public int FlightId { get; set; }
@@ -30,14 +31,18 @@
 
         public IEnumerable<SelectListItem> PartnersList { get; set; }
 
+
+
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
         public int PartnerId { get; set; }
 
 
+
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Value must be a positive number!")]
         public int Quantity { get; set; }
+
 
 
         [Required]

@@ -1,16 +1,18 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
 
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Data.Repositories.User;
     using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.User;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class UserController : Controller
     {
@@ -38,11 +40,11 @@
         /// TODO The page should include a button that loads the entire datacontext of PremiumOffers as demand of the User
         /// </summary>
         /// <returns></returns>
-        public IActionResult PremiumIndex()
+        public async Task<IActionResult> PremiumIndex()
         {
             var model = new PremiumIndexViewModel
             {
-                PremiumOffers = _premiumRepository.GetAllOffers()
+                PremiumOffers = await _premiumRepository.GetAllOffersAsync()
             };
 
             return View(model);
@@ -71,17 +73,17 @@
         }
 
         #region Premium Offers - Create / Edit / Delete
-        
+
         /***************Create********************/
         [HttpGet]
         public async Task<IActionResult> CreateTicket()
         {
             //tests
             var flights = new List<SelectListItem>();
-            flights.Add( new SelectListItem 
+            flights.Add(new SelectListItem
             {
-                    Text = "F192LISOPO121120",
-                    Value = "1"
+                Text = "F192LISOPO121120",
+                Value = "1"
             });
 
             var partners = await _partnerRepository.GetComboPartners();
@@ -102,7 +104,7 @@
         {
             try
             {
-                
+
                 //var user = await GetUserByName();
                 //if (user == null)
                 //{
@@ -245,7 +247,7 @@
             {
                 //retrieve entry from DB
                 var item = await _premiumRepository.GetByIdAsync(id.Value);
-                
+
                 return PartialView("_Edit", item);
             }
             catch (Exception)

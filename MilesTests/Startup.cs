@@ -116,7 +116,6 @@ namespace MilesBackOffice.Web
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IAdvertisingRepository, AdvertisingRepository>();
-            services.AddScoped<ISeatsAvailableRepository, SeatsAvailableRepository>();
             services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
             services.AddScoped<ITierChangeRepository, TierChangeRepository>();
             services.AddScoped<IPremiumRepository, PremiumRepository>();

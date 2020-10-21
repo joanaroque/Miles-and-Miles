@@ -42,7 +42,8 @@
                                         <th>Partner</th>
                                         <th>Title</th>
                                         <th>Content</th>
-                                        <th>End Date here?</th>
+                                        <th>End Date</th>
+                                        <th></th>
                                         <th>Confirm or Cancel</th>
                                     </tr>
                                 </thead>
@@ -62,6 +63,9 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                        <td>
+                                            <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.AdvertisingId"><i class="fa fa-list"></i> </a>
                                         </td>
                                         <td>
                                             @if (item.Status != 0)

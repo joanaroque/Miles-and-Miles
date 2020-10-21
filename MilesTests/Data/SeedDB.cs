@@ -45,7 +45,6 @@ namespace MilesBackOffice.Web.Data
             await FillUser6Async();
 
             await AddTierChanges();
-            await AddSeatsAvailable();
             await AddClientComplaint();
 
             //User FakeDB
@@ -138,21 +137,6 @@ namespace MilesBackOffice.Web.Data
             }
         }
 
-        private async Task AddSeatsAvailable()
-        {
-            if (!_context.SeatsAvailables.Any())
-            {
-                _context.SeatsAvailables.Add(new SeatsAvailable
-                {
-                    FlightNumber = 53454534,
-                    MaximumSeats = 44444,
-                    AvailableSeats = 34,
-                    Status = 1
-                });
-
-                await _context.SaveChangesAsync();
-            }
-        }
 
         public async Task AddTierChanges()
         {

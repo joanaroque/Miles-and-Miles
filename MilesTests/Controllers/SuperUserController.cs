@@ -4,7 +4,9 @@
 
     using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Data.Repositories.SuperUser;
+    using MilesBackOffice.Web.Data.Repositories.User;
     using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
 
     using System;
@@ -20,7 +22,7 @@
         private readonly IConverterHelper _converterHelper;
         private readonly ITierChangeRepository _tierChangeRepository;
         private readonly IClientComplaintRepository _clientComplaintRepository;
-        private readonly ISeatsAvailableRepository _seatsAvailableRepository;
+        private readonly IPremiumRepository _premiumRepository;
 
         public SuperUserController(IUserHelper userHelper,
             IAdvertisingRepository advertisingRepository,
@@ -28,7 +30,7 @@
             IConverterHelper converterHelper,
             ITierChangeRepository tierChangeRepository,
             IClientComplaintRepository clientComplaintRepository,
-            ISeatsAvailableRepository seatsAvailableRepository)
+            IPremiumRepository premiumRepository)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -36,7 +38,7 @@
             _converterHelper = converterHelper;
             _tierChangeRepository = tierChangeRepository;
             _clientComplaintRepository = clientComplaintRepository;
-            _seatsAvailableRepository = seatsAvailableRepository;
+            _premiumRepository = premiumRepository;
         }
 
         /// <summary>
@@ -84,8 +86,8 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                tierChange.CreatedBy = user;
-                tierChange.CreateDate = DateTime.Now;
+                tierChange.ModifiedBy = user;
+                tierChange.UpdateDate = DateTime.Now;
                 tierChange.Status = 0;
 
                 await _tierChangeRepository.UpdateAsync(tierChange);
@@ -166,13 +168,11 @@
                         return new NotFoundViewResult("_UserNotFound");
                     }
 
-                    complaint.CreatedBy = user;
-                    complaint.CreateDate = DateTime.Now;
+                    complaint.ModifiedBy = user;
+                    complaint.UpdateDate = DateTime.Now;
                     complaint.Status = 0;
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
-
-
 
                     _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
                        $"<h1>You are very important for us.\nThank you very much.</h1>");
@@ -195,15 +195,15 @@
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> AvailableSeats()
+        public async Task<ActionResult> PremiumIndex()
         {
-            var list = await _seatsAvailableRepository.GetAllSeatsAsync();
+            var list = await _premiumRepository.GetAllOffersAsync(); // todo listar so os "pendings"
 
-            var modelList = new List<AvailableSeatsViewModel>(
-                list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
-                .ToList());
+            //var modelList = new List<PremiumIndexViewModel>(
+            //    list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
+            //    .ToList());
 
-            return View(modelList);
+            return View();
         }
 
         /// <summary>
@@ -211,30 +211,28 @@
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> ConfirmAvailableSeats(int? id)
+        public async Task<IActionResult> ConfirmPremiumIndex(int? id)
         {
             if (id == null)
             {
                 return new NotFoundViewResult("_UserNotFound");
             }
-
             try
             {
-                SeatsAvailable seatsAvailable = await _seatsAvailableRepository.GetByIdWithIncludesAsync(id.Value);
+                PremiumOffer seatsAvailable = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
 
                 if (seatsAvailable == null)
                 {
                     return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
                 }
 
-                seatsAvailable.CreateDate = DateTime.Now;
-                seatsAvailable.CreatedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
+                seatsAvailable.UpdateDate = DateTime.Now;
+                seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
                 seatsAvailable.Status = 0;
 
-                await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
+                await _premiumRepository.UpdateAsync(seatsAvailable);
 
-
-                return RedirectToAction(nameof(AvailableSeats));
+                return RedirectToAction(nameof(PremiumIndex));
             }
             catch (Exception)
             {
@@ -259,6 +257,24 @@
         }
 
         /// <summary>
+        /// details from advertising content
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //public async Task<IActionResult> AdvertisingDetails(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new NotFoundViewResult("_UserNotFound");
+        //    }
+
+
+        //    //content 
+
+
+        //}
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="Id"></param>
@@ -279,13 +295,13 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                advertising.CreatedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
-                advertising.CreateDate = DateTime.Now;
+                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
+                advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 0;
 
                 await _advertisingRepository.UpdateAsync(advertising);
 
-                return RedirectToAction(nameof(AvailableSeats));
+                return RedirectToAction(nameof(AdvertisingAndReferences));
             }
             catch (Exception)
             {
@@ -307,7 +323,7 @@
                         return new NotFoundViewResult("_UserNotFound");
 
                     }
-    
+
                     advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
                     advertising.UpdateDate = DateTime.Now;
                     advertising.Status = 2;
@@ -337,16 +353,13 @@
                     if (tierChange == null)
                     {
                         return new NotFoundViewResult("_UserNotFound");
-
                     }
 
-                    
                     tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString()); //******************************************************************
                     tierChange.UpdateDate = DateTime.Now;
                     tierChange.Status = 2;
 
                     await _tierChangeRepository.UpdateAsync(tierChange);
-
 
                     return RedirectToAction(nameof(TierChange));
 
@@ -359,36 +372,36 @@
             return RedirectToAction(nameof(TierChange));
         }
 
-        public async Task<IActionResult> CancelSeatsAvailable(AvailableSeatsViewModel model)
+        public async Task<IActionResult> CancelPremiumIndex(CreateUpgradeViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var seatsAvailable = await _seatsAvailableRepository.GetByIdAsync(model.FlightId);
+                    var seatsAvailable = await _premiumRepository.GetByIdAsync(model.FlightId);
 
                     if (seatsAvailable == null)
                     {
                         return new NotFoundViewResult("_UserNotFound");
 
                     }
- 
+
                     seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString()); //******************************************************************
                     seatsAvailable.UpdateDate = DateTime.Now;
                     seatsAvailable.Status = 2;
 
-                    await _seatsAvailableRepository.UpdateAsync(seatsAvailable);
+                    await _premiumRepository.UpdateAsync(seatsAvailable);
 
 
-                    return RedirectToAction(nameof(AvailableSeats));
+                    return RedirectToAction(nameof(PremiumIndex));
 
                 }
                 catch (Exception)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_UserNotFound"); // todo mudar estes erros
                 }
             }
-            return RedirectToAction(nameof(AvailableSeats));
+            return RedirectToAction(nameof(PremiumIndex));
         }
 
     }
