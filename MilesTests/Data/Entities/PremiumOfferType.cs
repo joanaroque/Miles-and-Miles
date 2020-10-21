@@ -1,10 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Data.Entities
 {
     using System;
+    using MilesBackOffice.Web.Enums;
 
-    public class TypePremium : IEntity
+    public class PremiumOfferType : IEntity
     {
-        public string Description { get; set; }
+        public PremiumType Type { get; set; }
 
 
         /************OBJECT PROPERTIES****************************/
@@ -23,9 +24,6 @@
 
 
         public User ModifiedBy { get; set; }
-
-
-        public bool IsConfirm { get; set; }
 
 
         public int Status { get; set; }
