@@ -32,7 +32,7 @@
 
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
-            return await _context.ClientComplaints.ToListAsync();
+            return await _context.ClientComplaints.Include(c => c.Client).ToListAsync();
         }
     }
 }

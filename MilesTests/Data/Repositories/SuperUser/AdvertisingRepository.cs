@@ -23,15 +23,19 @@
 
         public async Task<List<Advertising>> GetAllAdvertisingAsync()
         {
-            return await _context.Advertisings.ToListAsync();
+            var advertising = await _context.Advertisings
+                 .Include(a => a.Partner).ToListAsync();
+
+            return advertising;
 
         }
 
         public async Task<Advertising> GetByIdWithIncludesAsync(int id)
         {
             var advertising = await _context.Advertisings
-                 .Include(t => t.CreatedBy)
-                 .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
+                 .Include(a => a.CreatedBy)
+                 .Include(a => a.Partner)
+                 .Where(a => a.Id.Equals(id)).FirstOrDefaultAsync();
 
             return advertising;
         }

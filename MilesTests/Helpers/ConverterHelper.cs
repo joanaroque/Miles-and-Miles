@@ -41,7 +41,8 @@
                 Content = advertising.Content,
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
-                Status = advertising.Status
+                Status = advertising.Status,
+                PartnerName = advertising.Partner.CompanyName
 
             };
             return advertisings;
@@ -88,7 +89,8 @@
                 Date = clientComplaint.Date,
                 Subject = clientComplaint.Subject,
                 Reply = clientComplaint.Reply,
-                Status = clientComplaint.Status
+                Status = clientComplaint.Status,
+                ClientName = clientComplaint.Client.Name
             };
 
             return complaint;
@@ -129,13 +131,13 @@
         {
             var tierChanges = new TierChangeViewModel
             {
-                Client = tierChange.Client,
                 TierChangeId = tierChange.Id,
                 OldTier = tierChange.OldTier,
                 NewTier = tierChange.NewTier,
                 NumberOfFlights = tierChange.NumberOfFlights,
                 NumberOfMiles = tierChange.NumberOfMiles,
-                Status = tierChange.Status
+                Status = tierChange.Status,
+                ClientName = tierChange.Client.Name
             };
             return tierChanges;
         }

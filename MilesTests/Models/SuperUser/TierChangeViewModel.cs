@@ -1,8 +1,5 @@
 ﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
-    using MilesBackOffice.Web.Data.Entities;
-    using System.ComponentModel.DataAnnotations;
-
     public class TierChangeViewModel
     {
 
@@ -22,7 +19,6 @@
 
 
 
-
         public int NumberOfFlights { get; set; }
 
 
@@ -31,8 +27,7 @@
 
 
 
-        [Required]
-        public User Client { get; set; }
+        public string ClientName { get; set; }
 
 
         public string Observations { get; set; }

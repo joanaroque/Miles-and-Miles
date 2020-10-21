@@ -1,10 +1,9 @@
 ﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
-    using MilesBackOffice.Web.Data.Entities;
-    using System.ComponentModel.DataAnnotations;
     using System;
+    using System.ComponentModel.DataAnnotations;
 
-    public class ComplaintClientViewModel 
+    public class ComplaintClientViewModel
     {
 
         public int ComplaintId { get; set; }
@@ -33,8 +32,8 @@
         public string Reply { get; set; }
 
 
-        //[Required]
-        public User Client { get; set; }
+
+        public string ClientName { get; set; }
 
 
 

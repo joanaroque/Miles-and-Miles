@@ -44,15 +44,17 @@ namespace MilesBackOffice.Web.Data
             await FillUser5Async();
             await FillUser6Async();
 
-            //SU tests
             await AddTierChanges();
             await AddSeatsAvailable();
-            await AddAdvertising();
             await AddClientComplaint();
 
             //User FakeDB
             await AddPartnership();
             await AddOffers();
+
+
+            //SU tests
+            await AddAdvertising();
         }
 
         private async Task AddPartnership()
@@ -128,11 +130,11 @@ namespace MilesBackOffice.Web.Data
                     Title = "New Promotion",
                     Content = "bla bla bla",
                     EndDate = DateTime.Now.AddMonths(12),
+                    Partner = _context.Partners.FirstOrDefault(),
                     Status = 1
                 });
 
                 await _context.SaveChangesAsync();
-
             }
         }
 

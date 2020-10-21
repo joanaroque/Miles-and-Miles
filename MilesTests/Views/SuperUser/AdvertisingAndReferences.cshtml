@@ -39,6 +39,7 @@
                                 <thead>
                                     <tr>
                                         <th>Image</th>
+                                        <th>Partner</th>
                                         <th>Title</th>
                                         <th>Content</th>
                                         <th>End Date here?</th>
@@ -48,39 +49,42 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>aqui fica a img</td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Title)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Content)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.EndDate)
-                                            </td>
-                                            <td>
-                                                @if (item.Status != 0)
-                                                {
-                                                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.AdvertisingId">
-                                                        <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                                                        </span>
-                                                    </a>
-                                                    <a asp-action="CancelPublish" asp-route-id="@item.AdvertisingId">
-                                                        <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-close fa-stack-1x fa-inverse"></i>
-                                                        </span>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <label class="label-success">Confirmed</label>
-                                                }
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>aqui fica a img</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PartnerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Content)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                        <td>
+                                            @if (item.Status != 0)
+                                            {
+                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.AdvertisingId">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
+                                                <a asp-action="CancelPublish" asp-route-id="@item.AdvertisingId">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-close fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <label class="label-success">Confirmed</label>
+                                            }
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
