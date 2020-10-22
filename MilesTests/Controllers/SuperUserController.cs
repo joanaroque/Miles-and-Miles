@@ -195,13 +195,13 @@
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> PremiumIndex()
+        public async Task<ActionResult> PremiumOffers()
         {
             var list = await _premiumRepository.GetAllOffersAsync(); // todo listar so os "pendings"
 
-            //var modelList = new List<PremiumIndexViewModel>(
-            //    list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
-            //    .ToList());
+            var modelList = new List<PremiumIndexViewModel>(
+                list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
+                .ToList());
 
             return View();
         }
