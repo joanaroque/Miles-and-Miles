@@ -57,14 +57,11 @@
                                             <input asp-for="Email" class="form-control" readonly />
                                             <span asp-validation-for="Email" class="text-warning"></span>
                                         </div>
-                                        <dl>
-                                            <dt>
-                                                @Html.DisplayNameFor(model => model.DateOfBirth)
-                                            </dt>
-                                            <dd>
-                                                @Html.DisplayFor(model => model.DateOfBirth)
-                                            </dd>
-                                        </dl>
+                                        <div class="form-group">
+                                            <label asp-for="DateOfBirth">Date Of Birth</label>
+                                            <input type="hidden" asp-for="DateOfBirth" class="form-control" readonly />
+                                            <span asp-validation-for="DateOfBirth" class="text-warning"></span>
+                                        </div>
                                         <div class="form-group">
                                             <label asp-for="CityId">City</label>
                                             <input asp-for="CityId" class="form-control" readonly />
