@@ -19,7 +19,7 @@
         public string Url { get; set; }
 
 
-        public byte Logo { get; set; }
+        public Guid LogoId { get; set; }
 
 
 
