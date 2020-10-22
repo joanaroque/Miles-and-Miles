@@ -21,7 +21,7 @@
         {
             var advertisng = new Advertising
             {
-                Id = isNew ? 0 : model.AdvertisingId,
+                Id = isNew ? 0 : model.Id,
                 Title = model.Title,
                 Content = model.Content,
                 ImageId = imageId,
@@ -37,7 +37,7 @@
         {
             var advertisings = new AdvertisingViewModel
             {
-                AdvertisingId = advertising.Id,
+                Id = advertising.Id,
                 Title = advertising.Title,
                 Content = advertising.Content,
                 ImageId = advertising.ImageId,
@@ -144,68 +144,43 @@
         }
 
 
-        public PremiumOffer ToPremiumTicket(CreateTicketViewModel model)
+        public PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner)
         {
             return new PremiumOffer
             {
-                Flight = model.FlightId.ToString(),
+                Id = isNew ? 0 : model.Id,
+                Flight = model.FlightId,
                 Title = model.Title,
                 Quantity = model.Quantity,
                 Price = model.Price,
-                Type = PremiumType.Ticket,
+                Partner = partner,
+                Conditions = string.IsNullOrWhiteSpace(model.Conditions)? string.Empty : model.Conditions,
+                Type = model.Type,
                 Status = 1
             };
         }
 
 
-        public PremiumOffer ToPremiumUpgrade(CreateUpgradeViewModel model)
+        public PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model)
         {
-            return new PremiumOffer
+            return new PremiumOfferViewModel
             {
-                Flight = model.FlightId.ToString(),
+                Id = model.Id,
                 Title = model.Title,
+                FlightId = string.IsNullOrEmpty(model.Flight) ? string.Empty : model.Flight,
+                Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
-                Type = PremiumType.Upgrade,
-                Status = 1
+                Type = model.Type
             };
         }
 
-
-        public PremiumOffer ToPremiumVoucher(CreateVoucherViewModel model)
-        {
-            return new PremiumOffer
-            {
-                Title = model.Title,
-                Quantity = model.Quantity,
-                Price = model.Price,
-                Type = PremiumType.Voucher,
-                Conditions = model.Conditions,
-                Status = 1
-            };
-        }
-
-
-        public async Task UpdateOfferAsync(PremiumOffer current, PremiumOffer edit)
-        {
-            await Task.Run(() =>
-            {
-                current.Flight = string.IsNullOrEmpty(edit.Flight) ? string.Empty : edit.Flight;
-                current.Conditions = string.IsNullOrEmpty(edit.Conditions) ? string.Empty : edit.Conditions;
-                current.Partner = edit.Partner;
-                current.Quantity = edit.Quantity;
-                current.Price = edit.Price;
-                current.Status = 1;
-            });
-
-        }
-
-
-        public Partner ToPartnerModel(CreatePartnerViewModel model)
+        public Partner ToPartnerModel(PartnerViewModel model, bool isNew)
         {
             return new Partner
             {
-                CompanyName = model.Name,
+                Id = isNew? 0 : model.Id,
+                CompanyName = model.CompanyName,
                 Address = model.Address,
                 Url = model.Url,
                 Designation = model.Designation,
@@ -215,40 +190,30 @@
         }
 
 
-        public async Task UpdatePartnerAsync(Partner current, Partner edit)
+        public PartnerViewModel ToPartnerViewModel(Partner model)
         {
-            await Task.Run(() =>
+            return new PartnerViewModel
             {
-                current.CompanyName = edit.CompanyName;
-                current.Address = edit.Address;
-                current.Description = edit.Description;
-                current.Designation = edit.Designation;
-                current.Logo = edit.Logo;
-                current.Url = edit.Url;
-                current.Status = 1;
-            });
-        }
-
-
-        public News ToNewsModel(PublishNewsViewModel model)
-        {
-            return new News
-            {
-                Title = model.Title,
-                Body = model.Body,
-                Status = 1
+                Id = model.Id,
+                CompanyName = model.CompanyName,
+                Address = model.Address,
+                Url = model.Url,
+                Designation = model.Designation,
+                Description = model.Description
             };
         }
 
-        public async Task UpdatePostAsync(News current, News edit)
+
+
+        public Advertising ToNewsModel(AdvertisingViewModel model)
         {
-            await Task.Run(() =>
+            return new Advertising
             {
-                current.Title = edit.Title;
-                current.Body = edit.Body;
-                current.Images = edit.Images;
-                current.Status = 1;
-            });
+                Title = model.Title,
+                Content = model.Content,
+                EndDate = model.EndDate,
+                Status = 1
+            };
         }
     }
 }

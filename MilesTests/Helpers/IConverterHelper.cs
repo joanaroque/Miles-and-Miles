@@ -35,27 +35,18 @@
         TierChangeViewModel ToTierChangeViewModel(TierChange tierChange);
 
 
-        PremiumOffer ToPremiumTicket(CreateTicketViewModel model);
+        Partner ToPartnerModel(PartnerViewModel model, bool isNew);
 
 
-        PremiumOffer ToPremiumUpgrade(CreateUpgradeViewModel model);
+        PartnerViewModel ToPartnerViewModel(Partner model);
 
 
-        PremiumOffer ToPremiumVoucher(CreateVoucherViewModel model);
+        Advertising ToNewsModel(AdvertisingViewModel model);
 
 
-        Task UpdateOfferAsync(PremiumOffer current, PremiumOffer edit);
+        PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner);
 
 
-        Partner ToPartnerModel(CreatePartnerViewModel model);
-
-
-        Task UpdatePartnerAsync(Partner current, Partner edit);
-
-
-        News ToNewsModel(PublishNewsViewModel model);
-
-
-        Task UpdatePostAsync(News current, News edit);
+        PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model);
     }
 }
