@@ -1,20 +1,15 @@
 ﻿namespace MilesBackOffice.Web.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using MilesBackOffice.Web.Enums;
 
-    public class News : IEntity
+    public class PremiumOfferType : IEntity
     {
-        public string Title { get; set; }
+        public PremiumType Type { get; set; }
 
-
-        public string Body { get; set; }
-
-        [NotMapped]
-        public List<byte> Images { get; set; }
 
         /************OBJECT PROPERTIES****************************/
+
 
         public int Id { get; set; }
 
@@ -29,9 +24,6 @@
 
 
         public User ModifiedBy { get; set; }
-
-
-        public bool IsConfirm { get; set; }
 
 
         public int Status { get; set; }

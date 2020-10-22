@@ -47,10 +47,6 @@
         public User ModifiedBy { get; set; }
 
 
-        public bool IsConfirm { get; set; }
-
-
         public int Status { get; set; }
-
     }
 }

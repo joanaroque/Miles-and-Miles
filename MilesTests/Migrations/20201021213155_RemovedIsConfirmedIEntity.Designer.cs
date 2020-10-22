@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MilesBackOffice.Web.Data;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201021213155_RemovedIsConfirmedIEntity")]
+    partial class RemovedIsConfirmedIEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,6 +262,37 @@ namespace MilesBackOffice.Web.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("Title");
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.ToTable("News");
+                });
+
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Partner", b =>
                 {
                     b.Property<int>("Id")
@@ -278,7 +311,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Designation");
 
-                    b.Property<Guid>("LogoId");
+                    b.Property<byte>("Logo");
 
                     b.Property<string>("ModifiedById");
 
@@ -338,33 +371,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.ToTable("PremiumOffers");
                 });
 
-            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.PremiumOfferType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int>("Type");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.ToTable("PremiumOfferTypes");
-                });
-
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
                 {
                     b.Property<int>("Id")
@@ -400,6 +406,33 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasIndex("ModifiedById");
 
                     b.ToTable("TierChanges");
+                });
+
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TypePremium", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ModifiedById");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.ToTable("TypePremiuns");
                 });
 
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.User", b =>
@@ -572,6 +605,17 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("ModifiedById");
                 });
 
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.News", b =>
+                {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+                });
+
             modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.Partner", b =>
                 {
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
@@ -598,8 +642,12 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("PartnerId");
                 });
 
-            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.PremiumOfferType", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
                 {
+                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -609,12 +657,8 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("ModifiedById");
                 });
 
-            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TierChange", b =>
+            modelBuilder.Entity("MilesBackOffice.Web.Data.Entities.TypePremium", b =>
                 {
-                    b.HasOne("MilesBackOffice.Web.Data.Entities.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

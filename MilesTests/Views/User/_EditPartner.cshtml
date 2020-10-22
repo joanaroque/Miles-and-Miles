@@ -1,5 +1,4 @@
-﻿@model MilesBackOffice.Web.Data.Entities.Partner
-
+﻿@model MilesBackOffice.Web.Models.User.PartnerViewModel
 <h4>Partner</h4>
 <hr />
 <div class="row">
@@ -9,17 +8,17 @@
             <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" required/>
+                <input asp-for="CompanyName" class="form-control" required type="text"/>
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" required/>
+                <input asp-for="Address" class="form-control" required type="text"/>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" required/>
+                <input asp-for="Description" class="form-control" required type="text"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,12 +28,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Url" class="control-label"></label>
-                <input asp-for="Url" class="form-control" required/>
+                <input asp-for="Url" class="form-control" required type="url"/>
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
+                <input asp-for="Logo" class="form-control" type="file"/>
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
             

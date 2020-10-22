@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.AdvertisingViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.AdvertisingViewModel>
 
 @{
     ViewData["Title"] = "AdvertisingAndReferences";
@@ -65,16 +65,16 @@
                                             @Html.DisplayFor(modelItem => item.EndDate)
                                         </td>
                                         <td>
-                                            <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.AdvertisingId"><i class="fa fa-list"></i> </a>
+                                            <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
                                         </td>
                                         <td>
                                             @if (item.Status != 0)
                                             {
-                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.AdvertisingId" class="btn btn-success">
+                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
                                                     <i class="far fa-check-circle"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="CancelPublish" asp-route-id="@item.AdvertisingId" class="btn btn-danger">
+                                                <a asp-action="CancelPublish" asp-route-id="@item.Id" class="btn btn-danger">
                                                     <i class="fas fa-ban"></i>
                                                 </a>
                                             }

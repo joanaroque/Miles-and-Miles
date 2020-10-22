@@ -1,4 +1,4 @@
-﻿@model MilesBackOffice.Web.Data.Entities.News
+﻿@model MilesBackOffice.Web.Models.AdvertisingViewModel
 
 <h4>News</h4>
 <hr />
@@ -12,9 +12,9 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Body" class="control-label"></label>
-            <textarea asp-for="Body" class="form-control" required></textarea>
-            <span asp-validation-for="Body" class="text-danger"></span>
+            <label asp-for="Content" class="control-label"></label>
+            <textarea asp-for="Content" class="form-control" required></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
         <div>
             <input type="submit" value="Save" class="btn btn-default" />

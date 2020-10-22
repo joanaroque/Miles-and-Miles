@@ -1,5 +1,8 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,10 +12,8 @@
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.User;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using MilesBackOffice.Web.Data.Repositories.SuperUser;
+    using MilesBackOffice.Web.Enums;
 
     public class UserController : Controller
     {
@@ -20,19 +21,19 @@
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converter;
         private readonly IPartnerRepository _partnerRepository;
-        private readonly INewsRepository _newsRepository;
+        private readonly IAdvertisingRepository _advertisingRepository;
 
         public UserController(IPremiumRepository premiumRepository,
             IUserHelper userHelper,
             IConverterHelper converter,
             IPartnerRepository partnerRepository,
-            INewsRepository newsRepository)
+            IAdvertisingRepository advertisingRepository)
         {
             _premiumRepository = premiumRepository;
             _userHelper = userHelper;
             _converter = converter;
             _partnerRepository = partnerRepository;
-            _newsRepository = newsRepository;
+            _advertisingRepository = advertisingRepository;
         }
 
         /// <summary>
@@ -42,34 +43,19 @@
         /// <returns></returns>
         public async Task<IActionResult> PremiumIndex()
         {
-            var model = new PremiumIndexViewModel
-            {
-                PremiumOffers = await _premiumRepository.GetAllOffersAsync()
-            };
-
-            return View(model);
+            return View(await _premiumRepository.GetAllOffersAsync());
         }
 
 
         public IActionResult NewsIndex()
         {
-            var model = new NewsViewModel
-            {
-                Newspaper = _newsRepository.GetAll()
-            };
-
-            return View(model);
+            return View(_advertisingRepository.GetAll());
         }
 
 
         public IActionResult PartnerIndex()
         {
-            var model = new PartnerViewModel
-            {
-                Partners = _partnerRepository.GetAll()
-            };
-
-            return View(model);
+            return View(_partnerRepository.GetAll());
         }
 
         #region Premium Offers - Create / Edit / Delete
@@ -79,28 +65,73 @@
         public async Task<IActionResult> CreateTicket()
         {
             //tests
-            var flights = new List<SelectListItem>();
-            flights.Add(new SelectListItem
+            var flights = new List<SelectListItem>
             {
-                Text = "F192LISOPO121120",
-                Value = "1"
-            });
+                new SelectListItem
+                {
+                    Text = "F192LISOPO121120",
+                    Value = "1"
+                }
+            };
 
             var partners = await _partnerRepository.GetComboPartners();
 
 
-            var model = new CreateTicketViewModel
+            var model = new PremiumOfferViewModel
             {
                 Flights = flights,
-                PartnersList = partners
+                PartnersList = partners,
+                Type = PremiumType.Ticket
             };
 
             return PartialView("_CreateTicket", model);
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> CreateUpgrade()
+        {
+            //tests
+            var flights = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "F192LISOPO121120",
+                    Value = "1"
+                }
+            };
+
+            var partners = await _partnerRepository.GetComboPartners();
+
+            var model = new PremiumOfferViewModel
+            {
+                Flights = flights,
+                PartnersList = partners,
+                Type = PremiumType.Upgrade
+            };
+
+            return PartialView("_CreateUpgrade", model);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> CreateVoucher()
+        {
+            var partners = await _partnerRepository.GetComboPartners();
+
+            var model = new PremiumOfferViewModel
+            {
+                PartnersList = partners,
+                Type = PremiumType.Voucher
+            };
+
+            return PartialView("_CreateVoucher", model);
+        }
+
+
         [HttpPost]
-        public async Task<IActionResult> CreateTicket(CreateTicketViewModel model)
+        public async Task<IActionResult> CreateOffer(PremiumOfferViewModel model)
         {
             try
             {
@@ -111,8 +142,14 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                //converts the model into the proper class
-                var ticket = _converter.ToPremiumTicket(model);
+                var partner = await _partnerRepository.GetByIdAsync(model.PartnerId);
+
+                if (partner == null)
+                {
+                    return new NotFoundViewResult("_PartnerNotFound");
+                }
+
+                var ticket = _converter.ToPremiumOfferModel(model, true, partner);
                 //ticket.CreatedBy = user;
                 ticket.CreateDate = DateTime.UtcNow;
 
@@ -124,111 +161,12 @@
                     return new NotFoundViewResult("_DatacontextError");
                 }
 
+                TempData["Message"] = "Offer was created with success";
                 return RedirectToAction(nameof(PremiumIndex));
             }
             catch (Exception)
             {
                 //TODO 500 ERROR
-                return new NotFoundViewResult("_500Error");
-            }
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> CreateUpgrade()
-        {
-            //tests
-            var flights = new List<SelectListItem>();
-            flights.Add(new SelectListItem
-            {
-                Text = "F192LISOPO121120",
-                Value = "1"
-            });
-
-            var partners = await _partnerRepository.GetComboPartners();
-
-            var model = new CreateUpgradeViewModel
-            {
-                Flights = flights,
-                PartnersList = partners
-            };
-
-            return PartialView("_CreateUpgrade", model);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> CreateUpgrade(CreateUpgradeViewModel model)
-        {
-            try
-            {
-                //var user = await GetUserByName();
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                var upgrade = _converter.ToPremiumUpgrade(model);
-                //upgrade.CreatedBy = user;
-                upgrade.CreateDate = DateTime.UtcNow;
-
-                var result = await _premiumRepository.CreateEntryAsync(upgrade);
-
-                if (!result.Success)
-                {
-                    return new NotFoundViewResult("_DataContextError");
-                }
-                //send notification to SU ? Notification.cs
-
-                return RedirectToAction(nameof(PremiumIndex));
-            }
-            catch (Exception)
-            {
-                return new NotFoundViewResult("_500Error");
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> CreateVoucher()
-        {
-            var partners = await _partnerRepository.GetComboPartners();
-
-            var model = new CreateVoucherViewModel
-            {
-                PartnersList = partners
-            };
-
-            return PartialView("_CreateVoucher", model);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> CreateVoucher(CreateVoucherViewModel model)
-        {
-            try
-            {
-                //var user = await GetUserByName();
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                var voucher = _converter.ToPremiumVoucher(model);
-                //voucher.CreatedBy = user;
-                voucher.CreateDate = DateTime.UtcNow;
-
-                var result = await _premiumRepository.CreateEntryAsync(voucher);
-
-                if (!result.Success)
-                {
-                    return new NotFoundViewResult("_DataContextError");
-                }
-                //send notification to SU ? Notification.cs
-
-                return RedirectToAction(nameof(PremiumIndex));
-            }
-            catch (Exception)
-            {
                 return new NotFoundViewResult("_500Error");
             }
         }
@@ -241,14 +179,21 @@
             //validate id
             if (id == null)
             {
-                return new NotFoundViewResult("_404NotFound");//TODO in case of items we could just send a message
+                return new NotFoundViewResult("_404NotFound");
+                //TODO in case of items we could just send a message
             }
             try
             {
-                //retrieve entry from DB
                 var item = await _premiumRepository.GetByIdAsync(id.Value);
 
-                return PartialView("_Edit", item);
+                if (item == null)
+                {
+                    return new NotFoundViewResult("_404NotFound");
+                }
+
+                var model = _converter.ToPremiumOfferViewModel(item);
+
+                return PartialView("_Edit", model);
             }
             catch (Exception)
             {
@@ -257,7 +202,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PremiumOffer edit)
+        public async Task<IActionResult> Edit(PremiumOfferViewModel model)
         {
             try
             {
@@ -267,14 +212,21 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                var current = await _premiumRepository.GetByIdAsync(edit.Id);
+                var current = await _premiumRepository.GetByIdAsync(model.Id);
                 if (current == null)
                 {
                     //TODO ITEMNOTFOUND ERROR
                     return new NotFoundViewResult("_ItemNotFound");
                 }
 
-                await _converter.UpdateOfferAsync(current, edit);
+                var partner = await _partnerRepository.GetByIdAsync(model.Id);
+
+                current.Flight = string.IsNullOrEmpty(model.FlightId) ? string.Empty : model.FlightId;
+                current.Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions;
+                current.Partner = partner;
+                current.Quantity = model.Quantity;
+                current.Price = model.Price;
+                current.Status = 1;
                 //current.ModifiedBy = currentUser;
                 current.UpdateDate = DateTime.UtcNow;
 
@@ -313,7 +265,7 @@
 
         /*****************CREATE******************/
         [HttpPost]
-        public async Task<IActionResult> AddNewPartner(CreatePartnerViewModel model)
+        public async Task<IActionResult> AddNewPartner(PartnerViewModel model)
         {
             try
             {
@@ -323,7 +275,7 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                var partner = _converter.ToPartnerModel(model);
+                var partner = _converter.ToPartnerModel(model, true);
                 //partner.CreatedBy = currentUser;
                 partner.CreateDate = DateTime.UtcNow;
 
@@ -349,7 +301,7 @@
         {
             if (id == null)
             {
-                //or error on id is null
+                //TODO error on id is null
                 return new NotFoundViewResult("_ItemNotFound");
             }
 
@@ -359,12 +311,14 @@
                 return new NotFoundViewResult("_ItemNotFound");
             }
 
-            return PartialView("_EditPartner", item);
+            var model = _converter.ToPartnerViewModel(item);
+
+            return PartialView("_EditPartner", model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditPartner(Partner edit)
+        public async Task<IActionResult> EditPartner(PartnerViewModel edit)
         {
             try
             {
@@ -374,17 +328,23 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                var partner = await _partnerRepository.GetByIdAsync(edit.Id);
-                if (partner == null)
+                var current = await _partnerRepository.GetByIdAsync(edit.Id);
+                if (current == null)
                 {
                     return new NotFoundViewResult("_ItemNotFound");
                 }
 
-                await _converter.UpdatePartnerAsync(partner, edit);
+                //TODO take imagefile and convert to Guid
+                current.CompanyName = edit.CompanyName;
+                current.Address = edit.Address;
+                current.Description = edit.Description;
+                current.Designation = edit.Designation;
+                current.Url = edit.Url;
+                current.Status = 1;
                 //partner.ModifiedBy = currentUser;
-                partner.UpdateDate = DateTime.UtcNow;
+                current.UpdateDate = DateTime.UtcNow;
 
-                var result = await _partnerRepository.UpdatePartnerAsync(partner);
+                var result = await _partnerRepository.UpdatePartnerAsync(current);
 
                 if (!result.Success)
                 {
@@ -411,7 +371,7 @@
 
 
         [HttpPost]
-        public async Task<IActionResult> PublishPost(PublishNewsViewModel model)
+        public async Task<IActionResult> PublishPost(AdvertisingViewModel model)
         {
             try
             {
@@ -421,11 +381,12 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                var post = _converter.ToNewsModel(model);
+                //TODO deal with the image file
+                var post = _converter.ToAdvertising(model, model.ImageId, true);
                 //post.CreatedBy = currentUser;
                 post.CreateDate = DateTime.UtcNow;
 
-                var result = await _newsRepository.CreatePostAsync(post);
+                var result = await _advertisingRepository.CreatePostAsync(post);
 
                 if (!result.Success)
                 {
@@ -449,13 +410,16 @@
             }
             try
             {
-                var item = await _newsRepository.GetByIdAsync(id.Value);
-                if (item == null)
+                var advertise = await _advertisingRepository.GetByIdAsync(id.Value);
+                if (advertise == null)
                 {
                     return new NotFoundViewResult("_ItemNotFound");
                 }
 
-                return PartialView("_EditPost", item);
+                var model = _converter.ToAdvertisingViewModel(advertise);
+
+
+                return PartialView("_EditPost", model);
             }
             catch (Exception)
             {
@@ -465,7 +429,7 @@
 
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(News model)
+        public async Task<IActionResult> EditPost(AdvertisingViewModel model)
         {
             try
             {
@@ -475,13 +439,15 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                var post = await _newsRepository.GetByIdAsync(model.Id);
+                var post = await _advertisingRepository.GetByIdAsync(model.Id);
 
-                await _converter.UpdatePostAsync(post, model);
+                
+
+
                 //post.ModifiedBy = currentUser;
                 post.UpdateDate = DateTime.UtcNow;
 
-                var result = await _newsRepository.UpdatePostAsync(post);
+                var result = await _advertisingRepository.UpdatePostAsync(post);
 
                 if (!result.Success)
                 {

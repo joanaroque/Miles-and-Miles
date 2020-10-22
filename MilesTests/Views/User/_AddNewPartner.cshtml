@@ -1,4 +1,4 @@
-﻿@model MilesBackOffice.Web.Models.User.CreatePartnerViewModel
+﻿@model MilesBackOffice.Web.Models.User.PartnerViewModel
 
 
 <div id="newPartner">
@@ -6,9 +6,9 @@
     <div class="row">
         <form action="CreatePartner" method="post" class="form-group">
             <div class="form-group">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" type="text" required/>
-                <span asp-validation-for="Name"></span>
+                <label asp-for="CompanyName"></label>
+                <input asp-for="CompanyName" type="text" required/>
+                <span asp-validation-for="CompanyName"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address"></label>
@@ -26,9 +26,9 @@
                 <span asp-validation-for="Designation"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LogoImage"></label>
-                <input asp-for="LogoImage" type="file" />
-                <span asp-validation-for="LogoImage"></span>
+                <label asp-for="Logo"></label>
+                <input asp-for="Logo" type="file" />
+                <span asp-validation-for="Logo"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>

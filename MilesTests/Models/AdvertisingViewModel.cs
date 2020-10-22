@@ -1,17 +1,16 @@
-﻿namespace MilesBackOffice.Web.Models.SuperUser
-{
+﻿namespace MilesBackOffice.Web.Models
+{ 
     using System;
     using System.ComponentModel.DataAnnotations;
 
 
     public class AdvertisingViewModel
     {
-        public int AdvertisingId { get; set; }
+        public int Id { get; set; }
 
 
 
         public string PartnerName { get; set; }
-
 
 
 

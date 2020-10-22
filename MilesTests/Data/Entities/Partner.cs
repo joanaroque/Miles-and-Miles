@@ -15,10 +15,11 @@
 
         public string Designation { get; set; }
 
+
         public string Url { get; set; }
 
 
-        public byte Logo { get; set; }
+        public Guid LogoId { get; set; }
 
 
 
@@ -40,10 +41,6 @@
         public User ModifiedBy { get; set; }
 
 
-        public bool IsConfirm { get; set; }
-
-
         public int Status { get; set; }
-
     }
 }

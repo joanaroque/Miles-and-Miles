@@ -23,9 +23,7 @@ namespace MilesBackOffice.Web.Data
         public DbSet<ClientComplaint> ClientComplaints { get; set; }
 
 
-        public DbSet<News> News { get; set; }
-
-
+        
         public DbSet<Partner> Partners { get; set; }
 
 
@@ -35,7 +33,7 @@ namespace MilesBackOffice.Web.Data
         public DbSet<TierChange> TierChanges { get; set; }
 
 
-        public DbSet<TypePremium> TypePremiuns { get; set; }
+        public DbSet<PremiumOfferType> PremiumOfferTypes { get; set; }
 
 
 

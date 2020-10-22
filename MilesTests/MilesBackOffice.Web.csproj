@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20201018172812_InitialDb.Designer.cs" />
     <Compile Remove="Migrations\20201018174442_NewEntities.cs" />
     <Compile Remove="Migrations\20201018174442_NewEntities.Designer.cs" />
+    <Compile Remove="Migrations\20201021234707_RemovedNews.cs" />
+    <Compile Remove="Migrations\20201021234707_RemovedNews.Designer.cs" />
   </ItemGroup>
 
 

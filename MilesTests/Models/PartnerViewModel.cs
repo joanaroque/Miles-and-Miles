@@ -1,24 +1,17 @@
 ﻿namespace MilesBackOffice.Web.Models.User
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using MilesBackOffice.Web.Data.Entities;
+    using Microsoft.AspNetCore.Http;
 
     public class PartnerViewModel
     {
-        public IEnumerable<Partner> Partners { get; set; }
+        public int Id { get; set; }
 
 
-        public CreatePartnerViewModel CreatePartnerViewModel { get; set; }
-
-    }
-
-    public class CreatePartnerViewModel
-    {
         [Required]
         [Display(Name = "Company Name")]
-        public string Name { get; set; }
+        public string CompanyName { get; set; }
 
 
         [Required]
@@ -40,8 +33,8 @@
         public string Designation { get; set; }
 
 
-        [Required]
-        public string LogoImage { get; set; }
+
+        public IFormFile Logo { get; set; }
 
 
         [Required]

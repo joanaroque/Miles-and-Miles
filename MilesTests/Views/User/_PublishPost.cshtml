@@ -1,8 +1,8 @@
-﻿@model MilesBackOffice.Web.Models.User.PublishNewsViewModel
+﻿@model MilesBackOffice.Web.Models.AdvertisingViewModel
 
 <h4>Publish</h4>
 <hr />
-<div class="col">
+<div class="col-12">
 
     <form asp-action="PublishPost">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -14,9 +14,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Body" class="control-label"></label>
-            <textarea asp-for="Body" class="form-control" required cols="10"></textarea>
-            <span asp-validation-for="Body" class="text-danger"></span>
+            <label asp-for="Content" class="control-label"></label>
+            <textarea asp-for="Content" class="form-control" required cols="10"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
 
         <div class="form-group">

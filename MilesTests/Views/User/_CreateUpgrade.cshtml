@@ -1,10 +1,11 @@
-﻿@model MilesBackOffice.Web.Models.CreateUpgradeViewModel
+﻿@model MilesBackOffice.Web.Models.PremiumOfferViewModel
 
 
 <div id="newUpgrade">
     <div>
-        <h2>New Premium Upgrade</h2>
-        <form method="post" asp-action="CreateUpgrade">
+        <div><h2>New Premium Upgrade</h2></div>
+        <form method="post" asp-action="CreateOffer">
+            <input type="hidden" asp-for="Type" />
             <div class="form-group">
                 <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" required />
@@ -22,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Quantity"></label>
-                <input type="number" asp-for="Quantity" required min="1" value="1"/>
+                <input type="number" asp-for="Quantity" required min="1" value="1" />
                 <span asp-validation-for="Quantity"></span>
             </div>
             <div class="form-group">
