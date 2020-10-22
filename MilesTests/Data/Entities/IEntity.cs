@@ -25,7 +25,8 @@
         /// 1 - Waiting approval by a SU
         /// 2 - Returned by a SU for editing
         /// 3 - To be deleted
-        /// 4 - Someother state
+        /// 4 - Sent to admin
+        /// 5 - 
         /// </summary>
         int Status { get; set; }
     }

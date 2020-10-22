@@ -101,7 +101,7 @@ namespace MilesBackOffice.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("GetNewClients");
+                    return RedirectToAction("NewClients");
                 }
 
                 foreach (var error in result.Errors)
