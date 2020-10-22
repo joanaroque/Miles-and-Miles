@@ -203,7 +203,7 @@
             //    list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
             //    .ToList());
 
-            return View();
+            return View(list);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@
             {
                 try
                 {
-                    var advertising = await _advertisingRepository.GetByIdAsync(model.AdvertisingId);
+                    var advertising = await _advertisingRepository.GetByIdAsync(model.Id);
 
                     if (advertising == null)
                     {
@@ -372,13 +372,13 @@
             return RedirectToAction(nameof(TierChange));
         }
 
-        public async Task<IActionResult> CancelPremiumIndex(CreateUpgradeViewModel model)
+        public async Task<IActionResult> CancelPremiumIndex(PremiumOfferViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var seatsAvailable = await _premiumRepository.GetByIdAsync(model.FlightId);
+                    var seatsAvailable = await _premiumRepository.GetByIdAsync(model.Id);
 
                     if (seatsAvailable == null)
                     {
