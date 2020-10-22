@@ -1,4 +1,4 @@
-﻿@model MilesBackOffice.Web.Models.PremiumIndexViewModel
+﻿@model IEnumerable<MilesBackOffice.Web.Data.Entities.PremiumOffer>
 
 @{
     ViewData["Title"] = "Premium Index";
@@ -20,7 +20,7 @@
                     <th>Created On</th>
                     <th></th>
                 </tr>
-                @foreach (var item in Model.PremiumOffers)
+                @foreach (var item in Model)
                     {
                         <tr>
                             <td>

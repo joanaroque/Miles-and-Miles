@@ -1,4 +1,4 @@
-﻿@model MilesBackOffice.Web.Models.User.NewsViewModel
+﻿@model IEnumerable<MilesBackOffice.Web.Data.Entities.Advertising>
 
 @{
     ViewData["Title"] = "Miles News";
@@ -11,7 +11,7 @@
 
 <div class="news_cards">
     
-    @foreach (var item in Model.Newspaper)
+    @foreach (var item in Model)
         {
             <div class="news_card">
                 <header>
@@ -21,7 +21,7 @@
                     <div>
                     </div>
                     <p>
-                        @Html.DisplayFor(news => item.Body)
+                        @Html.DisplayFor(news => item.Content)
                     </p>
                 </div>
             </div>

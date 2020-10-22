@@ -1,5 +1,4 @@
-﻿@model MilesBackOffice.Web.Data.Entities.PremiumOffer
-
+﻿@model MilesBackOffice.Web.Models.PremiumOfferViewModel
 
 <h4>Edit Item#@Model.Id</h4>
 <hr />
@@ -20,21 +19,21 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
 
-            @if (Model.Partner != null)
+            @if (Model.PartnerId != 0)
             {
                 <div class="form-group">
-                    <label asp-for="Partner" class="control-label"></label>
-                    <input asp-for="Partner" class="form-control" required />
-                    <span asp-validation-for="Partner" class="text-danger"></span>
+                    <label asp-for="PartnerId" class="control-label"></label>
+                    <input asp-for="PartnerId" class="form-control" required />
+                    <span asp-validation-for="PartnerId" class="text-danger"></span>
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.Flight))
+            @if (!string.IsNullOrEmpty(Model.FlightId))
             {
                 <div class="form-group">
-                    <label asp-for="Flight" class="control-label"></label>
-                    <input asp-for="Flight" class="form-control" required />
-                    <span asp-validation-for="Flight" class="text-danger"></span>
+                    <label asp-for="FlightId" class="control-label"></label>
+                    <input asp-for="FlightId" class="form-control" required />
+                    <span asp-validation-for="FlightId" class="text-danger"></span>
                 </div>
             }
 

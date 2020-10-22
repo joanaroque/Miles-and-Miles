@@ -1,10 +1,11 @@
-﻿@model MilesBackOffice.Web.Models.CreateVoucherViewModel
+﻿@model MilesBackOffice.Web.Models.PremiumOfferViewModel
 
 
 <div id="newVoucher">
-    <div>
-        <h2>New Premium Voucher</h2>
-        <form method="post" asp-action="CreateVoucher">
+    <div><h2>New Premium Voucher</h2></div>
+    <div class="row">
+        <form method="post" asp-action="CreateOffer" >
+            <input type="hidden" asp-for="Type" />
             <div class="form-group">
                 <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" name="title" required />
@@ -15,19 +16,19 @@
                 <select type="text" asp-for="PartnerId" name="partner" asp-items="Model.PartnersList" required><option value="">Select a Partner</option></select>
                 <span asp-validation-for="PartnerId"></span>
             </div>
-            <div>
+            <div class="form-group">
                 <label asp-for="Conditions"></label>
-                <textarea type="text" asp-for="Conditions" name="conditions" required class="textarea"></textarea>
+                <textarea type="text" asp-for="Conditions" name="conditions" required ></textarea>
                 <span asp-validation-for="Conditions"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity"></label>
-                <input type="number" asp-for="Quantity" name="quantity" required min="1" value="1"/>
+                <input type="number" asp-for="Quantity" name="quantity" required min="1" value="1" />
                 <span asp-validation-for="Quantity"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price"></label>
-                <input type="number" asp-for="Price" name="price" required min="0"/>
+                <input type="number" asp-for="Price" name="price" required min="0" />
                 <span asp-validation-for="Price"></span>
             </div>
             <button type="submit" class="btn btn-outline-success">Create</button>
