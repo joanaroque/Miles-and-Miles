@@ -23,12 +23,6 @@
         ComplaintClientViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
 
 
-        //SeatsAvailable ToSeatsAvailable(AvailableSeatsViewModel model, bool isNew);
-
-
-        //AvailableSeatsViewModel ToAvailableSeatsViewModel(SeatsAvailable seatsAvailable);
-
-
         TierChange ToTierChange(TierChangeViewModel model, bool isNew);
 
 

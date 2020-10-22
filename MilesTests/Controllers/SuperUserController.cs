@@ -22,15 +22,13 @@
         private readonly IConverterHelper _converterHelper;
         private readonly ITierChangeRepository _tierChangeRepository;
         private readonly IClientComplaintRepository _clientComplaintRepository;
-        private readonly IPremiumRepository _premiumRepository;
 
         public SuperUserController(IUserHelper userHelper,
             IAdvertisingRepository advertisingRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
             ITierChangeRepository tierChangeRepository,
-            IClientComplaintRepository clientComplaintRepository,
-            IPremiumRepository premiumRepository)
+            IClientComplaintRepository clientComplaintRepository)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -38,7 +36,6 @@
             _converterHelper = converterHelper;
             _tierChangeRepository = tierChangeRepository;
             _clientComplaintRepository = clientComplaintRepository;
-            _premiumRepository = premiumRepository;
         }
 
         /// <summary>
@@ -189,56 +186,7 @@
             }
             return View(model);
         }
-
-        /// <summary>
-        /// get list of seats to be confirmed
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult> PremiumOffers()
-        {
-            var list = await _premiumRepository.GetAllOffersAsync(); // todo listar so os "pendings"
-
-            var modelList = new List<PremiumIndexViewModel>(
-                list.Select(a => _converterHelper.ToAvailableSeatsViewModel(a))
-                .ToList());
-
-            return View(list);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> ConfirmPremiumIndex(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("_UserNotFound");
-            }
-            try
-            {
-                PremiumOffer seatsAvailable = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
-
-                if (seatsAvailable == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
-                }
-
-                seatsAvailable.UpdateDate = DateTime.Now;
-                seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
-                seatsAvailable.Status = 0;
-
-                await _premiumRepository.UpdateAsync(seatsAvailable);
-
-                return RedirectToAction(nameof(PremiumIndex));
-            }
-            catch (Exception)
-            {
-                return new NotFoundViewResult("_UserNotFound");
-            }
-        }
+   
 
         /// <summary>
         /// get list of advertising to be confirmed
@@ -261,18 +209,24 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        //public async Task<IActionResult> AdvertisingDetails(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new NotFoundViewResult("_UserNotFound");
-        //    }
+        public async Task<IActionResult> AdvertisingDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
 
 
-        //    //content 
+            var entityList = await _advertisingRepository.GetAllAdvertisingAsync();
+
+            Advertising selectedAdvertising = entityList
+                                                   .Where(a => a.Id.Equals(id.Value))
+                                                   .FirstOrDefault();
 
 
-        //}
+            return View(_converterHelper.ToAdvertisingViewModel(selectedAdvertising));
+
+        }
 
         /// <summary>
         /// 
@@ -371,38 +325,5 @@
             }
             return RedirectToAction(nameof(TierChange));
         }
-
-        public async Task<IActionResult> CancelPremiumIndex(PremiumOfferViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var seatsAvailable = await _premiumRepository.GetByIdAsync(model.Id);
-
-                    if (seatsAvailable == null)
-                    {
-                        return new NotFoundViewResult("_UserNotFound");
-
-                    }
-
-                    seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString()); //******************************************************************
-                    seatsAvailable.UpdateDate = DateTime.Now;
-                    seatsAvailable.Status = 2;
-
-                    await _premiumRepository.UpdateAsync(seatsAvailable);
-
-
-                    return RedirectToAction(nameof(PremiumIndex));
-
-                }
-                catch (Exception)
-                {
-                    return new NotFoundViewResult("_UserNotFound"); // todo mudar estes erros
-                }
-            }
-            return RedirectToAction(nameof(PremiumIndex));
-        }
-
     }
 }

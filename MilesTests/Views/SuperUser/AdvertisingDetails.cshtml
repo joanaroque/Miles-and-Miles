@@ -1,0 +1,68 @@
+﻿@model MilesBackOffice.Web.Models.AdvertisingViewModel
+
+@{
+    ViewData["Title"] = "AdvertisingDetails";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Content Details</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Advertising And References</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="box box-info" style="margin-top:10px">
+                            <div class="box-header with-border">
+
+                                <div class="row">
+
+                                    <div class="col-sm-8">
+
+                                        <dl class="dl-horizontal">
+
+                                            <dt>
+                                                @Html.DisplayNameFor(model => model.Content)
+                                            </dt>
+
+                                            <dd>
+                                                @Html.DisplayFor(model => model.Content)
+                                            </dd>
+                                        </dl>
+                                        <div>
+                                            <a asp-action="AdvertisingAndReferences" class="btn btn-success  pull-right"><i class="fa fa-backward"></i></a>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
