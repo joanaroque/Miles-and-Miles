@@ -97,6 +97,10 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
 
+        public IEnumerable<SelectListItem> StatusList { get; set; }
+
+
+
         public string PhoneNumber { get; set; }
 
 
@@ -106,6 +110,19 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
         public bool IsApproved { get; set; }
+
+
+
+
+        public int StatusMiles { get; set; }
+
+
+
+        public int BonusMiles { get; set; }
+
+
+
+        public Status Status { get; set; }
 
     }
 }

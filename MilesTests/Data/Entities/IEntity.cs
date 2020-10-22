@@ -26,7 +26,7 @@
         /// 2 - Returned by a SU for editing
         /// 3 - To be deleted
         /// 4 - Sent to admin
-        /// 5 - 
+        /// 5 - Approved by an admin
         /// </summary>
         int Status { get; set; }
     }

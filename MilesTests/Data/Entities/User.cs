@@ -58,5 +58,20 @@
 
 
         public bool IsActive { get; set; }
+
+
+
+        public int StatusMiles { get; set; }
+
+
+
+        public int BonusMiles { get; set; }
+
+
+        
+        public Status Status { get; set; }
+
+
+
     }
 }

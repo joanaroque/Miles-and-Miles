@@ -76,6 +76,7 @@ namespace MilesBackOffice.Web.Controllers
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
+                Status = user.Status,
             };
 
             return View(model);
@@ -121,7 +122,8 @@ namespace MilesBackOffice.Web.Controllers
             {
                 Countries = _countryRepository.GetComboCountries(),
                 Cities = _countryRepository.GetComboCities(0),
-                Roles = _userHelper.GetComboRoles()
+                Roles = _userHelper.GetComboRoles(),
+                StatusList = _clientRepository.GetComboStatus()
             };
             return View(model);
         }
@@ -154,7 +156,10 @@ namespace MilesBackOffice.Web.Controllers
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
                             IsActive = true,
-                            IsApproved = true
+                            IsApproved = true,
+                            BonusMiles = 0,
+                            StatusMiles = 0,
+                            Status = model.Status
                         };
 
                         var password = UtilityHelper.Generate();
@@ -317,7 +322,11 @@ namespace MilesBackOffice.Web.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 IsActive = user.IsActive,
+                Status = user.Status,
+                StatusMiles = user.StatusMiles,
+                BonusMiles = user.BonusMiles,
                 Countries = _countryRepository.GetComboCountries(),
+                StatusList = _clientRepository.GetComboStatus(),
                 Roles = _roleManager.Roles.ToList().Select(
                     x => new SelectListItem()
                     {
@@ -440,9 +449,9 @@ namespace MilesBackOffice.Web.Controllers
         }
 
 
-        //public IActionResult ConfirmUser()
+        //public IActionResult ConfirmClientDelete() TODO
         //{
-        //    //var user = _context.Users.Where(u => )
+        //    var user = _context.Users.Where(u => )
         //}
     }
 }

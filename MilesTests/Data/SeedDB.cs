@@ -16,15 +16,12 @@ namespace MilesBackOffice.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        private readonly UserManager<User> _userManager;
 
         public SeedDB(DataContext context,
-            IUserHelper userHelper,
-             UserManager<User> userManager)
+            IUserHelper userHelper)
         {
             _context = context;
             _userHelper = userHelper;
-            _userManager = userManager;
         }
 
         public async Task SeedAsync()
@@ -177,7 +174,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "2121218",
                     Document = "201742255",
                     IsActive = true,
-                    IsApproved = true
+                    IsApproved = true,
+                    Status = Status.Miles,
+                    StatusMiles = 500,
+                    BonusMiles = 10
                 };
 
                 await _userHelper.AddUserAsync(user6, "123456");
@@ -217,7 +217,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21121218",
                     Document = "2017742255",
                     IsActive = true,
-                    IsApproved = false
+                    IsApproved = false,
+                    Status = Status.Gold,
+                    StatusMiles = 10000,
+                    BonusMiles = 100
                 };
 
                 await _userHelper.AddUserAsync(user5, "123456");
@@ -257,7 +260,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21821218",
                     Document = "2017422055",
                     IsActive = true,
-                    IsApproved = false
+                    IsApproved = false,
+                    Status = Status.Silver,
+                    StatusMiles = 120,
+                    BonusMiles = 100
                 };
 
                 await _userHelper.AddUserAsync(user4, "123456");
@@ -298,7 +304,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121218",
                     Document = "20174255",
                     IsActive = false,
-                    IsApproved = true
+                    IsApproved = true,
+                    Status = Status.None,
+                    StatusMiles = 0,
+                    BonusMiles = 0
 
                 };
 
@@ -339,7 +348,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121217",
                     Document = "2014742955",
                     IsActive = true,
-                    IsApproved = true
+                    IsApproved = true,
+                    Status = Status.None,
+                    StatusMiles = 0,
+                    BonusMiles = 0
 
                 };
 
@@ -380,7 +392,10 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121212",
                     Document = "201474255",
                     IsActive = true,
-                    IsApproved = true
+                    IsApproved = true,
+                    Status = Status.None,
+                    StatusMiles = 0,
+                    BonusMiles = 0
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

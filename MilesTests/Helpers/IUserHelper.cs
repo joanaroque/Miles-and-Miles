@@ -14,7 +14,6 @@
 
     public interface IUserHelper
     {
-
         Task<User> GetUserByUsernameAsync(string username);
 
 

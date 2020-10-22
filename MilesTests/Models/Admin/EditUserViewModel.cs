@@ -57,6 +57,21 @@ namespace MilesBackOffice.Web.Models.Admin
         public DateTime? DateOfBirth { get; set; }
 
 
+
+        public int StatusMiles { get; set; }
+
+
+
+        public int BonusMiles { get; set; }
+
+
+
+        public Status Status { get; set; }
+
+
+
+
+
         [MaxLength(20)]
         //[Required]
         public string Document { get; set; }
@@ -87,6 +102,9 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
         public IEnumerable<SelectListItem> Countries { get; set; }
+
+
+        public IEnumerable<SelectListItem> StatusList { get; set; }
 
 
 
