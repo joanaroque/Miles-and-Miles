@@ -23,9 +23,7 @@ namespace MilesBackOffice.Web.Data
         public DbSet<ClientComplaint> ClientComplaints { get; set; }
 
 
-        public DbSet<News> News { get; set; }
-
-
+        
         public DbSet<Partner> Partners { get; set; }
 
 
