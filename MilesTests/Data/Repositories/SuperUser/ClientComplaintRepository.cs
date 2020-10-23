@@ -31,7 +31,10 @@
 
         public async Task<List<ClientComplaint>> GetClientComplaintsAsync()
         {
-            return await _context.ClientComplaints.Include(c => c.CreatedBy).ToListAsync();
+            var complaint = await _context.ClientComplaints
+                .Include(c => c.CreatedBy).ToListAsync();
+
+            return complaint;
         }
     }
 }

@@ -39,13 +39,13 @@
         }
 
         /// <summary>
-        /// get list of unconfirm tiers
+        /// get list of all clients and transforms an entity to viewmodel
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the list of all clients</returns>
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            var list = await _tierChangeRepository.GetAllClientListAsync();
+            var list = await _tierChangeRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
 
             var modelList = new List<TierChangeViewModel>(
                 list.Select(a => _converterHelper.ToTierChangeViewModel(a))
@@ -55,10 +55,10 @@
         }
 
         /// <summary>
-        /// 
+        /// confirm tier change and updated the data
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>teh TierChange view</returns>
         [HttpGet]
         public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
         {
@@ -103,9 +103,9 @@
         }
 
         /// <summary>
-        /// get list of unprocessed complaints
+        /// get list of all complaints and transforms an entity to viewmodel
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a list of complaints</returns>
         [HttpGet]
         public async Task<ActionResult> Complaints()
         {
@@ -189,9 +189,9 @@
 
 
         /// <summary>
-        /// get list of advertising to be confirmed
+        /// get list of all advertising and transforms an entity to viewmodel
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a list of advertising</returns>
         [HttpGet]
         public async Task<ActionResult> AdvertisingAndReferences()
         {
@@ -207,8 +207,8 @@
         /// <summary>
         /// details from advertising content
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">id</param>
+        /// <returns>the selected advertising</returns>
         public async Task<IActionResult> AdvertisingDetails(int? id)
         {
             if (id == null)
@@ -229,10 +229,10 @@
         }
 
         /// <summary>
-        /// 
+        /// confirm the advertising and updated the data
         /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
+        /// <param name="Id">id</param>
+        /// <returns>AdvertisingAndReferences view</returns>
         public async Task<IActionResult> ConfirmAdvertisingAndReferences(int? id)
         {
             if (id == null)
@@ -249,7 +249,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
+                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 0;
 
@@ -264,66 +264,80 @@
             }
         }
 
-        public async Task<IActionResult> CancelPublishAdvertising(AdvertisingViewModel model)
+        /// <summary>
+        /// cancel the publish advertising and updated the data
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>the AdvertisingAndReferences view</returns>
+        public async Task<IActionResult> CancelPublishAdvertising(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                try
-                {
-                    var advertising = await _advertisingRepository.GetByIdAsync(model.Id);
+                return new NotFoundViewResult("_UserNotFound");
+            }
 
-                    if (advertising == null)
-                    {
-                        return new NotFoundViewResult("_UserNotFound");
+            try
+            {
+                var advertising = await _advertisingRepository.GetByIdAsync(id.Value);
 
-                    }
-
-                    advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString()); //******************************************************************
-                    advertising.UpdateDate = DateTime.Now;
-                    advertising.Status = 2;
-
-                    await _advertisingRepository.UpdateAsync(advertising);
-
-
-                    return RedirectToAction(nameof(AdvertisingAndReferences));
-
-                }
-                catch (Exception)
+                if (advertising == null)
                 {
                     return new NotFoundViewResult("_UserNotFound");
+
                 }
+
+                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
+                advertising.UpdateDate = DateTime.Now;
+                advertising.Status = 2;
+
+                await _advertisingRepository.UpdateAsync(advertising);
+
+
+                return RedirectToAction(nameof(AdvertisingAndReferences));
+
             }
-            return RedirectToAction(nameof(AdvertisingAndReferences));
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
         }
 
-        public async Task<IActionResult> CancelTierChange(TierChangeViewModel model)
+        /// <summary>
+        /// cancel the tier change and updated the data
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>the TierChange view</returns>
+        public async Task<IActionResult> CancelTierChange(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                try
-                {
-                    var tierChange = await _tierChangeRepository.GetByIdAsync(model.TierChangeId);
+                return new NotFoundViewResult("_UserNotFound");
+            }
 
-                    if (tierChange == null)
-                    {
-                        return new NotFoundViewResult("_UserNotFound");
-                    }
+            try
+            {
+                var tierChange = await _tierChangeRepository.GetByIdAsync(id.Value);
 
-                    tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString()); //******************************************************************
-                    tierChange.UpdateDate = DateTime.Now;
-                    tierChange.Status = 2;
-
-                    await _tierChangeRepository.UpdateAsync(tierChange);
-
-                    return RedirectToAction(nameof(TierChange));
-
-                }
-                catch (Exception)
+                if (tierChange == null)
                 {
                     return new NotFoundViewResult("_UserNotFound");
                 }
+
+                tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString());
+                tierChange.UpdateDate = DateTime.Now;
+                tierChange.Status = 2;
+
+                await _tierChangeRepository.UpdateAsync(tierChange);
+
+                return RedirectToAction(nameof(TierChange));
+
             }
-            return RedirectToAction(nameof(TierChange));
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
         }
     }
 }
