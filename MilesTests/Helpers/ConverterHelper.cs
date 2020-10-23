@@ -91,10 +91,10 @@
             {
                 Id = isNew ? 0 : model.TierChangeId,
                 UpdateDate = DateTime.Now,
-                //OldTier = model.OldTier,
-                //NewTier = model.NewTier,
-                //NumberOfFlights = model.NumberOfFlights,
-                //NumberOfMiles = model.NumberOfMiles,
+                OldTier = model.OldTier,
+                NewTier = model.NewTier,
+                NumberOfFlights = model.NumberOfFlights,
+                NumberOfMiles = model.NumberOfMiles,
                 Status = 1
             };
 
@@ -106,10 +106,10 @@
             var tierChanges = new TierChangeViewModel
             {
                 TierChangeId = tierChange.Id,
-                //OldTier = tierChange.OldTier,
-                //NewTier = tierChange.NewTier,
-                //NumberOfFlights = tierChange.NumberOfFlights,
-                //NumberOfMiles = tierChange.NumberOfMiles,
+                OldTier = tierChange.OldTier,
+                NewTier = tierChange.NewTier,
+                NumberOfFlights = tierChange.NumberOfFlights,
+                NumberOfMiles = tierChange.NumberOfMiles,
                 Status = tierChange.Status,
                 ClientName = tierChange.Client.Name
             };

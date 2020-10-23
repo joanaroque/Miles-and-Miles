@@ -1,16 +1,20 @@
 ﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
+    using CinelAirMilesLibrary.Common.Enums;
+
+
     public class TierChangeViewModel
     {
 
         public int TierChangeId { get; set; }
 
 
-        public string OldTier { get; set; }
+        public TierType OldTier { get; set; }
 
 
 
-        public string NewTier { get; set; }
+        public TierType NewTier { get; set; }
+
 
 
 
@@ -23,7 +27,7 @@
 
 
 
-        public long NumberOfMiles { get; set; }
+        public int NumberOfMiles { get; set; }
 
 
 

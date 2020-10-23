@@ -30,8 +30,10 @@
 
         public async Task<List<TierChange>> GetAllClientListAsync()
         {
-            return await _context.TierChanges
+            var tierChange =  await _context.TierChanges
                  .Include(t => t.Client).ToListAsync();
+
+            return tierChange;
         }
     }
 }

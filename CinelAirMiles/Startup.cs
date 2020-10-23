@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using System;
 using System.Text;
+using CinelAirMilesLibrary.Common.Data.Entities;
 
 namespace CinelAirMiles
 {
