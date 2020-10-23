@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,11 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Data.Repositories.SuperUser;
 using MilesBackOffice.Web.Data.Repositories.User;
+using MilesBackOffice.Web.Helpers;
+
+using System;
+using System.Text;
 
 
 namespace MilesBackOffice.Web

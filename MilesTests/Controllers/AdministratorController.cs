@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Enums;
 using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.Admin;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Controllers
 {
@@ -85,7 +83,7 @@ namespace MilesBackOffice.Web.Controllers
 
 
         [HttpPost]
-        public async Task <IActionResult> ApproveClient(ApproveClientViewModel model)
+        public async Task<IActionResult> ApproveClient(ApproveClientViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -371,7 +369,7 @@ namespace MilesBackOffice.Web.Controllers
                 user.PhoneNumber = editUser.PhoneNumber;
                 user.IsActive = editUser.IsActive;
 
-               // await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
+                // await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
 
                 await _userHelper.AddUSerToRoleAsync(user, editUser.SelectedRole);
 

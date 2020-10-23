@@ -1,11 +1,13 @@
-﻿using CinelAirMilesLibrary.Common.Data.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
-
-namespace MilesBackOffice.Web.Data
+﻿namespace CinelAirMiles.Data
 {
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
+    using System.Linq;
+
+
+
     public class DataContext : IdentityDbContext<User>
     {
 
@@ -18,7 +20,7 @@ namespace MilesBackOffice.Web.Data
         public DbSet<Advertising> Advertisings { get; set; }
 
 
-        public DbSet<ClientComplaint> ClientComplaints { get; set; }
+        public DbSet<ClientComplaint> ClientComplaints { get; set; } 
 
 
 

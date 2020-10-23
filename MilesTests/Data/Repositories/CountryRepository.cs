@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using MilesBackOffice.Web.Data.Entities;
 using MilesBackOffice.Web.Models;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {

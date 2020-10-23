@@ -1,22 +1,23 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
-    
+    using CinelAirMilesLibrary.Common.Enums;
+
     using System;
 
 
     public class TierChange : IEntity
     {
 
-        public string OldTier { get; set; }
+        public TierType OldTier { get; set; }
 
 
-        public string NewTier { get; set; }
+        public TierType NewTier { get; set; }
 
 
         public int NumberOfFlights { get; set; }
 
 
-        public long NumberOfMiles { get; set; }
+        public int NumberOfMiles { get; set; }
 
 
 

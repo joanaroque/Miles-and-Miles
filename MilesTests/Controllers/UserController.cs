@@ -1,19 +1,20 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Data.Repositories.SuperUser;
     using MilesBackOffice.Web.Data.Repositories.User;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.User;
-    using MilesBackOffice.Web.Data.Repositories.SuperUser;
-    using MilesBackOffice.Web.Enums;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class UserController : Controller
     {
@@ -441,7 +442,7 @@
 
                 var post = await _advertisingRepository.GetByIdAsync(model.Id);
 
-                
+
 
 
                 //post.ModifiedBy = currentUser;

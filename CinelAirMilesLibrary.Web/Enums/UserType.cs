@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Enums
+﻿namespace CinelAirMilesLibrary.Common.Enums
 {
     public enum UserType
     {

@@ -1,10 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.User
 {
+    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using MilesBackOffice.Web.Data.Repositories;
-    using MilesBackOffice.Web.Data.Entities;
+    using MilesBackOffice.Web.Helpers;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using MilesBackOffice.Web.Helpers;
 
     public interface IPremiumRepository : IGenericRepository<PremiumOffer>
     {
@@ -15,7 +17,7 @@
         /// <returns>A Response with the success of the operation, otherwise throws an error</returns>
         Task<Response> CreateEntryAsync(PremiumOffer item);
 
-       
+
         Task<Response> UpdateOfferAsync(PremiumOffer model);
 
 

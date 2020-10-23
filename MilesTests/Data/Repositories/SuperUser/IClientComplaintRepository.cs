@@ -1,6 +1,6 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
-    using MilesBackOffice.Web.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Entities;
 
     using System.Collections.Generic;
     using System.Threading.Tasks;

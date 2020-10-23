@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using CinelAirMilesLibrary.Common.CustomValidation;
+using CinelAirMilesLibrary.Common.Enums;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-using MilesBackOffice.Web.CustomValidation;
-using MilesBackOffice.Web.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models.Admin
 {
@@ -66,7 +66,7 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
 
-        public TierTypes Status { get; set; }
+        public TierType Status { get; set; }
 
 
 

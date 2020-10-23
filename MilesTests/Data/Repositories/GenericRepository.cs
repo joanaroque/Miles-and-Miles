@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
-using MilesBackOffice.Web.Data.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Data.Repositories
 {

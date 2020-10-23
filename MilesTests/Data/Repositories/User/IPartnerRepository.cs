@@ -1,12 +1,13 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.User
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using CinelAirMilesLibrary.Common.Data.Entities;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Helpers;
+
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IPartnerRepository : IGenericRepository<Partner>
     {

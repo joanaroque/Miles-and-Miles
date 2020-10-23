@@ -1,7 +1,7 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
+    using CinelAirMilesLibrary.Common.Enums;
     using System;
-    using MilesBackOffice.Web.Enums;
 
     public class PremiumOfferType : IEntity
     {

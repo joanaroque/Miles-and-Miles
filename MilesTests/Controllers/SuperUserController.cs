@@ -1,10 +1,10 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using Microsoft.AspNetCore.Mvc;
 
-    using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Data.Repositories.SuperUser;
-    using MilesBackOffice.Web.Data.Repositories.User;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -186,7 +186,7 @@
             }
             return View(model);
         }
-   
+
 
         /// <summary>
         /// get list of advertising to be confirmed

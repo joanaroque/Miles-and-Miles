@@ -1,8 +1,9 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.User
 {
+    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using Microsoft.EntityFrameworkCore;
 
-    using MilesBackOffice.Web.Data.Entities;
     using MilesBackOffice.Web.Helpers;
 
     using System;

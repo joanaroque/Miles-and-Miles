@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.CustomValidation
+﻿namespace CinelAirMilesLibrary.Common.CustomValidation
 {
     using System;
     using System.ComponentModel.DataAnnotations;

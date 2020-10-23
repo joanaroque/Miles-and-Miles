@@ -1,12 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
-    using MilesBackOffice.Web.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
     using MilesBackOffice.Web.Models.User;
 
     using System;
-    using System.Threading.Tasks;
 
     public interface IConverterHelper
     {

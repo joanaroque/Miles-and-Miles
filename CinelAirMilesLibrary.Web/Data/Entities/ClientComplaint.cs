@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MilesBackOffice.Web.Data.Entities
+namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     public class ClientComplaint : IEntity
     {

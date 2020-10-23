@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CinelAirMilesLibrary.Common.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Enums;
+
 using MilesBackOffice.Web.Helpers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace MilesBackOffice.Web.Data.Repositories
 
         public IEnumerable<SelectListItem> GetComboStatus()
         {
-            var list = Enum.GetValues(typeof(TierTypes)).Cast<TierTypes>().Select(v => new SelectListItem
+            var list = Enum.GetValues(typeof(TierType)).Cast<TierType>().Select(v => new SelectListItem
             {
                 Text = v.ToString(),
                 Value = ((int)v).ToString()

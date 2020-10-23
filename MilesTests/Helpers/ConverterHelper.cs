@@ -1,13 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
-    using MilesBackOffice.Web.Data.Entities;
-    using MilesBackOffice.Web.Enums;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
     using MilesBackOffice.Web.Models.User;
 
     using System;
-    using System.Threading.Tasks;
 
 
     public class ConverterHelper : IConverterHelper
@@ -92,10 +91,10 @@
             {
                 Id = isNew ? 0 : model.TierChangeId,
                 UpdateDate = DateTime.Now,
-                OldTier = model.OldTier,
-                NewTier = model.NewTier,
-                NumberOfFlights = model.NumberOfFlights,
-                NumberOfMiles = model.NumberOfMiles,
+                //OldTier = model.OldTier,
+                //NewTier = model.NewTier,
+                //NumberOfFlights = model.NumberOfFlights,
+                //NumberOfMiles = model.NumberOfMiles,
                 Status = 1
             };
 
@@ -107,10 +106,10 @@
             var tierChanges = new TierChangeViewModel
             {
                 TierChangeId = tierChange.Id,
-                OldTier = tierChange.OldTier,
-                NewTier = tierChange.NewTier,
-                NumberOfFlights = tierChange.NumberOfFlights,
-                NumberOfMiles = tierChange.NumberOfMiles,
+                //OldTier = tierChange.OldTier,
+                //NewTier = tierChange.NewTier,
+                //NumberOfFlights = tierChange.NumberOfFlights,
+                //NumberOfMiles = tierChange.NumberOfMiles,
                 Status = tierChange.Status,
                 ClientName = tierChange.Client.Name
             };
@@ -128,7 +127,7 @@
                 Quantity = model.Quantity,
                 Price = model.Price,
                 Partner = partner,
-                Conditions = string.IsNullOrWhiteSpace(model.Conditions)? string.Empty : model.Conditions,
+                Conditions = string.IsNullOrWhiteSpace(model.Conditions) ? string.Empty : model.Conditions,
                 Type = model.Type,
                 Status = 1
             };
@@ -153,7 +152,7 @@
         {
             return new Partner
             {
-                Id = isNew? 0 : model.Id,
+                Id = isNew ? 0 : model.Id,
                 CompanyName = model.CompanyName,
                 Address = model.Address,
                 Url = model.Url,

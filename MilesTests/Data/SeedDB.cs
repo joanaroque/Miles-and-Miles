@@ -1,14 +1,14 @@
-﻿using System;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMilesLibrary.Common.Enums;
+
+using Microsoft.EntityFrameworkCore;
+
+using MilesBackOffice.Web.Helpers;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Data.Entities;
-using MilesBackOffice.Web.Enums;
-using MilesBackOffice.Web.Helpers;
 
 namespace MilesBackOffice.Web.Data
 {
@@ -141,8 +141,8 @@ namespace MilesBackOffice.Web.Data
             {
                 _context.TierChanges.Add(new TierChange
                 {
-                    OldTier = "Silver",
-                    NewTier = "Gold",
+                    OldTier = TierType.Silver,
+                    NewTier = TierType.Gold,
                     NumberOfFlights = 3434,
                     NumberOfMiles = 34234,
                     Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
@@ -175,7 +175,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "201742255",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierTypes.Miles,
+                    Status = TierType.Miles,
                     StatusMiles = 500,
                     BonusMiles = 10
                 };
@@ -218,7 +218,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2017742255",
                     IsActive = true,
                     IsApproved = false,
-                    Status = TierTypes.Gold,
+                    Status = TierType.Gold,
                     StatusMiles = 10000,
                     BonusMiles = 100
                 };
@@ -261,7 +261,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2017422055",
                     IsActive = true,
                     IsApproved = false,
-                    Status = TierTypes.Silver,
+                    Status = TierType.Silver,
                     StatusMiles = 120,
                     BonusMiles = 100
                 };
@@ -305,7 +305,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "20174255",
                     IsActive = false,
                     IsApproved = true,
-                    Status = TierTypes.None,
+                    Status = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0
 
@@ -349,7 +349,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2014742955",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierTypes.None,
+                    Status = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0
 
@@ -393,7 +393,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "201474255",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierTypes.None,
+                    Status = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0
                 };

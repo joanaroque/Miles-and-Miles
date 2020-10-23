@@ -1,11 +1,12 @@
-﻿using MilesBackOffice.Web.CustomValidation;
+﻿using CinelAirMilesLibrary.Common.CustomValidation;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MilesBackOffice.Web.Models.Admin
 {
-    public class UserRoleViewModel 
+    public class UserRoleViewModel
     {
         public string UserId { get; set; }
 

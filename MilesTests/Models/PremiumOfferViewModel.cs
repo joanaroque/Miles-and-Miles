@@ -1,11 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using CinelAirMilesLibrary.Common.Enums;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using MilesBackOffice.Web.Enums;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class PremiumOfferViewModel
     {

@@ -1,6 +1,6 @@
-﻿namespace MilesBackOffice.Web.Enums
+﻿namespace CinelAirMilesLibrary.Common.Enums
 {
-    public enum TierTypes
+    public enum TierType
     {
         None,
         Miles,

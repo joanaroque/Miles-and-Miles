@@ -1,16 +1,17 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using MilesBackOffice.Web.Data.Entities;
-    using MilesBackOffice.Web.Enums;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.Admin;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IUserHelper
     {

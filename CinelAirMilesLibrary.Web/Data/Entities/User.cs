@@ -1,12 +1,10 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
+    using CinelAirMilesLibrary.Common.CustomValidation;
+    using CinelAirMilesLibrary.Common.Enums;
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.ComponentModel.DataAnnotations;
-
-    using Microsoft.AspNetCore.Identity;
-
-    using MilesBackOffice.Web.CustomValidation;
-    using MilesBackOffice.Web.Enums;
 
     public class User : IdentityUser
     {
@@ -68,8 +66,8 @@
         public int BonusMiles { get; set; }
 
 
-        
-        public TierTypes Status { get; set; }
+
+        public TierType Status { get; set; }
 
 
 

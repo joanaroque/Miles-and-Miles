@@ -1,8 +1,8 @@
 ﻿namespace MilesBackOffice.Web.Data.Repositories.SuperUser
 {
-    using Microsoft.EntityFrameworkCore;
+    using CinelAirMilesLibrary.Common.Data.Entities;
 
-    using MilesBackOffice.Web.Data.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     using System.Collections.Generic;
     using System.Linq;

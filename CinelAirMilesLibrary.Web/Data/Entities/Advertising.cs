@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Data.Entities
+﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations;
