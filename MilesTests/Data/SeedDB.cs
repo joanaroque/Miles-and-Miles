@@ -420,6 +420,12 @@ namespace MilesBackOffice.Web.Data
             await _userHelper.CheckRoleAsync(UserType.SuperUser.ToString());
             await _userHelper.CheckRoleAsync(UserType.User.ToString());
             await _userHelper.CheckRoleAsync(UserType.Client.ToString());
+
+
+            await _userHelper.CheckRoleAsync(TierType.None.ToString());
+            await _userHelper.CheckRoleAsync(TierType.Miles.ToString());
+            await _userHelper.CheckRoleAsync(TierType.Silver.ToString());
+            await _userHelper.CheckRoleAsync(TierType.Gold.ToString());
         }
 
         private async Task FillCountriesAsync()
