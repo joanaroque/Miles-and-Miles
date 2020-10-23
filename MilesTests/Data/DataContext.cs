@@ -34,6 +34,7 @@ namespace MilesBackOffice.Web.Data
         public DbSet<PremiumOfferType> PremiumOfferTypes { get; set; }
 
 
+        public DbSet<Transaction> Transactions { get; set; }
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
