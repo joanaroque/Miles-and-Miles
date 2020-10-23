@@ -1,5 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
 
@@ -12,13 +19,6 @@
     using MilesBackOffice.Web.Data.Repositories;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
-
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class AccountController : Controller
     {

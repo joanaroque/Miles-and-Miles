@@ -1,6 +1,10 @@
-﻿using CinelAirMiles.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMiles.Data;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,10 +26,10 @@ namespace CinelAirMiles
         private readonly IHostingEnvironment _env;
 
         public Startup(IConfiguration configuration,
-            IHostingEnvironment env)
+            IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-            _env = env;
+            _env = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -33,6 +37,18 @@ namespace CinelAirMiles
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<DataContext>(cfg =>
+            {
+                if (_env.IsDevelopment())
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+                else
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                }
+            });
 
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
