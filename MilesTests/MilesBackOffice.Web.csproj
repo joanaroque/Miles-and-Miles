@@ -59,4 +59,8 @@
     <ProjectReference Include="..\CinelAirMilesLibrary.Web\CinelAirMilesLibrary.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\API\" />
+  </ItemGroup>
+
 </Project>
