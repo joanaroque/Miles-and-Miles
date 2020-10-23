@@ -92,6 +92,17 @@ namespace MilesBackOffice.Web.Data
                     Status = 0,
                     Conditions = "Special offer for fear of flying passengers"
                 });
+                _context.PremiumOffers.Add(new PremiumOffer
+                {
+                    Title = "All you can eat",
+                    Flight = "V200RESTABA151220",
+                    Partner = partner,
+                    Type = PremiumType.Voucher,
+                    Quantity = 50,
+                    Price = 10000,
+                    Status = 0,
+                    Conditions = "Special offer for hungry clients"
+                });
             }
 
             await _context.SaveChangesAsync();
