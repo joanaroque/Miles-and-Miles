@@ -1,6 +1,6 @@
 ﻿namespace MilesBackOffice.Web.Enums
 {
-    public enum Status
+    public enum TierTypes
     {
         None,
         Miles,

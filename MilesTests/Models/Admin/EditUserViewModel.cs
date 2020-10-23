@@ -66,7 +66,7 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
 
-        public Status Status { get; set; }
+        public TierTypes Status { get; set; }
 
 
 

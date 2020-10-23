@@ -175,7 +175,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "201742255",
                     IsActive = true,
                     IsApproved = true,
-                    Status = Status.Miles,
+                    Status = TierTypes.Miles,
                     StatusMiles = 500,
                     BonusMiles = 10
                 };
@@ -218,7 +218,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2017742255",
                     IsActive = true,
                     IsApproved = false,
-                    Status = Status.Gold,
+                    Status = TierTypes.Gold,
                     StatusMiles = 10000,
                     BonusMiles = 100
                 };
@@ -261,7 +261,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2017422055",
                     IsActive = true,
                     IsApproved = false,
-                    Status = Status.Silver,
+                    Status = TierTypes.Silver,
                     StatusMiles = 120,
                     BonusMiles = 100
                 };
@@ -305,7 +305,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "20174255",
                     IsActive = false,
                     IsApproved = true,
-                    Status = Status.None,
+                    Status = TierTypes.None,
                     StatusMiles = 0,
                     BonusMiles = 0
 
@@ -349,7 +349,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "2014742955",
                     IsActive = true,
                     IsApproved = true,
-                    Status = Status.None,
+                    Status = TierTypes.None,
                     StatusMiles = 0,
                     BonusMiles = 0
 
@@ -393,7 +393,7 @@ namespace MilesBackOffice.Web.Data
                     Document = "201474255",
                     IsActive = true,
                     IsApproved = true,
-                    Status = Status.None,
+                    Status = TierTypes.None,
                     StatusMiles = 0,
                     BonusMiles = 0
                 };

@@ -42,7 +42,7 @@ namespace MilesBackOffice.Web.Data.Repositories
 
         public IEnumerable<SelectListItem> GetComboStatus()
         {
-            var list = Enum.GetValues(typeof(Status)).Cast<Status>().Select(v => new SelectListItem
+            var list = Enum.GetValues(typeof(TierTypes)).Cast<TierTypes>().Select(v => new SelectListItem
             {
                 Text = v.ToString(),
                 Value = ((int)v).ToString()
