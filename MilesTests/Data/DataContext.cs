@@ -48,12 +48,12 @@ namespace MilesBackOffice.Web.Data
                 entity.Property<string>("CreatedById");
                 entity.Property<string>("ModifiedById");
 
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                 .WithOne()
                 .HasForeignKey("User", "CreatedById");
 
 
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
                 .WithOne()
                 .HasForeignKey("User", "ModifiedById");
             });
@@ -63,21 +63,21 @@ namespace MilesBackOffice.Web.Data
                 entity.Property<string>("CreatedById");
                 entity.Property<string>("ModifiedById");
 
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "CreatedBy")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                 .WithOne()
                 .HasForeignKey("User", "CreatedById"); ;
 
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.User", "ModifiedBy")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
                 .WithOne()
                 .HasForeignKey("User", "ModifiedById");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.City", "City")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.City", "City")
                 .WithMany();
 
-                entity.HasOne("MilesBackOffice.Web.Data.Entities.Country", "Country")
+                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country", "Country")
                 .WithMany();
             });
 
