@@ -1,0 +1,128 @@
+﻿@model IEnumerable<MilesBackOffice.Web.Models.FlightViewModel>
+
+
+@{
+    ViewData["Title"] = "AvailableSeats";
+}
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Available Seats</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Available Seats</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- /.card -->
+
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Flight</th>
+                                        <th>Departure</th>
+                                        <th>Arrival</th>
+                                        <th>Maximum Seats</th>
+                                        <th>Available Seats</th>
+                                        <th>Company</th>
+                                        <th>Miles</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FlightId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Departure)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Arrival)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MaximumSeats)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PartnerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Miles)
+                                        </td>
+                                        <td>
+                                            @if (item.Status != 0 && item.Status != 2)
+                                            {
+                                                <a asp-action="ConfirmTierChange" asp-route-id="@item.FlightId" class="btn btn-success">
+                                                    <i class="far fa-check-circle"></i>
+                                                </a>
+                                                <a>-  -  - </a>
+                                                <a asp-action="CancelTierChange" asp-route-id="@item.FlightId" class="btn btn-danger">
+                                                    <i class="fas fa-ban"></i>
+                                                </a>
+                                            }
+                                            else if (item.Status == 0)
+                                            {
+                                                <label class="label-success">Confirmed</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="label-success">Canceled</label>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <span>
+                            @ViewBag.Message
+                        </span>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
+}
+
+

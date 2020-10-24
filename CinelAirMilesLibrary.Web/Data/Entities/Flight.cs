@@ -1,7 +1,6 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     public class Flight : IEntity
     {

@@ -16,6 +16,39 @@
 
         }
 
+        public FlightViewModel ToFlightViewModel(Flight flight)
+        {
+            var seats = new FlightViewModel
+            {
+                FlightId = flight.Id,
+                MaximumSeats = flight.MaximumSeats,
+                AvailableSeats = flight.AvailableSeats,
+                Status = flight.Status,
+                Departure = flight.Departure,
+                Arrival = flight.Arrival,
+                Miles = flight.Miles,
+                PartnerName = flight.Partner.CompanyName
+            };
+            return seats;
+        }
+
+        public Flight ToFlight(FlightViewModel model, bool isNew)
+        {
+            var seats = new Flight
+            {
+                Id = isNew ? 0 : model.FlightId,
+                UpdateDate = DateTime.Now,
+                MaximumSeats = model.MaximumSeats,
+                AvailableSeats = model.AvailableSeats,
+                Departure = model.Departure,
+                Arrival = model.Arrival,
+                Miles = model.Miles,
+                Status = 1
+            };
+
+            return seats;
+        }
+
         public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew)
         {
             var advertisng = new Advertising

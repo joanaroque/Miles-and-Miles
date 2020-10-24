@@ -3,7 +3,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using MilesBackOffice.Web.Data.Repositories;
     using MilesBackOffice.Web.Data.Repositories.SuperUser;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
@@ -22,13 +22,15 @@
         private readonly IConverterHelper _converterHelper;
         private readonly ITierChangeRepository _tierChangeRepository;
         private readonly IClientComplaintRepository _clientComplaintRepository;
+        private readonly IFlightRepository _flightRepository;
 
         public SuperUserController(IUserHelper userHelper,
             IAdvertisingRepository advertisingRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
             ITierChangeRepository tierChangeRepository,
-            IClientComplaintRepository clientComplaintRepository)
+            IClientComplaintRepository clientComplaintRepository,
+            IFlightRepository flightRepository)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -36,6 +38,7 @@
             _converterHelper = converterHelper;
             _tierChangeRepository = tierChangeRepository;
             _clientComplaintRepository = clientComplaintRepository;
+            _flightRepository = flightRepository;
         }
 
         /// <summary>
@@ -99,6 +102,60 @@
             catch (Exception)
             {
                 return new NotFoundViewResult("_UserNotFound"); //todo: mudar erros
+            }
+        }
+
+        /// <summary>
+        /// get list of seats to be confirmed
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> AvailableSeats()
+        {
+            var list = await _flightRepository.GetAllFlightListAsync();
+
+            var modelList = new List<FlightViewModel>(
+                list.Select(a => _converterHelper.ToFlightViewModel(a))
+                .ToList());
+
+            return View(modelList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ConfirmAvailableSeats(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            try
+            {
+                Flight seatsAvailable = await _flightRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (seatsAvailable == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
+                }
+
+
+                seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
+                seatsAvailable.UpdateDate = DateTime.Now;
+                seatsAvailable.Status = 0;
+
+
+                await _flightRepository.UpdateAsync(seatsAvailable);
+
+
+                return RedirectToAction(nameof(AvailableSeats));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
             }
         }
 

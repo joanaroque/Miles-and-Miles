@@ -107,7 +107,9 @@ namespace MilesBackOffice.Web
             services.AddScoped<IPremiumRepository, PremiumRepository>();
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
-            
+            services.AddScoped<IFlightRepository, FlightRepository>();
+
+
 
 
             services.Configure<CookiePolicyOptions>(options =>
