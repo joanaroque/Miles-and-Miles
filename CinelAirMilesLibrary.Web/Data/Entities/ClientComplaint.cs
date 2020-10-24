@@ -1,13 +1,13 @@
-﻿using System;
+﻿using CinelAirMilesLibrary.Common.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     public class ClientComplaint : IEntity
     {
+        public ComplaintType Complaint { get; set; }
 
-        [Required]
-        public string Title { get; set; }
 
 
         [DataType(DataType.EmailAddress)]

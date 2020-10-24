@@ -207,7 +207,7 @@
             {
                 try
                 {
-                    var complaint = await _clientComplaintRepository.GetByIdWithIncludesAsync(model.ComplaintId);
+                    var complaint = await _clientComplaintRepository.GetByIdWithIncludesAsync(model.Id);
 
                     if (complaint == null)
                     {

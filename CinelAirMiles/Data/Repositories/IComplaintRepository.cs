@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CinelAirMiles.Data.Repositories
+﻿namespace CinelAirMiles.Data.Repositories
 {
-    public interface IComplaintRepository
-    {
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections.Generic;
 
+    public interface IComplaintRepository : IGenericRepository<ClientComplaint>
+    {
+        IEnumerable<SelectListItem> GetComboComplaintTypes();
     }
 }

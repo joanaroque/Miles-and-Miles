@@ -1,16 +1,23 @@
 ﻿namespace MilesBackOffice.Web.Models.SuperUser
 {
+    using CinelAirMilesLibrary.Common.Enums;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class ComplaintClientViewModel
     {
 
-        public int ComplaintId { get; set; }
+        public int Id { get; set; }
+
+
+        public IEnumerable<SelectListItem> Complaints { get; set; }
 
 
         [Required]
-        public string Title { get; set; }
+        [Display(Name = "Subject")]
+        public ComplaintType Complaint { get; set; }
 
 
         [DataType(DataType.EmailAddress)]

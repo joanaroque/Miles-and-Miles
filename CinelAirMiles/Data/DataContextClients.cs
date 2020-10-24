@@ -114,5 +114,7 @@ namespace CinelAirMiles.Data
 
 
         }
+
+        public DbSet<CinelAirMiles.Models.ComplaintViewModel> ComplaintViewModel { get; set; }
     }
 }
