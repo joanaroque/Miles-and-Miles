@@ -306,7 +306,8 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("ProductId");
 
