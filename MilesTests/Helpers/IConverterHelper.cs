@@ -17,6 +17,12 @@
         AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising);
 
 
+        Flight ToFlight(FlightViewModel model, bool isNew);
+
+
+        FlightViewModel ToFlightViewModel(Flight advertising);
+
+
         ClientComplaint ToClientComplaint(ComplaintClientViewModel model, bool isNew);
 
 

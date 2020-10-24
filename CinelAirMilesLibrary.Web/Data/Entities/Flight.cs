@@ -1,7 +1,6 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     public class Flight : IEntity
     {
@@ -22,17 +21,6 @@
 
 
         public Partner Partner { get; set; }
-
-
-
-
-        [Display(Name = "Date and Time")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime DateTime { get; set; }
-
-
-
-        public decimal Price { get; set; }
 
 
 

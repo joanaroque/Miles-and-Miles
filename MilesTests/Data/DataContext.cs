@@ -21,7 +21,6 @@ namespace MilesBackOffice.Web.Data
         public DbSet<ClientComplaint> ClientComplaints { get; set; }
 
 
-
         public DbSet<Partner> Partners { get; set; }
 
 
@@ -35,6 +34,17 @@ namespace MilesBackOffice.Web.Data
 
 
         public DbSet<Transaction> Transactions { get; set; }
+
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+
+        public DbSet<Notification> Notifications { get; set; }
+
+
+
+        public DbSet<Flight> Flights { get; set; }
+
 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)

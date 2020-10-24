@@ -42,7 +42,9 @@ namespace CinelAirMiles.Data
 
         public DbSet<Notification> Notifications { get; set; }
 
+     
 
+        public DbSet<Flight> Flights { get; set; }
 
 
         public DataContextClients(DbContextOptions<DataContextClients> options) : base(options)
