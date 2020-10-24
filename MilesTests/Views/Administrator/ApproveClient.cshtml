@@ -41,11 +41,6 @@
                                             <input asp-for="Address" class="form-control" readonly />
                                             <span asp-validation-for="Address" class="text-warning"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label asp-for="CountryId">Country</label>
-                                            <input asp-for="CountryId" class="form-control" readonly />
-                                            <span asp-validation-for="CountryId" class="text-warning"></span>
-                                        </div>
                                         <br />
                                         <div class="form-group">
                                             <input type="submit" value="Confirm" class="btn btn-success" />
@@ -58,14 +53,9 @@
                                             <span asp-validation-for="Email" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="DateOfBirth">Date Of Birth</label>
-                                            <input type="hidden" asp-for="DateOfBirth" class="form-control" readonly />
-                                            <span asp-validation-for="DateOfBirth" class="text-warning"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label asp-for="CityId">City</label>
-                                            <input asp-for="CityId" class="form-control" readonly />
-                                            <span asp-validation-for="CityId" class="text-warning"></span>
+                                            <label asp-for="TIN">TIN</label>
+                                            <input asp-for="TIN" class="form-control" readonly />
+                                            <span asp-validation-for="TIN" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
                                             <label asp-for="PhoneNumber">Phone Number</label>
@@ -75,6 +65,9 @@
                                         <div class="form-group">
                                             <label asp-for="IsApproved">Is Approved?</label>
                                             <input asp-for="IsApproved" type="checkbox" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" asp-for="DateOfBirth" class="form-control" readonly />
                                         </div>
                                     </div>
                                 </div>

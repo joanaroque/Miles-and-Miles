@@ -12,14 +12,11 @@ namespace MilesBackOffice.Web.Data.Repositories
     public class ClientRepository : IClientRepository
     {
         private readonly DataContext _context;
-        private readonly IUserHelper _userHelper;
 
         public ClientRepository(
-            DataContext context,
-            IUserHelper userHelper)
+            DataContext context)
         {
             _context = context;
-            _userHelper = userHelper;
         }
 
         public IQueryable GetActiveUsers()

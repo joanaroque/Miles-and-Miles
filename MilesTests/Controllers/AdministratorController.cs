@@ -51,12 +51,43 @@ namespace MilesBackOffice.Web.Controllers
 
         public IActionResult InactiveUsers()
         {
-            return View(_clientRepository.GetInactiveUsers());
+            var users = _clientRepository.GetInactiveUsers();
+            var model = new List<InactiveUsersViewModel>();
+
+            foreach (User user in users)
+            {
+                var viewModel = new InactiveUsersViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    TIN = user.TIN,
+                    SelectedRole = user.SelectedRole,
+                };
+                model.Add(viewModel);
+            }
+
+            return View(model);
         }
 
         public IActionResult NewClients()
         {
-            return View(_clientRepository.GetNewClients());
+            var users = _clientRepository.GetNewClients();
+            var model = new List<NewClientsViewModel>();
+
+            foreach (User user in users)
+            {
+                var viewModel = new NewClientsViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    TIN = user.TIN
+                };
+                model.Add(viewModel);
+            }
+
+            return View(model);
         }
 
 
@@ -69,8 +100,8 @@ namespace MilesBackOffice.Web.Controllers
                 Name = user.Name,
                 Username = user.UserName,
                 Address = user.Address,
-                CityId = user.City.Id,
-                CountryId = user.Country.Id,
+                //CityId = user.City.Id,
+                //CountryId = user.Country.Id,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
