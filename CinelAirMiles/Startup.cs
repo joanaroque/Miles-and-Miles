@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
+using MilesBackOffice.Web.Helpers;
 using System;
 using System.Text;
 
@@ -132,6 +132,8 @@ namespace CinelAirMiles
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IComplaintRepository, ComplaintRepository>();
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

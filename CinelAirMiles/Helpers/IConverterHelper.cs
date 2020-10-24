@@ -10,5 +10,8 @@
 
 
         ReservationViewModel ToReservationViewModel(Reservation reservation);
+
+
+        ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
     }
 }
