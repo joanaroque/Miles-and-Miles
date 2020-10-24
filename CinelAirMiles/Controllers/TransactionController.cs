@@ -1,7 +1,8 @@
 ﻿namespace CinelAirMiles.Controllers
 {
+    using global::CinelAirMiles.Models;
+
     using Microsoft.AspNetCore.Mvc;
-    using CinelAirMiles.Models;
 
     public class TransactionController : Controller
     {

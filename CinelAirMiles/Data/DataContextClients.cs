@@ -8,7 +8,7 @@
 
 
 
-    public class DataContext : IdentityDbContext<User>
+    public class DataContextClients : IdentityDbContext<User>
     {
 
         public DbSet<Country> Countries { get; set; }
@@ -20,8 +20,7 @@
         public DbSet<Advertising> Advertisings { get; set; }
 
 
-        public DbSet<ClientComplaint> ClientComplaints { get; set; } 
-
+        public DbSet<ClientComplaint> ClientComplaints { get; set; }
 
 
         public DbSet<Partner> Partners { get; set; }
@@ -36,9 +35,15 @@
         public DbSet<PremiumOfferType> PremiumOfferTypes { get; set; }
 
 
+        public DbSet<Reservation> Reservations { get; set; }
 
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public DbSet<Notification> Notifications { get; set; }
+
+
+
+
+        public DataContextClients(DbContextOptions<DataContextClients> options) : base(options)
         {
 
         }
@@ -82,6 +87,10 @@
                 entity.HasOne("MilesBackOffice.Web.Data.Entities.Country", "Country")
                 .WithMany();
             });
+
+            modelBuilder.Entity<Transaction>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
 
 
 

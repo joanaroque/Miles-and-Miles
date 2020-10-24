@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public class Notification : IEntity
     {
@@ -8,8 +9,13 @@
         public int ExpiringMiles { get; set; }
 
 
+        [Required]
+        public string Title { get; set; }
 
-        public string CompanyCancellation { get; set; }
+
+
+        [Required]
+        public string Message { get; set; }
 
 
 

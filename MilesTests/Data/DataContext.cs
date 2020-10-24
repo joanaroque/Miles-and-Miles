@@ -83,6 +83,10 @@ namespace MilesBackOffice.Web.Data
             });
 
 
+            modelBuilder.Entity<Transaction>()
+              .Property(p => p.Price)
+              .HasColumnType("decimal(18,2)");
+
 
 
             var cascadeFKs = modelBuilder.Model

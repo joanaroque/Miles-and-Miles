@@ -27,6 +27,7 @@
         /// 3 - To be deleted
         /// 4 - Sent to admin
         /// 5 - Approved by an admin
+        /// 6 - Client cancels the reservation (80€)
         /// </summary>
         int Status { get; set; }
     }

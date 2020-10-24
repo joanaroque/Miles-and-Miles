@@ -5,8 +5,15 @@
     public class Reservation : IEntity
     {
 
+        public string Destination { get; set; }
 
-        public string Cancellation { get; set; }
+
+        public Partner PartnerName { get; set; }
+
+
+
+        public DateTime Date { get; set; }
+
 
 
         public int Id { get; set; }

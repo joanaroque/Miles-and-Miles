@@ -17,7 +17,6 @@ namespace MilesBackOffice.Web.Data.Repositories
         }
 
 
-
         public async Task<bool> CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);

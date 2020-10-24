@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CinelAirMiles.Data;
+﻿using CinelAirMiles.Data;
+using CinelAirMiles.Data.Repositories;
+using CinelAirMilesLibrary.Common.Data.Entities;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 
 using System;
 using System.Text;
-using CinelAirMilesLibrary.Common.Data.Entities;
 
 namespace CinelAirMiles
 {
@@ -39,7 +34,7 @@ namespace CinelAirMiles
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContext>(cfg =>
+            services.AddDbContext<DataContextClients>(cfg =>
             {
                 if (_env.IsDevelopment())
                 {
@@ -66,7 +61,7 @@ namespace CinelAirMiles
             })
                 .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<DataContext>();
+                .AddEntityFrameworkStores<DataContextClients>();
 
 
 
@@ -123,7 +118,7 @@ namespace CinelAirMiles
 
             });
 
-            services.AddDbContext<DataContext>(cfg =>
+            services.AddDbContext<DataContextClients>(cfg =>
             {
                 if (_env.IsDevelopment())
                 {
@@ -134,6 +129,9 @@ namespace CinelAirMiles
                     cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
                 }
             });
+
+            services.AddScoped<IReservationRepository, ReservationRepository>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
