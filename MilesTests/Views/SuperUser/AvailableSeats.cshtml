@@ -43,8 +43,8 @@
                                         <th>Departure</th>
                                         <th>Arrival</th>
                                         <th>Maximum Seats</th>
-                                        <th>Available Seats</th>
                                         <th>Company</th>
+                                        <th>Available Seats</th>
                                         <th>Miles</th>
                                         <th>Status</th>
                                     </tr>
@@ -69,16 +69,19 @@
                                             @Html.DisplayFor(modelItem => item.PartnerName)
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.AvailableSeats)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.Miles)
                                         </td>
                                         <td>
                                             @if (item.Status != 0 && item.Status != 2)
                                             {
-                                                <a asp-action="ConfirmTierChange" asp-route-id="@item.FlightId" class="btn btn-success">
+                                                <a asp-action="ConfirmAvailableSeats" asp-route-id="@item.FlightId" class="btn btn-success">
                                                     <i class="far fa-check-circle"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="CancelTierChange" asp-route-id="@item.FlightId" class="btn btn-danger">
+                                                <a asp-action="CancelAvailableSeats" asp-route-id="@item.FlightId" class="btn btn-danger">
                                                     <i class="fas fa-ban"></i>
                                                 </a>
                                             }

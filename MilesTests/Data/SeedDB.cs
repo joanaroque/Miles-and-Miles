@@ -69,7 +69,7 @@ namespace MilesBackOffice.Web.Data
                     MaximumSeats = 800,
                     AvailableSeats = 10,
                     Miles = 7000,
-                    Status = 0,
+                    Status = 1,
                 });
 
                 await _context.SaveChangesAsync();

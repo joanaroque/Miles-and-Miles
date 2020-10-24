@@ -394,6 +394,42 @@
             {
                 return new NotFoundViewResult("_UserNotFound");
             }
+        }
+
+        /// <summary>
+        /// cancel the tier change and updated the data
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>the TierChange view</returns>
+        public async Task<IActionResult> CancelAvailableSeats(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            try
+            {
+                var flightSeats = await _flightRepository.GetByIdAsync(id.Value);
+
+                if (flightSeats == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                flightSeats.ModifiedBy = await _userHelper.GetUserByIdAsync(flightSeats.Id.ToString());
+                flightSeats.UpdateDate = DateTime.Now;
+                flightSeats.Status = 2;
+
+                await _flightRepository.UpdateAsync(flightSeats);
+
+                return RedirectToAction(nameof(AvailableSeats));
+
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
 
         }
     }
