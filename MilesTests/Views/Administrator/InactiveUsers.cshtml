@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CinelAirMilesLibrary.Common.Data.Entities.User>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.Admin.InactiveUsersViewModel>
 
 
 <div class="content-wrapper">
@@ -31,29 +31,35 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.TIN)
                                     </th>
+                                    <th>
+                                        Role
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Id)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Email)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TIN)
-                                        </td>
-                                        <td id="@item.Id">
-                                            <a class="btn btn-info pull-right" asp-action="ConfirmClient" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TIN)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SelectedRole)
+                                    </td>
+                                    <td id="@item.Id">
+                                        <a class="btn btn-info pull-right" asp-action="DetailsUser" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                             <tfoot>
@@ -69,6 +75,9 @@
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.TIN)
+                                    </th>
+                                    <th>
+                                        Role
                                     </th>
                                     <th></th>
                                 </tr>

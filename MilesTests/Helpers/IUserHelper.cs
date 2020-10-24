@@ -158,9 +158,6 @@
 
 
 
-        Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, UserType roleName);
-
-
 
         Task<User> GetUserImageAsync(Guid userId);
 

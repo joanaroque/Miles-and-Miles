@@ -12,41 +12,41 @@ namespace MilesBackOffice.Web.Models.Admin
     public class RegisterUserViewModel
     {
         [Display(Name = "Email")]
-        // [Required(ErrorMessage = "The field {0} is mandatory.")]
-        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [EmailAddress]
         public string EmailAddress { get; set; }
 
 
         [Display(Name = "Username")]
-        //[Required(ErrorMessage = "The field {0} is mandatory.")]
-        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Username { get; set; }
 
 
 
         [Display(Name = "Name")]
-        //[Required(ErrorMessage = "The field {0} is mandatory.")]
-        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Name { get; set; }
 
 
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        public string TIN { get; set; }
 
-        public string Document { get; set; }
 
-
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
 
         [Display(Name = "New Password")]
-        //[Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DataType(DataType.Password)]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
         public string Password { get; set; }
 
 
         [Display(Name = "Password Confirm")]
-        //[Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DataType(DataType.Password)]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
         [Compare("Password")]
@@ -69,8 +69,8 @@ namespace MilesBackOffice.Web.Models.Admin
         public UserType SelectedRole { get; set; }
 
 
-
-        //[MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required]
+        [MaxLength(150, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 
 
@@ -94,6 +94,10 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
         public IEnumerable<SelectListItem> Countries { get; set; }
+
+
+
+        public IEnumerable<SelectListItem> Genders { get; set; }
 
 
 

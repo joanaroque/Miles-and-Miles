@@ -1,4 +1,4 @@
-﻿@model CinelAirMilesLibrary.Common.Data.Entities.User
+﻿@model MilesBackOffice.Web.Models.Admin.DetailsUserViewModel
 
 
 <div class="content-wrapper">
@@ -19,31 +19,27 @@
                     <div class="card">
                         <div class="container">
                             <div class="row">
-                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.UserName)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Username)</div>
                                 <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Email)</div>
                                 <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Address)</div>
                                 <div class="w-100"></div>
-                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.UserName)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Username)</div>
                                 <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Email)</div>
                                 <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Address)</div>
                             </div>
                             <div class="row">
                                 <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.DateOfBirth)</div>
                                 <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.TIN)</div>
-                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.City)</div>
+                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
                                 <div class="w-100"></div>
                                 <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.DateOfBirth)</div>
                                 <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.TIN)</div>
-                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.City)</div>
+                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.PhoneNumber)</div>
                             </div>
                             <div class="row">
                                 <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Gender)</div>
-                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
-                                <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Country)</div>
                                 <div class="w-100"></div>
                                 <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Gender)</div>
-                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.PhoneNumber)</div>
-                                <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Country)</div>
                             </div>
                             <div class="row">
                                 <div class="col py-3 px-lg-5 bg-light">
