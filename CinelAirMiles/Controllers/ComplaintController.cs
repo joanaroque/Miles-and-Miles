@@ -1,7 +1,7 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using CinelAirMilesLibrary.Common.Data.Entities;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class ComplaintController : Controller
     {
@@ -17,7 +17,7 @@
         }
 
         [HttpPost]
-        public IActionResult Create(ClientComplaint complaint)
+        public async Task<IActionResult> Create(Models.ComplaintViewModel model)
         {
             return View();
         }
