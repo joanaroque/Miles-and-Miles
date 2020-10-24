@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CinelAirMilesLibrary.Common.Data.Entities.User>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.Admin.NewClientsViewModel>
 
 
 <div class="content-wrapper">
@@ -52,6 +52,7 @@
                                         </td>
                                         <td id="@item.Id">
                                             <a class="btn btn-info pull-right" asp-action="ApproveClient" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-info pull-right" asp-action="DetailsUser" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
                                         </td>
                                     </tr>
                                 }

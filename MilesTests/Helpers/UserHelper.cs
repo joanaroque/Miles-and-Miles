@@ -39,33 +39,6 @@
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<User> AddUserWithImageAsync(RegisterUserViewModel model, Guid imageId, UserType roleName)
-        {
-            User user = new User
-            {
-                Name = model.Name,
-                ImageId = imageId,
-                Email = model.EmailAddress,
-                UserName = model.Username,
-                Address = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                Document = model.Document,
-                //CityId = model.CityId,
-                SelectedRole = model.SelectedRole,
-                DateOfBirth = model.DateOfBirth
-            };
-
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-            if (result != IdentityResult.Success)
-            {
-                return null;
-            }
-
-
-            User newUser = await GetUserAsync(model.Username);
-            await AddUSerToRoleAsync(newUser, user.SelectedRole);
-            return newUser;
-        }
 
         public async Task<User> GetUserAsync(string email)
         {

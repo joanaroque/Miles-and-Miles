@@ -3,12 +3,11 @@
     using CinelAirMilesLibrary.Common.CustomValidation;
     using CinelAirMilesLibrary.Common.Enums;
     using Microsoft.AspNetCore.Mvc.Rendering;
-
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class EditUserViewModel
+    public class DetailsUserViewModel
     {
         public string Id { get; set; }
 

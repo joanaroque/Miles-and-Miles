@@ -51,5 +51,17 @@ namespace MilesBackOffice.Web.Data.Repositories
 
             return list;
         }
+
+        public IEnumerable<SelectListItem> GetComboGenders()
+        {
+            var list = Enum.GetValues(typeof(Gender)).Cast<Gender>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+
+
+            return list;
+        }
     }
 }

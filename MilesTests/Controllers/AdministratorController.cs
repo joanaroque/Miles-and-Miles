@@ -1,5 +1,5 @@
 ﻿using CinelAirMilesLibrary.Common.Data.Entities;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace MilesBackOffice.Web.Controllers
 {
-    //todo [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
 
@@ -69,12 +69,13 @@ namespace MilesBackOffice.Web.Controllers
                 Name = user.Name,
                 Username = user.UserName,
                 Address = user.Address,
-                //CityId = user.City.Id,
-                //CountryId = user.Country.Id,
+                CityId = user.City.Id,
+                CountryId = user.Country.Id,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
                 Status = user.Status,
+                TIN = user.TIN
             };
 
             return View(model);
@@ -121,7 +122,8 @@ namespace MilesBackOffice.Web.Controllers
                 Countries = _countryRepository.GetComboCountries(),
                 Cities = _countryRepository.GetComboCities(0),
                 Roles = _userHelper.GetComboRoles(),
-                StatusList = _clientRepository.GetComboStatus()
+                StatusList = _clientRepository.GetComboStatus(),
+                Genders = _clientRepository.GetComboGenders()
             };
             return View(model);
         }
@@ -141,7 +143,7 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     try
                     {
-
+                        var city = await _countryRepository.GetCityAsync(model.CityId);
                         user = new User
                         {
                             Name = model.Name,
@@ -149,15 +151,15 @@ namespace MilesBackOffice.Web.Controllers
                             UserName = model.Username,
                             Address = model.Address,
                             PhoneNumber = model.PhoneNumber,
-                            //City = model.CityId,
-                            //Country = model.CountryId,
+                            City = city,
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
                             IsActive = true,
                             IsApproved = true,
                             BonusMiles = 0,
                             StatusMiles = 0,
-                            Status = model.Status
+                            Status = model.Status,
+                            Gender = model.Gender.ToString()
                         };
 
                         var password = UtilityHelper.Generate();
@@ -323,6 +325,7 @@ namespace MilesBackOffice.Web.Controllers
                 Status = user.Status,
                 StatusMiles = user.StatusMiles,
                 BonusMiles = user.BonusMiles,
+                Genders = _clientRepository.GetComboGenders(),
                 Countries = _countryRepository.GetComboCountries(),
                 StatusList = _clientRepository.GetComboStatus(),
                 Roles = _roleManager.Roles.ToList().Select(
@@ -368,8 +371,17 @@ namespace MilesBackOffice.Web.Controllers
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
                 user.IsActive = editUser.IsActive;
+                user.DateOfBirth = editUser.DateOfBirth;
+                user.BonusMiles = editUser.BonusMiles;
+                user.City.Id = editUser.CityId;
+                user.Country.Id = editUser.CountryId;
+                user.Gender = editUser.Gender.ToString();
+                user.Status = editUser.Status;
+                user.StatusMiles = editUser.StatusMiles;
+                user.TIN = editUser.TIN;
 
-                // await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
+
+                await _userHelper.RemoveRoleAsync(user, user.SelectedRole);
 
                 await _userHelper.AddUSerToRoleAsync(user, editUser.SelectedRole);
 

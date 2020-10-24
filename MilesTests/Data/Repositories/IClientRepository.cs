@@ -11,6 +11,9 @@ namespace MilesBackOffice.Web.Data.Repositories
         IEnumerable<SelectListItem> GetComboStatus();
 
 
+        IEnumerable<SelectListItem> GetComboGenders();
+
+
         IQueryable GetNewClients();
 
 
