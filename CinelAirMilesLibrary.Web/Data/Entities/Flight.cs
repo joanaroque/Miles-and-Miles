@@ -25,17 +25,6 @@
 
 
 
-
-        [Display(Name = "Date and Time")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime DateTime { get; set; }
-
-
-
-        public decimal Price { get; set; }
-
-
-
         public int Miles { get; set; }
 
 
