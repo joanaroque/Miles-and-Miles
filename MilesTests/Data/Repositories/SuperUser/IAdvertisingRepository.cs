@@ -28,6 +28,7 @@
         Task<Advertising> GetByIdWithIncludesAsync(int id);
 
 
+
         Task<Response> UpdatePostAsync(Advertising item);
     }
 }

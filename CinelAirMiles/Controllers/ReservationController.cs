@@ -28,7 +28,7 @@
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            var clientReservation = _reservationRepository.GetReservationFromCurrentClientByIdAsync(currentUser.Id);
+            var clientReservation = _reservationRepository.GetCurrentClientByIdAsync(currentUser.Id);
 
             if (clientReservation == null)
             {
@@ -65,7 +65,7 @@
                 clientReservation.UpdateDate = DateTime.Now;
                 clientReservation.Status = 6;
 
-               // await _reservationRepository.UpdateAsync(clientReservation);
+               await _reservationRepository.UpdateAsync(clientReservation);
 
 
                 return RedirectToAction(nameof(ReservationIndex));
@@ -73,7 +73,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_UserNotFound");//todo mudar 
             }
 
         }
