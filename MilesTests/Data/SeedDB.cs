@@ -49,8 +49,31 @@ namespace MilesBackOffice.Web.Data
             await AddOffers();
 
 
-            //SU tests
             await AddAdvertising();
+            await AddFlights();
+        }
+
+        private async Task AddFlights()
+        {
+            if (!_context.Flights.Any())
+            {
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+                var arrival = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync();
+
+                _context.Flights.Add(new Flight
+                {
+                    Departure = departure.Name,
+                    Arrival = arrival.Name,
+                    Partner = partner,
+                    MaximumSeats = 800,
+                    AvailableSeats = 10,
+                    Miles = 7000,
+                    Status = 0,
+                });
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task AddPartnership()
