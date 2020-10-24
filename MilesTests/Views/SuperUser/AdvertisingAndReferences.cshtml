@@ -43,7 +43,7 @@
                                         <th>Title</th>
                                         <th>Content</th>
                                         <th>End Date</th>
-                                        <th></th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,7 +66,7 @@
 
 
                                             <td>
-                                                @if (item.Status != 0)
+                                                @if (item.Status != 0 && item.Status != 2)
                                                 {
                                                     <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id">
                                                         <i class="fa fa-list"></i>
@@ -80,9 +80,13 @@
                                                         <i class="fas fa-ban"></i>
                                                     </a>
                                                 }
-                                                else
+                                                else if (item.Status == 0)
                                                 {
                                                     <label class="label-success">Confirmed</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="label-success">Canceled</label>
                                                 }
                                             </td>
                                         </tr>

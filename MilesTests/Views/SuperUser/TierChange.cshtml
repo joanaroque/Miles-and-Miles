@@ -44,7 +44,7 @@
                                         <th>New Tier</th>
                                         <th>Number Of Flights</th>
                                         <th>Number Of Miles</th>
-                                        <th>Confirm or Cancel</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,19 +67,23 @@
                                                 @Html.DisplayFor(modelItem => item.NumberOfMiles)
                                             </td>
                                             <td>
-                                                @if (item.Status != 0)
+                                                @if (item.Status != 0 && item.Status != 2)
                                                 {
                                                     <a asp-action="ConfirmTierChange" asp-route-id="@item.TierChangeId" class="btn btn-success">
-                                                            <i class="far fa-check-circle"></i>
+                                                        <i class="far fa-check-circle"></i>
                                                     </a>
                                                     <a>-  -  - </a>
                                                     <a asp-action="CancelTierChange" asp-route-id="@item.TierChangeId" class="btn btn-danger">
-                                                            <i class="fas fa-ban"></i>
+                                                        <i class="fas fa-ban"></i>
                                                     </a>
+                                                }
+                                                else if (item.Status == 0)
+                                                {
+                                                    <label class="label-success">Confirmed</label>
                                                 }
                                                 else
                                                 {
-                                                    <label class="label-success">Confirmed</label>
+                                                    <label class="label-success">Canceled</label>
                                                 }
                                             </td>
                                         </tr>
