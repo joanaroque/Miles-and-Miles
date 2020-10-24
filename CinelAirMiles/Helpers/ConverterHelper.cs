@@ -6,6 +6,21 @@
 
     public class ConverterHelper : IConverterHelper
     {
+        public ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint)
+        {
+            var complaint = new ComplaintViewModel
+            {
+                Id = clientComplaint.Id,
+                Complaint = clientComplaint.Complaint,
+                Email = clientComplaint.Email,
+                Date = clientComplaint.Date,
+                Body = clientComplaint.Body,
+                Status = clientComplaint.Status,
+            };
+
+            return complaint;
+        }
+
         public Reservation ToReservation(ReservationViewModel model, bool isNew)
         {
             var reservation = new Reservation
