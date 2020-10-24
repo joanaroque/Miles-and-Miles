@@ -86,10 +86,10 @@
         {
             var complaint = new ClientComplaint
             {
-                Id = isNew ? 0 : model.ComplaintId,
+                Id = isNew ? 0 : model.Id,
                 UpdateDate = DateTime.Now,
                 Status = 1,
-                Title = model.Title,
+                Complaint = model.Complaint,
                 Email = model.Email,
                 Date = model.Date,
                 Body = model.Body,
@@ -104,8 +104,8 @@
         {
             var complaint = new ComplaintClientViewModel
             {
-                ComplaintId = clientComplaint.Id,
-                Title = clientComplaint.Title,
+                Id = clientComplaint.Id,
+                Complaint = clientComplaint.Complaint,
                 Email = clientComplaint.Email,
                 Date = clientComplaint.Date,
                 Body = clientComplaint.Body,

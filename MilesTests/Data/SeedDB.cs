@@ -138,7 +138,7 @@ namespace MilesBackOffice.Web.Data
                 _context.ClientComplaints.Add(new ClientComplaint
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                    Title = "help",
+                    Complaint = ComplaintType.Miles,
                     Email = "mariliaa@yopmail.com",
                     Date = DateTime.Now.AddDays(-5),
                     Body = "bla bla bla",
