@@ -1,4 +1,6 @@
-﻿namespace CinelAirMiles.Data
+﻿using Microsoft.EntityFrameworkCore;
+using CinelAirMiles.Models;
+namespace CinelAirMiles.Data
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -112,6 +114,5 @@
 
 
         }
-
     }
 }
