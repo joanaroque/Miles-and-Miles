@@ -131,7 +131,7 @@ namespace CinelAirMiles
             });
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
-
+            services.AddScoped<IComplaintRepository, ComplaintRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
