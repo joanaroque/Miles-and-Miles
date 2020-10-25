@@ -1,5 +1,6 @@
 ﻿namespace CinelAirMiles.Helpers
 {
+    using CinelAirMiles.Models;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
 
@@ -38,7 +39,7 @@
         ///// </summary>
         ///// <param name="model">model</param>
         ///// <returns>email password with saved information</returns>
-        //Task<SignInResult> LoginAsync(LoginViewModel model);
+        Task<SignInResult> LoginAsync(LoginViewModel model);
 
 
         /// <summary>

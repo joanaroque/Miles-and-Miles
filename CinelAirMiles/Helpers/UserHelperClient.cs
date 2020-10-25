@@ -1,5 +1,6 @@
 ﻿namespace CinelAirMiles.Helpers
 {
+    using CinelAirMiles.Models;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
 
@@ -125,14 +126,14 @@
             return await _userManager.IsInRoleAsync(user, roleName.ToString());
         }
 
-        //public async Task<SignInResult> LoginAsync(LoginViewModel model)
-        //{
-        //    return await _signInManager.PasswordSignInAsync(
-        //       model.UserName,
-        //       model.Password,
-        //       model.RememberMe,
-        //       false);
-        //}
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+               model.UserName,
+               model.Password,
+               model.RememberMe,
+               false);
+        }
 
         public async Task LogoutAsync()
         {
