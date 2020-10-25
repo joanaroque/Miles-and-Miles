@@ -150,7 +150,7 @@
 
             else if (signResult.IsLockedOut)
             {
-                return RedirectToAction(nameof(RecoverPassword));
+                return RedirectToAction(nameof(ClientRecoverPassword));
             }
 
             else
@@ -314,13 +314,13 @@
             return View(model);
         }
 
-        public IActionResult RecoverPassword()
+        public IActionResult ClientRecoverPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> ClientRecoverPassword(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
