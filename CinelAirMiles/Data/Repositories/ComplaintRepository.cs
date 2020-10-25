@@ -18,6 +18,15 @@
             _context = context;
         }
 
+        public async Task<List<ClientComplaint>> GetAllClientListAsync()
+        {
+            var clientComplaints = await _context.ClientComplaints
+                 .Include(t => t.CreatedBy).ToListAsync();
+
+            return clientComplaints;
+;
+        }
+
         public async Task<ClientComplaint> GetClientWithUserByIdAsync(int clientId)
         {
             var client = await _context.ClientComplaints

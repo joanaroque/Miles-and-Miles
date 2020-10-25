@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -26,11 +27,24 @@
             _converterHelper = converterHelper;
         }
 
-        public IActionResult Index()
-        {
-            var client = _complaintRepository.GetAll().ToList();
 
-            return View(client);
+
+        /// <summary>
+        /// get list of all clients and transforms an entity to viewmodel
+        /// </summary>
+        /// <returns>the list of all clients</returns>
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+
+            var list = await _complaintRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
+
+            var modelList = new List<ComplaintViewModel>(
+                list.Select(a => _converterHelper.ToComplaintClientViewModel(a))
+                .ToList());
+
+            return View(modelList);
+ 
         }
 
 

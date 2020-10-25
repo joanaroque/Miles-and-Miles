@@ -4,6 +4,7 @@ namespace CinelAirMiles.Data
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
 
     using System.Linq;
@@ -54,6 +55,9 @@ namespace CinelAirMiles.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<SelectListItem>();// isto deixa fazer o metodo index no complaintController
+
+
             modelBuilder.Entity<City>(entity =>
             {
                 entity.Property<string>("CreatedById");

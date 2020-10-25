@@ -8,7 +8,6 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
     public class ClientComplaint : IEntity
     {
 
-        [NotMapped]
         public ComplaintType Complaint { get; set; }
 
 

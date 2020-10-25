@@ -17,10 +17,5 @@ namespace MilesBackOffice.Web.Models
 
         public bool RememberMe { get; set; }
 
-
-        public string ReturnUrl { get; set; }
-
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }

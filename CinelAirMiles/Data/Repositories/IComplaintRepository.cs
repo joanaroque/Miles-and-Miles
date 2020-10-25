@@ -25,5 +25,14 @@
         /// <param name="clientId">Id client</param>
         /// <returns>attributes of the clients, including the user who created it, for the client ID received</returns>
         Task<ClientComplaint> GetClientWithUserByIdAsync(int clientId);
+
+
+
+        /// <summary>
+        /// get a list of clients, including who created
+        /// </summary>
+        /// <returns>list of clients</returns>
+        Task<List<ClientComplaint>> GetAllClientListAsync();
+
     }
 }
