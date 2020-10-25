@@ -12,12 +12,12 @@
     {
         private readonly IComplaintRepository _complaintRepository;
         private readonly IUserHelper _userHelper;
-        private readonly Helpers.IConverterHelper _converterHelper;
+        private readonly Helpers.IClientConverterHelper _converterHelper;
 
         public ComplaintController(
             IComplaintRepository complaintRepository,
             IUserHelper userHelper,
-            Helpers.IConverterHelper converterHelper)
+            Helpers.IClientConverterHelper converterHelper)
         {
             _complaintRepository = complaintRepository;
             _userHelper = userHelper;

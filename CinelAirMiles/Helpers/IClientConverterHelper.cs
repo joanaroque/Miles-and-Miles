@@ -4,7 +4,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
 
 
-    public interface IConverterHelper
+    public interface IClientConverterHelper
     {
         Reservation ToReservation(ReservationViewModel model, bool isNew);
 

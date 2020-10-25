@@ -4,7 +4,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using System;
 
-    public class ConverterHelper : IConverterHelper
+    public class ClientConverterHelper : IClientConverterHelper
     {
         public ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint)
         {
