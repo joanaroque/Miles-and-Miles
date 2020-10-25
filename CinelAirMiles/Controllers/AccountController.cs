@@ -51,7 +51,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(string returnUrl)
         {
-            LoginViewModel model = new LoginViewModel
+            ClientLoginViewModel model = new ClientLoginViewModel
             {
                 ReturnUrl = returnUrl,
                 ExternalLogins =
@@ -63,7 +63,7 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> LoginClient(ClientLoginViewModel model, string returnUrl)
         {
             model.ExternalLogins =
                 (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -118,7 +118,7 @@
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            LoginViewModel loginViewModel = new LoginViewModel
+            ClientLoginViewModel loginViewModel = new ClientLoginViewModel
             {
                 ReturnUrl = returnUrl,
                 ExternalLogins =
@@ -150,7 +150,7 @@
 
             else if (signResult.IsLockedOut)
             {
-                return RedirectToAction(nameof(RecoverPassword));
+                return RedirectToAction(nameof(ClientRecoverPassword));
             }
 
             else
@@ -314,13 +314,13 @@
             return View(model);
         }
 
-        public IActionResult RecoverPassword()
+        public IActionResult ClientRecoverPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> ClientRecoverPassword(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -363,7 +363,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTokenClient([FromBody] LoginViewModel model)
+        public async Task<IActionResult> CreateTokenClient([FromBody] ClientLoginViewModel model)
         {
             if (this.ModelState.IsValid)
             {

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class LoginViewModel
+    public class ClientLoginViewModel
     {
         [Required]
         public string UserName { get; set; }

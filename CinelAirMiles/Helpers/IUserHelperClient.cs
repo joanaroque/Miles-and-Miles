@@ -39,7 +39,7 @@
         ///// </summary>
         ///// <param name="model">model</param>
         ///// <returns>email password with saved information</returns>
-        Task<SignInResult> LoginAsync(LoginViewModel model);
+        Task<SignInResult> LoginAsync(ClientLoginViewModel model);
 
 
         /// <summary>
