@@ -1,0 +1,43 @@
+﻿<script src="~/wwwroot/lib/jquery/dist/jquery.min.js"></script>
+
+<table id="tblNotification" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td>Type</td>
+            <td>Title</td>
+            <td>Message</td>
+            <td>Is Read</td>
+            <td>Notification Date</td>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/Notification/GetNotifications",
+            traditional: true,
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                let notifications = data;
+                $.map(notifications, function (notification) {
+                    $("#tblNotification tbody").append("</tr>"
+                        + "<td>" + notification.notificationType + "</td>"
+                        + "<td>" + notification.title + "</td>"
+                        + "<td>" + notification.message + "</td>"
+                        + "<td>" + notification.isRead + "</td>"
+                        + "<td>" + notification.date + "</td>"
+                    )
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        })
+    });
+</script>

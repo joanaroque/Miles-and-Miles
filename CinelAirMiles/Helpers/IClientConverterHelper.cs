@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMiles.Helpers
 {
     using CinelAirMiles.Models;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
 
 
@@ -16,5 +17,9 @@
 
 
         ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew);
+
+
+        NotificationViewModel ToNotificationViewModel(Notification notification);
+
     }
 }

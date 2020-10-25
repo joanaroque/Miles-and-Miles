@@ -51,6 +51,87 @@ namespace MilesBackOffice.Web.Data
 
             await AddAdvertising();
             await AddFlights();
+
+            //client project !!
+            await AddReservations();
+            await AddNotifications();
+
+        }
+
+        private async Task AddNotifications()
+        {
+            if (!_context.Notifications.Any())
+            {
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+
+                _context.Notifications.Add(new Notification
+                {
+                    Client = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com"),
+                    IsRead = false,
+                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
+                  //  NotificationType = NotificationType.ExpiringMiles,
+                    Title = "omg notifications one!",
+                    Message = "bla bla bla notifications bla bla bla notifications!!!! "
+                });
+
+                _context.Notifications.Add(new Notification
+                {
+                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
+                    IsRead = false,
+                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
+                  //  NotificationType = NotificationType.ExpiringMiles,
+                    Title = "omg notifications two!",
+                    Message = "bla bla bla notifications bla bla bla notifications " +
+                    "bla bla bla notifications!!!! "
+                });
+
+                _context.Notifications.Add(new Notification
+                {
+                    Client = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
+                    IsRead = false,
+                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
+                  //  NotificationType = NotificationType.ExpiringMiles,
+                    Title = "omg notifications three!",
+                    Message = "bla bla bla notifications bla bla bla notifications" +
+                    "bla bla bla notifications" +
+                    "bla bla bla notifications!!!! "
+                });
+
+                _context.Notifications.Add(new Notification
+                {
+                    Client = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
+                    IsRead = false,
+                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
+                 //   NotificationType = NotificationType.ExpiringMiles,
+                    Title = "omg notifications four!",
+                    Message = "bla bla bla notifications bla bla bla notifications" +
+                    "bla bla bla notifications" +
+                    "bla bla bla notifications" +
+                    "bla bla bla notifications!!!! "
+                });
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task AddReservations()
+        {
+            if (!_context.Reservations.Any())
+            {
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+
+                _context.Reservations.Add(new Reservation
+                {
+                    Destination = departure.Name,
+                    PartnerName = partner,
+                    Date = DateTime.Now.AddDays(6),
+                    Status = 1
+                });
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task AddFlights()

@@ -1,7 +1,9 @@
 ﻿namespace CinelAirMiles.Helpers
 {
     using CinelAirMiles.Models;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
+
     using System;
 
     public class ClientConverterHelper : IClientConverterHelper
@@ -34,6 +36,22 @@
             };
 
             return complaint;
+        }
+
+
+        public NotificationViewModel ToNotificationViewModel(Notification notification)
+        {
+            var notificationModel = new NotificationViewModel
+            {
+                NotiId = notification.Id,
+                IsRead = false,
+                NotificationType = notification.NotificationType,
+                Title = notification.Title,
+                Message = notification.Message,
+                Date = notification.CreateDate
+            };
+
+            return notificationModel;
         }
 
         public Reservation ToReservation(ReservationViewModel model, bool isNew)

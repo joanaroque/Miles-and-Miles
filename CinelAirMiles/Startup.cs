@@ -141,6 +141,7 @@ namespace CinelAirMiles
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

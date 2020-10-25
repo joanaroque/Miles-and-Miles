@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/owl.carousel.css">
     <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
-
+    <link href="~/testJoana/ikr.notification.css" rel="stylesheet" />
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="~/css/templatemo-style.css">
 
@@ -30,12 +30,12 @@
 
     <!-- PRE LOADER -->
     @*<section class="preloader">
-        <div class="spinner">
+            <div class="spinner">
 
-            <span class="spinner-rotate"></span>
+                <span class="spinner-rotate"></span>
 
-        </div>
-    </section>*@
+            </div>
+        </section>*@
 
 
     <!-- MENU -->
@@ -64,7 +64,9 @@
                     <li><a asp-controller="Complaint" asp-action="Index" class="smoothScroll">My Complaints</a></li>
 
                     <li><a href="#testimonial" class="smoothScroll">Reviews</a></li>
+
                     <li><a href="#contact" class="smoothScroll">Contact</a></li>
+
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -84,6 +86,8 @@
                         </li>
                     }
                 </ul>
+
+                <div id="noti_Container"></div>
             </div>
 
         </div>
@@ -96,7 +100,7 @@
 
 
 
-    
+
     <!-- FOOTER -->
     <footer id="footer">
         <div class="container">
@@ -180,6 +184,35 @@
 
     <script src="~/js/custom.js" type="text/javascript"></script>
 
+    <script src="~/notifications/ikr.notificationPlugin.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#noti_Container").ikrNotificationSetup();
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/Notification/GetNotifications",
+            traditional: true,
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                let notifications = data;
+                $("#noti_Container").ikrNotificationCount({
+                    NotificationList: notifications,
+                    NotiFromPropName: "FromUserName",
+                    ListTitlePropName: "Title",
+                    ListBodyPropName: "Message",
+                    ControllerName: "Notification",
+                    ActionName: "AllNotifications"
+                });
+            },
+            error: function (xhr, status, error) {
+
+            }
+        })
+    });
+</script>

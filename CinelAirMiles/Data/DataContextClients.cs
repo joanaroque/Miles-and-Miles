@@ -41,7 +41,7 @@ namespace CinelAirMiles.Data
         public DbSet<Reservation> Reservations { get; set; }
 
 
-        public DbSet<Notification> Notifications { get; set; }
+       public DbSet<Notification> Notifications { get; set; }
 
      
 
@@ -119,6 +119,5 @@ namespace CinelAirMiles.Data
 
         }
 
-        public DbSet<CinelAirMiles.Models.ComplaintViewModel> ComplaintViewModel { get; set; }
     }
 }
