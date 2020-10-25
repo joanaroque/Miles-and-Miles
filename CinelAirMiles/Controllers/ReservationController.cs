@@ -1,21 +1,23 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using global::CinelAirMiles.Data.Repositories;
+    using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
     using MilesBackOffice.Web.Helpers;
+
     using System;
     using System.Threading.Tasks;
 
     public class ReservationController : Controller
     {
         private readonly IReservationRepository _reservationRepository;
-        private readonly IUserHelper _userHelper;
+        private readonly IUserHelperClient _userHelper;
 
         public ReservationController(IReservationRepository reservationRepository,
-            IUserHelper userHelper)
+            IUserHelperClient userHelper)
         {
             _reservationRepository = reservationRepository;
             _userHelper = userHelper;
@@ -64,7 +66,7 @@
                 clientReservation.UpdateDate = DateTime.Now;
                 clientReservation.Status = 6;
 
-               await _reservationRepository.UpdateAsync(clientReservation);
+                await _reservationRepository.UpdateAsync(clientReservation);
 
 
                 return RedirectToAction(nameof(ReservationIndex));

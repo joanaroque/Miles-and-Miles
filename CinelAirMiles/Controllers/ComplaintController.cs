@@ -3,21 +3,21 @@
     using global::CinelAirMiles.Data.Repositories;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
+
     using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
-    using System;
+
     using System.Threading.Tasks;
 
     public class ComplaintController : Controller
     {
         private readonly IComplaintRepository _complaintRepository;
-        private readonly IUserHelper _userHelper;
-        private readonly Helpers.IClientConverterHelper _converterHelper;
+        private readonly IUserHelperClient _userHelper;
+        private readonly IClientConverterHelper _converterHelper;
 
         public ComplaintController(
             IComplaintRepository complaintRepository,
-            IUserHelper userHelper,
-            Helpers.IClientConverterHelper converterHelper)
+            IUserHelperClient userHelper,
+            IClientConverterHelper converterHelper)
         {
             _complaintRepository = complaintRepository;
             _userHelper = userHelper;
@@ -43,33 +43,33 @@
         [HttpPost]
         public async Task<IActionResult> Create(ComplaintViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //        if (user == null)
-            //        {
-            //            //todo criar erro
-            //        }
+            if (ModelState.IsValid)
+            {
+                //try
+                //{
+                //    var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                //    if (user == null)
+                //    {
+                //        //todo criar erro
+                //    }
 
-            //        var complaint = _converterHelper.ToComplaintClientViewModel(model);
+                //    var complaint = _converterHelper.ToComplaintClientViewModel(model);
 
-            //        var result = await _complaintRepository.CreateAsync(complaint);
+                //    var result = await _complaintRepository.CreateAsync(complaint);
 
-            //        if (!result)
-            //        {
-            //            //todo criar erro
-            //        }
+                //    if (!result)
+                //    {
+                //        //todo criar erro
+                //    }
 
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        ModelState.AddModelError(string.Empty, ex.Message);
-            //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    ModelState.AddModelError(string.Empty, ex.Message);
+                //}
 
-            //    return RedirectToAction(nameof(Index));
-            //}
+                //return RedirectToAction(nameof(Index));
+            }
             return RedirectToAction(nameof(Index));
         }
     }
