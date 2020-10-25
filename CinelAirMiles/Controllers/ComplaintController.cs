@@ -7,8 +7,6 @@
     using Microsoft.AspNetCore.Mvc;
 
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class ComplaintController : Controller
@@ -28,31 +26,20 @@
         }
 
 
-
-        /// <summary>
-        /// get list of all clients and transforms an entity to viewmodel
-        /// </summary>
-        /// <returns>the list of all clients</returns>
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
+            var user = User.Identity.Name;
+            var list = _complaintRepository.GetClientComplaints(user);
 
-            var list = await _complaintRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
-
-            var modelList = new List<ComplaintViewModel>(
-                list.Select(a => _converterHelper.ToComplaintClientViewModel(a))
-                .ToList());
-
-            return View(modelList);
- 
+            return View(list);
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-
-            var client = await _complaintRepository.GetFirstClientAsync(User.Identity.Name.ToLower());
+            var client = User.Identity.Name;
 
             if (client == null)
             {
@@ -74,12 +61,11 @@
             {
                 try
                 {
-                    var complaint = await _complaintRepository.GetClientWithUserByIdAsync(model.Id);
+                    var complaint = await _complaintRepository.GetClientByIdAsync(model.Id);
 
                     if (complaint == null)
                     {
-                        return NotFound();// criar erros
-
+                        return NotFound();
                     }
 
                     var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
