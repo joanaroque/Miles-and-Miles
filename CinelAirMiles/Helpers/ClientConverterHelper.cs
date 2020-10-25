@@ -6,6 +6,21 @@
 
     public class ClientConverterHelper : IClientConverterHelper
     {
+        public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
+        {
+            var client = new ClientComplaint
+            {
+                Id = isNew ? 0 : model.Id,
+                Complaint = model.Complaint,
+                Email = model.Email,
+                Date = model.Date,
+                Body = model.Body,
+                Status = model.Status,
+            };
+
+            return client;
+        }
+
         public ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint)
         {
             var complaint = new ComplaintViewModel

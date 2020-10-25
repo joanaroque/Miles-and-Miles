@@ -1,11 +1,14 @@
 ﻿using CinelAirMilesLibrary.Common.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CinelAirMilesLibrary.Common.Data.Entities
 {
     public class ClientComplaint : IEntity
     {
+
+        [NotMapped]
         public ComplaintType Complaint { get; set; }
 
 

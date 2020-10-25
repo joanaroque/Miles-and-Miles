@@ -6,6 +6,8 @@
 
     using Microsoft.AspNetCore.Mvc;
 
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ComplaintController : Controller
@@ -26,18 +28,29 @@
 
         public IActionResult Index()
         {
-            return View();
+            var client = _complaintRepository.GetAll().ToList();
+
+            return View(client);
         }
 
 
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
+
+            var client = await _complaintRepository.GetFirstClientAsync(User.Identity.Name.ToLower());
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
             var model = new ComplaintViewModel
             {
                 Complaints = _complaintRepository.GetComboComplaintTypes()
             };
 
-            return this.View(model);
+            return View(model);
         }
 
         [HttpPost]
@@ -45,32 +58,38 @@
         {
             if (ModelState.IsValid)
             {
-                //try
-                //{
-                //    var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                //    if (user == null)
-                //    {
-                //        //todo criar erro
-                //    }
+                try
+                {
+                    var complaint = await _complaintRepository.GetClientWithUserByIdAsync(model.Id);
 
-                //    var complaint = _converterHelper.ToComplaintClientViewModel(model);
+                    if (complaint == null)
+                    {
+                        return NotFound();// criar erros
 
-                //    var result = await _complaintRepository.CreateAsync(complaint);
+                    }
 
-                //    if (!result)
-                //    {
-                //        //todo criar erro
-                //    }
+                    var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
 
-                //}
-                //catch (Exception ex)
-                //{
-                //    ModelState.AddModelError(string.Empty, ex.Message);
-                //}
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
 
-                //return RedirectToAction(nameof(Index));
+                    var clientComplaint = _converterHelper.ToClientComplaint(model, true);
+                    clientComplaint.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                    await _complaintRepository.CreateAsync(clientComplaint);
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+
             }
-            return RedirectToAction(nameof(Index));
+            return View(model);
         }
     }
 }

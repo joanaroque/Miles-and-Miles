@@ -13,5 +13,8 @@
 
 
         ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
+
+
+        ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew);
     }
 }
