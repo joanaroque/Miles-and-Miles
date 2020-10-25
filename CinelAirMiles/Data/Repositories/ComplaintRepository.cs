@@ -1,5 +1,6 @@
 ﻿namespace CinelAirMiles.Data.Repositories
 {
+    using CinelAirMiles.Helpers;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,27 +14,28 @@
     {
         private readonly DataContextClients _context;
 
-        public ComplaintRepository(DataContextClients context) : base(context)
+        public ComplaintRepository(
+            DataContextClients context) : base(context)
         {
             _context = context;
         }
 
-        public async Task<List<ClientComplaint>> GetAllClientListAsync()
-        {
-            var clientComplaints = await _context.ClientComplaints
-                 .Include(t => t.CreatedBy).ToListAsync();
-
-            return clientComplaints;
-;
-        }
-
-        public async Task<ClientComplaint> GetClientWithUserByIdAsync(int clientId)
+        public async Task<ClientComplaint> GetClientByIdAsync(int clientId)
         {
             var client = await _context.ClientComplaints
                    .Include(o => o.CreatedBy)
                     .FirstOrDefaultAsync(o => o.Id == clientId);
 
             return client;
+        }
+
+        public IQueryable GetClientComplaints(string user)
+        {
+            var complaints = _context.ClientComplaints
+                .OrderBy(c => c.CreateDate)
+                .Where(c => c.CreatedBy.Email == user);
+
+            return complaints;
         }
 
         public IEnumerable<SelectListItem> GetComboComplaintTypes()
@@ -45,15 +47,6 @@
             }).ToList();
 
             return list;
-        }
-
-        public async Task<ClientComplaint> GetFirstClientAsync(string identityName)
-        {
-            var client = await _context.ClientComplaints
-                 .FirstOrDefaultAsync(o => o.CreatedBy.Email.ToLower()
-                 .Equals(identityName));
-
-            return client;
         }
     }
 }

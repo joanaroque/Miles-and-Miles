@@ -29,8 +29,8 @@
             {
                 Id = clientComplaint.Id,
                 Complaint = clientComplaint.Complaint,
-                Email = clientComplaint.Email,
-                Date = clientComplaint.Date,
+                Email = clientComplaint.CreatedBy.Email,
+                Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
                 Status = clientComplaint.Status,
             };
