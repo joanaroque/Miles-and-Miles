@@ -126,7 +126,7 @@
             return await _userManager.IsInRoleAsync(user, roleName.ToString());
         }
 
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        public async Task<SignInResult> LoginAsync(ClientLoginViewModel model)
         {
             return await _signInManager.PasswordSignInAsync(
                model.UserName,

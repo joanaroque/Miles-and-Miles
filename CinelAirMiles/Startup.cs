@@ -138,6 +138,7 @@ namespace CinelAirMiles
             services.AddScoped<IComplaintRepository, ComplaintRepository>();
             services.AddScoped<IUserHelperClient, UserHelperClient>();
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -165,7 +166,7 @@ namespace CinelAirMiles
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=IndexClient}/{id?}");
             });
         }
     }

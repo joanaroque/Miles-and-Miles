@@ -127,6 +127,8 @@
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
+            //TODO validação do user type, para clientes não entrarem
+
             return await _signInManager.PasswordSignInAsync(
                model.UserName,
                model.Password,
