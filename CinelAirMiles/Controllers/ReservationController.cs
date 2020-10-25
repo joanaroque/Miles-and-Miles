@@ -27,8 +27,8 @@
         [HttpGet]
         public async Task<IActionResult> ReservationIndex()
         {
-            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
+            var currentUser = await _userHelper.GetUserByIdAsync(User.Identity.Name);
+            //todo fazer login pra poder comparar o id que entrou com  a info do id que ha na bd
             var clientReservation = _reservationRepository.GetCurrentClientByIdAsync(currentUser.Id);
 
             if (clientReservation == null)
