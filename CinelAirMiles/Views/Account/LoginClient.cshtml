@@ -52,11 +52,49 @@
                     <p class="login button">
                         <input type="submit" value="Login" />
                     </p>
+
+                    @if (Model.ExternalLogins.Count > 0)
+                    {
+                        <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                            <div class="social-auth-links text-center mb-3">
+                                <p style="color:#ffffff">- OR -</p>
+
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    @if (provider.Name == "Facebook")
+                                    {
+                                        <button data-onsuccess="onSignIn"
+                                                class="btn-block btn btn-facebook" type="submit" value="@provider.Name"
+                                                title="Log in using your @provider.DisplayName account" name="provider">
+                                            <i class="fa fa-facebook-square"></i> Facebook
+                                        </button>
+                                    }
+                                    else if (provider.Name == "Google")
+                                    {
+                                        <button data-onsuccess="onSignIn"
+                                                type="submit" class="btn btn-block btn-google" value="@provider.Name"
+                                                title="Log in using your @provider.DisplayName account" name="provider">
+                                            <i class="fa fa-google"></i> Google
+                                        </button>
+                                    }
+                                }
+
+                            </div>
+                        </form>
+                    }
+
+                    <p class="login button">
+                        <a href="RegisterClient" class="to_register">
+                            <span>Register here</span>
+                        </a>
+                    </p>
+
                     <p class="login button">
                         <a href="ClientRecoverPassword" class="to_register">
                             <span>Forgot your password?</span>
                         </a>
                     </p>
+
                 }
             </div>
         </div>

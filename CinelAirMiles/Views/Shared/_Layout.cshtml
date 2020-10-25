@@ -68,7 +68,21 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><i class="fa fa-phone"></i> +65 2244 1100</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a asp-controller="Account" asp-action="ChangeUserClient">Hello @this.User.Identity.Name !</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Account" asp-action="LogoutClient">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Account" asp-action="LoginClient">Login</a>
+                        </li>
+                    }
                 </ul>
             </div>
 
