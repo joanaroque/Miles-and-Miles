@@ -117,6 +117,8 @@ namespace MilesBackOffice.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ApproveClient(ApproveClientViewModel model)
         {
+            //TODO !!! enviar email quando o user é aprovado + trycatch
+
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByIdAsync(model.Id);

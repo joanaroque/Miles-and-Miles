@@ -47,6 +47,12 @@
                                             <select asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
                                             <span asp-validation-for="CityId" class="text-danger"></span>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="PhoneNumber">Phone Number</label>
+                                            <input asp-for="PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                        </div>
                                         <br />
                                         <div class="form-group">
                                             <input type="submit" value="Register New User" class="btn btn-success" />
@@ -69,9 +75,9 @@
                                             <span asp-validation-for="CountryId" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="PhoneNumber">Phone Number</label>
-                                            <input asp-for="PhoneNumber" class="form-control" />
-                                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                            <label asp-for="Gender" class="control-label"></label>
+                                            <select asp-for="Gender" asp-items="Model.Genders" class="form-control"></select>
+                                            <span asp-validation-for="Gender" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -87,31 +93,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-
-
-    <script src="~/~/plugins/moment/moment.min.js"></script>
-    <script src="~/~/plugins/inputmask/jquery.inputmask.min.js"></script>
-    <!-- date-range-picker -->
-    <script src="~/~/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- jQuery -->
-    <script src="~/~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap4 Duallistbox -->
-    <script src=".~/~/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="~/~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- DataTables -->
-    <script src="~/~/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/~/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/~/dist/js/demo.js"></script>
-
 
 
     <script type="text/javascript">

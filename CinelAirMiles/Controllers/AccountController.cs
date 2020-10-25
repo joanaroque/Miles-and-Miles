@@ -1,7 +1,8 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using CinelAirMilesLibrary.Common.Enums;
+    using global::CinelAirMiles.Data.Repositories;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
@@ -21,30 +22,31 @@
 
     public class AccountController : Controller
     {
-        //todo private readonly ICountryRepository _countryRepository;
+        private readonly ICountryRepository _countryRepository;
         private readonly IUserHelperClient _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IClientRepository _clientRepository;
 
         public AccountController(
-            //ICountryRepository countryRepository,
+            ICountryRepository countryRepository,
             IUserHelperClient userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
             SignInManager<User> signInManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IClientRepository clientRepository)
         {
-            //_countryRepository = countryRepository;
+            _countryRepository = countryRepository;
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
             _signInManager = signInManager;
             _userManager = userManager;
+            _clientRepository = clientRepository;
         }
-
-
 
 
         [HttpGet]
@@ -74,11 +76,24 @@
                 var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
                 if (user != null && !user.EmailConfirmed &&
-                             (await _userManager.CheckPasswordAsync(user, model.Password)))
+                   (await _userManager.CheckPasswordAsync(user, model.Password)) && user.IsApproved == true)
                 {
-                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                    ModelState.AddModelError(string.Empty, "Please confirm your email.");
                     return View(model);
                 }
+
+                if (user.IsActive == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account is inactive.");
+                    return View(model);
+                }
+
+                if (user.IsApproved == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
+                    return View(model);
+                }
+
                 var result = await _userHelper.LoginAsync(model);
 
                 if (result.Succeeded)
@@ -89,14 +104,14 @@
                     }
                     else
                     {
-                        return RedirectToAction("index", "home");
+                        return RedirectToAction("IndexClient", "home");
                     }
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-            //TODO redirect to logged User Home
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction("IndexClient", "Home");
         }
 
         [HttpPost]
@@ -130,14 +145,14 @@
                 ModelState.AddModelError(string.Empty,
                     $"Error from external provider: {remoteError}");
 
-                return View("Login", loginViewModel);
+                return View("LoginClient", loginViewModel);
             }
 
             var info = await _signInManager.GetExternalLoginInfoAsync();
 
             if (info == null)
             {
-                return View("Login", loginViewModel);
+                return View("LoginClient", loginViewModel);
             }
 
             var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
@@ -186,7 +201,7 @@
         public async Task<IActionResult> LogoutClient()
         {
             await _userHelper.LogoutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("IndexClients", "Home");
         }
 
 
@@ -194,9 +209,9 @@
         {
             var model = new RegisterNewUserViewModel
             {
-                //Countries = _countryRepository.GetComboCountries(),
-                //Cities = _countryRepository.GetComboCities(0),
-                //Genders = TODO passar repos para common???
+                Countries = _countryRepository.GetComboCountries(),
+                Cities = _countryRepository.GetComboCities(0),
+                Genders = _clientRepository.GetComboGenders()
             };
 
             return View(model);
@@ -211,9 +226,7 @@
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
-
-                    //todo var city = await _countryRepository.GetCityAsync(model.CityId);
-
+                    var city = await _countryRepository.GetCityAsync(model.CityId);
 
                     user = new User
                     {
@@ -222,7 +235,16 @@
                         UserName = model.Username,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNumber,
-                        //City = city
+                        City = city,
+                        TIN = model.TIN,
+                        Status = TierType.Silver,
+                        BonusMiles = 0,
+                        StatusMiles = 0,
+                        IsActive = true,
+                        IsApproved = false,
+                        DateOfBirth = model.DateOfBirth,
+                        Gender = model.Gender.ToString(),
+                        SelectedRole = UserType.Client
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -240,16 +262,16 @@
                     }, protocol: HttpContext.Request.Scheme);
 
                     _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                        $"To allow the user, " +
-                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                    this.ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                        $"Confirm this is your email by clicking the followiing link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
+                        $"</br></br></br>Your account is waiting approval. " +
+                        $"We'll let you know when it's approved and ready for you to use it.");
+                    this.ViewBag.Message = "Verify your email.";
 
 
                     return this.View(model);
                 }
 
                 this.ModelState.AddModelError(string.Empty, "The user already exists.");
-
             }
 
             return View(model);
@@ -298,7 +320,7 @@
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        return this.RedirectToAction("ChangeUser");
+                        return this.RedirectToAction("ChangeUserClient");
                     }
                     else
                     {
@@ -430,10 +452,10 @@
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(model.Email, "Shop Password Reset", $"<h1>Shop Password Reset</h1>" +
-                $"To reset the password click in this link:</br></br>" +
+                _mailHelper.SendMail(model.Email, "CinelAir Miles Password Reset", 
+                    $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
-                this.ViewBag.Message = "The instructions to recover your password has been sent to email.";
+                this.ViewBag.Message = "The instructions to recover your password have been sent to email.";
                 return this.View();
 
             }
@@ -456,7 +478,7 @@
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
-                    this.ViewBag.Message = "Password reset successful.";
+                    this.ViewBag.Message = "Password reset successfully.";
                     return this.View();
                 }
 
@@ -474,11 +496,11 @@
             return View();
         }
 
-        //public async Task<JsonResult> GetCitiesAsync(int countryId)
-        //{
-        //    //var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
-        //    return this.Json(country.Cities.OrderBy(c => c.Name));
-        //}
+        public async Task<JsonResult> GetCitiesAsync(int countryId)
+        {
+            var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
+            return this.Json(country.Cities.OrderBy(c => c.Name));
+        }
 
         public async Task<IActionResult> ChangeUserClient()
         {
@@ -491,22 +513,25 @@
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
 
-                //todo var city = await _countryRepository.GetCityAsync(user.CityId);
-                //if (city != null)
-                //{
-                //    var country = await _countryRepository.GetCountryAsync(city);
-                //    if (country != null)
-                //    {
-                //        model.CountryId = country.Id;
-                //        model.Cities = _countryRepository.GetComboCities(country.Id);
-                //        model.Countries = _countryRepository.GetComboCountries();
-                //        model.CityId = user.CityId;
-                //    }
-                //}
+                var city = await _countryRepository.GetCityAsync(user.City.Id);
+                if (city != null)
+                {
+                    var country = await _countryRepository.GetCountryAsync(city);
+                    if (country != null)
+                    {
+                        model.CountryId = country.Id;
+                        model.Cities = _countryRepository.GetComboCities(country.Id);
+                        model.Countries = _countryRepository.GetComboCountries();
+                        model.CityId = user.City.Id;
+                        model.TIN = user.TIN;
+                        model.Name = user.Name;
+                        model.PhoneNumber = user.PhoneNumber;
+                    }
+                }
             }
 
-            //model.Cities = _countryRepository.GetComboCities(model.CountryId);
-            //model.Countries = _countryRepository.GetComboCountries();
+            model.Cities = _countryRepository.GetComboCities(model.CountryId);
+            model.Countries = _countryRepository.GetComboCountries();
             return View(model);
         }
 
@@ -520,13 +545,17 @@
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 if (user != null)
                 {
-                    //var city = await _countryRepository.GetCityAsync(model.CityId);
+                    var city = await _countryRepository.GetCityAsync(model.CityId);
 
                     user.Name = model.Name;
                     user.Address = model.Address;
                     user.PhoneNumber = model.PhoneNumber;
                     user.City.Id = model.CityId;
-                    //user.City = city;
+                    user.City = city;
+                    user.Name = model.Name;
+                    user.TIN = model.TIN;
+                    user.Name = model.Name;
+                    user.PhoneNumber = model.PhoneNumber;
 
                     var respose = await _userHelper.UpdateUserAsync(user);
                     if (respose.Succeeded)

@@ -1,0 +1,26 @@
+﻿
+<section class="content">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">E-mail confirmed!</h3>
+
+            </div>
+            <!-- Content Header (Page header) -->
+
+
+            @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post, new { @autocomplete = "on" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>You can now log in into your account.</label>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</section>
