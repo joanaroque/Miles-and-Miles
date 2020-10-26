@@ -14,8 +14,6 @@
         public bool IsRead { get; set; }
 
 
-        //*************************************************************
-
         public NotificationType NotificationType { get; set; }
 
 
