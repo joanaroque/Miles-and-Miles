@@ -8,7 +8,7 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
     public class ClientComplaint : IEntity
     {
 
-        public ComplaintType Complaint { get; set; }
+       public ComplaintType Complaint { get; set; }
 
 
 
