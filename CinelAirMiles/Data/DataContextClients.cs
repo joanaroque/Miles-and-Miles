@@ -20,22 +20,9 @@ namespace CinelAirMiles.Data
         public DbSet<City> Cities { get; set; }
 
 
-        public DbSet<Advertising> Advertisings { get; set; }
-
 
         public DbSet<ClientComplaint> ClientComplaints { get; set; }
 
-
-        public DbSet<Partner> Partners { get; set; }
-
-
-        public DbSet<PremiumOffer> PremiumOffers { get; set; }
-
-
-        public DbSet<TierChange> TierChanges { get; set; }
-
-
-        public DbSet<PremiumOfferType> PremiumOfferTypes { get; set; }
 
 
         public DbSet<Reservation> Reservations { get; set; }
