@@ -20,6 +20,13 @@
 
 
         [HttpGet]
+        public IActionResult TransactionsIndex()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult TransactionIndex()
         {
             return View();
