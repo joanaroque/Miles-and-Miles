@@ -19,64 +19,6 @@ namespace CinelAirMiles.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CinelAirMiles.Models.ComplaintViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body");
-
-                    b.Property<int>("Complaint");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Email");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ComplaintViewModel");
-                });
-
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Advertising", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<Guid>("ImageId");
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<int?>("PartnerId");
-
-                    b.Property<int>("Status");
-
-                    b.Property<string>("Title");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("PartnerId");
-
-                    b.ToTable("Advertisings");
-                });
-
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -282,7 +224,7 @@ namespace CinelAirMiles.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.ToTable("Partners");
+                    b.ToTable("Partner");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.PremiumOffer", b =>
@@ -323,34 +265,7 @@ namespace CinelAirMiles.Migrations
 
                     b.HasIndex("PartnerId");
 
-                    b.ToTable("PremiumOffers");
-                });
-
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.PremiumOfferType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int>("Type");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.ToTable("PremiumOfferTypes");
+                    b.ToTable("PremiumOffer");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Reservation", b =>
@@ -358,6 +273,8 @@ namespace CinelAirMiles.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -377,6 +294,8 @@ namespace CinelAirMiles.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
@@ -384,43 +303,6 @@ namespace CinelAirMiles.Migrations
                     b.HasIndex("PartnerNameId");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.TierChange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClientId");
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<int>("NewTier");
-
-                    b.Property<int>("NumberOfFlights");
-
-                    b.Property<int>("NumberOfMiles");
-
-                    b.Property<int>("OldTier");
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.ToTable("TierChanges");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Transaction", b =>
@@ -675,21 +557,6 @@ namespace CinelAirMiles.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Advertising", b =>
-                {
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Partner", "Partner")
-                        .WithMany()
-                        .HasForeignKey("PartnerId");
-                });
-
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.City", b =>
                 {
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country")
@@ -764,33 +631,7 @@ namespace CinelAirMiles.Migrations
                         .HasForeignKey("PartnerId");
                 });
 
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.PremiumOfferType", b =>
-                {
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-                });
-
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Reservation", b =>
-                {
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Partner", "PartnerName")
-                        .WithMany()
-                        .HasForeignKey("PartnerNameId");
-                });
-
-            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.TierChange", b =>
                 {
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "Client")
                         .WithMany()
@@ -803,6 +644,10 @@ namespace CinelAirMiles.Migrations
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById");
+
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Partner", "PartnerName")
+                        .WithMany()
+                        .HasForeignKey("PartnerNameId");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Transaction", b =>

@@ -1,55 +1,50 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using global::CinelAirMiles.Data.Repositories;
-    using global::CinelAirMiles.Helpers;
-    using global::CinelAirMiles.Models;
+    using CinelAirMiles.Data.Repositories;
+    using CinelAirMiles.Helpers;
+    using CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
-    using MilesBackOffice.Web.Helpers;
 
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ReservationController : Controller
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly IUserHelperClient _userHelper;
+        private readonly IClientConverterHelper _clientConverterHelper;
 
         public ReservationController(IReservationRepository reservationRepository,
-            IUserHelperClient userHelper)
+            IUserHelperClient userHelper,
+            IClientConverterHelper clientConverterHelper)
         {
             _reservationRepository = reservationRepository;
             _userHelper = userHelper;
+            _clientConverterHelper = clientConverterHelper;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> ReservationIndex()
         {
-            var currentUser = await _userHelper.GetUserByIdAsync(User.Identity.Name);
-            //todo fazer login pra poder comparar o id que entrou com  a info do id que ha na bd
-            var clientReservation = _reservationRepository.GetCurrentClientByIdAsync(currentUser.Id);
+            var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync();
 
-            if (clientReservation == null)
-            {
-                return NotFound();
-            }
+            var list = new List<ReservationViewModel>(clientReservation.
+                Select(c => _clientConverterHelper.ToReservationViewModel(c)).
+                ToList());
 
-            var model = new ReservationViewModel
-            {
-                ReservationId = clientReservation.Id,
-                ClientName = currentUser.Name
-            };
-
-            return View(model);
+            return View(list);
         }
 
         public async Task<IActionResult> CancelReservation(int? id)
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return NotFound();
             }
 
             try
@@ -58,8 +53,7 @@
 
                 if (clientReservation == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
-
+                    return NotFound();
                 }
 
                 clientReservation.ModifiedBy = await _userHelper.GetUserByIdAsync(clientReservation.Id.ToString());
@@ -74,7 +68,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_UserNotFound");//todo mudar 
+                return NotFound();//todo mudar 
             }
 
         }

@@ -74,9 +74,10 @@
             {
                 ReservationId = reservation.Id,
                 Destination = reservation.Destination,
-                PartnerName = reservation.PartnerName.CompanyName,
+               // PartnerName = reservation.PartnerName.CompanyName,
                 Date = reservation.Date,
-                Status = reservation.Status
+                Status = reservation.Status,
+                ClientName = reservation.CreatedBy.Name
             };
 
             return reservationClient;

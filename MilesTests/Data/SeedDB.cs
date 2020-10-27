@@ -124,6 +124,7 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Reservations.Add(new Reservation
                 {
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     Destination = departure.Name,
                     PartnerName = partner,
                     Date = DateTime.Now.AddDays(6),

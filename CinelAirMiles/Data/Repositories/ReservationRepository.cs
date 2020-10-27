@@ -3,7 +3,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
 
     using Microsoft.EntityFrameworkCore;
-
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -18,11 +18,11 @@
         }
 
 
-        public async Task<Reservation> GetCurrentClientByIdAsync(string currentClient)
+        public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync()
         {
             var clientReservation = await _context.Reservations
-               .Where(r => r.CreatedBy.Id == currentClient.ToString())
-               .FirstOrDefaultAsync();
+                .Include(r => r.CreatedBy)
+               .ToListAsync();
 
             return clientReservation;
         }
