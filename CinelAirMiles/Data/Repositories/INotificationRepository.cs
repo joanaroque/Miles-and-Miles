@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMiles.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -23,5 +24,9 @@
         /// <returns>list of unread notifications</returns>
         List<Notification> GetUnreadNotifications(string clientId);
 
+
+
+
+        Task<Notification> GetByIdWithIncludesAsync(int id);
     }
 }

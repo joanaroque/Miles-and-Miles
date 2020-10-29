@@ -7,22 +7,6 @@
     public class Notification : IEntity
     {
 
-        public User Client { get; set; }
-
-
-
-        public bool IsRead { get; set; }
-
-
-        public NotificationType NotificationType { get; set; }
-
-
-
-        [Required]
-        public string Title { get; set; }
-
-
-
         [Required]
         public string Message { get; set; }
 

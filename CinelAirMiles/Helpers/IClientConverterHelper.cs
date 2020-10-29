@@ -21,5 +21,7 @@
 
         NotificationViewModel ToNotificationViewModel(Notification notification);
 
+
+        Notification ToNotification(NotificationViewModel model, bool isNew);
     }
 }

@@ -28,6 +28,8 @@
         /// 4 - Sent to admin
         /// 5 - Approved by an admin
         /// 6 - Client cancels the reservation (80€)
+        /// 7 - notifications read
+        /// 8 - notifications unread
         /// </summary>
         int Status { get; set; }
     }

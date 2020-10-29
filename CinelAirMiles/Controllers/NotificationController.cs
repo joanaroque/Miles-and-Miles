@@ -3,11 +3,12 @@
     using CinelAirMiles.Data.Repositories;
     using CinelAirMiles.Helpers;
     using CinelAirMiles.Models;
-
+    using CinelAirMilesLibrary.Common.Data.Entities;
     using Microsoft.AspNetCore.Mvc;
-
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class NotificationController : Controller
     {
@@ -30,6 +31,55 @@
             return View();
         }
 
+        [HttpGet]
+        public async Task<ActionResult> NotificationsIndex()
+        {
+            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            var noti =  _notificationRepository.GetAllNotifications(currentUser.Id); 
+
+            return View(noti);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MarkAsRead(int? id) 
+        {
+            if (id == null)
+            {
+                return NotFound(); // todo mudar erros
+            }
+
+            try
+            {
+                Notification notification  = await _notificationRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (notification == null)
+                {
+                    return NotFound();
+                }
+
+                var user = await _userHelper.GetUserByIdAsync(notification.CreatedBy.Id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                notification.ModifiedBy = user;
+                notification.UpdateDate = DateTime.Now;
+                notification.Status = 7; // noti read in bd
+
+                await _notificationRepository.UpdateAsync(notification);
+
+                
+                return RedirectToAction(nameof(NotificationsIndex));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
         public JsonResult GetNotifications(string id, bool isGetOnlyUnread = false)
         {
 
@@ -50,21 +100,6 @@
 
             return Json(modelList);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

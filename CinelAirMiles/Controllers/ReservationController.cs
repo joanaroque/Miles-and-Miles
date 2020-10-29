@@ -31,7 +31,9 @@
         [HttpGet]
         public async Task<IActionResult> ReservationIndex()
         {
-            var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync();
+            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync(user.Id);
 
             var list = new List<ReservationViewModel>(clientReservation.
                 Select(c => _clientConverterHelper.ToReservationViewModel(c)).

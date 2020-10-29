@@ -33,22 +33,36 @@
                 Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
                 Status = clientComplaint.Status,
+                
             };
 
             return complaint;
         }
 
+        public Notification ToNotification(NotificationViewModel model, bool isNew)
+        {
+            var notification = new Notification
+            {
+                Id = isNew ? 0 : model.NotiId,
+                UpdateDate = DateTime.Now,
+                Status = 8,
+                CreateDate = model.Date,
+                Message = model.Message
+
+            };
+
+            return notification;
+        }
 
         public NotificationViewModel ToNotificationViewModel(Notification notification)
         {
             var notificationModel = new NotificationViewModel
             {
                 NotiId = notification.Id,
-                IsRead = false,
-                NotificationType = notification.NotificationType,
-                Title = notification.Title,
                 Message = notification.Message,
-                Date = notification.CreateDate
+                Date = notification.CreateDate,
+                Status = notification.Status,
+                ClientName = notification.CreatedBy.Name
             };
 
             return notificationModel;
@@ -74,7 +88,7 @@
             {
                 ReservationId = reservation.Id,
                 Destination = reservation.Destination,
-               // PartnerName = reservation.PartnerName.CompanyName,
+                PartnerName = reservation.PartnerName.CompanyName,
                 Date = reservation.Date,
                 Status = reservation.Status,
                 ClientName = reservation.CreatedBy.Name

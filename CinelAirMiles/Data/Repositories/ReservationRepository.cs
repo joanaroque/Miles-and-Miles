@@ -18,10 +18,11 @@
         }
 
 
-        public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync()
+        public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync(string clientId)
         {
             var clientReservation = await _context.Reservations
                 .Include(r => r.CreatedBy)
+                .Where(r => r.CreatedBy.Id == clientId)
                .ToListAsync();
 
             return clientReservation;
