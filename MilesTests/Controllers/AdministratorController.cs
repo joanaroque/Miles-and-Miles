@@ -1,11 +1,11 @@
-﻿using CinelAirMilesLibrary.Common.Data.Entities;
+﻿using CinelAirMilesLibrary.Common.Data;
+using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Repositories;
 using MilesBackOffice.Web.Helpers;
 using MilesBackOffice.Web.Models.Admin;
 

@@ -1,13 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
-
+    using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-
-    using MilesBackOffice.Web.Data.Repositories.SuperUser;
-    using MilesBackOffice.Web.Data.Repositories.User;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.User;

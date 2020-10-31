@@ -1,5 +1,7 @@
-﻿using CinelAirMilesLibrary.Common.Data.Entities;
-
+﻿using CinelAirMilesLibrary.Common.Data;
+using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,9 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Data.Repositories;
-using MilesBackOffice.Web.Data.Repositories.SuperUser;
-using MilesBackOffice.Web.Data.Repositories.User;
 using MilesBackOffice.Web.Helpers;
 
 using System;
@@ -102,7 +101,7 @@ namespace MilesBackOffice.Web
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IAdvertisingRepository, AdvertisingRepository>();
-            services.AddScoped<IClientComplaintRepository, ClientComplaintRepository>();
+            services.AddScoped<IComplaintRepository, ComplaintRepository>();
             services.AddScoped<ITierChangeRepository, TierChangeRepository>();
             services.AddScoped<IPremiumRepository, PremiumRepository>();
             services.AddScoped<IPartnerRepository, PartnerRepository>();

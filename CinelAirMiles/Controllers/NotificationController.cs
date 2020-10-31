@@ -1,9 +1,8 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using CinelAirMiles.Data.Repositories;
     using CinelAirMiles.Helpers;
     using CinelAirMiles.Models;
-    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
@@ -12,11 +11,11 @@
 
     public class NotificationController : Controller
     {
-        private readonly IUserHelperClient _userHelper;
+        private readonly IUserHelper _userHelper;
         private readonly INotificationRepository _notificationRepository;
         private readonly IClientConverterHelper _converterHelper;
 
-        public NotificationController(IUserHelperClient userHelper,
+        public NotificationController(IUserHelper userHelper,
                 INotificationRepository notificationRepository,
                 IClientConverterHelper clientConverterHelper)
         {

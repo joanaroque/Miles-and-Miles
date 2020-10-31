@@ -59,6 +59,9 @@
             var notificationModel = new NotificationViewModel
             {
                 NotiId = notification.Id,
+                IsRead = false,
+                NotificationType = notification.NotificationType,
+                Title = notification.Title,
                 Message = notification.Message,
                 Date = notification.CreateDate,
                 Status = notification.Status,

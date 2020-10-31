@@ -1,9 +1,9 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using CinelAirMiles.Data.Repositories;
     using CinelAirMiles.Helpers;
     using CinelAirMiles.Models;
-
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
 
 
@@ -15,11 +15,11 @@
     public class ReservationController : Controller
     {
         private readonly IReservationRepository _reservationRepository;
-        private readonly IUserHelperClient _userHelper;
+        private readonly IUserHelper _userHelper;
         private readonly IClientConverterHelper _clientConverterHelper;
 
         public ReservationController(IReservationRepository reservationRepository,
-            IUserHelperClient userHelper,
+            IUserHelper userHelper,
             IClientConverterHelper clientConverterHelper)
         {
             _reservationRepository = reservationRepository;

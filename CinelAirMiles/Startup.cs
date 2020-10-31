@@ -1,9 +1,8 @@
-﻿using CinelAirMiles.Data;
-using CinelAirMiles.Data.Repositories;
-using CinelAirMiles.Helpers;
-
+﻿using CinelAirMiles.Helpers;
+using CinelAirMilesLibrary.Common.Data;
 using CinelAirMilesLibrary.Common.Data.Entities;
-
+using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +37,7 @@ namespace CinelAirMiles
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContextClients>(cfg =>
+            services.AddDbContext<DataContext>(cfg =>
             {
                 if (_env.IsDevelopment())
                 {
@@ -65,7 +64,7 @@ namespace CinelAirMiles
             })
                 .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<DataContextClients>();
+                .AddEntityFrameworkStores<DataContext>();
 
 
 
@@ -123,7 +122,7 @@ namespace CinelAirMiles
 
             });
 
-            services.AddDbContext<DataContextClients>(cfg =>
+            services.AddDbContext<DataContext>(cfg =>
             {
                 if (_env.IsDevelopment())
                 {
@@ -137,7 +136,7 @@ namespace CinelAirMiles
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IComplaintRepository, ComplaintRepository>();
-            services.AddScoped<IUserHelperClient, UserHelperClient>();
+            services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IClientRepository, ClientRepository>();

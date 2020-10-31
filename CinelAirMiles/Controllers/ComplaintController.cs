@@ -1,23 +1,26 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using global::CinelAirMiles.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ComplaintController : Controller
     {
         private readonly IComplaintRepository _complaintRepository;
-        private readonly IUserHelperClient _userHelper;
+        private readonly IUserHelper _userHelper;
         private readonly IClientConverterHelper _converterHelper;
 
         public ComplaintController(
             IComplaintRepository complaintRepository,
-            IUserHelperClient userHelper,
+            IUserHelper userHelper,
             IClientConverterHelper converterHelper)
         {
             _complaintRepository = complaintRepository;
@@ -27,12 +30,30 @@
 
 
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> ComplaintsIndex()
         {
-            var user = User.Identity.Name;
-            var list = _complaintRepository.GetClientComplaints(user);
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
-            return View(list);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var list = await _complaintRepository.GetClientComplaintsAsync(user.Id);
+
+                var modelList = new List<ComplaintViewModel>(
+                    list.Select(c => _converterHelper.ToComplaintClientViewModel(c))
+                    .ToList());
+            }
+
+            else
+            {
+                return NotFound();
+            }
+
+            return View();
         }
 
 
@@ -80,7 +101,7 @@
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(ComplaintsIndex));
 
                 }
                 catch (Exception ex)

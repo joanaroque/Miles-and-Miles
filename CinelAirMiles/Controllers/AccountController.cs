@@ -1,8 +1,10 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
-    using global::CinelAirMiles.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+    using CinelAirMilesLibrary.Common.Models;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
@@ -23,7 +25,7 @@
     public class AccountController : Controller
     {
         private readonly ICountryRepository _countryRepository;
-        private readonly IUserHelperClient _userHelper;
+        private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
         private readonly SignInManager<User> _signInManager;
@@ -32,7 +34,7 @@
 
         public AccountController(
             ICountryRepository countryRepository,
-            IUserHelperClient userHelper,
+            IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
             SignInManager<User> signInManager,
@@ -53,7 +55,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(string returnUrl)
         {
-            ClientLoginViewModel model = new ClientLoginViewModel
+            LoginViewModel model = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
                 ExternalLogins =
@@ -65,7 +67,7 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginClient(ClientLoginViewModel model, string returnUrl)
+        public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
         {
             model.ExternalLogins =
                 (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -82,17 +84,17 @@
                     return View(model);
                 }
 
-                if (user.IsActive == false)
-                {
-                    ModelState.AddModelError(string.Empty, "Your account is inactive.");
-                    return View(model);
-                }
+                //todo if (user.IsActive == false)
+                //{
+                //    ModelState.AddModelError(string.Empty, "Your account is inactive.");
+                //    return View(model);
+                //}
 
-                if (user.IsApproved == false)
-                {
-                    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
-                    return View(model);
-                }
+                //if (user.IsApproved == false)
+                //{
+                //    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
+                //    return View(model);
+                //}
 
                 var result = await _userHelper.LoginAsync(model);
 
@@ -133,7 +135,7 @@
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            ClientLoginViewModel loginViewModel = new ClientLoginViewModel
+            LoginViewModel loginViewModel = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
                 ExternalLogins =
@@ -385,7 +387,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTokenClient([FromBody] ClientLoginViewModel model)
+        public async Task<IActionResult> CreateTokenClient([FromBody] LoginViewModel model)
         {
             if (this.ModelState.IsValid)
             {

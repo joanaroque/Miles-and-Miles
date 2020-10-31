@@ -49,8 +49,6 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
         public User ModifiedBy { get; set; }
 
 
-
         public int Status { get; set; }
-
     }
 }

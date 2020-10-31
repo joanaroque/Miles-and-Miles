@@ -1,10 +1,9 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Data.Repositories;
-    using MilesBackOffice.Web.Data.Repositories.SuperUser;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -21,7 +20,7 @@
         private readonly IMailHelper _mailHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly ITierChangeRepository _tierChangeRepository;
-        private readonly IClientComplaintRepository _clientComplaintRepository;
+        private readonly IComplaintRepository _clientComplaintRepository;
         private readonly IFlightRepository _flightRepository;
 
         public SuperUserController(IUserHelper userHelper,
@@ -29,7 +28,7 @@
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
             ITierChangeRepository tierChangeRepository,
-            IClientComplaintRepository clientComplaintRepository,
+            IComplaintRepository clientComplaintRepository,
             IFlightRepository flightRepository)
         {
             _userHelper = userHelper;
@@ -166,7 +165,7 @@
         [HttpGet]
         public async Task<ActionResult> Complaints()
         {
-            var list = await _clientComplaintRepository.GetClientComplaintsAsync();
+            var list = await _clientComplaintRepository.GetAllComplaintsAsync();
 
             var modelList = new List<ComplaintClientViewModel>(
                 list.Select(c => _converterHelper.ToComplaintClientViewModel(c))
@@ -184,7 +183,7 @@
         [HttpGet]
         public async Task<IActionResult> ComplaintReply(int? id)
         {
-            var entityList = await _clientComplaintRepository.GetClientComplaintsAsync();
+            var entityList = await _clientComplaintRepository.GetAllComplaintsAsync();
 
             ClientComplaint selectedComplaint = entityList
                                                    .Where(complaint => complaint.Id.Equals(id.Value))
