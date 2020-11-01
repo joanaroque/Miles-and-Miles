@@ -229,9 +229,10 @@
                 if (user == null)
                 {
                     var city = await _countryRepository.GetCityAsync(model.CityId);
-
+                    var guid = _clientRepository.CreateGuid();
                     user = new User
                     {
+                        GuidId = guid,
                         Name = model.Name,
                         Email = model.Username,
                         UserName = model.Username,

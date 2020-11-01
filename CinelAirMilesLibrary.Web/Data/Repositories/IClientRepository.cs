@@ -19,5 +19,8 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 
 
         IQueryable GetInactiveUsers();
+
+
+        string CreateGuid();
     }
 }

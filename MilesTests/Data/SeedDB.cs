@@ -1,5 +1,6 @@
 ﻿using CinelAirMilesLibrary.Common.Data;
 using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMilesLibrary.Common.Data.Repositories;
 using CinelAirMilesLibrary.Common.Enums;
 using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,15 @@ namespace MilesBackOffice.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IClientRepository _clientRepository;
 
         public SeedDB(DataContext context,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IClientRepository clientRepository)
         {
             _context = context;
             _userHelper = userHelper;
+            _clientRepository = clientRepository;
         }
 
         public async Task SeedAsync()
@@ -55,7 +59,7 @@ namespace MilesBackOffice.Web.Data
 
             //client project !!
             await AddReservations();
-           await AddNotifications();
+            await AddNotifications();
 
         }
 
@@ -104,7 +108,7 @@ namespace MilesBackOffice.Web.Data
                     "bla bla bla notifications!!!! "
                 });
 
-await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -270,6 +274,7 @@ await _context.SaveChangesAsync();
             {
                 user6 = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "Marilia",
                     Email = "mariliaa@yopmail.com",
                     UserName = "Mariliazinha",
@@ -312,6 +317,7 @@ await _context.SaveChangesAsync();
             {
                 user5 = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "Jacinto",
                     Email = "jacintoafonso@yopmail.com",
                     UserName = "Jacinto",
@@ -354,6 +360,7 @@ await _context.SaveChangesAsync();
             {
                 user4 = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "Pedro",
                     Email = "estevescardoso@yopmail.com",
                     UserName = "Pedro",
@@ -397,6 +404,7 @@ await _context.SaveChangesAsync();
 
                 user = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "João Felix",
                     Email = "jpofelix@gmail.com",
                     UserName = "JoaoFelix",
@@ -440,6 +448,7 @@ await _context.SaveChangesAsync();
 
                 user = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "Cátia Oliveira",
                     Email = "catia-96@hotmail.com",
                     UserName = "CatiaOliveira",
@@ -483,6 +492,7 @@ await _context.SaveChangesAsync();
             {
                 user = new User
                 {
+                    GuidId = _clientRepository.CreateGuid(),
                     Name = "Joana Roque",
                     Email = "joanatpsi@gmail.com",
                     UserName = "JoanaRoque",
