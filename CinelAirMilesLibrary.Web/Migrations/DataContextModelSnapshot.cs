@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MilesBackOffice.Web.Data;
 
 namespace MilesBackOffice.Web.Migrations
 {
@@ -195,31 +194,20 @@ namespace MilesBackOffice.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClientId");
-
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
-
-                    b.Property<bool>("IsRead");
 
                     b.Property<string>("Message")
                         .IsRequired();
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<int>("NotificationType");
-
                     b.Property<int>("Status");
-
-                    b.Property<string>("Title")
-                        .IsRequired();
 
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -705,10 +693,6 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Notification", b =>
                 {
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

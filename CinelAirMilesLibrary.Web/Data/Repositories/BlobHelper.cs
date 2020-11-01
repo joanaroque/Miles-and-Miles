@@ -2,12 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MilesBackOffice.Web.Helpers
+namespace CinelAirMilesLibrary.Common.Helpers
 {
     public class BlobHelper : IBlobHelper
     {

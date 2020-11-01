@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CinelAirMiles.Migrations
+namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201026134212_ChangedNotification")]
-    partial class ChangedNotification
+    [Migration("20201031192938_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,27 +20,6 @@ namespace CinelAirMiles.Migrations
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CinelAirMiles.Models.ComplaintViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body");
-
-                    b.Property<int>("Complaint");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Email");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ComplaintViewModel");
-                });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Advertising", b =>
                 {
@@ -217,31 +196,20 @@ namespace CinelAirMiles.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClientId");
-
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
-
-                    b.Property<bool>("IsRead");
 
                     b.Property<string>("Message")
                         .IsRequired();
 
                     b.Property<string>("ModifiedById");
 
-                    b.Property<int>("NotificationType");
-
                     b.Property<int>("Status");
-
-                    b.Property<string>("Title")
-                        .IsRequired();
 
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedById");
 
@@ -466,7 +434,7 @@ namespace CinelAirMiles.Migrations
 
                     b.HasIndex("TransferToId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.User", b =>
@@ -727,10 +695,6 @@ namespace CinelAirMiles.Migrations
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.Notification", b =>
                 {
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");

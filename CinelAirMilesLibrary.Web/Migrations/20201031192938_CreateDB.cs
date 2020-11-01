@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilesBackOffice.Web.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,18 +107,19 @@ namespace MilesBackOffice.Web.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Document = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
                     SelectedRole = table.Column<int>(nullable: false),
-                    Address = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(maxLength: 150, nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    TIN = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    ImageId = table.Column<Guid>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    Gender = table.Column<string>(nullable: false),
                     CityId = table.Column<int>(nullable: true),
                     CountryId = table.Column<int>(nullable: true),
                     IsApproved = table.Column<bool>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
+                    StatusMiles = table.Column<int>(nullable: false),
+                    BonusMiles = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     CreatedById = table.Column<int>(nullable: true),
                     ModifiedById = table.Column<int>(nullable: true)
                 },
@@ -159,40 +160,6 @@ namespace MilesBackOffice.Web.Migrations
                         name: "FK_AspNetUsers_Countries_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Advertisings",
-                columns: table => new
-                {
-                    Title = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    PendingPublish = table.Column<bool>(nullable: false),
-                    ImageId = table.Column<Guid>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedById = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
-                    ModifiedById = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Advertisings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Advertisings_AspNetUsers_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Advertisings_AspNetUsers_ModifiedById",
-                        column: x => x.ModifiedById,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -286,15 +253,13 @@ namespace MilesBackOffice.Web.Migrations
                 name: "ClientComplaints",
                 columns: table => new
                 {
-                    Title = table.Column<string>(nullable: false),
+                    Complaint = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
-                    Subject = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
                     Reply = table.Column<string>(nullable: true),
-                    PendingComplaint = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClientId = table.Column<string>(nullable: true),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
@@ -304,12 +269,6 @@ namespace MilesBackOffice.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClientComplaints", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ClientComplaints_AspNetUsers_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClientComplaints_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
@@ -325,31 +284,29 @@ namespace MilesBackOffice.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
+                name: "Notifications",
                 columns: table => new
                 {
-                    Title = table.Column<string>(nullable: true),
-                    Body = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    IsConfirm = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.Id);
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_AspNetUsers_CreatedById",
+                        name: "FK_Notifications_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_News_AspNetUsers_ModifiedById",
+                        name: "FK_Notifications_AspNetUsers_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -365,14 +322,13 @@ namespace MilesBackOffice.Web.Migrations
                     Description = table.Column<string>(nullable: true),
                     Designation = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    Logo = table.Column<byte>(nullable: false),
+                    LogoId = table.Column<Guid>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    IsConfirm = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -393,13 +349,10 @@ namespace MilesBackOffice.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SeatsAvailables",
+                name: "PremiumOfferTypes",
                 columns: table => new
                 {
-                    FlightNumber = table.Column<int>(nullable: false),
-                    MaximumSeats = table.Column<int>(nullable: false),
-                    AvailableSeats = table.Column<int>(nullable: false),
-                    ConfirmSeatsAvailable = table.Column<bool>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
@@ -410,15 +363,15 @@ namespace MilesBackOffice.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SeatsAvailables", x => x.Id);
+                    table.PrimaryKey("PK_PremiumOfferTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SeatsAvailables_AspNetUsers_CreatedById",
+                        name: "FK_PremiumOfferTypes_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SeatsAvailables_AspNetUsers_ModifiedById",
+                        name: "FK_PremiumOfferTypes_AspNetUsers_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -429,11 +382,10 @@ namespace MilesBackOffice.Web.Migrations
                 name: "TierChanges",
                 columns: table => new
                 {
-                    OldTier = table.Column<string>(nullable: true),
-                    NewTier = table.Column<string>(nullable: true),
+                    OldTier = table.Column<int>(nullable: false),
+                    NewTier = table.Column<int>(nullable: false),
                     NumberOfFlights = table.Column<int>(nullable: false),
-                    NumberOfMiles = table.Column<long>(nullable: false),
-                    IsConfirm = table.Column<bool>(nullable: false),
+                    NumberOfMiles = table.Column<int>(nullable: false),
                     ClientId = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false)
@@ -467,32 +419,82 @@ namespace MilesBackOffice.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TypePremiuns",
+                name: "Advertisings",
                 columns: table => new
                 {
-                    Description = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    ImageId = table.Column<Guid>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    PartnerId = table.Column<int>(nullable: true),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    IsConfirm = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TypePremiuns", x => x.Id);
+                    table.PrimaryKey("PK_Advertisings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TypePremiuns_AspNetUsers_CreatedById",
+                        name: "FK_Advertisings_AspNetUsers_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TypePremiuns_AspNetUsers_ModifiedById",
+                        name: "FK_Advertisings_AspNetUsers_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Advertisings_Partners_PartnerId",
+                        column: x => x.PartnerId,
+                        principalTable: "Partners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flights",
+                columns: table => new
+                {
+                    Departure = table.Column<string>(nullable: true),
+                    Arrival = table.Column<string>(nullable: true),
+                    MaximumSeats = table.Column<int>(nullable: false),
+                    AvailableSeats = table.Column<int>(nullable: false),
+                    PartnerId = table.Column<int>(nullable: true),
+                    Miles = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flights", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Flights_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Flights_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Flights_Partners_PartnerId",
+                        column: x => x.PartnerId,
+                        principalTable: "Partners",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -514,7 +516,6 @@ namespace MilesBackOffice.Web.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    IsConfirm = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -540,6 +541,92 @@ namespace MilesBackOffice.Web.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Destination = table.Column<string>(nullable: true),
+                    PartnerNameId = table.Column<int>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Partners_PartnerNameId",
+                        column: x => x.PartnerNameId,
+                        principalTable: "Partners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    StartBalance = table.Column<int>(nullable: false),
+                    EndBalance = table.Column<int>(nullable: false),
+                    Value = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    TransferToId = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductId = table.Column<int>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transactions_PremiumOffers_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "PremiumOffers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_TransferToId",
+                        column: x => x.TransferToId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisings_CreatedById",
                 table: "Advertisings",
@@ -549,6 +636,11 @@ namespace MilesBackOffice.Web.Migrations
                 name: "IX_Advertisings_ModifiedById",
                 table: "Advertisings",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisings_PartnerId",
+                table: "Advertisings",
+                column: "PartnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -619,11 +711,6 @@ namespace MilesBackOffice.Web.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientComplaints_ClientId",
-                table: "ClientComplaints",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ClientComplaints_CreatedById",
                 table: "ClientComplaints",
                 column: "CreatedById");
@@ -634,13 +721,28 @@ namespace MilesBackOffice.Web.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_CreatedById",
-                table: "News",
+                name: "IX_Flights_CreatedById",
+                table: "Flights",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_ModifiedById",
-                table: "News",
+                name: "IX_Flights_ModifiedById",
+                table: "Flights",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flights_PartnerId",
+                table: "Flights",
+                column: "PartnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_CreatedById",
+                table: "Notifications",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_ModifiedById",
+                table: "Notifications",
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
@@ -669,14 +771,29 @@ namespace MilesBackOffice.Web.Migrations
                 column: "PartnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeatsAvailables_CreatedById",
-                table: "SeatsAvailables",
+                name: "IX_PremiumOfferTypes_CreatedById",
+                table: "PremiumOfferTypes",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeatsAvailables_ModifiedById",
-                table: "SeatsAvailables",
+                name: "IX_PremiumOfferTypes_ModifiedById",
+                table: "PremiumOfferTypes",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_CreatedById",
+                table: "Reservations",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_ModifiedById",
+                table: "Reservations",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_PartnerNameId",
+                table: "Reservations",
+                column: "PartnerNameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TierChanges_ClientId",
@@ -694,14 +811,24 @@ namespace MilesBackOffice.Web.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TypePremiuns_CreatedById",
-                table: "TypePremiuns",
+                name: "IX_Transactions_CreatedById",
+                table: "Transactions",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TypePremiuns_ModifiedById",
-                table: "TypePremiuns",
+                name: "IX_Transactions_ModifiedById",
+                table: "Transactions",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_ProductId",
+                table: "Transactions",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_TransferToId",
+                table: "Transactions",
+                column: "TransferToId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -728,22 +855,28 @@ namespace MilesBackOffice.Web.Migrations
                 name: "ClientComplaints");
 
             migrationBuilder.DropTable(
-                name: "News");
+                name: "Flights");
 
             migrationBuilder.DropTable(
-                name: "PremiumOffers");
+                name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "SeatsAvailables");
+                name: "PremiumOfferTypes");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "TierChanges");
 
             migrationBuilder.DropTable(
-                name: "TypePremiuns");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "PremiumOffers");
 
             migrationBuilder.DropTable(
                 name: "Partners");

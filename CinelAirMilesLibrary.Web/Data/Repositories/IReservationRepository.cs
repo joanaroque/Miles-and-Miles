@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="currentClient">current client</param>
         /// <returns> reservation list from the current client</returns>
-        Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync();
+        Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync(string clientId);
 
     }
 }

@@ -68,32 +68,26 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Notifications.Add(new Notification
                 {
-                    Client = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com"),
-                    IsRead = false,
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                  //  NotificationType = NotificationType.ExpiringMiles,
-                    Title = "omg notifications one!",
+                    Status = 8,
                     Message = "bla bla bla notifications bla bla bla notifications!!!! "
                 });
 
                 _context.Notifications.Add(new Notification
                 {
-                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                    IsRead = false,
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                  //  NotificationType = NotificationType.ExpiringMiles,
-                    Title = "omg notifications two!",
+                    Status = 8,
                     Message = "bla bla bla notifications bla bla bla notifications " +
                     "bla bla bla notifications!!!! "
                 });
 
                 _context.Notifications.Add(new Notification
                 {
-                    Client = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    IsRead = false,
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                  //  NotificationType = NotificationType.ExpiringMiles,
-                    Title = "omg notifications three!",
+                    Status = 8,
                     Message = "bla bla bla notifications bla bla bla notifications" +
                     "bla bla bla notifications" +
                     "bla bla bla notifications!!!! "
@@ -101,11 +95,9 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Notifications.Add(new Notification
                 {
-                    Client = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    IsRead = false,
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                 //   NotificationType = NotificationType.ExpiringMiles,
-                    Title = "omg notifications four!",
+                    Status = 8,
                     Message = "bla bla bla notifications bla bla bla notifications" +
                     "bla bla bla notifications" +
                     "bla bla bla notifications" +

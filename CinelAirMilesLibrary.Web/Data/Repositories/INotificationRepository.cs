@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="clientId">client Id</param>
         /// <returns>list of unread notifications</returns>
-        List<Notification> GetUnreadNotifications(string clientId);
+        Task<Notification> GetUnreadNotifications(int clientId);
 
     }
 }

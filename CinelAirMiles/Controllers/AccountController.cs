@@ -13,7 +13,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-
+    using MilesBackOffice.Web.Helpers;
     using System;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;

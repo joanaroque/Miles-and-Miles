@@ -3,7 +3,12 @@
     using CinelAirMiles.Helpers;
     using CinelAirMiles.Models;
 
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,13 +40,13 @@
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            var noti =  _notificationRepository.GetAllNotifications(currentUser.Id); 
+            var noti = _notificationRepository.GetAllNotifications(currentUser.Id);
 
             return View(noti);
         }
 
         [HttpGet]
-        public async Task<IActionResult> MarkAsRead(int? id) 
+        public async Task<IActionResult> MarkAsRead(int? id)
         {
             if (id == null)
             {
@@ -50,7 +55,7 @@
 
             try
             {
-                Notification notification  = await _notificationRepository.GetByIdWithIncludesAsync(id.Value);
+                Notification notification = await _notificationRepository.GetUnreadNotifications(id.Value);
 
                 if (notification == null)
                 {
@@ -70,7 +75,7 @@
 
                 await _notificationRepository.UpdateAsync(notification);
 
-                
+
                 return RedirectToAction(nameof(NotificationsIndex));
             }
             catch (Exception)
@@ -90,12 +95,12 @@
                     .Select(a => _converterHelper.ToNotificationViewModel(a))
                      .ToList();
             }
-            else
-            {
-                modelList = _notificationRepository.GetUnreadNotifications(id)
-                     .Select(a => _converterHelper.ToNotificationViewModel(a))
-                     .ToList();
-            }
+            //else
+            //{
+            //    modelList = _notificationRepository.GetUnreadNotifications(int.Parse(id))
+            //         .Select(a => _converterHelper.ToNotificationViewModel(a))
+            //         .ToList();
+            //}
 
             return Json(modelList);
         }

@@ -54,6 +54,13 @@ namespace MilesBackOffice.Web
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
+            //for migrations to be only on the backoffice side
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+
+            });
+
 
             services.AddAuthentication()
 

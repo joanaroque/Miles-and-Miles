@@ -1,11 +1,8 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
     using MailKit.Net.Smtp;
-
     using Microsoft.Extensions.Configuration;
-
     using MimeKit;
-
 
     public class MailHelper : IMailHelper
     {

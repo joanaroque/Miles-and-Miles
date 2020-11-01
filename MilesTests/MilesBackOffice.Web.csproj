@@ -17,17 +17,6 @@
     <None Remove="wwwroot\template\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\20201018165208_TypePremiumChanged.cs" />
-    <Compile Remove="Migrations\20201018165208_TypePremiumChanged.Designer.cs" />
-    <Compile Remove="Migrations\20201018172812_InitialDb.cs" />
-    <Compile Remove="Migrations\20201018172812_InitialDb.Designer.cs" />
-    <Compile Remove="Migrations\20201018174442_NewEntities.cs" />
-    <Compile Remove="Migrations\20201018174442_NewEntities.Designer.cs" />
-    <Compile Remove="Migrations\20201021234707_RemovedNews.cs" />
-    <Compile Remove="Migrations\20201021234707_RemovedNews.Designer.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <Content Remove="web.config" />

@@ -10,6 +10,7 @@ namespace CinelAirMiles.Models
         public int NotiId { get; set; }
 
 
+
         public string ClientName { get; set; }
 
 

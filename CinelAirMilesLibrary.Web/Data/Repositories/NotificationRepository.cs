@@ -1,9 +1,10 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class NotificationRepository : GenericRepository<Notification>, INotificationRepository
     {
@@ -25,10 +26,11 @@
         }
 
 
-        public List<Notification> GetUnreadNotifications(string clientId)
+        public async Task<Notification> GetUnreadNotifications(int clientId)
         {
-            var noti = _context.Notifications
-                .Where(n => n.CreatedBy.Id == clientId).ToList();
+            var noti = await _context.Notifications
+                .Where(n => n.Id.Equals(clientId) && n.Status == 8)
+                .FirstOrDefaultAsync();
 
 
             return noti;

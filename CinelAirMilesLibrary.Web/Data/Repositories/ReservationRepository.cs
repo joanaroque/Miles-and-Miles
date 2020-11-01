@@ -4,6 +4,7 @@
 
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
 
@@ -17,10 +18,11 @@
         }
 
 
-        public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync()
+        public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync(string clientId)
         {
             var clientReservation = await _context.Reservations
                 .Include(r => r.CreatedBy)
+                .Where(r => r.CreatedBy.Id == clientId)
                .ToListAsync();
 
             return clientReservation;

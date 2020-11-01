@@ -1,6 +1,8 @@
 ﻿using CinelAirMilesLibrary.Common.Data.Entities;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 using System.Linq;
 
 namespace CinelAirMilesLibrary.Common.Data
@@ -98,6 +100,7 @@ namespace CinelAirMilesLibrary.Common.Data
 
 
 
+
             var cascadeFKs = modelBuilder.Model
                 .GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys()
@@ -109,7 +112,6 @@ namespace CinelAirMilesLibrary.Common.Data
             }
 
             base.OnModelCreating(modelBuilder);
-
 
         }
 

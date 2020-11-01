@@ -12,9 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
-
-
+using MilesBackOffice.Web.Data;
+using MilesBackOffice.Web.Helpers;
 using System;
 using System.Text;
 
@@ -36,18 +35,6 @@ namespace CinelAirMiles
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<DataContext>(cfg =>
-            {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
-            });
 
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
@@ -134,14 +121,23 @@ namespace CinelAirMiles
                 }
             });
 
-            services.AddScoped<IReservationRepository, ReservationRepository>();
-            services.AddScoped<IComplaintRepository, ComplaintRepository>();
-            services.AddScoped<IUserHelper, UserHelper>();
+
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
-            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddTransient<SeedDB>();
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IBlobHelper, BlobHelper>();
+            services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IAdvertisingRepository, AdvertisingRepository>();
+            services.AddScoped<IComplaintRepository, ComplaintRepository>();
+            services.AddScoped<ITierChangeRepository, TierChangeRepository>();
+            services.AddScoped<IPremiumRepository, PremiumRepository>();
+            services.AddScoped<IPartnerRepository, PartnerRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IFlightRepository, FlightRepository>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
