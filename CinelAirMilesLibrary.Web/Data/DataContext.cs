@@ -13,9 +13,6 @@ namespace CinelAirMilesLibrary.Common.Data
         public DbSet<Country> Countries { get; set; }
 
 
-        public DbSet<City> Cities { get; set; }
-
-
         public DbSet<Advertising> Advertisings { get; set; }
 
 
@@ -55,21 +52,7 @@ namespace CinelAirMilesLibrary.Common.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<City>(entity =>
-            {
-                entity.Property<string>("CreatedById");
-                entity.Property<string>("ModifiedById");
-
-                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
-                .WithOne()
-                .HasForeignKey("User", "CreatedById");
-
-
-                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
-                .WithOne()
-                .HasForeignKey("User", "ModifiedById");
-            });
-
+            
             modelBuilder.Entity<Country>(entity =>
             {
                 entity.Property<string>("CreatedById");
@@ -86,9 +69,6 @@ namespace CinelAirMilesLibrary.Common.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.City", "City")
-                .WithMany();
-
                 entity.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country", "Country")
                 .WithMany();
             });

@@ -46,6 +46,11 @@
                 var modelList = new List<ComplaintViewModel>(
                     list.Select(c => _converterHelper.ToComplaintClientViewModel(c))
                     .ToList());
+
+                if (modelList.Count == 0)
+                {
+                    return NotFound();
+                }
             }
 
             else

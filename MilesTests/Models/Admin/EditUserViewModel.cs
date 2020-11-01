@@ -85,10 +85,8 @@
 
 
 
-        public int CityId { get; set; }
+        public string City { get; set; }
 
-
-        public IEnumerable<SelectListItem> Cities { get; set; }
 
 
 

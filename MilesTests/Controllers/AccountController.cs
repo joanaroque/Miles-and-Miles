@@ -28,6 +28,7 @@
         private readonly UserManager<User> _userManager;
         private readonly ICountryRepository _countryRepository;
         private readonly IBlobHelper _blobHelper;
+        private readonly IClientRepository _clientRepository;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
@@ -35,7 +36,8 @@
             SignInManager<User> signInManager,
               UserManager<User> userManager,
               ICountryRepository countryRepository,
-              IBlobHelper blobHelper)
+              IBlobHelper blobHelper,
+              IClientRepository clientRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -44,6 +46,7 @@
             _userManager = userManager;
             _countryRepository = countryRepository;
             _blobHelper = blobHelper;
+            _clientRepository = clientRepository;
         }
 
 
@@ -87,76 +90,78 @@
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<JsonResult> GetCitiesAsync(int countryId)
-        {
-            var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
-            return Json(country.Cities.OrderBy(c => c.Name));
-        }
 
-        public IActionResult Register()
-        {
-            var model = new RegisterNewUserViewModel
-            {
-                //Countries = _countryRepository.GetComboCountries(),
-                //Cities = _countryRepository.GetComboCities(0),
-                //Genders = TODO passar repos para common???
-            };
+        //public IActionResult Register()
+        //{
+        //    var model = new RegisterNewUserViewModel
+        //    {
+        //        Countries = _countryRepository.GetComboCountries(),
+        //        Cities = _countryRepository.GetComboCities(0),
+        //        Genders = _clientRepository.GetComboGenders()
+        //    };
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
-                if (user == null)
-                {
+        //[HttpPost]
+        //public async Task<IActionResult> Register(RegisterNewUserViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userHelper.GetUserByEmailAsync(model.Username);
+        //        if (user == null)
+        //        {
+        //            var city = await _countryRepository.GetCityAsync(model.CityId);
 
-                    //todo var city = await _countryRepository.GetCityAsync(model.CityId);
+        //            user = new User
+        //            {
+        //                Name = model.Name,
+        //                Email = model.Username,
+        //                UserName = model.Username,
+        //                Address = model.Address,
+        //                PhoneNumber = model.PhoneNumber,
+        //                City = city,
+        //                IsActive = false,
+        //                IsApproved = false,
+        //                BonusMiles = 0,
+        //                DateOfBirth = model.DateOfBirth,
+        //                Gender = model.Gender.ToString(),
+        //                GuidId = _clientRepository.CreateGuid(),
+        //                TIN = model.TIN,
+        //                Status = TierType.Miles,
+        //                StatusMiles = 0
+        //            };
+
+        //            var result = await _userHelper.AddUserAsync(user, model.Password);
+        //            if (result != IdentityResult.Success)
+        //            {
+        //                ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+        //                return this.View(model);
+        //            }
+
+        //            var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+        //            var tokenLink = Url.Action("ConfirmEmail", "Account", new
+        //            {
+        //                userid = user.Id,
+        //                token = myToken
+        //            }, protocol: HttpContext.Request.Scheme);
+
+        //            _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+        //                $"To allow the user, " +
+        //                $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+        //            ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
 
-                    user = new User
-                    {
-                        Name = model.Name,
-                        Email = model.Username,
-                        UserName = model.Username,
-                        Address = model.Address,
-                        PhoneNumber = model.PhoneNumber,
-                        //City = city
-                    };
+        //            return View(model);
+        //        }
 
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-                    if (result != IdentityResult.Success)
-                    {
-                        ModelState.AddModelError(string.Empty, "The user couldn't be created.");
-                        return this.View(model);
-                    }
+        //        ModelState.AddModelError(string.Empty, "The user already exists.");
 
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                    {
-                        userid = user.Id,
-                        token = myToken
-                    }, protocol: HttpContext.Request.Scheme);
+        //    }
 
-                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                        $"To allow the user, " +
-                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                    ViewBag.Message = "The instructions to allow your user has been sent to email.";
-
-
-                    return View(model);
-                }
-
-                ModelState.AddModelError(string.Empty, "The user already exists.");
-
-            }
-
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -176,13 +181,6 @@
             if (!result.Succeeded)
             {
                 return NotFound();
-            }
-
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.User);
-
-            if (!isInRole)
-            {
-                await _userHelper.AddUSerToRoleAsync(user, UserType.User);
             }
 
             return View();

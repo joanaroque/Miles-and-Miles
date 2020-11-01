@@ -49,9 +49,9 @@
                                             <span asp-validation-for="Address" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="CityId" class="control-label"></label>
-                                            <select asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
-                                            <span asp-validation-for="CityId" class="text-danger"></span>
+                                            <label asp-for="City">City</label>
+                                            <input asp-for="City" class="form-control" />
+                                            <span asp-validation-for="City" class="text-warning"></span>
                                         </div>
                                         @if (Model.Status != CinelAirMilesLibrary.Common.Enums.TierType.None)
                                         {
