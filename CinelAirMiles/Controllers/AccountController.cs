@@ -78,23 +78,23 @@
                 var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
                 if (user != null && !user.EmailConfirmed &&
-                   (await _userManager.CheckPasswordAsync(user, model.Password)) && user.IsApproved == true)
+                   (await _userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Please confirm your email.");
                     return View(model);
                 }
 
-                //todo if (user.IsActive == false)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Your account is inactive.");
-                //    return View(model);
-                //}
+                if (user.IsActive == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account is inactive.");
+                    return View(model);
+                }
 
-                //if (user.IsApproved == false)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
-                //    return View(model);
-                //}
+                if (user.IsApproved == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
+                    return View(model);
+                }
 
                 var result = await _userHelper.LoginAsync(model);
 
@@ -212,7 +212,6 @@
             var model = new RegisterNewUserViewModel
             {
                 Countries = _countryRepository.GetComboCountries(),
-                Cities = _countryRepository.GetComboCities(0),
                 Genders = _clientRepository.GetComboGenders()
             };
 
@@ -228,16 +227,16 @@
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
-                    var city = await _countryRepository.GetCityAsync(model.CityId);
-
+                    var guid = _clientRepository.CreateGuid();
                     user = new User
                     {
+                        GuidId = guid,
                         Name = model.Name,
                         Email = model.Username,
                         UserName = model.Username,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNumber,
-                        City = city,
+                        City = model.City,
                         TIN = model.TIN,
                         Status = TierType.Silver,
                         BonusMiles = 0,
@@ -249,6 +248,7 @@
                         SelectedRole = UserType.Client
                     };
 
+                    var role = await _userManager.AddToRoleAsync(user, UserType.Client.ToString());
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
@@ -454,7 +454,7 @@
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(model.Email, "CinelAir Miles Password Reset", 
+                _mailHelper.SendMail(model.Email, "CinelAir Miles Password Reset",
                     $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
                 this.ViewBag.Message = "The instructions to recover your password have been sent to email.";
@@ -498,12 +498,6 @@
             return View();
         }
 
-        public async Task<JsonResult> GetCitiesAsync(int countryId)
-        {
-            var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
-            return this.Json(country.Cities.OrderBy(c => c.Name));
-        }
-
         public async Task<IActionResult> ChangeUserClient()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -514,25 +508,15 @@
                 model.Name = user.Name;
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
+                model.CountryId = user.Country.Id;
+                model.Countries = _countryRepository.GetComboCountries();
+                model.City = user.City;
+                model.TIN = user.TIN;
+                model.Name = user.Name;
+                model.PhoneNumber = user.PhoneNumber;
 
-                var city = await _countryRepository.GetCityAsync(user.City.Id);
-                if (city != null)
-                {
-                    var country = await _countryRepository.GetCountryAsync(city);
-                    if (country != null)
-                    {
-                        model.CountryId = country.Id;
-                        model.Cities = _countryRepository.GetComboCities(country.Id);
-                        model.Countries = _countryRepository.GetComboCountries();
-                        model.CityId = user.City.Id;
-                        model.TIN = user.TIN;
-                        model.Name = user.Name;
-                        model.PhoneNumber = user.PhoneNumber;
-                    }
-                }
             }
 
-            model.Cities = _countryRepository.GetComboCities(model.CountryId);
             model.Countries = _countryRepository.GetComboCountries();
             return View(model);
         }
@@ -547,13 +531,10 @@
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 if (user != null)
                 {
-                    var city = await _countryRepository.GetCityAsync(model.CityId);
-
                     user.Name = model.Name;
                     user.Address = model.Address;
                     user.PhoneNumber = model.PhoneNumber;
-                    user.City.Id = model.CityId;
-                    user.City = city;
+                    user.City = model.City;
                     user.Name = model.Name;
                     user.TIN = model.TIN;
                     user.Name = model.Name;

@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201101130516_AddedGuidToUser")]
+    partial class AddedGuidToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +56,37 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasIndex("PartnerId");
 
                     b.ToTable("Advertisings");
+                });
+
+            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CountryId");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<bool>("IsConfirm");
+
+                    b.Property<string>("ModifiedById");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.ClientComplaint", b =>
@@ -416,7 +449,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("BonusMiles");
 
-                    b.Property<string>("City");
+                    b.Property<int?>("CityId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -480,6 +513,8 @@ namespace MilesBackOffice.Web.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
 
@@ -627,6 +662,13 @@ namespace MilesBackOffice.Web.Migrations
                         .HasForeignKey("PartnerId");
                 });
 
+            modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.City", b =>
+                {
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId");
+                });
+
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.ClientComplaint", b =>
                 {
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
@@ -752,13 +794,25 @@ namespace MilesBackOffice.Web.Migrations
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.User", b =>
                 {
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
 
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.City")
+                        .WithOne("CreatedBy")
+                        .HasForeignKey("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedById");
+
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country")
                         .WithOne("CreatedBy")
                         .HasForeignKey("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedById");
+
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.City")
+                        .WithOne("ModifiedBy")
+                        .HasForeignKey("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedById");
 
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Country")
                         .WithOne("ModifiedBy")

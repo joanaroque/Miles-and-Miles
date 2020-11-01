@@ -11,11 +11,7 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
         public string Name { get; set; }
 
 
-        public ICollection<City> Cities { get; set; }
 
-
-        [Display(Name = "# Cities")]
-        public int NumberCities { get { return Cities == null ? 0 : Cities.Count; } }
         /*************OBJECT PROPERTIES*********************/
 
 

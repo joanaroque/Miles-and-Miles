@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
@@ -56,6 +57,13 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 
 
             return list;
+        }
+
+
+        public string CreateGuid()
+        {
+            byte[] buffer = Guid.NewGuid().ToByteArray();
+            return BitConverter.ToUInt32(buffer).ToString().Substring(0, 9);
         }
     }
 }

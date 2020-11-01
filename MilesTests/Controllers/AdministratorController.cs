@@ -100,8 +100,8 @@ namespace MilesBackOffice.Web.Controllers
                 Name = user.Name,
                 Username = user.UserName,
                 Address = user.Address,
-                //CityId = user.City.Id,
-                //CountryId = user.Country.Id,
+                City = user.City,
+                CountryId = user.Country.Id,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
@@ -134,6 +134,7 @@ namespace MilesBackOffice.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    _mailHelper.SendMail(model.Email, "CinelAir Miles confirmation", $"Your account was approved. You can now log in.");
                     return RedirectToAction("NewClients");
                 }
 
@@ -153,7 +154,6 @@ namespace MilesBackOffice.Web.Controllers
             var model = new RegisterUserViewModel
             {
                 Countries = _countryRepository.GetComboCountries(),
-                Cities = _countryRepository.GetComboCities(0),
                 Roles = _userHelper.GetComboRoles(),
                 StatusList = _clientRepository.GetComboStatus(),
                 Genders = _clientRepository.GetComboGenders()
@@ -176,7 +176,6 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     try
                     {
-                        var city = await _countryRepository.GetCityAsync(model.CityId);
                         user = new User
                         {
                             Name = model.Name,
@@ -184,7 +183,7 @@ namespace MilesBackOffice.Web.Controllers
                             UserName = model.Username,
                             Address = model.Address,
                             PhoneNumber = model.PhoneNumber,
-                            City = city,
+                            City = model.City,
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
                             IsActive = true,
@@ -210,7 +209,7 @@ namespace MilesBackOffice.Web.Controllers
 
 
                         var register = await _userHelper.GetUserByIdAsync(user.Id);
-                        await _userManager.AddToRoleAsync(register, roleId.ToString()); //rolename vem null
+                        await _userManager.AddToRoleAsync(register, roleId.ToString());
                         ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
 
                         var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -224,16 +223,6 @@ namespace MilesBackOffice.Web.Controllers
                         {
                             if (roleName.ToString() == "Client")
                             {
-                                //  TODO email para user que se auto regista ---------------
-                                //_mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
-                                //$"Hello, {model.Name}<br/>" +
-                                //$"Your account is waiting for approval.<br/>" +
-                                //$"Click on the link below to confirm your email and then please allow a couple of days " +
-                                //$"for your account to be approved.<p><a href = \"{tokenLink}\">Confirm Email</a></p>" +
-                                //$"<br/>Thank you,<br/>CinelAir Miles");
-
-
-
                                 _mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
                           $"Hello, {model.Name}<br/>" +
                           $"Click on the link below to confirm your email" +
@@ -267,8 +256,8 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "This username is already registered.");
                     model.Countries = _countryRepository.GetComboCountries();
-                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
                     model.Roles = _userHelper.GetComboRoles();
+                    model.Genders = _clientRepository.GetComboGenders();
                     return View(model);
                 }
 
@@ -353,6 +342,7 @@ namespace MilesBackOffice.Web.Controllers
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Username = user.UserName,
+                City = user.City,
                 Email = user.Email,
                 IsActive = user.IsActive,
                 Status = user.Status,
@@ -406,7 +396,7 @@ namespace MilesBackOffice.Web.Controllers
                 user.IsActive = editUser.IsActive;
                 user.DateOfBirth = editUser.DateOfBirth;
                 user.BonusMiles = editUser.BonusMiles;
-                user.City.Id = editUser.CityId;
+                user.City = editUser.City;
                 user.Country.Id = editUser.CountryId;
                 user.Gender = editUser.Gender.ToString();
                 user.Status = editUser.Status;
@@ -449,6 +439,7 @@ namespace MilesBackOffice.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", $"Your account was deleted.");
                     return RedirectToAction("ListUsers");
                 }
 

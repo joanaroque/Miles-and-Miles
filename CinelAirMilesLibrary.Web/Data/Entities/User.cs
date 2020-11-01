@@ -9,6 +9,9 @@
     public class User : IdentityUser
     {
 
+        public string GuidId { get; set; }
+
+
         [MaxLength(100, ErrorMessage = "The field {0} only can contain {1} characters.")]
         public string Name { get; set; }
 
@@ -40,7 +43,7 @@
 
 
 
-        public City City { get; set; }
+        public string City { get; set; }
 
 
         public Country Country { get; set; }

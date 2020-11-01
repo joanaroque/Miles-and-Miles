@@ -60,7 +60,7 @@ namespace MilesBackOffice.Web.Models.Admin
 
 
         [Display(Name = "City")]
-        public int CityId { get; set; }
+        public string City { get; set; }
 
 
 
