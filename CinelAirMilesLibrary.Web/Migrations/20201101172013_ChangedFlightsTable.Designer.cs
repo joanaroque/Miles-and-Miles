@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201101172013_ChangedFlightsTable")]
+    partial class ChangedFlightsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,7 +269,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<int?>("FlightId");
+                    b.Property<string>("Flight");
 
                     b.Property<string>("ModifiedById");
 
@@ -288,8 +290,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("FlightId");
 
                     b.HasIndex("ModifiedById");
 
@@ -722,10 +722,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Flight", "Flight")
-                        .WithMany()
-                        .HasForeignKey("FlightId");
 
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
                         .WithMany()
