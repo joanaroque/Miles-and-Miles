@@ -100,7 +100,7 @@ namespace MilesBackOffice.Web.Controllers
                 Name = user.Name,
                 Username = user.UserName,
                 Address = user.Address,
-                CityId = user.City.Id,
+                City = user.City,
                 CountryId = user.Country.Id,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
@@ -154,7 +154,6 @@ namespace MilesBackOffice.Web.Controllers
             var model = new RegisterUserViewModel
             {
                 Countries = _countryRepository.GetComboCountries(),
-                Cities = _countryRepository.GetComboCities(0),
                 Roles = _userHelper.GetComboRoles(),
                 StatusList = _clientRepository.GetComboStatus(),
                 Genders = _clientRepository.GetComboGenders()
@@ -177,7 +176,6 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     try
                     {
-                        var city = await _countryRepository.GetCityAsync(model.CityId);
                         user = new User
                         {
                             Name = model.Name,
@@ -185,7 +183,7 @@ namespace MilesBackOffice.Web.Controllers
                             UserName = model.Username,
                             Address = model.Address,
                             PhoneNumber = model.PhoneNumber,
-                            City = city,
+                            City = model.City,
                             SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
                             IsActive = true,
@@ -258,8 +256,8 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "This username is already registered.");
                     model.Countries = _countryRepository.GetComboCountries();
-                    model.Cities = _countryRepository.GetComboCities(model.CountryId);
                     model.Roles = _userHelper.GetComboRoles();
+                    model.Genders = _clientRepository.GetComboGenders();
                     return View(model);
                 }
 
@@ -344,6 +342,7 @@ namespace MilesBackOffice.Web.Controllers
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Username = user.UserName,
+                City = user.City,
                 Email = user.Email,
                 IsActive = user.IsActive,
                 Status = user.Status,
@@ -397,7 +396,7 @@ namespace MilesBackOffice.Web.Controllers
                 user.IsActive = editUser.IsActive;
                 user.DateOfBirth = editUser.DateOfBirth;
                 user.BonusMiles = editUser.BonusMiles;
-                user.City.Id = editUser.CityId;
+                user.City = editUser.City;
                 user.Country.Id = editUser.CountryId;
                 user.Gender = editUser.Gender.ToString();
                 user.Status = editUser.Status;

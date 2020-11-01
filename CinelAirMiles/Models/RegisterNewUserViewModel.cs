@@ -58,8 +58,7 @@
 
 
 
-        [Display(Name = "City")]
-        public int CityId { get; set; }
+        public string City { get; set; }
 
 
 
@@ -83,8 +82,6 @@
         public DateTime? DateOfBirth { get; set; }
 
 
-
-        public IEnumerable<SelectListItem> Cities { get; set; }
 
 
 

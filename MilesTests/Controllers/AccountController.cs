@@ -90,11 +90,6 @@
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<JsonResult> GetCitiesAsync(int countryId)
-        {
-            var country = await _countryRepository.GetCountryWithCitiesAsync(countryId);
-            return Json(country.Cities.OrderBy(c => c.Name));
-        }
 
         //public IActionResult Register()
         //{

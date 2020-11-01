@@ -9,6 +9,7 @@ using MilesBackOffice.Web.Helpers;
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,7 +69,7 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Notifications.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+                var departure = "Lisbon";
 
                 _context.Notifications.Add(new Notification
                 {
@@ -117,12 +118,12 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Reservations.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+                var departure = "Lisbon";
 
                 _context.Reservations.Add(new Reservation
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    Destination = departure.Name,
+                    Destination = departure,
                     PartnerName = partner,
                     Date = DateTime.Now.AddDays(6),
                     Status = 1
@@ -137,12 +138,12 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Flights.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync();
+                var departure = "Lisbon";
                 var arrival = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync();
 
                 _context.Flights.Add(new Flight
                 {
-                    Departure = departure.Name,
+                    Departure = departure,
                     Arrival = arrival.Name,
                     Partner = partner,
                     MaximumSeats = 800,
@@ -283,7 +284,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Female",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "2121218",
                     IsActive = true,
@@ -326,7 +327,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Male",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21121218",
                     IsActive = true,
@@ -369,7 +370,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Male",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21821218",
                     IsActive = true,
@@ -413,7 +414,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
                     Gender = "Male",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
                     IsActive = false,
@@ -457,7 +458,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/09/1997"),
                     Gender = "Female",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121217",
                     IsActive = true,
@@ -501,7 +502,7 @@ namespace MilesBackOffice.Web.Data
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("27/11/1988"),
                     Gender = "Female",
-                    City = await _context.Cities.Where(c => c.Name == "Lisboa").FirstOrDefaultAsync(),
+                    City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121212",
                     IsActive = true,
@@ -541,28 +542,42 @@ namespace MilesBackOffice.Web.Data
             await _userHelper.CheckRoleAsync(TierType.Gold.ToString());
         }
 
+        private void AddCountries(string name)
+        {
+            _context.Countries.Add(new Country
+            {
+                Name = name
+            });
+        }
+
         private async Task FillCountriesAsync()
         {
             if (!_context.Countries.Any())
             {
-                var cities = new List<City>
+
+                CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+                List<RegionInfo> countriesList = new List<RegionInfo>();
+                var countries = new List<Country>();
+                foreach (CultureInfo ci in cultures)
                 {
-                    new City { Name = "Lisboa" },
-                    new City { Name = "Porto" },
-                    new City { Name = "Coimbra" },
-                    new City { Name = "Faro" }
-                };
+                    RegionInfo regionInfo = new RegionInfo(ci.Name);
+                    if (countriesList.Count(x => x.EnglishName == regionInfo.EnglishName) <= 0)
+                    {
+                        countriesList.Add(regionInfo);
+                    }
+                }
 
-
-                _context.Countries.Add(new Country
+                foreach (RegionInfo regionInfo in countriesList.OrderBy(x => x.EnglishName))
                 {
-                    Cities = cities,
-                    Name = "Portugal"
-                });
+                    var country = regionInfo.EnglishName;
+                    AddCountries(country);
 
+                    await _context.SaveChangesAsync();
+                }
 
-                await _context.SaveChangesAsync();
+                AddCountries("null");
             }
+
         }
     }
 }

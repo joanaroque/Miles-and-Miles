@@ -43,7 +43,7 @@
 
 
 
-        public City City { get; set; }
+        public string City { get; set; }
 
 
         public Country Country { get; set; }
