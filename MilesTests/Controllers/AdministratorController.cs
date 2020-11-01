@@ -100,8 +100,8 @@ namespace MilesBackOffice.Web.Controllers
                 Name = user.Name,
                 Username = user.UserName,
                 Address = user.Address,
-                //CityId = user.City.Id,
-                //CountryId = user.Country.Id,
+                CityId = user.City.Id,
+                CountryId = user.Country.Id,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
@@ -134,6 +134,7 @@ namespace MilesBackOffice.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    _mailHelper.SendMail(model.Email, "CinelAir Miles confirmation", $"Your account was approved. You can now log in.");
                     return RedirectToAction("NewClients");
                 }
 
@@ -210,7 +211,7 @@ namespace MilesBackOffice.Web.Controllers
 
 
                         var register = await _userHelper.GetUserByIdAsync(user.Id);
-                        await _userManager.AddToRoleAsync(register, roleId.ToString()); //rolename vem null
+                        await _userManager.AddToRoleAsync(register, roleId.ToString());
                         ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
 
                         var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -224,16 +225,6 @@ namespace MilesBackOffice.Web.Controllers
                         {
                             if (roleName.ToString() == "Client")
                             {
-                                //  TODO email para user que se auto regista ---------------
-                                //_mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
-                                //$"Hello, {model.Name}<br/>" +
-                                //$"Your account is waiting for approval.<br/>" +
-                                //$"Click on the link below to confirm your email and then please allow a couple of days " +
-                                //$"for your account to be approved.<p><a href = \"{tokenLink}\">Confirm Email</a></p>" +
-                                //$"<br/>Thank you,<br/>CinelAir Miles");
-
-
-
                                 _mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
                           $"Hello, {model.Name}<br/>" +
                           $"Click on the link below to confirm your email" +
@@ -449,6 +440,7 @@ namespace MilesBackOffice.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", $"Your account was deleted.");
                     return RedirectToAction("ListUsers");
                 }
 

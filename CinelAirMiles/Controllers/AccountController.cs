@@ -78,23 +78,23 @@
                 var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
                 if (user != null && !user.EmailConfirmed &&
-                   (await _userManager.CheckPasswordAsync(user, model.Password)) && user.IsApproved == true)
+                   (await _userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Please confirm your email.");
                     return View(model);
                 }
 
-                //todo if (user.IsActive == false)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Your account is inactive.");
-                //    return View(model);
-                //}
+                if (user.IsActive == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account is inactive.");
+                    return View(model);
+                }
 
-                //if (user.IsApproved == false)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
-                //    return View(model);
-                //}
+                if (user.IsApproved == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account hasn't been approved yet.");
+                    return View(model);
+                }
 
                 var result = await _userHelper.LoginAsync(model);
 
@@ -250,6 +250,7 @@
                         SelectedRole = UserType.Client
                     };
 
+                    var role = await _userManager.AddToRoleAsync(user, UserType.Client.ToString());
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
