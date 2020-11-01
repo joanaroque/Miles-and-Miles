@@ -2,9 +2,9 @@
 {
     using CinelAirMilesLibrary.Common.Data;
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -35,6 +35,19 @@
                 .Where(f => f.Id.Equals(id)).FirstOrDefaultAsync();
 
             return flight;
+        }
+
+        public IEnumerable<SelectListItem> GetComboFlightList()
+        {
+            var list = _context.Flights.Where(dd => dd.DepartureDate > DateTime.UtcNow);
+
+            var selectList = list.Select(fl => new SelectListItem
+            {
+                Value = fl.Id.ToString(),
+                Text = fl.Origin + "->" + fl.Destination
+            });
+
+            return selectList;
         }
     }
 }

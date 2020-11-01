@@ -1,6 +1,5 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
-    using CinelAirMilesLibrary.Common.Enums;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -17,9 +16,6 @@
 
 
         public User CreatedBy { get; set; }
-
-
-
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Date)]

@@ -1,0 +1,42 @@
+﻿
+@{ 
+    ViewData["Title"] = "Premium Offer Details";
+}
+
+    <div>
+        <div id="offer_container">
+            <label>Offer ID</label>
+            <label>Partner</label>
+            <label>Offer Title</label>
+            <label>Flight ID</label>
+            <label>Quantity</label>
+            <label>Price</label>
+        </div>
+
+        <div id="flight_container">
+            <label>Flight ID</label>
+            <label>Origin</label>
+            <label>Destination</label>
+            <label>Departure Date</label>
+            <label>Available Seats</label>
+        </div>
+
+        <div id="user_control_details_container">
+            <label>Created by User</label>
+            <label>Created On</label>
+            <label>Flight ID</label>
+        </div>
+
+        <div id="notification_container">
+            <label>Observations</label>
+            <textarea cols="100" rows="5">
+            </textarea>
+        </div>
+
+        <div>
+            <button>Confirm Offer</button>
+            <button>Send Back</button>
+
+        </div>
+        <a class="btn btn-secondary" asp-action="PremiumOfferList">Back to List</a>
+    </div>

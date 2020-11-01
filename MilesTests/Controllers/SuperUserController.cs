@@ -1,20 +1,23 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
-    using CinelAirMilesLibrary.Common.Data.Entities;
-    using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Helpers;
-    using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
-    using MilesBackOffice.Web.Models;
-    using MilesBackOffice.Web.Models.SuperUser;
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.SuperUser;
+
     public class SuperUserController : Controller
     {
+        #region PRIVATE INSTANCES
         private readonly IUserHelper _userHelper;
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IMailHelper _mailHelper;
@@ -22,6 +25,8 @@
         private readonly ITierChangeRepository _tierChangeRepository;
         private readonly IComplaintRepository _clientComplaintRepository;
         private readonly IFlightRepository _flightRepository;
+        private readonly IPremiumRepository _premiumRepository;
+        #endregion
 
         public SuperUserController(IUserHelper userHelper,
             IAdvertisingRepository advertisingRepository,
@@ -29,7 +34,8 @@
             IConverterHelper converterHelper,
             ITierChangeRepository tierChangeRepository,
             IComplaintRepository clientComplaintRepository,
-            IFlightRepository flightRepository)
+            IFlightRepository flightRepository,
+            IPremiumRepository premiumRepository)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -38,94 +44,40 @@
             _tierChangeRepository = tierChangeRepository;
             _clientComplaintRepository = clientComplaintRepository;
             _flightRepository = flightRepository;
+            _premiumRepository = premiumRepository;
         }
 
-        /// <summary>
-        /// get list of all clients and transforms an entity to viewmodel
-        /// </summary>
-        /// <returns>the list of all clients</returns>
-        [HttpGet]
-        public async Task<ActionResult> TierChange()
-        {
-            var list = await _tierChangeRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
+       
 
-            var modelList = new List<TierChangeViewModel>(
-                list.Select(a => _converterHelper.ToTierChangeViewModel(a))
-                .ToList());
-
-            return View(modelList);
-        }
-
-        /// <summary>
-        /// confirm tier change and updated the data
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>teh TierChange view</returns>
-        [HttpGet]
-        public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("_UserNotFound");
-            }
-
-            try
-            {
-                TierChange tierChange = await _tierChangeRepository.GetByIdWithIncludesAsync(id.Value);
-
-                if (tierChange == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
-
-                var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
-
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
-
-                tierChange.ModifiedBy = user;
-                tierChange.UpdateDate = DateTime.Now;
-                tierChange.Status = 0;
-
-                await _tierChangeRepository.UpdateAsync(tierChange);
-
-                _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
-               $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
-
-                //  todo:  ViewBag.Message = "An error ocurred. Try again please.";
-
-                return RedirectToAction(nameof(TierChange));
-            }
-            catch (Exception)
-            {
-                return new NotFoundViewResult("_UserNotFound"); //todo: mudar erros
-            }
-        }
-
+        #region PREMIUM OFFER 
         /// <summary>
         /// get list of seats to be confirmed
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> AvailableSeats()
+        public async Task<ActionResult> PremiumOfferList()
         {
-            var list = await _flightRepository.GetAllFlightListAsync();
+            var list = await _premiumRepository.GetAllIncludes();
+            list = list.Where(st => st.Status == 1);
 
-            var modelList = new List<FlightViewModel>(
-                list.Select(a => _converterHelper.ToFlightViewModel(a))
-                .ToList());
+            var convertList = (IEnumerable<ConfirmOfferViewModel>)list.Select(po => _converterHelper.ToConfirmOfferViewModel(po)).ToList();
 
-            return View(modelList);
+            return View(convertList);
         }
+
+        [HttpGet]
+        public ActionResult PremiumOfferDetails()
+        {
+            return View();
+        }
+
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> ConfirmAvailableSeats(int? id)
+        public async Task<IActionResult> ConfirmPremiumOffer(int? id)
         {
             if (id == null)
             {
@@ -134,23 +86,24 @@
 
             try
             {
-                Flight seatsAvailable = await _flightRepository.GetByIdWithIncludesAsync(id.Value);
+                var offer = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
 
-                if (seatsAvailable == null)
+                if (offer == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound"); //todo mudar erros
+                    throw new Exception();
                 }
 
+                //offer.ModifiedBy = //currentuser
+                offer.UpdateDate = DateTime.Now;
+                offer.Status = 0;
 
-                seatsAvailable.ModifiedBy = await _userHelper.GetUserByIdAsync(seatsAvailable.Id.ToString());
-                seatsAvailable.UpdateDate = DateTime.Now;
-                seatsAvailable.Status = 0;
+                var result = await _premiumRepository.UpdateOfferAsync(offer);
+                if (!result.Success)
+                {
+                    throw new Exception();
+                }
 
-
-                await _flightRepository.UpdateAsync(seatsAvailable);
-
-
-                return RedirectToAction(nameof(AvailableSeats));
+                return RedirectToAction(nameof(PremiumOfferList));
             }
             catch (Exception)
             {
@@ -158,6 +111,50 @@
             }
         }
 
+        /// <summary>
+        /// cancel the tier change and updated the data
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>the TierChange view</returns>
+        public async Task<IActionResult> ReturnOfferToEditing(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_ItemNotFound");
+            }
+
+            try
+            {
+                var offer = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (offer == null)
+                {
+                    throw new Exception();
+                }
+
+                //get user
+
+                offer.Status = 2;
+                offer.UpdateDate = DateTime.UtcNow;
+
+                var result = await _premiumRepository.UpdateOfferAsync(offer);
+
+                if (!result.Success)
+                {
+                    throw new Exception();
+                }
+
+                return RedirectToAction(nameof(PremiumOfferList));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_ItemNotFound");
+            }
+
+        }
+        #endregion
+
+        #region CLIENTS REQUESTS/COMPLAINTS
         /// <summary>
         /// get list of all complaints and transforms an entity to viewmodel
         /// </summary>
@@ -242,8 +239,9 @@
             }
             return View(model);
         }
+        #endregion
 
-
+        #region ADVERTISING 
         /// <summary>
         /// get list of all advertising and transforms an entity to viewmodel
         /// </summary>
@@ -251,6 +249,7 @@
         [HttpGet]
         public async Task<ActionResult> AdvertisingAndReferences()
         {
+            //TODO vem de um repository
             var list = await _advertisingRepository.GetAllAdvertisingAsync();
 
             var modelList = new List<AdvertisingViewModel>(
@@ -275,6 +274,7 @@
 
             var entityList = await _advertisingRepository.GetAllAdvertisingAsync();
 
+            //TODO isto tem de ir para um repository
             Advertising selectedAdvertising = entityList
                                                    .Where(a => a.Id.Equals(id.Value))
                                                    .FirstOrDefault();
@@ -358,6 +358,72 @@
             }
 
         }
+        #endregion
+
+        #region TIER CHANGE
+        /// <summary>
+        /// get list of all clients and transforms an entity to viewmodel
+        /// </summary>
+        /// <returns>the list of all clients</returns>
+        [HttpGet]
+        public async Task<ActionResult> TierChange()
+        {
+            var list = await _tierChangeRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
+
+            var modelList = new List<TierChangeViewModel>(
+                list.Select(a => _converterHelper.ToTierChangeViewModel(a))
+                .ToList());
+
+            return View(modelList);
+        }
+
+        /// <summary>
+        /// confirm tier change and updated the data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>teh TierChange view</returns>
+        [HttpGet]
+        public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            try
+            {
+                TierChange tierChange = await _tierChangeRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (tierChange == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                tierChange.ModifiedBy = user;
+                tierChange.UpdateDate = DateTime.Now;
+                tierChange.Status = 0;
+
+                await _tierChangeRepository.UpdateAsync(tierChange);
+
+                _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+               $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
+
+                //  todo:  ViewBag.Message = "An error ocurred. Try again please.";
+
+                return RedirectToAction(nameof(TierChange));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound"); //todo: mudar erros
+            }
+        }
 
         /// <summary>
         /// cancel the tier change and updated the data
@@ -394,42 +460,6 @@
                 return new NotFoundViewResult("_UserNotFound");
             }
         }
-
-        /// <summary>
-        /// cancel the tier change and updated the data
-        /// </summary>
-        /// <param name="model">model</param>
-        /// <returns>the TierChange view</returns>
-        public async Task<IActionResult> CancelAvailableSeats(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("_UserNotFound");
-            }
-
-            try
-            {
-                var flightSeats = await _flightRepository.GetByIdAsync(id.Value);
-
-                if (flightSeats == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
-
-                flightSeats.ModifiedBy = await _userHelper.GetUserByIdAsync(flightSeats.Id.ToString());
-                flightSeats.UpdateDate = DateTime.Now;
-                flightSeats.Status = 2;
-
-                await _flightRepository.UpdateAsync(flightSeats);
-
-                return RedirectToAction(nameof(AvailableSeats));
-
-            }
-            catch (Exception)
-            {
-                return new NotFoundViewResult("_UserNotFound");
-            }
-
-        }
+        #endregion
     }
 }

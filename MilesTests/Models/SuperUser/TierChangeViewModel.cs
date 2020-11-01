@@ -21,8 +21,6 @@
         public int Status { get; set; }
 
 
-
-
         public int NumberOfFlights { get; set; }
 
 
