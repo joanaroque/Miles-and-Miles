@@ -27,5 +27,9 @@
 
 
         Task<PremiumOffer> GetByIdWithIncludesAsync(int id);
+
+
+
+        Task<IEnumerable<PremiumOffer>> GetAllIncludes();
     }
 }

@@ -124,21 +124,23 @@ namespace MilesBackOffice.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Arrival");
-
                     b.Property<int>("AvailableSeats");
 
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<string>("Departure");
+                    b.Property<DateTime>("DepartureDate");
+
+                    b.Property<string>("Destination");
 
                     b.Property<int>("MaximumSeats");
 
                     b.Property<int>("Miles");
 
                     b.Property<string>("ModifiedById");
+
+                    b.Property<string>("Origin");
 
                     b.Property<int?>("PartnerId");
 
@@ -234,7 +236,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<string>("Flight");
+                    b.Property<int?>("FlightId");
 
                     b.Property<string>("ModifiedById");
 
@@ -255,6 +257,8 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("FlightId");
 
                     b.HasIndex("ModifiedById");
 
@@ -680,6 +684,10 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
+
+                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.Flight", "Flight")
+                        .WithMany()
+                        .HasForeignKey("FlightId");
 
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "ModifiedBy")
                         .WithMany()

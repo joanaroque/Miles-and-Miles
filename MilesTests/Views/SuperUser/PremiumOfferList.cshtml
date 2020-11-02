@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.ConfirmOfferViewModel>
+
+@{
+    ViewData["Title"] = "PremiumOfferList";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Premium Offers</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Premium Offers</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <table class="table table-bordered table-striped" id="premiumTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OfferId)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AvailableSeats)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfferId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvailableSeats)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
+                            <i class="fa fa-list"></i>
+                        </a>
+                        <a>-  -  - </a>
+                        <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
+                            <i class="far fa-check-circle"></i>
+                        </a>
+                        <a>-  -  - </a>
+                        <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
+                            <i class="fas fa-ban"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(function () {
+            $("#premiumTable").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
+}

@@ -17,6 +17,7 @@
                     <th>Offer ID</th>
                     <th>Type</th>
                     <th>Quantity Available</th>
+                    <th>Price</th>
                     <th>Created On</th>
                     <th></th>
                 </tr>
@@ -31,6 +32,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CreateDate)

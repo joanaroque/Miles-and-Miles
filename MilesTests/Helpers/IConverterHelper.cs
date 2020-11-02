@@ -43,9 +43,12 @@
         Advertising ToNewsModel(AdvertisingViewModel model);
 
 
-        PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner);
+        PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner, Flight flight);
 
 
         PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model);
+
+
+        ConfirmOfferViewModel ToConfirmOfferViewModel(PremiumOffer model);
     }
 }

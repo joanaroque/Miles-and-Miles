@@ -1,6 +1,9 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -20,6 +23,6 @@
         /// <param name="id">id</param>
         /// <returns>a flight</returns>
         Task<Flight> GetByIdWithIncludesAsync(int id);
-
+        IEnumerable<SelectListItem> GetComboFlightList();
     }
 }

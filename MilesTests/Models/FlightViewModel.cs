@@ -1,4 +1,6 @@
-﻿namespace MilesBackOffice.Web.Models
+﻿using System;
+
+namespace MilesBackOffice.Web.Models
 {
     public class FlightViewModel
     {
@@ -7,13 +9,14 @@
 
 
 
-        public string Departure { get; set; }
+        public string Origin { get; set; }
 
 
 
-        public string Arrival { get; set; }
+        public string Destination { get; set; }
 
 
+        public DateTime DepartureDate { get; set; }
 
         public int MaximumSeats { get; set; }
 

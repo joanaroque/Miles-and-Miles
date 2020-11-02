@@ -1,14 +1,15 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
-    using CinelAirMilesLibrary.Common.Data;
-    using CinelAirMilesLibrary.Common.Data.Entities;
-    using CinelAirMilesLibrary.Common.Helpers;
-    using Microsoft.EntityFrameworkCore;
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using CinelAirMilesLibrary.Common.Data;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class PremiumRepository : GenericRepository<PremiumOffer>, IPremiumRepository
     {
@@ -93,6 +94,24 @@
         public async Task<List<PremiumOffer>> GetAllOffersAsync()
         {
             return await _dataContext.PremiumOffers.ToListAsync();
+        }
+
+        public async Task<IEnumerable<PremiumOffer>> GetAllIncludes()
+        {
+            return await _dataContext.PremiumOffers
+                .Include(p => p.Partner)
+                .Include(u => u.CreatedBy)
+                .Include(f => f.Flight)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PremiumOffer>> GetAllInclundedWithStatus(int status)
+        {
+            return await Task.Run(()=> _dataContext.PremiumOffers
+                .Include(p => p.Partner)
+                .Include(u => u.CreatedBy)
+                .Where(st => st.Status == status)
+                .AsNoTracking());
         }
     }
 }

@@ -24,8 +24,9 @@
                 MaximumSeats = flight.MaximumSeats,
                 AvailableSeats = flight.AvailableSeats,
                 Status = flight.Status,
-                Departure = flight.Departure,
-                Arrival = flight.Arrival,
+                Origin = flight.Origin,
+                Destination = flight.Destination,
+                DepartureDate = flight.DepartureDate,
                 Miles = flight.Miles,
                 PartnerName = flight.Partner.CompanyName
             };
@@ -40,8 +41,9 @@
                 UpdateDate = DateTime.Now,
                 MaximumSeats = model.MaximumSeats,
                 AvailableSeats = model.AvailableSeats,
-                Departure = model.Departure,
-                Arrival = model.Arrival,
+                Origin = model.Origin,
+                Destination = model.Destination,
+                DepartureDate = model.DepartureDate,
                 Miles = model.Miles,
                 Status = 1
             };
@@ -150,12 +152,12 @@
         }
 
 
-        public PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner)
+        public PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner, Flight flight)
         {
             return new PremiumOffer
             {
                 Id = isNew ? 0 : model.Id,
-                Flight = model.FlightId,
+                Flight = flight,
                 Title = model.Title,
                 Quantity = model.Quantity,
                 Price = model.Price,
@@ -173,11 +175,25 @@
             {
                 Id = model.Id,
                 Title = model.Title,
-                FlightId = string.IsNullOrEmpty(model.Flight) ? string.Empty : model.Flight,
+                FlightId = model.Flight == null ? 0: model.Flight.Id,
                 Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
                 Type = model.Type
+            };
+        }
+
+        public ConfirmOfferViewModel ToConfirmOfferViewModel(PremiumOffer model)
+        {
+            return new ConfirmOfferViewModel
+            {
+                OfferId = model.Id.ToString(),
+                Title = model.Title,
+                Type = model.Type,
+                Partner = model.Partner,
+                Quantity = model.Quantity,
+                AvailableSeats = model.Flight == null ? "n/a" : model.Flight.AvailableSeats.ToString(),
+                Price = model.Price
             };
         }
 

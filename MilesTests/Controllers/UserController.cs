@@ -1,18 +1,21 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.User;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public class UserController : Controller
     {
@@ -21,18 +24,21 @@
         private readonly IConverterHelper _converter;
         private readonly IPartnerRepository _partnerRepository;
         private readonly IAdvertisingRepository _advertisingRepository;
+        private readonly IFlightRepository _flightRepository;
 
         public UserController(IPremiumRepository premiumRepository,
             IUserHelper userHelper,
             IConverterHelper converter,
             IPartnerRepository partnerRepository,
-            IAdvertisingRepository advertisingRepository)
+            IAdvertisingRepository advertisingRepository,
+            IFlightRepository flightRepository)
         {
             _premiumRepository = premiumRepository;
             _userHelper = userHelper;
             _converter = converter;
             _partnerRepository = partnerRepository;
             _advertisingRepository = advertisingRepository;
+            _flightRepository = flightRepository;
         }
 
         /// <summary>
@@ -42,7 +48,9 @@
         /// <returns></returns>
         public async Task<IActionResult> PremiumIndex()
         {
-            return View(await _premiumRepository.GetAllOffersAsync());
+            var list = await _premiumRepository.GetAllIncludes();
+            list = list.Where(st => st.Status == 2);
+            return View(list);
         }
 
 
@@ -63,19 +71,10 @@
         [HttpGet]
         public async Task<IActionResult> CreateTicket()
         {
-            //tests
-            var flights = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text = "F192LISOPO121120",
-                    Value = "1"
-                }
-            };
+            var flights = _flightRepository.GetComboFlightList();
 
             var partners = await _partnerRepository.GetComboPartners();
-
-
+            
             var model = new PremiumOfferViewModel
             {
                 Flights = flights,
@@ -90,15 +89,8 @@
         [HttpGet]
         public async Task<IActionResult> CreateUpgrade()
         {
-            //tests
-            var flights = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text = "F192LISOPO121120",
-                    Value = "1"
-                }
-            };
+            
+            var flights = _flightRepository.GetComboFlightList();
 
             var partners = await _partnerRepository.GetComboPartners();
 
@@ -134,7 +126,7 @@
         {
             try
             {
-
+                //comentado para testes de desenvolvimento
                 //var user = await GetUserByName();
                 //if (user == null)
                 //{
@@ -148,7 +140,13 @@
                     return new NotFoundViewResult("_PartnerNotFound");
                 }
 
-                var ticket = _converter.ToPremiumOfferModel(model, true, partner);
+                var flight = await _flightRepository.GetByIdAsync(model.FlightId);
+                if ((model.Type == PremiumType.Ticket || model.Type == PremiumType.Upgrade) && flight == null)
+                {
+                    return new NotFoundViewResult("_FlightNotFound");
+                }
+
+                var ticket = _converter.ToPremiumOfferModel(model, true, partner, flight);
                 //ticket.CreatedBy = user;
                 ticket.CreateDate = DateTime.UtcNow;
 
@@ -220,7 +218,9 @@
 
                 var partner = await _partnerRepository.GetByIdAsync(model.Id);
 
-                current.Flight = string.IsNullOrEmpty(model.FlightId) ? string.Empty : model.FlightId;
+                var flight = await _flightRepository.GetByIdAsync(model.FlightId);
+
+                current.Flight = flight ?? null;
                 current.Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions;
                 current.Partner = partner;
                 current.Quantity = model.Quantity;

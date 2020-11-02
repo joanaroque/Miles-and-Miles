@@ -1,11 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     using CinelAirMilesLibrary.Common.Enums;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
-
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public class PremiumOfferViewModel
     {
@@ -22,7 +22,7 @@
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
-        public string FlightId { get; set; }
+        public int FlightId { get; set; }
 
 
 

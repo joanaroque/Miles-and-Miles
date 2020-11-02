@@ -8,7 +8,7 @@
         public string Title { get; set; }
 
 
-        public string Flight { get; set; }
+        public Flight Flight { get; set; }
 
 
         public Partner Partner { get; set; }

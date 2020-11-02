@@ -51,12 +51,12 @@ namespace MilesBackOffice.Web.Data
             await AddClientComplaint();
 
             //User FakeDB
+            await AddFlights();
+
             await AddPartnership();
             await AddOffers();
 
-
             await AddAdvertising();
-            await AddFlights();
 
             //client project !!
             await AddReservations();
@@ -138,18 +138,17 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Flights.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = "Lisbon";
-                var arrival = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync();
 
                 _context.Flights.Add(new Flight
                 {
-                    Departure = departure,
-                    Arrival = arrival.Name,
+                    Origin = "Lisboa",
+                    Destination = "Porto",
+                    DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
                     Partner = partner,
-                    MaximumSeats = 800,
-                    AvailableSeats = 10,
+                    MaximumSeats = 200,
+                    AvailableSeats = 111,
                     Miles = 7000,
-                    Status = 1,
+                    Status = 0,
                 });
 
                 await _context.SaveChangesAsync();
@@ -184,10 +183,11 @@ namespace MilesBackOffice.Web.Data
             if (!_context.PremiumOffers.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var flight = await _context.Flights.Where(i => i.Id == 1).FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "Portugal Aerial Bridge",
-                    Flight = "F192LISOPO22112010AM",
+                    Flight = flight,
                     Partner = partner,
                     Type = PremiumType.Ticket,
                     Quantity = 10,
@@ -198,7 +198,7 @@ namespace MilesBackOffice.Web.Data
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "All you can eat",
-                    Flight = "V200RESTABA151220",
+                    Flight = null,
                     Partner = partner,
                     Type = PremiumType.Voucher,
                     Quantity = 50,

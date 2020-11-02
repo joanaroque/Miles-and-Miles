@@ -1,26 +1,27 @@
-﻿using CinelAirMilesLibrary.Common.Data;
-using CinelAirMilesLibrary.Common.Data.Entities;
-using CinelAirMilesLibrary.Common.Data.Repositories;
-using CinelAirMilesLibrary.Common.Helpers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-
-using MilesBackOffice.Web.Data;
-using MilesBackOffice.Web.Helpers;
-
-using System;
-using System.Text;
-
-
-namespace MilesBackOffice.Web
+﻿namespace MilesBackOffice.Web
 {
+    using System;
+    using System.Text;
+
+    using CinelAirMilesLibrary.Common.Data;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
+
+    using MilesBackOffice.Web.Data;
+    using MilesBackOffice.Web.Helpers;
+
+
     public class Startup
     {
         private readonly IHostingEnvironment _env;
@@ -114,9 +115,6 @@ namespace MilesBackOffice.Web
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
-
-
-
 
             services.Configure<CookiePolicyOptions>(options =>
             {
