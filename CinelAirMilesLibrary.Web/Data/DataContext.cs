@@ -74,6 +74,11 @@ namespace CinelAirMilesLibrary.Common.Data
             });
 
 
+            modelBuilder.Entity<User>()
+                .HasIndex(a => a.UserName)
+                .IsUnique();
+
+
             modelBuilder.Entity<Transaction>()
               .Property(p => p.Price)
               .HasColumnType("decimal(18,2)");
