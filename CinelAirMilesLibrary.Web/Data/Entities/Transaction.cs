@@ -47,12 +47,24 @@
 
 
         /**************IEntity Props*********************/
+        
+        /// <summary>
+        /// Transaction is from this User 
+        /// </summary>
         public User CreatedBy { get; set; }
 
         public DateTime CreateDate { get; set; }
 
+        /// <summary>
+        /// can be updated if the transaction is reverted
+        /// or denied by an Admin
+        /// </summary>
         public DateTime UpdateDate { get; set; }
-
+        /// <summary>
+        /// the user responsible for cancelling/denying the transaction
+        /// it'll show the client in case of reverting
+        /// shows the admin who denied the transaction
+        /// </summary>
         public User ModifiedBy { get; set; }
 
         /// <summary>

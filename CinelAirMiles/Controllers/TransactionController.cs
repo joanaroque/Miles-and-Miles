@@ -27,40 +27,22 @@
 
 
         [HttpGet]
-        public IActionResult TransactionIndex()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Purchase()
+        public IActionResult PurchaseMiles()
         {
             return PartialView("_Purchase");
         }
 
         [HttpGet]
-        public IActionResult Extend()
+        public IActionResult ExtendMiles()
         {
             return PartialView("_Extend");
         }
 
         [HttpGet]
-        public IActionResult Conversion()
+        public IActionResult ConvertMiles()
         {
             return PartialView("_Conversion");
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public IActionResult AddTransaction(TransactionViewModel model)
-        {
-            return View();
-        }
-
 
 
         [HttpGet]

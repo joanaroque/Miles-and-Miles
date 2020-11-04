@@ -4,18 +4,11 @@
 
     public class Reservation : IEntity
     {
+        public Guid ReservationID { get; set; }
 
-        public string Destination { get; set; }
+        public PremiumOffer MyPremium { get; set; }
 
-
-        public Partner PartnerName { get; set; }
-
-
-
-        public DateTime Date { get; set; }
-
-
-
+            
         public int Id { get; set; }
 
 

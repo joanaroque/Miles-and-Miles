@@ -1,8 +1,12 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
-    using CinelAirMilesLibrary.Common.Data.Entities;
+    using System.Threading.Tasks;
 
-    interface ITransactionRepository : IGenericRepository<Transaction>
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    public interface ITransactionRepository : IGenericRepository<Transaction>
     {
+        Task<Response> AddTransanctionAsync(Transaction trans);
     }
 }

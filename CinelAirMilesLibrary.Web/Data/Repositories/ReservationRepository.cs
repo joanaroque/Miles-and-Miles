@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
@@ -17,6 +18,14 @@
             _context = context;
         }
 
+        public async Task<Reservation> GetByIdIncludingAsync(int id)
+        {
+            return await _context.Reservations
+                .Include(u => u.CreatedBy)
+                .Include(po => po.MyPremium)
+                .Where(i => i.Id == id)
+                .FirstOrDefaultAsync();
+        }
 
         public async Task<List<Reservation>> GetReservationsFromCurrentClientToListAsync(string clientId)
         {
@@ -26,6 +35,26 @@
                .ToListAsync();
 
             return clientReservation;
+        }
+
+        public async Task<Response> UpdateReservationAsync(Reservation model)
+        {
+            var result = await UpdateAsync(model);
+
+            if (result)
+            {
+                return new Response
+                {
+                    Success= true,
+                    Message = "You reservation was cancelled."
+                };
+            }
+            return new Response
+            {
+                Success = false,
+                Message = "An error ocurred while cancelling your reservation. Please try again. " +
+                "If the error persists contact us through the complaints menu."
+            };
         }
     }
 }
