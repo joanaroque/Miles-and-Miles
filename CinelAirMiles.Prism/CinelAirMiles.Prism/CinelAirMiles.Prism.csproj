@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,10 +10,10 @@
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.5.3.2" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
-    <PackageReference Include="Xamarin.AndroidX.MediaRouter" Version="1.1.0.1" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1909" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />
+    <!--<PackageReference Include="Xamarin.AndroidX.MediaRouter" Version="1.1.0.5" />-->
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +23,7 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  
   <ItemGroup>
     <EmbeddedResource Update="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
