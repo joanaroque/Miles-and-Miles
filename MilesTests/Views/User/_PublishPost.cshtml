@@ -1,11 +1,24 @@
 ﻿@model MilesBackOffice.Web.Models.AdvertisingViewModel
 
+
 <h4>Publish</h4>
 <hr />
 <div class="col-12">
 
     <form asp-action="PublishPost">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="ImageId" class="control-label"></label>
+            <input asp-for="ImageId" type="file" />
+            <span asp-validation-for="ImageId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PartnerName" class="control-label"></label>
+            <select type="text" asp-for="PartnerName" asp-items="Model.PartnersList" required><option value="">Select a Partner</option></select>
+            <span asp-validation-for="PartnerName" class="text-danger"></span>
+        </div>
 
         <div class="form-group">
             <label asp-for="Title" class="control-label"></label>
@@ -20,8 +33,13 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" required />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
+
+        <button type="submit" class="btn btn-outline-success">Create</button>
+
     </form>
 
 </div>

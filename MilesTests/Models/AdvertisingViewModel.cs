@@ -1,12 +1,17 @@
 ﻿namespace MilesBackOffice.Web.Models
-{ 
+{
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class AdvertisingViewModel
     {
         public int Id { get; set; }
+
+
+        public IEnumerable<SelectListItem> PartnersList { get; set; }
 
 
 
