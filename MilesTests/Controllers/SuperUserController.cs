@@ -60,7 +60,9 @@
             var list = await _premiumRepository.GetAllIncludes();
             list = list.Where(st => st.Status == 1);
 
-            var convertList = (IEnumerable<ConfirmOfferViewModel>)list.Select(po => _converterHelper.ToConfirmOfferViewModel(po)).ToList();
+            var convertList = (IEnumerable<ConfirmOfferViewModel>)
+                list.Select(po => _converterHelper.ToConfirmOfferViewModel(po))
+                .ToList();
 
             return View(convertList);
         }
@@ -93,7 +95,14 @@
                     throw new Exception();
                 }
 
-                //offer.ModifiedBy = //currentuser
+                var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                offer.ModifiedBy = user;
                 offer.UpdateDate = DateTime.Now;
                 offer.Status = 0;
 
@@ -132,8 +141,14 @@
                     throw new Exception();
                 }
 
-                //get user
+                //var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
 
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
+
+                //offer.ModifiedBy = user;
                 offer.Status = 2;
                 offer.UpdateDate = DateTime.UtcNow;
 
@@ -305,7 +320,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
+                //advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 0;
 
@@ -342,7 +357,7 @@
 
                 }
 
-                advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
+                //advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 2;
 
@@ -368,7 +383,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            var list = await _tierChangeRepository.GetAllClientListAsync(); // mysteriously, the enum started to work
+            var list = await _tierChangeRepository.GetAllClientListAsync(); 
 
             var modelList = new List<TierChangeViewModel>(
                 list.Select(a => _converterHelper.ToTierChangeViewModel(a))

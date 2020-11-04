@@ -363,9 +363,16 @@
         #region NewsFeed - Create / Edit / Delete
 
         [HttpGet]
-        public IActionResult PublishPost()
+        public async Task<IActionResult> PublishPost()
         {
-            return PartialView("_PublishPost");
+            var partners = await _partnerRepository.GetComboPartners();
+
+            var model = new AdvertisingViewModel
+            {
+                PartnersList = partners,
+            };
+
+            return PartialView("_PublishPost", model);
         }
 
 

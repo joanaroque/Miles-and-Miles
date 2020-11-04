@@ -77,7 +77,7 @@
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                PartnerName = advertising.Partner.CompanyName
+                PartnerName = advertising.Partner.CompanyName // todo VER ISTO
 
             };
             return advertisings;
@@ -190,7 +190,7 @@
                 OfferId = model.Id.ToString(),
                 Title = model.Title,
                 Type = model.Type,
-                Partner = model.Partner,
+                PartnerName = model.Partner.CompanyName,
                 Quantity = model.Quantity,
                 AvailableSeats = model.Flight == null ? "n/a" : model.Flight.AvailableSeats.ToString(),
                 Price = model.Price

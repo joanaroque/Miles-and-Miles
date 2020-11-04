@@ -33,6 +33,9 @@
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.PartnerName)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
@@ -50,41 +53,45 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OfferId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfferId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AvailableSeats)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartnerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
-                            <i class="fa fa-list"></i>
-                        </a>
-                        <a>-  -  - </a>
-                        <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
-                            <i class="far fa-check-circle"></i>
-                        </a>
-                        <a>-  -  - </a>
-                        <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
-                            <i class="fas fa-ban"></i>
-                        </a>
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableSeats)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
+                        <i class="fa fa-list"></i>
+                    </a>
+                    <a>-  -  - </a>
+                    <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
+                        <i class="far fa-check-circle"></i>
+                    </a>
+                    <a>-  -  - </a>
+                    <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
+                        <i class="fas fa-ban"></i>
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
