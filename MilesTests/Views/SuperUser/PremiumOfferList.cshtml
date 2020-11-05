@@ -68,11 +68,18 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Quantity)
                                             </td>
-
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.AvailableSeats)
-                                            </td>
-
+                                            @if (item.AvailableSeats >= 0)
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.AvailableSeats)
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    n/a
+                                                </td>
+                                            }
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Price)
                                             </td>
