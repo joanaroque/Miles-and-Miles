@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CinelAirMilesLibrary.Common.Data.Entities.Partner>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.PartnerViewModel>
 
 @{
     ViewData["Title"] = "Partnerships";
@@ -34,7 +34,7 @@
                                 @Html.DisplayFor(modelItem => item.Url)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CreateDate)
+                                @Html.DisplayFor(modelItem => item.PartnerSince)
                             </td>
                             <td>
                                 <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="EditPartner"><i class="fa fa-user-edit"></i></a>

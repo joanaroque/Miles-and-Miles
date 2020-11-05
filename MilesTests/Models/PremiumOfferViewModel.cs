@@ -1,5 +1,6 @@
 ﻿namespace MilesBackOffice.Web.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -52,6 +53,14 @@
 
 
         public string AvailableSeats { get; set; }
+
+
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime CreatedOn { get; set; }
+
 
         public PremiumType Type { get; set; }
     }

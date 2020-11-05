@@ -1,6 +1,7 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -46,20 +47,38 @@
         public async Task<IActionResult> PremiumIndex()
         {
             var list = await _premiumRepository.GetAllIncludes();
-            list = list.Where(st => st.Status == 2);
-            return View(list);
+
+            var modelList = new List<PremiumOfferViewModel>(
+                list.Where(st => st.Status == 2)
+                .Select(a => _converter.ToPremiumOfferViewModel(a))
+                .ToList());
+
+            return View(modelList);
+
         }
 
 
-        public IActionResult NewsIndex()
+        public async Task<ActionResult> NewsIndex()
         {
-            return View(_advertisingRepository.GetAll());
+            var list = await _advertisingRepository.GetAllAdvertisingAsync();
+
+            var modelList = new List<AdvertisingViewModel>(
+                list.Select(a => _converter.ToAdvertisingViewModel(a))
+                .ToList());
+
+            return View(modelList);
         }
 
 
         public IActionResult PartnerIndex()
         {
-            return View(_partnerRepository.GetAll());
+            var list = _partnerRepository.GetAll();
+
+            var modelList = new List<PartnerViewModel>(
+                list.Select(a => _converter.ToPartnerViewModel(a))
+                .ToList());
+
+            return View(modelList);
         }
 
         #region Premium Offers - Create / Edit / Delete
