@@ -179,6 +179,7 @@
                 Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
+                AvailableSeats = model.Flight == null ? "n/a" : model.Flight.AvailableSeats.ToString(),
                 Type = model.Type
             };
         }
