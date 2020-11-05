@@ -3,7 +3,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Mvc.Rendering;
-
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -49,6 +49,15 @@
             }
         }
 
+
+        public async Task<Partner> GetByIdWithIncludesAsync(int id)
+        {
+            var partner = await _context.Partners
+                 .Include(a => a.CreatedBy)
+                 .Where(a => a.Id.Equals(id)).FirstOrDefaultAsync();
+
+            return partner;
+        }
 
         public async Task<IEnumerable<SelectListItem>> GetComboPartners()
         {

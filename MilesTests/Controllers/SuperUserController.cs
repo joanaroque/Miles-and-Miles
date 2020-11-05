@@ -26,6 +26,7 @@
         private readonly IComplaintRepository _clientComplaintRepository;
         private readonly IFlightRepository _flightRepository;
         private readonly IPremiumRepository _premiumRepository;
+        private readonly IPartnerRepository _partnerRepository;
         #endregion
 
         public SuperUserController(IUserHelper userHelper,
@@ -35,7 +36,8 @@
             ITierChangeRepository tierChangeRepository,
             IComplaintRepository clientComplaintRepository,
             IFlightRepository flightRepository,
-            IPremiumRepository premiumRepository)
+            IPremiumRepository premiumRepository,
+            IPartnerRepository partnerRepository)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -45,9 +47,10 @@
             _clientComplaintRepository = clientComplaintRepository;
             _flightRepository = flightRepository;
             _premiumRepository = premiumRepository;
+            _partnerRepository = partnerRepository;
         }
 
-       
+
 
         #region PREMIUM OFFER 
         /// <summary>
@@ -256,15 +259,104 @@
         }
         #endregion
 
+        #region PARTNERS
+        [HttpGet]
+        public ActionResult PartnerReferences()
+        {
+            var list = _partnerRepository.GetAll();
+
+            var modelList = new List<PartnerViewModel>(
+                list.Select(a => _converterHelper.ToPartnerViewModel(a))
+                .ToList());
+
+            return View(modelList);
+        }
+
+        /// <summary>
+        /// confirm the advertising and updated the data
+        /// </summary>
+        /// <param name="Id">id</param>
+        /// <returns>AdvertisingAndReferences view</returns>
+        public async Task<IActionResult> ConfirmPartnerReferences(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            try
+            {
+                Partner partner = await _partnerRepository.GetByIdWithIncludesAsync(id.Value);
+
+                if (partner == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+                }
+
+                //partner.ModifiedBy = await _userHelper.GetUserByIdAsync(partner.Id.ToString());
+                partner.UpdateDate = DateTime.Now;
+                partner.Status = 0;
+
+                await _partnerRepository.UpdateAsync(partner);
+
+                return RedirectToAction(nameof(PartnerReferences));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+
+            }
+        }
+
+        /// <summary>
+        /// cancel the publish advertising and updated the data
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>the AdvertisingAndReferences view</returns>
+        public async Task<IActionResult> CancelPartnerReferences(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            try
+            {
+                var partner = await _partnerRepository.GetByIdAsync(id.Value);
+
+                if (partner == null)
+                {
+                    return new NotFoundViewResult("_UserNotFound");
+
+                }
+
+                //partner.ModifiedBy = await _userHelper.GetUserByIdAsync(partner.Id.ToString());
+                partner.UpdateDate = DateTime.Now;
+                partner.Status = 2;
+
+                await _partnerRepository.UpdateAsync(partner);
+
+
+                return RedirectToAction(nameof(PartnerReferences));
+
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+        }
+        #endregion 
+
+
         #region ADVERTISING 
         /// <summary>
         /// get list of all advertising and transforms an entity to viewmodel
         /// </summary>
         /// <returns>a list of advertising</returns>
         [HttpGet]
-        public async Task<ActionResult> AdvertisingAndReferences()
+        public async Task<ActionResult> Advertising()
         {
-            //TODO vem de um repository
             var list = await _advertisingRepository.GetAllAdvertisingAsync();
 
             var modelList = new List<AdvertisingViewModel>(
@@ -286,10 +378,8 @@
                 return new NotFoundViewResult("_UserNotFound");
             }
 
-
             var entityList = await _advertisingRepository.GetAllAdvertisingAsync();
 
-            //TODO isto tem de ir para um repository
             Advertising selectedAdvertising = entityList
                                                    .Where(a => a.Id.Equals(id.Value))
                                                    .FirstOrDefault();
@@ -326,7 +416,7 @@
 
                 await _advertisingRepository.UpdateAsync(advertising);
 
-                return RedirectToAction(nameof(AdvertisingAndReferences));
+                return RedirectToAction(nameof(Advertising));
             }
             catch (Exception)
             {
@@ -364,7 +454,7 @@
                 await _advertisingRepository.UpdateAsync(advertising);
 
 
-                return RedirectToAction(nameof(AdvertisingAndReferences));
+                return RedirectToAction(nameof(Advertising));
 
             }
             catch (Exception)
@@ -383,7 +473,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            var list = await _tierChangeRepository.GetAllClientListAsync(); 
+            var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
                 list.Select(a => _converterHelper.ToTierChangeViewModel(a))

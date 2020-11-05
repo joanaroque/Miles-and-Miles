@@ -1,7 +1,6 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,11 +10,9 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
 
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
-    using MilesBackOffice.Web.Models.User;
 
     public class UserController : Controller
     {
@@ -74,7 +71,7 @@
             var flights = _flightRepository.GetComboFlightList();
 
             var partners = await _partnerRepository.GetComboPartners();
-            
+
             var model = new PremiumOfferViewModel
             {
                 Flights = flights,
@@ -89,7 +86,7 @@
         [HttpGet]
         public async Task<IActionResult> CreateUpgrade()
         {
-            
+
             var flights = _flightRepository.GetComboFlightList();
 
             var partners = await _partnerRepository.GetComboPartners();

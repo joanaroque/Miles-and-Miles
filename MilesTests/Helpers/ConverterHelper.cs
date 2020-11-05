@@ -1,12 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Helpers
 {
+    using System;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
 
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
-    using MilesBackOffice.Web.Models.User;
-
-    using System;
 
 
     public class ConverterHelper : IConverterHelper
@@ -78,7 +77,7 @@
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                PartnerName = advertising.Partner.CompanyName // todo VER ISTO
+                PartnerName = advertising.Partner.CompanyName
 
             };
             return advertisings;
@@ -176,7 +175,7 @@
             {
                 Id = model.Id,
                 Title = model.Title,
-                FlightId = model.Flight == null ? 0: model.Flight.Id,
+                FlightId = model.Flight == null ? 0 : model.Flight.Id,
                 Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
@@ -222,7 +221,8 @@
                 Address = model.Address,
                 Url = model.Url,
                 Designation = model.Designation,
-                Description = model.Description
+                Description = model.Description,
+                Status = model.Status
             };
         }
 

@@ -1,0 +1,116 @@
+﻿@model IEnumerable<MilesBackOffice.Web.Models.PartnerViewModel>
+
+
+@{
+    ViewData["Title"] = "PartnerReferences";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <br />
+                    <h1>Partner References</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                        <li class="breadcrumb-item active">Partners</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- /.card -->
+
+                    <div class="card">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Address</th>
+                                        <th>Url</th>
+                                        <th>Designation</th>
+                                        <th>Logo</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>aqui fica a img</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CompanyName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Address)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Url)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Designation)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Logo)
+                                        </td>
+
+                                        <td>
+                                            @if (item.Status != 0 && item.Status != 2)
+                                            {
+                                                <a asp-action="ConfirmPartnerReferences" asp-route-id="@item.Id" class="btn btn-success">
+                                                    <i class="far fa-check-circle"></i>
+                                                </a>
+                                                <a>-  -  - </a>
+                                                <a asp-action="CancelPartnerReferences" asp-route-id="@item.Id" class="btn btn-danger">
+                                                    <i class="fas fa-ban"></i>
+                                                </a>
+                                            }
+                                            else if (item.Status == 0)
+                                            {
+                                                <label class="label-success">Confirmed</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="label-success">Canceled</label>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
+}
+
+

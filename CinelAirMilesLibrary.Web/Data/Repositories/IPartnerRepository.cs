@@ -31,5 +31,17 @@
         /// <param name="model">the entry to be added</param>
         /// <returns>A response with the result of the operation, or an error message if it fails</returns>
         Task<Response> UpdatePartnerAsync(Partner model);
+
+
+
+
+        /// <summary>
+        /// get the first or default partner, including who created
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>an partner </returns>
+        Task<Partner> GetByIdWithIncludesAsync(int id);
+
+
     }
 }

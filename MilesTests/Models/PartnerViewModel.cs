@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Models.User
+﻿namespace MilesBackOffice.Web.Models
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -39,5 +39,8 @@
 
         [Required]
         public string Description { get; set; }
+
+
+        public int Status { get; set; }
     }
 }

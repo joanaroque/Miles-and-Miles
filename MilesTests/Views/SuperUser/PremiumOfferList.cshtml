@@ -22,81 +22,85 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <table class="table table-bordered table-striped" id="premiumTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.OfferId)
-                </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PartnerName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AvailableSeats)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfferId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.PartnerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
+                    <!-- /.card -->
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.AvailableSeats)
-                </td>
+                    <div class="card">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
-                        <i class="fa fa-list"></i>
-                    </a>
-                    <a>-  -  - </a>
-                    <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
-                        <i class="far fa-check-circle"></i>
-                    </a>
-                    <a>-  -  - </a>
-                    <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
-                        <i class="fas fa-ban"></i>
-                    </a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Offer Nrº</th>
+                                        <th>Title</th>
+                                        <th>Company</th>
+                                        <th>Offer Type</th>
+                                        <th>Quantity</th>
+                                        <th>Available Seats</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OfferId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PartnerName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Type)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AvailableSeats)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+                                            <td>
+                                                <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
+                                                    <i class="fa fa-list"></i>
+                                                </a>
+                                                <a>-  -  - </a>
+                                                <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
+                                                    <i class="far fa-check-circle"></i>
+                                                </a>
+                                                <a>-  -  - </a>
+                                                <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
+                                                    <i class="fas fa-ban"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
