@@ -6,6 +6,7 @@
     {
         public Guid ReservationID { get; set; }
 
+
         public PremiumOffer MyPremium { get; set; }
 
             

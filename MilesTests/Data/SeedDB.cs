@@ -59,7 +59,7 @@ namespace MilesBackOffice.Web.Data
             await AddAdvertising();
 
             //client project !!
-            await AddReservations();
+           // await AddReservations();
             await AddNotifications();
 
         }
@@ -69,7 +69,6 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Notifications.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = "Lisbon";
 
                 _context.Notifications.Add(new Notification
                 {
@@ -118,14 +117,13 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Reservations.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = "Lisbon";
+                var departure = await _context.PremiumOffers.Where(i => i.Id == 1).FirstOrDefaultAsync();
 
                 _context.Reservations.Add(new Reservation
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    Destination = departure,
-                    PartnerName = partner,
-                    Date = DateTime.Now.AddDays(6),
+                    MyPremium = departure,
+                    CreateDate = DateTime.Now.AddDays(6),
                     Status = 1
                 });
 
@@ -235,12 +233,14 @@ namespace MilesBackOffice.Web.Data
         {
             if (!_context.Advertisings.Any())
             {
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+
                 _context.Advertisings.Add(new Advertising
                 {
                     Title = "New Promotion",
                     Content = "bla bla bla",
                     EndDate = DateTime.Now.AddMonths(12),
-                    Partner = _context.Partners.FirstOrDefault(),
+                    Partner = partner,
                     Status = 1
                 });
 

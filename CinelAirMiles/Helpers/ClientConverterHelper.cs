@@ -72,11 +72,10 @@
         {
             var reservation = new Reservation
             {
-                Id = isNew ? 0 : model.ReservationId,
-                Destination = model.Destination,
+              //todo   ReservationID = isNew ? null : model.ReservationId,
                 UpdateDate = DateTime.Now,
                 Status = 0,
-                Date = model.Date
+                CreateDate = model.DepartureDate
             };
 
             return reservation;
@@ -86,12 +85,12 @@
         {
             var reservationClient = new ReservationViewModel
             {
-                ReservationId = reservation.Id,
-                Destination = reservation.Destination,
-                PartnerName = reservation.PartnerName.CompanyName,
-                Date = reservation.Date,
+                ReservationId = reservation.ReservationID.ToString(),
+                Departure = reservation.MyPremium.Flight.Destination,
+                PartnerName = reservation.MyPremium.Partner.CompanyName,
+                DepartureDate = reservation.CreateDate,
                 Status = reservation.Status,
-                ClientName = reservation.CreatedBy.Name
+                Name = reservation.CreatedBy.Name
             };
 
             return reservationClient;

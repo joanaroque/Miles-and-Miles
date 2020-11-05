@@ -30,35 +30,46 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Name
+                                    Reservation Nrº
                                 </th>
                                 <th>
-                                    Destination
+                                    Departure
+                                </th>
+                                <th>
+                                    Arrival
                                 </th>
                                 <th>
                                     Company
                                 </th>
-
+                                <th>
+                                    Departure Date
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ClientName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Destination)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PartnerName)
-                                    </td>
-                                    <td>
-                                        <a asp-action="CancelReservation" class="btn btn-info" asp-route-id="@item.ReservationId"><i class="fa fa-ban"></i> </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReservationId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Departure)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Arrival)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PartnerName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DepartureDate)
+                                </td>
+                                <td>
+                                    <a asp-action="CancelReservation" class="btn btn-info" asp-route-id="@item.ReservationId"><i class="fa fa-ban"></i> </a>
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>
