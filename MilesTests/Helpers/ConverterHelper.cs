@@ -77,7 +77,7 @@
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                PartnerName = advertising.Partner.CompanyName
+                Partner = advertising.Partner// todo VER ISTO
 
             };
             return advertisings;

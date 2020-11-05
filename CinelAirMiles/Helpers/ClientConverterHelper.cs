@@ -72,10 +72,10 @@
         {
             var reservation = new Reservation
             {
-              //todo   ReservationID = isNew ? null : model.ReservationId,
-                UpdateDate = DateTime.Now,
-                Status = 0,
-                CreateDate = model.DepartureDate
+                Id = isNew ? 0 : model.ReservationId,
+                ReservationID = new Guid(),
+                CreateDate = DateTime.UtcNow,
+                MyPremium = model.Myoffer
             };
 
             return reservation;

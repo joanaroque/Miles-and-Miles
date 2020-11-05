@@ -370,6 +370,7 @@
         public async Task<ActionResult> Advertising()
         {
             var list = await _advertisingRepository.GetAllAdvertisingAsync();
+            list = (List<Advertising>)list.Where(st => st.Status == 1);
 
             var modelList = new List<AdvertisingViewModel>(
                 list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
@@ -389,16 +390,17 @@
             {
                 return new NotFoundViewResult("_UserNotFound");
             }
+            try
+            {
+                var advert = await _advertisingRepository.GetByIdWithIncludesAsync(id.Value);
 
-            var entityList = await _advertisingRepository.GetAllAdvertisingAsync();
+                return View(_converterHelper.ToAdvertisingViewModel(advert));
+            }
+            catch (Exception)
+            {
 
-            Advertising selectedAdvertising = entityList
-                                                   .Where(a => a.Id.Equals(id.Value))
-                                                   .FirstOrDefault();
-
-
-            return View(_converterHelper.ToAdvertisingViewModel(selectedAdvertising));
-
+                throw;
+            }
         }
 
         /// <summary>
@@ -475,6 +477,19 @@
             }
 
         }
+        #endregion
+
+        #region PARTNERSHIPS
+        [HttpGet]
+        public IActionResult PartnerIndex()
+        {
+            var list = _partnerRepository.GetAll();
+            list = list.Where(st => st.Status == 1);
+
+            return View(list);
+        }
+
+
         #endregion
 
         #region TIER CHANGE

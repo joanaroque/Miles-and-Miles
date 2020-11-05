@@ -116,14 +116,13 @@ namespace MilesBackOffice.Web.Data
         {
             if (!_context.Reservations.Any())
             {
-                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = await _context.PremiumOffers.Where(i => i.Id == 1).FirstOrDefaultAsync();
-
+                var myPremium = await  _context.PremiumOffers.Where(i => i.Id == 1).FirstOrDefaultAsync();
                 _context.Reservations.Add(new Reservation
                 {
+                    ReservationID = new Guid(),
+                    CreateDate = DateTime.UtcNow,
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    MyPremium = departure,
-                    CreateDate = DateTime.Now.AddDays(6),
+                    MyPremium = myPremium,
                     Status = 1
                 });
 

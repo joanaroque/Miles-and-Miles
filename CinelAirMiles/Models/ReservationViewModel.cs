@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using CinelAirMilesLibrary.Common.Data.Entities;
 
     public class ReservationViewModel
     {

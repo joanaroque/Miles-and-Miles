@@ -1,13 +1,14 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
-    using CinelAirMilesLibrary.Common.Data.Entities;
-    using CinelAirMilesLibrary.Common.Helpers;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class PartnerRepository : GenericRepository<Partner>, IPartnerRepository
     {

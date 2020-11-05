@@ -1,7 +1,6 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,9 +8,8 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.AspNetCore.SignalR;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
@@ -23,13 +21,15 @@
         private readonly IPartnerRepository _partnerRepository;
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IFlightRepository _flightRepository;
+        private readonly INotificationHelper _notificationHelper;
 
         public UserController(IPremiumRepository premiumRepository,
             IUserHelper userHelper,
             IConverterHelper converter,
             IPartnerRepository partnerRepository,
             IAdvertisingRepository advertisingRepository,
-            IFlightRepository flightRepository)
+            IFlightRepository flightRepository,
+            INotificationHelper notificationHelper)
         {
             _premiumRepository = premiumRepository;
             _userHelper = userHelper;
@@ -37,6 +37,7 @@
             _partnerRepository = partnerRepository;
             _advertisingRepository = advertisingRepository;
             _flightRepository = flightRepository;
+            _notificationHelper = notificationHelper;
         }
 
         /// <summary>
@@ -58,27 +59,20 @@
         }
 
 
-        public async Task<ActionResult> NewsIndex()
+        public async Task<IActionResult> NewsIndex()
         {
             var list = await _advertisingRepository.GetAllAdvertisingAsync();
-
-            var modelList = new List<AdvertisingViewModel>(
-                list.Select(a => _converter.ToAdvertisingViewModel(a))
-                .ToList());
-
-            return View(modelList);
+            list = (System.Collections.Generic.List<Advertising>)list.Where(st => st.Status == 2);
+            return View(list);
         }
 
 
         public IActionResult PartnerIndex()
         {
             var list = _partnerRepository.GetAll();
+            list = list.Where(st => st.Status == 2);
 
-            var modelList = new List<PartnerViewModel>(
-                list.Select(a => _converter.ToPartnerViewModel(a))
-                .ToList());
-
-            return View(modelList);
+            return View(list);
         }
 
         #region Premium Offers - Create / Edit / Delete
@@ -173,8 +167,9 @@
                     //TODO Error DataContext
                     return new NotFoundViewResult("_DatacontextError");
                 }
+                //send notification to superuser
+                await _notificationHelper.CreateNotification(0, UserType.SuperUser, "");
 
-                TempData["Message"] = "Offer was created with success";
                 return RedirectToAction(nameof(PremiumIndex));
             }
             catch (Exception)
@@ -403,16 +398,8 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                //TODO deal with the image file
-
-                var partner = await _partnerRepository.GetByIdAsync(int.Parse(model.PartnerName));
-
-                if (partner == null)
-                {
-                    return new NotFoundViewResult("_PartnerNotFound");
-                }
-
-                var post = _converter.ToAdvertising(model, model.ImageId, partner, true);
+                //TODO process the image file
+                var post = _converter.ToAdvertising(model, model.ImageId, true);
                 //post.CreatedBy = currentUser;
                 post.CreateDate = DateTime.UtcNow;
 
@@ -470,9 +457,6 @@
                 }
 
                 var post = await _advertisingRepository.GetByIdAsync(model.Id);
-
-
-
 
                 //post.ModifiedBy = currentUser;
                 post.UpdateDate = DateTime.UtcNow;
