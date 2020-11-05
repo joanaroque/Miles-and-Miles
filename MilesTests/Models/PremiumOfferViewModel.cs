@@ -52,7 +52,7 @@
         public string Conditions { get; set; }
 
 
-        public string AvailableSeats { get; set; }
+        public int AvailableSeats { get; set; }
 
 
 
