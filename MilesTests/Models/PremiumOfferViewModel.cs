@@ -51,6 +51,8 @@
         public string Conditions { get; set; }
 
 
+        public string AvailableSeats { get; set; }
+
         public PremiumType Type { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.ConfirmOfferViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.PremiumOfferViewModel>
 
 @{
     ViewData["Title"] = "PremiumOfferList";
@@ -53,14 +53,14 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.OfferId)
+                                                @Html.DisplayFor(modelItem => item.Id)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Title)
                                             </td>
 
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.PartnerName)
+                                                @Html.DisplayFor(modelItem => item.PartnersList)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Type)
@@ -77,15 +77,15 @@
                                                 @Html.DisplayFor(modelItem => item.Price)
                                             </td>
                                             <td>
-                                                <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.OfferId">
+                                                <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.Id">
                                                     <i class="fa fa-list"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.OfferId" class="btn btn-success">
+                                                <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.Id" class="btn btn-success">
                                                     <i class="far fa-check-circle"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="ReturnOfferToEditing" asp-route-id="@item.OfferId" class="btn btn-danger">
+                                                <a asp-action="ReturnOfferToEditing" asp-route-id="@item.Id" class="btn btn-danger">
                                                     <i class="fas fa-ban"></i>
                                                 </a>
                                             </td>

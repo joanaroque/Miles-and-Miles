@@ -63,17 +63,29 @@
             var list = await _premiumRepository.GetAllIncludes();
             list = list.Where(st => st.Status == 1);
 
-            var convertList = (IEnumerable<ConfirmOfferViewModel>)
-                list.Select(po => _converterHelper.ToConfirmOfferViewModel(po))
-                .ToList();
+            var convertList = new List<PremiumOfferViewModel>(
+                list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
+                .ToList());
 
             return View(convertList);
         }
 
         [HttpGet]
-        public ActionResult PremiumOfferDetails()
+        public async Task<ActionResult> PremiumOfferDetails(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new NotFoundViewResult("_UserNotFound");
+            }
+
+            var entityList = await _premiumRepository.GetAllIncludes();
+
+            PremiumOffer selectedPremiumOffer = entityList
+                                                   .Where(a => a.Id.Equals(id.Value))
+                                                   .FirstOrDefault();
+
+
+            return View(_converterHelper.ToPremiumOfferViewModel(selectedPremiumOffer));
         }
 
 

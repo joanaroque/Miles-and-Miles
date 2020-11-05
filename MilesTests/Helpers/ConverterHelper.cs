@@ -183,19 +183,6 @@
             };
         }
 
-        public ConfirmOfferViewModel ToConfirmOfferViewModel(PremiumOffer model)
-        {
-            return new ConfirmOfferViewModel
-            {
-                OfferId = model.Id.ToString(),
-                Title = model.Title,
-                Type = model.Type,
-                PartnerName = model.Partner.CompanyName,
-                Quantity = model.Quantity,
-                AvailableSeats = model.Flight == null ? "n/a" : model.Flight.AvailableSeats.ToString(),
-                Price = model.Price
-            };
-        }
 
         public Partner ToPartnerModel(PartnerViewModel model, bool isNew)
         {

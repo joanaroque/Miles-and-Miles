@@ -47,7 +47,5 @@
 
         PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model);
 
-
-        ConfirmOfferViewModel ToConfirmOfferViewModel(PremiumOffer model);
     }
 }

@@ -100,7 +100,7 @@
         {
             return await _dataContext.PremiumOffers
                 .Include(p => p.Partner)
-                .Include(u => u.CreatedBy)
+               // .Include(u => u.CreatedBy)
                 .Include(f => f.Flight)
                 .ToListAsync();
         }
