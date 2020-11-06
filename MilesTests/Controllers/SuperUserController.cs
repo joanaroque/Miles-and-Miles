@@ -51,7 +51,6 @@
         }
 
 
-
         #region PREMIUM OFFER 
         /// <summary>
         /// get list of seats to be confirmed
@@ -184,6 +183,7 @@
         }
         #endregion
 
+
         #region CLIENTS REQUESTS/COMPLAINTS
         /// <summary>
         /// get list of all complaints and transforms an entity to viewmodel
@@ -270,6 +270,7 @@
             return View(model);
         }
         #endregion
+
 
         #region PARTNERS
         [HttpGet]
@@ -478,6 +479,7 @@
         }
         #endregion
 
+
         #region PARTNERSHIPS
         [HttpGet]
         public IActionResult PartnerIndex()
@@ -490,6 +492,7 @@
 
 
         #endregion
+
 
         #region TIER CHANGE
         /// <summary>

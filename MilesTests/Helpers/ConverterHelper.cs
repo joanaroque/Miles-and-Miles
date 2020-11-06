@@ -180,7 +180,8 @@
                 Quantity = model.Quantity,
                 Price = model.Price,
                 AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
-                Type = model.Type
+                Type = model.Type,
+                PartnerName = model.Partner.CompanyName
             };
         }
 
