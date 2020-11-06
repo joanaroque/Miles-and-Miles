@@ -6,10 +6,6 @@ namespace CinelAirMilesMySQL.DataBase
 {
     public partial class DataContext : DbContext
     {
-        public DataContext()
-        {
-        }
-
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
