@@ -3,13 +3,15 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using CinelAirMilesLibrary.Common.Data.Entities;
-
     public class ReservationViewModel
     {
+        public int Id { get; set; }
+
 
         public string ReservationId { get; set; }
 
+
+        public int PremiumOfferId { get; set; }
 
         public string Arrival { get; set; }
 

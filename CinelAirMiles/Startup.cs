@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using MilesBackOffice.Web.Data;
 using MilesBackOffice.Web.Helpers;
 using System;
 using System.Text;
@@ -124,9 +123,8 @@ namespace CinelAirMiles
 
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
-            services.AddTransient<SeedDB>();
             services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
             services.AddScoped<IBlobHelper, BlobHelper>();
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
@@ -137,6 +135,7 @@ namespace CinelAirMiles
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

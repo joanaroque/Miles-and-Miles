@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinelAirMilesLibrary.Web\CinelAirMilesLibrary.Common.csproj" />
-    <ProjectReference Include="..\MilesTests\MilesBackOffice.Web.csproj" />
+    <!--<ProjectReference Include="..\MilesTests\MilesBackOffice.Web.csproj" />-->
   </ItemGroup>
 
 </Project>

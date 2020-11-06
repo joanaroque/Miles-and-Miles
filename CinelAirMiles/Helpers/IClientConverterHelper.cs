@@ -7,7 +7,7 @@
 
     public interface IClientConverterHelper
     {
-        Reservation ToReservation(ReservationViewModel model, bool isNew);
+        //Reservation ToReservation(ReservationViewModel model, bool isNew);
 
 
         ReservationViewModel ToReservationViewModel(Reservation reservation);

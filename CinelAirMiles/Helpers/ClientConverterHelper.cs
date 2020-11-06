@@ -68,24 +68,24 @@
             return notificationModel;
         }
 
-        public Reservation ToReservation(ReservationViewModel model, bool isNew)
-        {
-            var reservation = new Reservation
-            {
-                Id = isNew ? 0 : model.ReservationId,
-                ReservationID = new Guid(),
-                CreateDate = DateTime.UtcNow,
-                MyPremium = model.Myoffer
-            };
+        //public Reservation ToReservation(ReservationViewModel model, bool isNew)
+        //{
+        //    var reservation = new Reservation
+        //    {
+        //        Id = isNew ? 0 : model.Id,
+        //        ReservationID = new Guid(),
+        //        CreateDate = DateTime.UtcNow,
+        //        MyPremium = 
+        //    };
 
-            return reservation;
-        }
+        //    return reservation;
+        //}
 
         public ReservationViewModel ToReservationViewModel(Reservation reservation)
         {
             var reservationClient = new ReservationViewModel
             {
-                ReservationId = reservation.ReservationID.ToString(),
+                ReservationId = reservation.ReservationID,
                 Departure = reservation.MyPremium.Flight.Destination,
                 PartnerName = reservation.MyPremium.Partner.CompanyName,
                 DepartureDate = reservation.CreateDate,
