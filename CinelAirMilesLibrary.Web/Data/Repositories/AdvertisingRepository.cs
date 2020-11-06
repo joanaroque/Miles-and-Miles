@@ -24,7 +24,9 @@
         public async Task<List<Advertising>> GetAllAdvertisingAsync()
         {
             var advertising = await _context.Advertisings
-                 .Include(a => a.Partner).ToListAsync();
+                 .Include(a => a.Partner)
+                 .Where(st => st.Status == 1)
+                 .ToListAsync();
 
             return advertising;
 
