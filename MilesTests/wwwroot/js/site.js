@@ -1,6 +1,25 @@
 ﻿'use strict'
 
 
+var connection = new signalR.HubConnectionBuilder().withUrl("/notificationhub").build();
+
+start();
+
+connection.on("dbchangenotification", function () {
+    console.log("You have stuff to do");
+})
+
+async function start() {
+    try {
+        await connection.start();
+        console.log("connected");
+    } catch (err) {
+        console.log(err);
+        setTimeout(() => start(), 5000);
+    }
+};
+
+
 /**
  * Calls the action:Edit on the target item.
  * The action belongs to UserController.

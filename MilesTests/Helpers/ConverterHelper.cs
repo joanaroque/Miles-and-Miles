@@ -3,7 +3,7 @@
     using System;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using CinelAirMilesLibrary.Common.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
 
@@ -50,7 +50,7 @@
             return seats;
         }
 
-        public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, Partner partner, bool isNew)
+        public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew)
         {
             var advertisng = new Advertising
             {
@@ -60,8 +60,7 @@
                 ImageId = imageId,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
-                Status = 1,
-                Partner = partner
+                Status = 1
             };
 
             return advertisng;
@@ -164,7 +163,8 @@
                 Partner = partner,
                 Conditions = string.IsNullOrWhiteSpace(model.Conditions) ? string.Empty : model.Conditions,
                 Type = model.Type,
-                Status = 1
+                Status = 1,
+                OfferIdGuid = GuidHelper.CreatedGuid()
             };
         }
 

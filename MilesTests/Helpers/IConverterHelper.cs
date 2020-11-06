@@ -9,7 +9,7 @@
 
     public interface IConverterHelper
     {
-        Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, Partner partner, bool isNew);
+        Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew);
 
 
         AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising);

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using CinelAirMilesLibrary.Common.Data.Entities;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class AdvertisingViewModel
@@ -15,7 +15,7 @@
 
 
 
-        public string PartnerName { get; set; }
+        public Partner Partner { get; set; }
 
 
 

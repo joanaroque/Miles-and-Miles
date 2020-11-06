@@ -7,6 +7,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
+    using CinelAirMilesLibrary.Common.Hub.Notification;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -115,6 +116,8 @@
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<INotificationHelper, NotificationHelper>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -131,6 +134,8 @@
                 options.AccessDeniedPath = "/Account/NotAuthorized";
 
             });
+
+            services.AddSignalR();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -153,6 +158,11 @@
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseCookiePolicy();
+
+            app.UseSignalR(routes => 
+            {
+                routes.MapHub<NotificationHub>("/notificationhub");            
+            });
 
             app.UseMvc(routes =>
             {

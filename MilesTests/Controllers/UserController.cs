@@ -1,6 +1,7 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,8 +9,9 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.SignalR;
+
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
@@ -156,11 +158,11 @@
                     return new NotFoundViewResult("_FlightNotFound");
                 }
 
-                var ticket = _converter.ToPremiumOfferModel(model, true, partner, flight);
+                var offer = _converter.ToPremiumOfferModel(model, true, partner, flight);
                 //ticket.CreatedBy = user;
-                ticket.CreateDate = DateTime.UtcNow;
+                offer.CreateDate = DateTime.UtcNow;
 
-                var result = await _premiumRepository.CreateEntryAsync(ticket);
+                var result = await _premiumRepository.CreateEntryAsync(offer);
 
                 if (!result.Success)
                 {
@@ -168,7 +170,7 @@
                     return new NotFoundViewResult("_DatacontextError");
                 }
                 //send notification to superuser
-                await _notificationHelper.CreateNotification(0, UserType.SuperUser, "");
+                await _notificationHelper.CreateNotification(offer.OfferIdGuid, UserType.SuperUser, "");
 
                 return RedirectToAction(nameof(PremiumIndex));
             }
