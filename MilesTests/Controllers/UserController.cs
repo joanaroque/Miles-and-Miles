@@ -63,18 +63,27 @@
 
         public async Task<IActionResult> NewsIndex()
         {
-            var list = await _advertisingRepository.GetAdvertisingSatus1Async();
-            list = (System.Collections.Generic.List<Advertising>)list.Where(st => st.Status == 2);
-            return View(list);
+            var list = await _advertisingRepository.GetAllIncludes();
+
+            var modelList = new List<AdvertisingViewModel>(
+                list.Where(st => st.Status == 2)
+                .Select(a => _converter.ToAdvertisingViewModel(a))
+                .ToList());
+
+            return View(modelList);
         }
 
 
-        public IActionResult PartnerIndex()
+        public async Task<IActionResult> PartnerIndex()
         {
-            var list = _partnerRepository.GetAll();
-            list = list.Where(st => st.Status == 2);
+            var list = await _partnerRepository.GetAllIncludes();
 
-            return View(list);
+            var modelList = new List<PartnerViewModel>(
+               list.Where(st => st.Status == 2)
+               .Select(a => _converter.ToPartnerViewModel(a))
+               .ToList());
+
+            return View(modelList);
         }
 
         #region Premium Offers - Create / Edit / Delete

@@ -43,5 +43,16 @@
         Task<Partner> GetByIdWithIncludesAsync(int id);
 
 
+
+        /// <summary>
+        /// get a list of advertising, including the partner name
+        /// </summary>
+        /// <returns>list of advertising</returns>
+        Task<List<Partner>> GetPartnerWithStatus1Async();
+
+
+
+        Task<List<Partner>> GetAllIncludes();
+
     }
 }

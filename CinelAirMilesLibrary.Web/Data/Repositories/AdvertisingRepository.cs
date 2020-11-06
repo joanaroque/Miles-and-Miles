@@ -103,5 +103,14 @@
                 };
             }
         }
+
+        public async Task<List<Advertising>> GetAllIncludes()
+        {
+            var advertising = await _context.Advertisings
+               // .Include(u => u.CreatedBy)
+               .ToListAsync();
+
+            return advertising;
+        }
     }
 }

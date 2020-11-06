@@ -109,14 +109,14 @@
                     throw new Exception();
                 }
 
-                var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
+                //var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
 
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
-                offer.ModifiedBy = user;
+                //offer.ModifiedBy = user;
                 offer.UpdateDate = DateTime.Now;
                 offer.Status = 0;
 
@@ -274,9 +274,9 @@
 
         #region PARTNERS
         [HttpGet]
-        public ActionResult PartnerReferences()
+        public async Task<ActionResult> PartnerReferences()
         {
-            var list = _partnerRepository.GetAll();
+            var list = await _partnerRepository.GetPartnerWithStatus1Async();
 
             var modelList = new List<PartnerViewModel>(
                 list.Select(a => _converterHelper.ToPartnerViewModel(a))
@@ -480,20 +480,6 @@
         #endregion
 
 
-        #region PARTNERSHIPS
-        [HttpGet]
-        public IActionResult PartnerIndex()
-        {
-            var list = _partnerRepository.GetAll();
-            list = list.Where(st => st.Status == 1);
-
-            return View(list);
-        }
-
-
-        #endregion
-
-
         #region TIER CHANGE
         /// <summary>
         /// get list of all clients and transforms an entity to viewmodel
@@ -533,21 +519,21 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
+                //var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
 
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
+                //if (user == null)
+                //{
+                //    return new NotFoundViewResult("_UserNotFound");
+                //}
 
-                tierChange.ModifiedBy = user;
+                //tierChange.ModifiedBy = user;
                 tierChange.UpdateDate = DateTime.Now;
                 tierChange.Status = 0;
 
                 await _tierChangeRepository.UpdateAsync(tierChange);
 
-                _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
-               $"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
+               // _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+               //$"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
 
                 //  todo:  ViewBag.Message = "An error ocurred. Try again please.";
 
@@ -580,7 +566,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString());
+                //tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString());
                 tierChange.UpdateDate = DateTime.Now;
                 tierChange.Status = 2;
 

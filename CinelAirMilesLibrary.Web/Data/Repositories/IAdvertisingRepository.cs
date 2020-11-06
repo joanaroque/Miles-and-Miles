@@ -7,6 +7,7 @@
 
     public interface IAdvertisingRepository : IGenericRepository<Advertising>
     {
+
         Task<Response> CreatePostAsync(Advertising item);
 
 
@@ -27,6 +28,11 @@
 
 
 
+
         Task<Response> UpdatePostAsync(Advertising item);
+
+
+
+        Task<List<Advertising>> GetAllIncludes();
     }
 }
