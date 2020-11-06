@@ -8,16 +8,24 @@
     public class Notification : IEntity
     {
         /// <summary>
-        /// a message to include on the notification
+        /// A message to include on the notification.
         /// </summary>
         public string Message { get; set; }
 
+        /// <summary>
+        /// The User's role. Used as a filter for specific User Roles.
+        /// </summary>
         public UserType UserGroup { get; set; }
 
         /// <summary>
-        /// the Id of the item that this notification is created from
+        /// The internal Id of the item that this notification is created for.
         /// </summary>
         public string ItemId { get; set; }
+
+        /// <summary>
+        /// The type associated with the Notification. Used to filter notifications to users.
+        /// </summary>
+        public NotificationType Type { get; set; }
 
         /************************************/
         public int Id { get; set; }
