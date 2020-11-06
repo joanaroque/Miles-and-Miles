@@ -61,11 +61,11 @@
         }
 
 
-        public async Task<IActionResult> NewsIndex()
+        public IActionResult NewsIndex()
         {
-            var list = await _advertisingRepository.GetAllAdvertisingAsync();
-            list = (List<Advertising>)list.Where(st => st.Status == 2);
-            return View(list);
+            var list = _advertisingRepository.GetAll();
+            var modelList = list.Where(st => st.Status == 2).Select(a => _converter.ToAdvertisingViewModel(a));
+            return View(modelList);
         }
 
 

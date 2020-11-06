@@ -77,7 +77,6 @@
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
                 Partner = advertising.Partner// todo VER ISTO
-
             };
             return advertisings;
         }
