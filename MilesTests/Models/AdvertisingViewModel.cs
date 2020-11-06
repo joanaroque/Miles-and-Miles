@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class AdvertisingViewModel
@@ -15,8 +15,17 @@
 
 
 
-        public Partner Partner { get; set; }
+        [Required]
+        [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
+        public int PartnerId { get; set; }
 
+
+        public string PartnerName { get; set; }
+
+
+        [Required]
+        [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
+        public int FlightId { get; set; }
 
 
         public string Title { get; set; }

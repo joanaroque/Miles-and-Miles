@@ -410,7 +410,16 @@
                 //}
 
                 //TODO process the image file
-                var post = _converter.ToAdvertising(model, model.ImageId, true);
+
+                var partner = await _partnerRepository.GetByIdAsync(model.PartnerId);
+
+                if (partner == null)
+                {
+                    return new NotFoundViewResult("_PartnerNotFound");
+                }
+
+
+                var post = _converter.ToAdvertising(model, model.ImageId, true, partner);
                 //post.CreatedBy = currentUser;
                 post.CreateDate = DateTime.UtcNow;
 

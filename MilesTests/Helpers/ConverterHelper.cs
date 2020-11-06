@@ -50,7 +50,7 @@
             return seats;
         }
 
-        public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew)
+        public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew, Partner partner)
         {
             var advertisng = new Advertising
             {
@@ -60,7 +60,8 @@
                 ImageId = imageId,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
-                Status = 1
+                Status = 1,
+                Partner = partner
             };
 
             return advertisng;
@@ -76,7 +77,7 @@
                 ImageId = advertising.ImageId,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                Partner = advertising.Partner// todo VER ISTO
+                PartnerName = advertising.Partner.CompanyName
 
             };
             return advertisings;

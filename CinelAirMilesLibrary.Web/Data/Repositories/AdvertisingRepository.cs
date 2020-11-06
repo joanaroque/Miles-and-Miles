@@ -108,6 +108,7 @@
         {
             var advertising = await _context.Advertisings
                // .Include(u => u.CreatedBy)
+               .Include(p => p.Partner)
                .ToListAsync();
 
             return advertising;
