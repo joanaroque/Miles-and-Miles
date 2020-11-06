@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CinelAirMilesLibrary.Common.Data.Entities;
@@ -23,15 +22,16 @@ namespace CinelAirMilesLibrary.Common.Helpers
             _notificationRepository = notificationRepository;
         }
 
-        public async Task CreateNotification(string id, UserType type, string message)
+        public async Task CreateNotification(string id, UserType usergroup, string message, NotificationType type)
         {
             var notification = new Notification
             {
                 Message = message ?? null,
                 Status = 1,
-                UserGroup = type,
-                ItemId = id?? null,
-                CreateDate = DateTime.UtcNow
+                UserGroup = usergroup,
+                ItemId = id ?? null,
+                CreateDate = DateTime.UtcNow,
+                Type = type
             };
             await _notificationRepository.CreateAsync(notification);
 
