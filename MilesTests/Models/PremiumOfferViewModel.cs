@@ -36,6 +36,8 @@
         public int PartnerId { get; set; }
 
 
+        public string PartnerName { get; set; }
+
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Value must be a positive number!")]

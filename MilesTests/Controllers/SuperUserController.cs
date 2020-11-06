@@ -369,7 +369,7 @@
         [HttpGet]
         public async Task<ActionResult> Advertising()
         {
-            var list = await _advertisingRepository.GetAllAdvertisingAsync();            
+            var list = await _advertisingRepository.GetAdvertisingSatus1Async();            
 
             var modelList = new List<AdvertisingViewModel>(
                 list.Select(a => _converterHelper.ToAdvertisingViewModel(a))

@@ -63,7 +63,7 @@
 
         public async Task<IActionResult> NewsIndex()
         {
-            var list = await _advertisingRepository.GetAllAdvertisingAsync();
+            var list = await _advertisingRepository.GetAdvertisingSatus1Async();
             list = (System.Collections.Generic.List<Advertising>)list.Where(st => st.Status == 2);
             return View(list);
         }
