@@ -19,7 +19,7 @@
         public string Url { get; set; }
 
 
-        public Guid LogoId { get; set; }
+        public string LogoId { get; set; }
 
 
 
@@ -40,7 +40,11 @@
 
         public User ModifiedBy { get; set; }
 
-
+        /// <summary>
+        /// 0 - Approved by a SU
+        /// 1 - Waiting approval by a SU
+        /// 2 - Returned by a SU for editing
+        /// </summary>
         public int Status { get; set; }
     }
 }

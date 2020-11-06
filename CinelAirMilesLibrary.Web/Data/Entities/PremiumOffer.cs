@@ -20,6 +20,8 @@
         public int Price { get; set; }
 
 
+        public string OfferIdGuid { get; set; }
+
         /// <summary>
         /// for vouchers
         /// </summary>
@@ -45,7 +47,12 @@
 
         public User ModifiedBy { get; set; }
 
-
+        /// <summary>
+        /// 0 - Approved by a SU
+        /// 1 - Waiting approval by a SU
+        /// 2 - Returned by a SU for editing
+        /// 3 - To be deleted
+        /// </summary>
         public int Status { get; set; }
     }
 }

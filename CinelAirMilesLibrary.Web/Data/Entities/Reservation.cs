@@ -4,7 +4,7 @@
 
     public class Reservation : IEntity
     {
-        public Guid ReservationID { get; set; }
+        public string ReservationID { get; set; }
 
 
         public PremiumOffer MyPremium { get; set; }
@@ -28,7 +28,12 @@
 
         public User ModifiedBy { get; set; }
 
-
+        /// <summary>
+        /// Status:
+        /// 0 - Confirmed
+        /// 1 - Pending
+        /// 2 - Denied
+        /// </summary>
         public int Status { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
 
     public class PartnerRepository : GenericRepository<Partner>, IPartnerRepository
     {

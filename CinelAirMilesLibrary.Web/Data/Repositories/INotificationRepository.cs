@@ -1,6 +1,8 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -12,6 +14,7 @@
         /// <param name="currentClient">current client</param>
         /// <returns>list notifications</returns>
         List<Notification> GetAllNotifications(string currentClient);
+        IEnumerable<Notification> GetNotificationsByRole(UserType role);
 
 
 

@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201105191228_ChangedNotification")]
+    partial class ChangedNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +171,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<string>("ItemId");
+                    b.Property<int>("ItemId");
 
                     b.Property<string>("Message");
 
@@ -208,7 +210,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<string>("Designation");
 
-                    b.Property<string>("LogoId");
+                    b.Property<Guid>("LogoId");
 
                     b.Property<string>("ModifiedById");
 
@@ -242,8 +244,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<int?>("FlightId");
 
                     b.Property<string>("ModifiedById");
-
-                    b.Property<string>("OfferIdGuid");
 
                     b.Property<int?>("PartnerId");
 
@@ -313,7 +313,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int?>("MyPremiumId");
 
-                    b.Property<string>("ReservationID");
+                    b.Property<Guid>("ReservationID");
 
                     b.Property<int>("Status");
 

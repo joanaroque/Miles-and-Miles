@@ -48,7 +48,11 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
 
         public User ModifiedBy { get; set; }
 
-
+        /// <summary>
+        /// 0 - Resolved
+        /// 1 - Waiting Admin Answer
+        /// 2 - Waiting Client Answer
+        /// </summary>
         public int Status { get; set; }
     }
 }

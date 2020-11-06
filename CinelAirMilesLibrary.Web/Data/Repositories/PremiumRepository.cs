@@ -8,14 +8,17 @@
     using CinelAirMilesLibrary.Common.Data;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Helpers;
-
+    using CinelAirMilesLibrary.Common.Hub.Notification;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
 
     public class PremiumRepository : GenericRepository<PremiumOffer>, IPremiumRepository
     {
         private readonly DataContext _dataContext;
+        
 
-        public PremiumRepository(DataContext dataContext) : base(dataContext)
+        public PremiumRepository(DataContext dataContext)
+            : base(dataContext)
         {
             _dataContext = dataContext;
         }
@@ -35,6 +38,7 @@
                         Success = true
                     };
                 }
+                //fails to add
                 return new Response
                 {
                     //returns true, false if nothing was saved
@@ -61,6 +65,7 @@
 
                 if (result)
                 {
+
                     return new Response
                     {
                         Success = true

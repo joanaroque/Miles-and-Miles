@@ -23,7 +23,12 @@
 
         public User Client { get; set; }
 
-
+        /// <summary>
+        /// Status:
+        /// 0 - Confirmed
+        /// 1 - Pending
+        /// 2 - Denied (why?)
+        /// </summary>
         public int Status { get; set; }
 
 

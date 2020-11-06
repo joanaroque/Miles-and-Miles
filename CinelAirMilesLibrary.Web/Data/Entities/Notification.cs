@@ -3,16 +3,24 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using CinelAirMilesLibrary.Common.Enums;
+
     public class Notification : IEntity
     {
-
-        [Required]
+        /// <summary>
+        /// a message to include on the notification
+        /// </summary>
         public string Message { get; set; }
 
+        public UserType UserGroup { get; set; }
 
+        /// <summary>
+        /// the Id of the item that this notification is created from
+        /// </summary>
+        public string ItemId { get; set; }
 
+        /************************************/
         public int Id { get; set; }
-
 
 
         public User CreatedBy { get; set; }
@@ -31,7 +39,10 @@
         public User ModifiedBy { get; set; }
 
 
-
+        /// <summary>
+        /// 0 - READ
+        /// 1 - NOT READ
+        /// </summary>
         public int Status { get; set; }
 
 

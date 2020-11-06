@@ -1,6 +1,8 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
+
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,7 +17,6 @@
             _context = context;
         }
 
-
         public List<Notification> GetAllNotifications(string currentClient)
         {
             var client = _context.Notifications
@@ -25,6 +26,13 @@
             return client;
         }
 
+        public IEnumerable<Notification> GetNotificationsByRole(UserType role)
+        {
+            var list = _context.Notifications
+                .Where(t => t.UserGroup == role);
+
+            return list;
+        }
 
         public async Task<Notification> GetUnreadNotifications(int clientId)
         {
