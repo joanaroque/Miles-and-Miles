@@ -119,7 +119,7 @@ namespace MilesBackOffice.Web.Data
                 var myPremium = await  _context.PremiumOffers.Where(i => i.Id == 1).FirstOrDefaultAsync();
                 _context.Reservations.Add(new Reservation
                 {
-                    ReservationID = new Guid(),
+                    ReservationID = GuidHelper.CreatedGuid(),
                     CreateDate = DateTime.UtcNow,
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     MyPremium = myPremium,
