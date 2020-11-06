@@ -7,6 +7,7 @@
     {
         /// <summary>
         /// Gets all items in DataContext with no tracking
+        /// 
         /// Tracking is used when creating / editing / deleting items from datacontext
         /// </summary>
         /// <returns></returns>
