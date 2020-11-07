@@ -9,7 +9,13 @@
         public int Id { get; set; }
 
 
+
+        //TODO ?
+        public User User { get; set; }
+
+
         public int StartBalance { get; set; }
+
 
         public int EndBalance { get; set; }
 

@@ -23,5 +23,8 @@
 
 
         Notification ToNotification(NotificationViewModel model, bool isNew);
+
+
+        TransactionViewModel ToTransactionViewModel(Transaction transaction, User user);
     }
 }

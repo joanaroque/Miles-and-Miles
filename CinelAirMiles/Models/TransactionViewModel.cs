@@ -7,6 +7,21 @@
     {
         public int Id { get; set; }
 
+
+        public int BonusMiles { get; set; }
+
+
+
+        public int StatusMiles { get; set; }
+
+
+
+        public int StartBalance { get; set; }
+
+
+
+        public int EndBalance { get; set; }
+
         /// <summary>
         /// In miles
         /// </summary>

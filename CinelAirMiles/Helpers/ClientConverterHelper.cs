@@ -3,11 +3,20 @@
     using CinelAirMiles.Models;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
-
+    using CinelAirMilesLibrary.Common.Helpers;
     using System;
 
     public class ClientConverterHelper : IClientConverterHelper
     {
+        private readonly IUserHelper _userHelper;
+
+        public ClientConverterHelper(
+            IUserHelper userHelper)
+        {
+            _userHelper = userHelper;
+        }
+
+
         public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
         {
             var client = new ClientComplaint
@@ -68,32 +77,53 @@
             return notificationModel;
         }
 
-        //public Reservation ToReservation(ReservationViewModel model, bool isNew)
-        //{
-        //    var reservation = new Reservation
-        //    {
-        //        Id = isNew ? 0 : model.Id,
-        //        ReservationID = new Guid(),
-        //        CreateDate = DateTime.UtcNow,
-        //        MyPremium = 
-        //    };
+        public Reservation ToReservation(ReservationViewModel model, bool isNew)
+        {
+            var reservation = new Reservation
+            {
+                //Id = isNew ? 0 : model.ReservationId,
+                //Destination = model.Destination,
+                UpdateDate = DateTime.Now,
+                Status = 0,
+                //Date = model.Date
+            };
 
-        //    return reservation;
-        //}
+            return reservation;
+        }
 
         public ReservationViewModel ToReservationViewModel(Reservation reservation)
         {
             var reservationClient = new ReservationViewModel
             {
-                ReservationId = reservation.ReservationID,
-                Departure = reservation.MyPremium.Flight.Destination,
-                PartnerName = reservation.MyPremium.Partner.CompanyName,
-                DepartureDate = reservation.CreateDate,
+                ReservationId = reservation.Id.ToString(),
+                //Destination = reservation.Destination,
+                //PartnerName = reservation.PartnerName.CompanyName,
+                //Date = reservation.Date,
                 Status = reservation.Status,
-                Name = reservation.CreatedBy.Name
+                //Name = reservation.CreatedBy.Name
             };
 
             return reservationClient;
+        }
+
+
+        public TransactionViewModel ToTransactionViewModel(Transaction transaction, User user)
+        {
+            var model = new TransactionViewModel
+            {
+                Id = transaction.Id,
+                BonusMiles = user.BonusMiles,
+                StatusMiles = user.StatusMiles,
+                EndBalance = transaction.EndBalance,
+                //Premium offer?
+                Price = transaction.Price,
+                StartBalance = transaction.StartBalance,
+                TransferTo = transaction.TransferTo,
+                Type = transaction.Type,
+                Value = transaction.Value
+            };
+
+            return model;
         }
     }
 }

@@ -59,7 +59,7 @@
 
 
         [Display(Name = "City")]
-        public int CityId { get; set; }
+        public string City { get; set; }
 
 
 
@@ -82,9 +82,6 @@
         [CustomBirthDateValidator(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
         public DateTime? DateOfBirth { get; set; }
 
-
-
-        public IEnumerable<SelectListItem> Cities { get; set; }
 
 
 

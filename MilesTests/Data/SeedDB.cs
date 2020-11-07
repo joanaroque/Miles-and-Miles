@@ -116,13 +116,15 @@ namespace MilesBackOffice.Web.Data
         {
             if (!_context.Reservations.Any())
             {
-                var myPremium = await  _context.PremiumOffers.Where(i => i.Id == 1).FirstOrDefaultAsync();
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var departure = "Lisbon";
+
                 _context.Reservations.Add(new Reservation
                 {
-                    ReservationID = GuidHelper.CreatedGuid(),
-                    CreateDate = DateTime.UtcNow,
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    MyPremium = myPremium,
+                    //Destination = departure,
+                   // PartnerName = partner,
+                    //Date = DateTime.Now.AddDays(6),
                     Status = 1
                 });
 
@@ -130,27 +132,28 @@ namespace MilesBackOffice.Web.Data
             }
         }
 
-        private async Task AddFlights()
-        {
-            if (!_context.Flights.Any())
+            private async Task AddFlights()
             {
-                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-
-                _context.Flights.Add(new Flight
+                if (!_context.Flights.Any())
                 {
-                    Origin = "Lisboa",
-                    Destination = "Porto",
-                    DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
-                    Partner = partner,
-                    MaximumSeats = 200,
-                    AvailableSeats = 111,
-                    Miles = 7000,
-                    Status = 0,
-                });
+                    var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
 
-                await _context.SaveChangesAsync();
+                    _context.Flights.Add(new Flight
+                    {
+                        Origin = "Lisboa",
+                        Destination = "Porto",
+                        DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
+                        Partner = partner,
+                        MaximumSeats = 200,
+                        AvailableSeats = 111,
+                        Miles = 7000,
+                        Status = 0,
+                    });
+
+                    await _context.SaveChangesAsync();
+                }
             }
-        }
+        
 
         private async Task AddPartnership()
         {
