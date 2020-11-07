@@ -22,6 +22,7 @@
         public string LogoId { get; set; }
 
 
+        public string PartnerGuidId { get; set; }
 
         /************OBJECT PROPERTIES****************************/
 

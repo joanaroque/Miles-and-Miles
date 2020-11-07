@@ -29,7 +29,7 @@
         public IEnumerable<Notification> GetNotificationsByRole(UserType role)
         {
             var list = _context.Notifications
-                .Where(t => t.UserGroup == role);
+                .Where(t => t.UserGroup == role && t.Status == 1);
 
             return list;
         }
@@ -37,7 +37,7 @@
         public async Task<Notification> GetUnreadNotifications(int clientId)
         {
             var noti = await _context.Notifications
-                .Where(n => n.Id.Equals(clientId) && n.Status == 8)
+                .Where(n => n.Id.Equals(clientId) && n.Status == 1)
                 .FirstOrDefaultAsync();
 
 

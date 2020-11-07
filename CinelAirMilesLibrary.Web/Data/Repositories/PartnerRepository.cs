@@ -51,6 +51,14 @@
             }
         }
 
+        public async Task<List<Partner>> GetAllIncludes()
+        {
+            var partner = await _context.Partners
+               // .Include(u => u.CreatedBy)
+               .ToListAsync();
+
+            return partner;
+        }
 
         public async Task<Partner> GetByIdWithIncludesAsync(int id)
         {
@@ -75,6 +83,14 @@
             return list;
         }
 
+        public async Task<List<Partner>> GetPartnerWithStatus1Async()
+        {
+            var partner = await _context.Partners
+                 .Where(st => st.Status == 1)
+                 .ToListAsync();
+
+            return partner;
+        }
 
         public async Task<Response> UpdatePartnerAsync(Partner model)
         {

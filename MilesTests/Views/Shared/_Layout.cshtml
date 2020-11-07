@@ -186,7 +186,7 @@
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
-                    @await Html.PartialAsync("_RightNavBar")
+                    @await Html.PartialAsync("_NavNotifications")
 
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
@@ -212,7 +212,7 @@
             </div>
         </nav>
         <!-- /.navbar -->
-        <partial name="_CookieConsentPartial" />
+
         <div class="content-wrapper">
             <div class="content">
                 <div class="container">
@@ -220,7 +220,7 @@
                 </div>
             </div>
         </div>
-
+        <partial name="_CookieConsentPartial" />
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->

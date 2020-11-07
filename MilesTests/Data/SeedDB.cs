@@ -74,7 +74,8 @@ namespace MilesBackOffice.Web.Data
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 8,
+                    Status = 1,
+                    Type = NotificationType.Complaint,
                     Message = "bla bla bla notifications bla bla bla notifications!!!! "
                 });
 
@@ -82,7 +83,8 @@ namespace MilesBackOffice.Web.Data
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 8,
+                    Status = 1,
+                    Type = NotificationType.Complaint,
                     Message = "bla bla bla notifications bla bla bla notifications " +
                     "bla bla bla notifications!!!! "
                 });
@@ -91,7 +93,8 @@ namespace MilesBackOffice.Web.Data
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 8,
+                    Status = 1,
+                    Type = NotificationType.Complaint,
                     Message = "bla bla bla notifications bla bla bla notifications" +
                     "bla bla bla notifications" +
                     "bla bla bla notifications!!!! "
@@ -101,7 +104,8 @@ namespace MilesBackOffice.Web.Data
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 8,
+                    Status = 1,
+                    Type = NotificationType.Complaint,
                     Message = "bla bla bla notifications bla bla bla notifications" +
                     "bla bla bla notifications" +
                     "bla bla bla notifications" +
@@ -164,14 +168,16 @@ namespace MilesBackOffice.Web.Data
                     CompanyName = "CinelAir Portugal",
                     Address = "Lisboa",
                     Designation = "Air Transport Company",
-                    Status = 0
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
                 });
                 _context.Partners.Add(new Partner
                 {
                     CompanyName = "Tap Air Portugal",
                     Address = "Lisboa",
                     Designation = "Air Transport Company",
-                    Status = 0
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
                 });
 
                 await _context.SaveChangesAsync();
@@ -193,7 +199,8 @@ namespace MilesBackOffice.Web.Data
                     Quantity = 10,
                     Price = 7000,
                     Status = 0,
-                    Conditions = "Special offer for fear of flying passengers"
+                    Conditions = "Special offer for fear of flying passengers",
+                    OfferIdGuid = GuidHelper.CreatedGuid()
                 });
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
@@ -204,7 +211,8 @@ namespace MilesBackOffice.Web.Data
                     Quantity = 50,
                     Price = 10000,
                     Status = 0,
-                    Conditions = "Special offer for hungry clients"
+                    Conditions = "Special offer for hungry clients",
+                    OfferIdGuid = GuidHelper.CreatedGuid()
                 });
             }
 
@@ -243,7 +251,8 @@ namespace MilesBackOffice.Web.Data
                     Content = "bla bla bla",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner,
-                    Status = 1
+                    Status = 1,
+                    PostGuidId = GuidHelper.CreatedGuid()
                 });
 
                 await _context.SaveChangesAsync();
@@ -423,8 +432,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = true,
                     Status = TierType.None,
                     StatusMiles = 0,
-                    BonusMiles = 0
-
+                    BonusMiles = 0,
+                    SelectedRole = UserType.User
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
@@ -433,11 +442,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.User);
 
             if (!isInRole)
             {
-                await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
+                await _userHelper.AddUSerToRoleAsync(user, UserType.User);
             }
             await _context.SaveChangesAsync();
         }
@@ -467,8 +476,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = true,
                     Status = TierType.None,
                     StatusMiles = 0,
-                    BonusMiles = 0
-
+                    BonusMiles = 0,
+                    SelectedRole = UserType.Admin
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
@@ -511,7 +520,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = true,
                     Status = TierType.None,
                     StatusMiles = 0,
-                    BonusMiles = 0
+                    BonusMiles = 0,
+                    SelectedRole = UserType.SuperUser
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
@@ -520,11 +530,11 @@ namespace MilesBackOffice.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
-            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.Developer);
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, UserType.SuperUser);
 
             if (!isInRole)
             {
-                var identityResult = await _userHelper.AddUSerToRoleAsync(user, UserType.Developer);
+                var identityResult = await _userHelper.AddUSerToRoleAsync(user, UserType.SuperUser);
             }
             await _context.SaveChangesAsync();
         }

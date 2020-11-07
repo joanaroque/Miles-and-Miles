@@ -77,7 +77,6 @@
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
                 Partner = advertising.Partner// todo VER ISTO
-
             };
             return advertisings;
         }
@@ -180,7 +179,8 @@
                 Quantity = model.Quantity,
                 Price = model.Price,
                 AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
-                Type = model.Type
+                Type = model.Type,
+                PartnerName = model.Partner.CompanyName
             };
         }
 

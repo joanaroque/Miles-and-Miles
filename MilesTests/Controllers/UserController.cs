@@ -61,20 +61,24 @@
         }
 
 
-        public async Task<IActionResult> NewsIndex()
+        public IActionResult NewsIndex()
         {
-            var list = await _advertisingRepository.GetAdvertisingSatus1Async();
-            list = (System.Collections.Generic.List<Advertising>)list.Where(st => st.Status == 2);
-            return View(list);
+            var list = _advertisingRepository.GetAll();
+            var modelList = list.Where(st => st.Status == 2).Select(a => _converter.ToAdvertisingViewModel(a));
+            return View(modelList);
         }
 
 
-        public IActionResult PartnerIndex()
+        public async Task<IActionResult> PartnerIndex()
         {
-            var list = _partnerRepository.GetAll();
-            list = list.Where(st => st.Status == 2);
+            var list = await _partnerRepository.GetAllIncludes();
 
-            return View(list);
+            var modelList = new List<PartnerViewModel>(
+               list.Where(st => st.Status == 2)
+               .Select(a => _converter.ToPartnerViewModel(a))
+               .ToList());
+
+            return View(modelList);
         }
 
         #region Premium Offers - Create / Edit / Delete
@@ -170,7 +174,7 @@
                     return new NotFoundViewResult("_DatacontextError");
                 }
                 //send notification to superuser
-                await _notificationHelper.CreateNotification(offer.OfferIdGuid, UserType.SuperUser, "");
+                await _notificationHelper.CreateNotification(offer.OfferIdGuid, UserType.SuperUser, "", EnumHelper.GetType(offer.Type));
 
                 return RedirectToAction(nameof(PremiumIndex));
             }
@@ -180,7 +184,6 @@
                 return new NotFoundViewResult("_500Error");
             }
         }
-
 
         /***************EDIT********************/
         [HttpGet]
@@ -248,6 +251,8 @@
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
+                //send notification to SuperUser
+                await _notificationHelper.CreateNotification(current.OfferIdGuid, UserType.SuperUser, "", EnumHelper.GetType(current.Type));
 
                 return RedirectToAction(nameof(PremiumIndex));
             }
@@ -297,6 +302,8 @@
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
+                //send notification
+                await _notificationHelper.CreateNotification(partner.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
 
                 return RedirectToAction(nameof(PartnerIndex));
             }
@@ -362,6 +369,8 @@
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
+                //send notification
+                await _notificationHelper.CreateNotification(current.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
 
                 return RedirectToAction(nameof(PartnerIndex));
             }
@@ -411,6 +420,8 @@
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
+                //send notification
+                await _notificationHelper.CreateNotification(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);
 
                 return RedirectToAction(nameof(NewsIndex));
             }
@@ -469,6 +480,8 @@
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
+                //send notification
+                await _notificationHelper.CreateNotification(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);
 
                 return RedirectToAction(nameof(NewsIndex));
             }
