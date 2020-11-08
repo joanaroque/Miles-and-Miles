@@ -40,5 +40,13 @@
 
             return transaction;
         }
+
+
+        public int MilesPrice(int miles)
+        {
+            var price = miles * 0.05;
+
+            return (int)price;
+        }
     }
 }

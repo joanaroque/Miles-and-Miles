@@ -1,9 +1,7 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using CinelAirMiles.Helpers;
-    using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using global::CinelAirMiles.Models;
 
@@ -18,15 +16,18 @@
         private readonly IUserHelper _userHelper;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientConverterHelper _converterHelper;
+        private readonly ITransactionHelper _transactionHelper;
 
         public TransactionController(
             IUserHelper userHelper,
             ITransactionRepository transactionRepository,
-            IClientConverterHelper converterHelper)
+            IClientConverterHelper converterHelper,
+            ITransactionHelper transactionHelper)
         {
             _userHelper = userHelper;
             _transactionRepository = transactionRepository;
             _converterHelper = converterHelper;
+            _transactionHelper = transactionHelper;
         }
 
         [HttpGet]
@@ -74,12 +75,51 @@
 
 
         [HttpGet]
-        public IActionResult Purchase()
+        public IActionResult Purchase(TransactionViewModel model)
         {
             //TODO blocos de 2000 milhas
-            //com o guid id
+            
+            var value = 2000;
+
+            model = new TransactionViewModel
+            {
+                Value = value,
+                Price = _transactionHelper.MilesPrice(value)
+            };
+
+            return PartialView("_Purchase", model);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Purchase()
+        {
+            //ask quantity
+
+
+            //math for the price in €
+
+
+            //check if balance is enough
+
+
+            //client confirms and goes to confirmation page? confirmation pop up?
+
+
+            //add miles to user
+
+
+
+
+
+
+
             return PartialView("_Purchase");
         }
+
+
+
 
         [HttpGet]
         public IActionResult ExtendMiles()
@@ -94,7 +134,7 @@
         public IActionResult TransferMiles()
         {
             //TODO blocos de 2000 milhas
-
+            //com o guid id
             return PartialView("_TransferMiles");
         }
 
@@ -111,6 +151,7 @@
         [HttpGet]
         public IActionResult NominateToGold()
         {
+            //com o guid id
             return PartialView("_NominateToGold");
         }
 

@@ -23,5 +23,9 @@ namespace CinelAirMilesLibrary.Common.Helpers
         /// <param name="offer">PremiumOffer</param>
         /// <returns>The Transaction created</returns>
         Transaction CreatePurchaseTransaction(User user, PremiumOffer offer);
+
+
+
+        int MilesPrice(int miles);
     }
 }
