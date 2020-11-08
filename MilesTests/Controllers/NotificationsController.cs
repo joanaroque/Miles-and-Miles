@@ -1,14 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-
-    using CinelAirMilesLibrary.Common.Helpers;
     using System.Threading.Tasks;
-    using CinelAirMilesLibrary.Common.Data.Repositories;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
-    using System.Linq;
-    using CinelAirMilesLibrary.Common.Enums;
-    using System.Collections.Generic;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Mvc;
 
     public class NotificationsController : Controller
     {
@@ -54,20 +52,11 @@
             {
                 return NotFound();
             }
-            var list = _premiumRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
-            {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
 
-            return Json(list.Count());
+            return Json(await _notificationRepository.GetPremiumLenghtByRole(user.SelectedRole));
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> GetPartnerNotifications()
         {
@@ -76,17 +65,8 @@
             {
                 return NotFound();
             }
-            var list = _partnerRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
-            {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
 
-            return Json(list.Count());
+            return Json(await _notificationRepository.GetPartnerLenghtByRole(user.SelectedRole));
         }
 
         [HttpGet]
@@ -97,18 +77,10 @@
             {
                 return NotFound();
             }
-            var list = _advertisingRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
-            {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
 
-            return Json(list.Count());
+            return Json(await _notificationRepository.GetAdvertLenghtByRole(user.SelectedRole));
         }
+
 
         private async Task<User> GetUserByUserNameAsync()
         {
