@@ -65,5 +65,8 @@
 
 
         public PremiumType Type { get; set; }
+
+
+        public string OfferGuidId { get; set; }
     }
 }
