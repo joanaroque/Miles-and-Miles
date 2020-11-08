@@ -8,11 +8,7 @@
         public int Id { get; set; }
 
 
-        public int BonusMiles { get; set; }
-
-
-
-        public int StatusMiles { get; set; }
+        public User User { get; set; }
 
 
 

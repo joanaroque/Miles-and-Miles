@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using CinelAirMiles.Helpers;
+    using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
     using global::CinelAirMiles.Models;
@@ -75,50 +76,66 @@
 
 
         [HttpGet]
-        public IActionResult Purchase(TransactionViewModel model)
+        public async Task<IActionResult> Purchase(TransactionViewModel model)
         {
             //TODO blocos de 2000 milhas
-            
-            var value = 2000;
-
-            model = new TransactionViewModel
+            try
             {
-                Value = value,
-                Price = _transactionHelper.MilesPrice(value)
-            };
+                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-            return PartialView("_Purchase", model);
+                var value = 2000;
+
+                model = new TransactionViewModel
+                {
+                    Value = value,
+                    Price = _transactionHelper.MilesPrice(value)
+                };
+
+                return PartialView("_Purchase", model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+            return View();
         }
 
 
 
         [HttpPost]
-        public IActionResult Purchase()
+        public async Task<IActionResult> Purchase(Transaction transaction, User user)
         {
-            //ask quantity
+            user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
+            _transactionHelper.NewPurchase(transaction, user);
 
-            //math for the price in €
+            var result = await _transactionRepository.CreateAsync(transaction);
 
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "An error ocurred while submitting your request. Please try again.");
 
-            //check if balance is enough
+                return PartialView("_Purchase");
+            }
 
+            user.BonusMiles = transaction.EndBalance;
 
-            //client confirms and goes to confirmation page? confirmation pop up?
+            var result2 = await _userHelper.UpdateUserAsync(user);
 
-
-            //add miles to user
-
-
-
-
-
-
+            if (result2.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "You purchase was successfull. Your balance should reflect it in the next hours.");
+            }
 
             return PartialView("_Purchase");
         }
-
-
 
 
         [HttpGet]
@@ -126,17 +143,85 @@
         {
             //TODO blocos de 2000 milhas
 
+
+
+
             return PartialView("_ExtendMiles");
         }
 
 
         [HttpGet]
-        public IActionResult TransferMiles()
+        public async Task<IActionResult> TransferMiles(TransactionViewModel model)
         {
             //TODO blocos de 2000 milhas
             //com o guid id
+
+            try
+            {
+                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                model = new TransactionViewModel
+                {
+                    Value = 2000,
+                    Price = 10
+                };
+
+                return PartialView("_TransferMiles", model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TransferMiles(Transaction transaction, User user, User userTo)
+        {
+            user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            userTo = _userHelper.GetUserByGuidId(transaction.TransferTo.GuidId);
+
+            _transactionHelper.NewTransfer(transaction, user, userTo);
+
+            var result = await _transactionRepository.CreateAsync(transaction);
+
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "An error ocurred while submitting your request. Please try again.");
+
+                return PartialView("_TransferMiles");
+            }
+
+            user.BonusMiles = transaction.EndBalance;
+
+            var result2 = await _userHelper.UpdateUserAsync(user);
+
+            userTo.BonusMiles = userTo.BonusMiles + transaction.Value;
+
+            var result3 = await _userHelper.UpdateUserAsync(userTo);
+
+            if (result2.Succeeded && result3.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "You transfer was successfull. Your balance should reflect it in the next hours.");
+            }
+
+            else
+            {
+                ModelState.AddModelError(string.Empty,
+                   "An error ocurred while submitting your request. Please try again.");
+            }
+
             return PartialView("_TransferMiles");
         }
+
 
 
         [HttpGet]

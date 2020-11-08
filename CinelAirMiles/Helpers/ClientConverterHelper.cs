@@ -112,10 +112,8 @@
             var model = new TransactionViewModel
             {
                 Id = transaction.Id,
-                BonusMiles = user.BonusMiles,
-                StatusMiles = user.StatusMiles,
                 EndBalance = transaction.EndBalance,
-                //Premium offer?
+                //Todo PremiumOffer = transaction.Product.Title,
                 Price = transaction.Price,
                 StartBalance = transaction.StartBalance,
                 TransferTo = transaction.TransferTo,

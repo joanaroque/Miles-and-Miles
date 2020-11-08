@@ -33,22 +33,20 @@
 
         public int GetStatusMiles(User user)
         {
-            var miles = _context.Transactions
-                .AsNoTracking()
-                .Include(u => u.User)
-                .FirstOrDefault(u => u.User.Id == user.Id);
+            var miles = _context.Users
+                .Include(u => u.StatusMiles)
+                .FirstOrDefault(u => u.Id == user.Id);
 
-            return miles.User.StatusMiles;
+            return miles.BonusMiles;
         }
 
         public int GetBonusMiles(User user)
         {
-            var miles = _context.Transactions
-                .AsNoTracking()
-                .Include(u => u.User)
-                .FirstOrDefault(u => u.User.Id == user.Id);
+            var miles = _context.Users
+                .Include(u => u.BonusMiles)
+                .FirstOrDefault(u => u.Id == user.Id);
 
-            return miles.User.BonusMiles;
+            return miles.BonusMiles;
         }
 
         public async Task<Response> AddTransanctionAsync(Transaction trans)
