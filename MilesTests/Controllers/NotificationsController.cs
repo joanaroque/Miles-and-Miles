@@ -53,7 +53,13 @@
                 return NotFound();
             }
 
-            return Json(await _notificationRepository.GetPremiumLenghtByRole(user.SelectedRole));
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetPremiumLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
+
+            return Json(response);
         }
 
 
@@ -66,7 +72,13 @@
                 return NotFound();
             }
 
-            return Json(await _notificationRepository.GetPartnerLenghtByRole(user.SelectedRole));
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetPartnerLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
+
+            return Json(response);
         }
 
         [HttpGet]
@@ -77,14 +89,26 @@
             {
                 return NotFound();
             }
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetAdvertLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
 
-            return Json(await _notificationRepository.GetAdvertLenghtByRole(user.SelectedRole));
+            return Json(response);
         }
 
 
         private async Task<User> GetUserByUserNameAsync()
         {
             return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+        }
+
+        protected class JsonResponse
+        {
+            public int Count { get; set; }
+
+            public string UserType { get; set; }
         }
     }
 }
