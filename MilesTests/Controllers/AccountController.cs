@@ -62,7 +62,21 @@
         {
             if (ModelState.IsValid)
             {
-                //TODO check if user is client
+                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var role = await _userHelper.IsUserInRoleAsync(user, UserType.Client);
+
+                if (role == true)
+                {
+                    return NotAuthorized();
+                }
+
+
                 var result = await _userHelper.LoginAsync(model.UserName, model);
                 if (result.Succeeded)
                 {
