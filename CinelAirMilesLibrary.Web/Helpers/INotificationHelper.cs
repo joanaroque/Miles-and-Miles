@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using CinelAirMilesLibrary.Common.Enums;
 
@@ -14,6 +15,9 @@ namespace CinelAirMilesLibrary.Common.Helpers
         /// <param name="message">a message attachment</param>
         /// <param name="usergroup">the user's role</param>
         /// <returns></returns>
-        Task CreateNotification(string id, UserType usergroup, string message, NotificationType type);
+        Task CreateNotificationAsync(string id, UserType usergroup, string message, NotificationType type);
+        Task DeleteOldByIdAsync(string id);
+        IEnumerable<string> GetNotificationMessages();
+        Task<Response> UpdateNotificationAsync(string id, UserType usergroup, string message);
     }
 }

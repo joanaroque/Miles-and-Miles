@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CinelAirMilesLibrary.Common.Data.Entities;
@@ -7,6 +8,7 @@ using CinelAirMilesLibrary.Common.Enums;
 using CinelAirMilesLibrary.Common.Hub.Notification;
 
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CinelAirMilesLibrary.Common.Helpers
 {
@@ -22,7 +24,7 @@ namespace CinelAirMilesLibrary.Common.Helpers
             _notificationRepository = notificationRepository;
         }
 
-        public async Task CreateNotification(string id, UserType usergroup, string message, NotificationType type)
+        public async Task CreateNotificationAsync(string id, UserType usergroup, string message, NotificationType type)
         {
             var notification = new Notification
             {
@@ -38,5 +40,52 @@ namespace CinelAirMilesLibrary.Common.Helpers
             await _hubContext.Clients.All.DbChangeNotification();
         }
 
+
+        public async Task DeleteOldByIdAsync(string id)
+        {
+            var notification = await _notificationRepository.GetByGuidIdAsync(id);
+
+            if (notification != null)
+            {
+                await _notificationRepository.DeleteAsync(notification);//or status 0
+            }
+        }
+
+
+        public async Task<Response> UpdateNotificationAsync(string id, UserType usergroup, string message)
+        {
+            var notification = await _notificationRepository.GetByGuidIdAsync(id);
+            if (notification != null)
+            {
+                notification.UserGroup = usergroup;
+                notification.Message = message ?? null;
+
+                await _notificationRepository.UpdateAsync(notification);
+
+                return new Response
+                {
+                    Success = true
+                };
+            }
+
+            return new Response
+            {
+                Success = false
+            };
+        }
+
+        public IEnumerable<string> GetNotificationMessages()
+        {
+            var messages = new List<string>
+            {
+                "EDIT - Incorrect Title",
+                "EDIT - Not enough seats available",
+                "EDIT - Create more availability",
+                "DELETE - No seats available",
+                "DELETE - Not relevant"
+            };
+
+            return messages;
+        }
     }
 }
