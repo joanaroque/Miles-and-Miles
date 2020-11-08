@@ -60,7 +60,8 @@
                 ImageId = imageId,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
-                Status = 1
+                Status = 1,
+                PostGuidId = isNew ? GuidHelper.CreatedGuid() : model.PostGuidId
             };
 
             return advertisng;
@@ -80,7 +81,6 @@
             };
             return advertisings;
         }
-
 
         public ClientComplaint ToClientComplaint(ComplaintClientViewModel model, bool isNew)
         {
@@ -117,7 +117,6 @@
             return complaint;
         }
 
-
         public TierChange ToTierChange(TierChangeViewModel model, bool isNew)
         {
             var tier = new TierChange
@@ -149,7 +148,6 @@
             return tierChanges;
         }
 
-
         public PremiumOffer ToPremiumOfferModel(PremiumOfferViewModel model, bool isNew, Partner partner, Flight flight)
         {
             return new PremiumOffer
@@ -163,10 +161,9 @@
                 Conditions = string.IsNullOrWhiteSpace(model.Conditions) ? string.Empty : model.Conditions,
                 Type = model.Type,
                 Status = 1,
-                OfferIdGuid = GuidHelper.CreatedGuid()
+                OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId
             };
         }
-
 
         public PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model)
         {
@@ -180,10 +177,10 @@
                 Price = model.Price,
                 AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
                 Type = model.Type,
-                PartnerName = model.Partner.CompanyName
+                PartnerName = model.Partner.CompanyName,
+                OfferGuidId = model.OfferIdGuid
             };
         }
-
 
         public Partner ToPartnerModel(PartnerViewModel model, bool isNew)
         {
@@ -195,10 +192,10 @@
                 Url = model.Url,
                 Designation = model.Designation,
                 Description = model.Description,
-                Status = 1
+                Status = 1,
+                PartnerGuidId = isNew ? GuidHelper.CreatedGuid() : model.PartnerGuidId
             };
         }
-
 
         public PartnerViewModel ToPartnerViewModel(Partner model)
         {
@@ -211,19 +208,6 @@
                 Designation = model.Designation,
                 Description = model.Description,
                 Status = model.Status
-            };
-        }
-
-
-
-        public Advertising ToNewsModel(AdvertisingViewModel model)
-        {
-            return new Advertising
-            {
-                Title = model.Title,
-                Content = model.Content,
-                EndDate = model.EndDate,
-                Status = 1
             };
         }
     }
