@@ -11,7 +11,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.EntityFrameworkCore;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
@@ -24,6 +24,8 @@
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IFlightRepository _flightRepository;
         private readonly INotificationHelper _notificationHelper;
+        private readonly IImageHelper _imageHelper;
+
 
         public UserController(IPremiumRepository premiumRepository,
             IUserHelper userHelper,
@@ -31,7 +33,8 @@
             IPartnerRepository partnerRepository,
             IAdvertisingRepository advertisingRepository,
             IFlightRepository flightRepository,
-            INotificationHelper notificationHelper)
+            INotificationHelper notificationHelper,
+            IImageHelper imageHelper)
         {
             _premiumRepository = premiumRepository;
             _userHelper = userHelper;
@@ -40,6 +43,9 @@
             _advertisingRepository = advertisingRepository;
             _flightRepository = flightRepository;
             _notificationHelper = notificationHelper;
+            _imageHelper = imageHelper;
+
+
         }
 
         /// <summary>
@@ -399,6 +405,7 @@
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PublishPost(AdvertisingViewModel model)
         {
             try
@@ -409,7 +416,12 @@
                 //    return new NotFoundViewResult("_UserNotFound");
                 //}
 
-                //TODO process the image file
+                var path = string.Empty;
+
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "advertisings");
+                }
 
                 var partner = await _partnerRepository.GetByIdAsync(model.PartnerId);
 
@@ -418,24 +430,21 @@
                     return new NotFoundViewResult("_PartnerNotFound");
                 }
 
+                Advertising post = _converter.ToAdvertising(model, true, path, partner);
 
-                var post = _converter.ToAdvertising(model, model.ImageId, true, partner);
                 //post.CreatedBy = currentUser;
                 post.CreateDate = DateTime.UtcNow;
 
-                var result = await _advertisingRepository.CreatePostAsync(post);
-
-                if (!result.Success)
-                {
-                    return new NotFoundViewResult("_DataContextError");
-                }
+                await _advertisingRepository.CreateAsync(post);
 
                 return RedirectToAction(nameof(NewsIndex));
             }
-            catch (Exception)
+
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_500Error");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(NewsIndex));
         }
 
         [HttpGet]

@@ -27,7 +27,6 @@
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ICountryRepository _countryRepository;
-        private readonly IBlobHelper _blobHelper;
         private readonly IClientRepository _clientRepository;
 
         public AccountController(IUserHelper userHelper,
@@ -36,7 +35,6 @@
             SignInManager<User> signInManager,
               UserManager<User> userManager,
               ICountryRepository countryRepository,
-              IBlobHelper blobHelper,
               IClientRepository clientRepository)
         {
             _userHelper = userHelper;
@@ -45,7 +43,6 @@
             _signInManager = signInManager;
             _userManager = userManager;
             _countryRepository = countryRepository;
-            _blobHelper = blobHelper;
             _clientRepository = clientRepository;
         }
 

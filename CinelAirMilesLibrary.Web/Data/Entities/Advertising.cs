@@ -3,7 +3,6 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-
     public class Advertising : IEntity
     {
 
@@ -14,15 +13,30 @@
         public string Content { get; set; }
 
 
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
+
 
         [Display(Name = "Image")]
-        public Guid ImageId { get; set; }
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImageUrl))
+                {
+                    return null;
+                }
+                return $"https://AINDANAOSEIONOme.net{ImageUrl.Substring(1)}"; // todo
+            }
+        }
 
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
+
+
 
 
 

@@ -240,13 +240,12 @@ namespace MilesBackOffice.Web.Data
                     Content = "bla bla bla",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner,
-                    Status = 1
+                    Status = 1,
+                    ImageUrl = ("~/images/advertisings/miles1.jpg")
                 });
-
-                await _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
             }
         }
-
 
         public async Task AddTierChanges()
         {

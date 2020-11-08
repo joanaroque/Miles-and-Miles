@@ -424,7 +424,7 @@ namespace MilesBackOffice.Web.Migrations
                 {
                     Title = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
-                    ImageId = table.Column<Guid>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: false),
                     PartnerId = table.Column<int>(nullable: true),
                     Id = table.Column<int>(nullable: false)

@@ -33,7 +33,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<Guid>("ImageId");
+                    b.Property<string>("ImageUrl");
 
                     b.Property<string>("ModifiedById");
 

@@ -123,9 +123,9 @@ namespace CinelAirMiles
 
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IClientConverterHelper, ClientConverterHelper>();
-            services.AddScoped<IBlobHelper, BlobHelper>();
             services.AddScoped<ILog, Log>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IAdvertisingRepository, AdvertisingRepository>();

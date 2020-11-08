@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class AdvertisingViewModel
@@ -40,9 +40,12 @@
 
 
 
+        [Display(Name = "Image Location")]
+        public string ImageUrl { get; set; }
+
 
         [Display(Name = "Image")]
-        public Guid ImageId { get; set; }
+        public IFormFile ImageFile { get; set; }
 
 
 
