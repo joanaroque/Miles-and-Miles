@@ -429,10 +429,12 @@
                 {
                     return new NotFoundViewResult("_PartnerNotFound");
                 }
-                //send notification
-                await _notificationHelper.CreateNotification(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);
+               
 
                 Advertising post = _converter.ToAdvertising(model, true, path, partner);
+
+                //send notification
+                await _notificationHelper.CreateNotification(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);
 
                 //post.CreatedBy = currentUser;
                 post.CreateDate = DateTime.UtcNow;
