@@ -88,77 +88,74 @@
         }
 
 
-        //public IActionResult Register()
-        //{
-        //    var model = new RegisterNewUserViewModel
-        //    {
-        //        Countries = _countryRepository.GetComboCountries(),
-        //        Cities = _countryRepository.GetComboCities(0),
-        //        Genders = _clientRepository.GetComboGenders()
-        //    };
+        public IActionResult Register()
+        {
+            var model = new RegisterNewUserViewModel
+            {
+                Countries = _countryRepository.GetComboCountries(),
+                Genders = _clientRepository.GetComboGenders()
+            };
 
-        //    return View(model);
-        //}
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterNewUserViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userHelper.GetUserByEmailAsync(model.Username);
-        //        if (user == null)
-        //        {
-        //            var city = await _countryRepository.GetCityAsync(model.CityId);
-
-        //            user = new User
-        //            {
-        //                Name = model.Name,
-        //                Email = model.Username,
-        //                UserName = model.Username,
-        //                Address = model.Address,
-        //                PhoneNumber = model.PhoneNumber,
-        //                City = city,
-        //                IsActive = false,
-        //                IsApproved = false,
-        //                BonusMiles = 0,
-        //                DateOfBirth = model.DateOfBirth,
-        //                Gender = model.Gender.ToString(),
-        //                GuidId = _clientRepository.CreateGuid(),
-        //                TIN = model.TIN,
-        //                Status = TierType.Miles,
-        //                StatusMiles = 0
-        //            };
-
-        //            var result = await _userHelper.AddUserAsync(user, model.Password);
-        //            if (result != IdentityResult.Success)
-        //            {
-        //                ModelState.AddModelError(string.Empty, "The user couldn't be created.");
-        //                return this.View(model);
-        //            }
-
-        //            var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-        //            var tokenLink = Url.Action("ConfirmEmail", "Account", new
-        //            {
-        //                userid = user.Id,
-        //                token = myToken
-        //            }, protocol: HttpContext.Request.Scheme);
-
-        //            _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-        //                $"To allow the user, " +
-        //                $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-        //            ViewBag.Message = "The instructions to allow your user has been sent to email.";
+            return View(model);
+        }
 
 
-        //            return View(model);
-        //        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Name = model.Name,
+                        Email = model.Username,
+                        UserName = model.Username,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber,
+                        City = model.City,
+                        IsActive = false,
+                        IsApproved = false,
+                        BonusMiles = 0,
+                        DateOfBirth = model.DateOfBirth,
+                        Gender = model.Gender.ToString(),
+                        GuidId = _clientRepository.CreateGuid(),
+                        TIN = model.TIN,
+                        Status = TierType.Miles,
+                        StatusMiles = 0
+                    };
 
-        //        ModelState.AddModelError(string.Empty, "The user already exists.");
+                    var result = await _userHelper.AddUserAsync(user, model.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                        return this.View(model);
+                    }
 
-        //    }
+                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
 
-        //    return View(model);
-        //}
+                    _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                        $"To allow the user, " +
+                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    ViewBag.Message = "The instructions to allow your user has been sent to email.";
+
+
+                    return View(model);
+                }
+
+                ModelState.AddModelError(string.Empty, "The user already exists.");
+
+            }
+
+            return View(model);
+        }
 
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)

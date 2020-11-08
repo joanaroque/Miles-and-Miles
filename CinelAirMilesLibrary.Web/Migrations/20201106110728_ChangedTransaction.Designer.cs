@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201106110728_ChangedTransaction")]
+    partial class ChangedTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,13 +35,11 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<Guid>("ImageId");
 
                     b.Property<string>("ModifiedById");
 
                     b.Property<int?>("PartnerId");
-
-                    b.Property<string>("PostGuidId");
 
                     b.Property<int>("Status");
 
@@ -179,8 +179,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<int>("Type");
-
                     b.Property<DateTime>("UpdateDate");
 
                     b.Property<int>("UserGroup");
@@ -215,8 +213,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.Property<string>("LogoId");
 
                     b.Property<string>("ModifiedById");
-
-                    b.Property<string>("PartnerGuidId");
 
                     b.Property<int>("Status");
 

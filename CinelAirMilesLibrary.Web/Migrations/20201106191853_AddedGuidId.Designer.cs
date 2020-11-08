@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201106191853_AddedGuidId")]
+    partial class AddedGuidId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +35,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<Guid>("ImageId");
 
                     b.Property<string>("ModifiedById");
 
@@ -402,8 +404,6 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("UpdateDate");
 
-                    b.Property<string>("UserId");
-
                     b.Property<int>("Value");
 
                     b.HasKey("Id");
@@ -415,8 +415,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasIndex("TransferToId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -773,10 +771,6 @@ namespace MilesBackOffice.Web.Migrations
                     b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "TransferTo")
                         .WithMany()
                         .HasForeignKey("TransferToId");
-
-                    b.HasOne("CinelAirMilesLibrary.Common.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("CinelAirMilesLibrary.Common.Data.Entities.User", b =>

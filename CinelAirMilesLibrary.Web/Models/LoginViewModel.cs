@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,11 +7,13 @@ namespace CinelAirMilesLibrary.Common.Models
 {
     public class LoginViewModel
     {
-        [Required]
         public string UserName { get; set; }
 
 
         public string Email { get; set; }
+
+
+        public string GuidId { get; set; }
 
 
         [Required]

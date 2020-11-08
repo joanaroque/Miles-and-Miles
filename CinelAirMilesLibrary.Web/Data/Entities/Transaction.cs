@@ -6,10 +6,12 @@
 
     public class Transaction : IEntity
     {
-        public int Id { get; set; }
 
+        public User User { get; set; }
 
         public int StartBalance { get; set; }
+
+
 
         public int EndBalance { get; set; }
 
@@ -17,6 +19,7 @@
         /// In miles
         /// </summary>
         public int Value { get; set; }
+
 
         /// <summary>
         /// 0 - Debit,
@@ -28,7 +31,9 @@
         /// </summary>
         public TransactionType Type { get; set; }
 
+
         public User TransferTo { get; set; }
+
 
         /// <summary>
         /// Price of the transaction
@@ -47,25 +52,33 @@
 
 
         /**************IEntity Props*********************/
-        
+
+        public int Id { get; set; }
+
+
         /// <summary>
         /// Transaction is from this User 
         /// </summary>
         public User CreatedBy { get; set; }
 
+
         public DateTime CreateDate { get; set; }
+
 
         /// <summary>
         /// can be updated if the transaction is reverted
         /// or denied by an Admin
         /// </summary>
         public DateTime UpdateDate { get; set; }
+
+
         /// <summary>
         /// the user responsible for cancelling/denying the transaction
         /// it'll show the client in case of reverting
         /// shows the admin who denied the transaction
         /// </summary>
         public User ModifiedBy { get; set; }
+
 
         /// <summary>
         /// 0 - OK

@@ -136,6 +136,8 @@ namespace CinelAirMiles
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionHelper, TransactionHelper>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

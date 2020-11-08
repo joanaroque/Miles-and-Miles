@@ -12,6 +12,10 @@
 
     public interface IUserHelper
     {
+
+        User GetUserByGuidId(string user);
+
+
         Task<User> GetUserByUsernameAsync(string username);
 
 

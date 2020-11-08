@@ -74,8 +74,7 @@
 
             if (ModelState.IsValid)
             {
-
-                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
+                var user = _userHelper.GetUserByGuidId(model.GuidId);
 
                 if (user != null && !user.EmailConfirmed &&
                    (await _userManager.CheckPasswordAsync(user, model.Password)))
@@ -110,7 +109,11 @@
                     }
                 }
 
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+                    return View(model);
+                }
             }
 
             return RedirectToAction("IndexClient", "Home");

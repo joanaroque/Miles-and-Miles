@@ -7,6 +7,17 @@
     {
         public int Id { get; set; }
 
+
+        public User User { get; set; }
+
+
+
+        public int StartBalance { get; set; }
+
+
+
+        public int EndBalance { get; set; }
+
         /// <summary>
         /// In miles
         /// </summary>

@@ -7,6 +7,7 @@
 
     using CinelAirMilesLibrary.Common.Data;
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Hub.Notification;
     using Microsoft.AspNetCore.SignalR;

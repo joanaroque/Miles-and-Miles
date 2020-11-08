@@ -1,0 +1,112 @@
+﻿@model IEnumerable<CinelAirMiles.Models.TransactionViewModel>
+
+<section class="content">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Balance and Transactions</h3>
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+
+                <div>
+                    <button id="btn_ConvertMiles" action="ConvertMiles" controller="Transaction">Convert Miles</button>
+                    <button id="btn_ExtendMiles" action="ExtendMiles" controller="Transaction">Extend Miles</button>
+                    <button id="btn_NominateToGold" action="NominateToGold" controller="Transaction">Nominate To Gold</button>
+                    <button id="btn_Purchase" action="Purchase" controller="Transaction">Purchase Miles</button>
+                </div>
+
+                <div id="form_container">
+
+                </div>
+
+
+                <div class="card-header">
+                    @*<h3 class="card-title">Status Miles: @Model.StatusMiles</h3>
+                        <h3 class="card-title">Bonus Miles: </h3>*@
+                </div>
+                <table id="flights" class="display table table-bordered table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Value)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PremiumOffer)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TransferTo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StartBalance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EndBalance)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Value)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PremiumOffer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransferTo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartBalance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndBalance)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+    <!-- /.container-fluid -->
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        window.addEventListener('DOMContentLoaded', function () {
+            byID('btn_ConvertMiles').addEventListener('click', openPartialCreate);
+            byID('btn_ExtendMiles').addEventListener('click', openPartialCreate);
+            byID('btn_NominateToGold').addEventListener('click', openPartialCreate);
+            byID('btn_Purchase').addEventListener('click', openPartialCreate);
+});
+
+    </script>
+}
+

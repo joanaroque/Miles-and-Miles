@@ -99,7 +99,17 @@
 
             return list;
         }
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
 
+
+        public User GetUserByGuidId(string guidId)
+        {
+            return _context.Users
+                .FirstOrDefault(u => u.GuidId == guidId);
+        }
 
 
         public async Task<User> GetUserByEmailAsync(string email)
@@ -107,10 +117,6 @@
             return await _userManager.FindByEmailAsync(email);
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
-        {
-            return await _userManager.FindByNameAsync(username);
-        }
 
         public async Task<User> GetUserByIdAsync(string userId)
         {
@@ -127,7 +133,7 @@
             //TODO validação do user type, para clientes não entrarem
 
             return await _signInManager.PasswordSignInAsync(
-               model.UserName,
+               model.GuidId,
                model.Password,
                model.RememberMe,
                false);
