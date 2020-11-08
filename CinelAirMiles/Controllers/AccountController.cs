@@ -76,10 +76,14 @@
             {
                 var user = _userHelper.GetUserByGuidId(model.GuidId);
 
-                if (user != null && !user.EmailConfirmed &&
-                   (await _userManager.CheckPasswordAsync(user, model.Password)))
+                if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Please confirm your email.");
+                    ModelState.AddModelError(string.Empty, "Incorrect UserName or Password");
+                }
+
+                if (!user.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "You must validate your email before login in!");
                     return View(model);
                 }
 
@@ -95,7 +99,7 @@
                     return View(model);
                 }
 
-                var result = await _userHelper.LoginAsync(model);
+                var result = await _userHelper.LoginAsync(user.UserName, model);
 
                 if (result.Succeeded)
                 {

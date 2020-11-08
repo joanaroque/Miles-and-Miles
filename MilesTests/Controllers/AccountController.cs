@@ -62,7 +62,8 @@
         {
             if (ModelState.IsValid)
             {
-                var result = await _userHelper.LoginAsync(model);
+                //TODO check if user is client
+                var result = await _userHelper.LoginAsync(model.UserName, model);
                 if (result.Succeeded)
                 {
                     if (Request.Query.Keys.Contains("ReturnUrl"))
