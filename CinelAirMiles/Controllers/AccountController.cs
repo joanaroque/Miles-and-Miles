@@ -210,7 +210,7 @@
         public async Task<IActionResult> LogoutClient()
         {
             await _userHelper.LogoutAsync();
-            return RedirectToAction("IndexClients", "Home");
+            return RedirectToAction("IndexClient", "Home");
         }
 
 
