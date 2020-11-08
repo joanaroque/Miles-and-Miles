@@ -49,34 +49,39 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>aqui fica a img</td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Partner.CompanyName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Title)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Content)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.EndDate)
-                                            </td>
-                                            <td>
-                                                <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id">
-                                                    <i class="fa fa-list"></i>
-                                                </a>
-                                                <a>-  -  - </a>
-                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
-                                                    <i class="far fa-check-circle"></i>
-                                                </a>
-                                                <a>-  -  - </a>
-                                                <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
-                                                    <i class="fas fa-ban"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PartnerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Content)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                        <td>
+                                            <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id">
+                                                <i class="fa fa-list"></i>
+                                            </a>
+                                            <a>-  -  - </a>
+                                            <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
+                                                <i class="far fa-check-circle"></i>
+                                            </a>
+                                            <a>-  -  - </a>
+                                            <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
+                                                <i class="fas fa-ban"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

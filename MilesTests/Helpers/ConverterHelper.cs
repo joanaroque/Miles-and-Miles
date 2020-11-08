@@ -50,14 +50,14 @@
             return seats;
         }
 
-        public Advertising ToAdvertising(AdvertisingViewModel model, Guid imageId, bool isNew)
+        public Advertising ToAdvertising(AdvertisingViewModel model, bool isNew, string path, Partner partner)
         {
             var advertisng = new Advertising
             {
                 Id = isNew ? 0 : model.Id,
                 Title = model.Title,
                 Content = model.Content,
-                ImageId = imageId,
+                ImageUrl = path,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
                 Status = 1,
@@ -74,10 +74,11 @@
                 Id = advertising.Id,
                 Title = advertising.Title,
                 Content = advertising.Content,
-                ImageId = advertising.ImageId,
+                ImageUrl = advertising.ImageUrl,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                Partner = advertising.Partner// todo VER ISTO
+                PartnerName = advertising.Partner.CompanyName
+
             };
             return advertisings;
         }

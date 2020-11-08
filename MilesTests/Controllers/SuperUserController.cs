@@ -9,9 +9,12 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -135,10 +138,22 @@
 
                 return RedirectToAction(nameof(PremiumOfferList));
             }
-            catch (Exception)
+            catch (DbUpdateException dbUpdateException)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                {
+                    ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                }
             }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            return RedirectToAction(nameof(PremiumOfferList));
         }
 
         /// <summary>
@@ -191,10 +206,11 @@
 
                 return RedirectToAction(nameof(PremiumOfferList));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_ItemNotFound");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(PremiumOfferList));
 
         }
         #endregion
@@ -278,9 +294,9 @@
                     return RedirectToAction(nameof(Complaints));
 
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
             return View(model);
@@ -338,11 +354,22 @@
 
                 return RedirectToAction(nameof(PartnerReferences));
             }
-            catch (Exception)
+            catch (DbUpdateException dbUpdateException)
             {
-                return new NotFoundViewResult("_UserNotFound");
-
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                {
+                    ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                }
             }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            return RedirectToAction(nameof(PartnerReferences));
         }
 
         /// <summary>
@@ -382,10 +409,11 @@
 
                 return RedirectToAction(nameof(PartnerReferences));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(PartnerReferences));
 
         }
         #endregion 
@@ -467,11 +495,11 @@
 
                 return RedirectToAction(nameof(Advertising));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_UserNotFound");
-
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(Advertising));
         }
 
         /// <summary>
@@ -514,10 +542,11 @@
                 return RedirectToAction(nameof(Advertising));
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(Advertising));
 
         }
         #endregion
@@ -531,6 +560,11 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
+            //todo para SILVER: se o cliente acumular num ano 30.000 milhas ou ter voado 25 segmentos
+           
+            
+            //para GOLD 70.000 milhas ou 50 segmentos
+
             var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
@@ -578,14 +612,14 @@
                // _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
                //$"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
 
-                //  todo:  ViewBag.Message = "An error ocurred. Try again please.";
-
                 return RedirectToAction(nameof(TierChange));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_UserNotFound"); //todo: mudar erros
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(TierChange));
+
         }
 
         /// <summary>
@@ -618,10 +652,11 @@
                 return RedirectToAction(nameof(TierChange));
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(TierChange));
         }
         #endregion
     }

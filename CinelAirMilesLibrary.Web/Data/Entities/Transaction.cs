@@ -6,10 +6,12 @@
 
     public class Transaction : IEntity
     {
+
+        public User User { get; set; }
+
         public int StartBalance { get; set; }
 
 
-        public int StartBalance { get; set; }
 
         public int EndBalance { get; set; }
 

@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201108130610_UpdatedTransaction")]
+    partial class UpdatedTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +35,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<Guid>("ImageId");
 
                     b.Property<string>("ModifiedById");
 

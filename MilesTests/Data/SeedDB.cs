@@ -121,13 +121,13 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Reservations.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var departure = "Lisbon";
+                //var departure = "Lisbon";
 
                 _context.Reservations.Add(new Reservation
                 {
                     CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
                     //Destination = departure,
-                   // PartnerName = partner,
+                    //PartnerName = partner,
                     //Date = DateTime.Now.AddDays(6),
                     Status = 1
                 });
@@ -251,14 +251,13 @@ namespace MilesBackOffice.Web.Data
                     Content = "bla bla bla",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner,
+                    ImageUrl = ("~/images/advertisings/miles1.jpg"),
                     Status = 1,
                     PostGuidId = GuidHelper.CreatedGuid()
                 });
-
-                await _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
             }
         }
-
 
         public async Task AddTierChanges()
         {
