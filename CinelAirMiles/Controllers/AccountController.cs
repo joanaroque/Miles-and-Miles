@@ -292,19 +292,19 @@
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
-                return this.NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             var user = await _userHelper.GetUserByIdAsync(userId);
             if (user == null)
             {
-                return this.NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             var result = await _userHelper.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)
             {
-                return this.NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             return View();

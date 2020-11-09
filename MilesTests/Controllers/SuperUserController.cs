@@ -78,7 +78,7 @@
 
             else
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404");
             }
         }
 

@@ -6,7 +6,7 @@
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,7 +38,7 @@
 
                 if (user == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
 
                 var list = await _complaintRepository.GetClientComplaintsAsync(user.Id);
@@ -49,13 +49,13 @@
 
                 if (modelList.Count == 0)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
             }
 
             else
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             return View();
@@ -69,7 +69,7 @@
 
             if (client == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             var model = new ComplaintViewModel
@@ -91,14 +91,14 @@
 
                     if (complaint == null)
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("_Error404Client");
                     }
 
                     var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
 
                     if (user == null)
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("_Error404Client");
                     }
 
                     var clientComplaint = _converterHelper.ToClientComplaint(model, true);

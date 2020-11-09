@@ -7,6 +7,7 @@
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
+    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -42,7 +43,7 @@
 
                     if (user == null)
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("_Error404Client");
                     }
 
                     var list = await _transactionRepository.GetAllByClient(user);
@@ -56,7 +57,7 @@
 
                 else
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
             }
             catch (Exception e)
@@ -84,7 +85,7 @@
                 var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
                 if (user == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
 
                 var value = 2000;
@@ -161,7 +162,7 @@
                 var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
                 if (user == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
 
                 model = new TransactionViewModel

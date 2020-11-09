@@ -50,7 +50,7 @@
 
                     if (user == null)
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("_Error404");
                     }
 
                     var result = await _userHelper.LoginAsync(model.UserName, model);
@@ -118,7 +118,7 @@
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404");
             }
 
             var model = new ResetPasswordViewModel
