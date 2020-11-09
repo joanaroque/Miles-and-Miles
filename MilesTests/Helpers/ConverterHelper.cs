@@ -79,6 +79,8 @@
                 PartnerName = advertising.Partner.CompanyName,
                 PostGuidId = advertising.PostGuidId,
                 FlightId = advertising.Flight == null ? 0 : advertising.Flight.Id,
+                CreatedBy = advertising.CreatedBy.Name,
+                CreatedOn = advertising.CreateDate
             };
             return advertisings;
         }
