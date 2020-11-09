@@ -75,7 +75,7 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "bla bla bla notifications bla bla bla notifications!!!! "
+                    Message = "Enjoy today, don't leave it for tomorrow!"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -84,8 +84,7 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "bla bla bla notifications bla bla bla notifications " +
-                    "bla bla bla notifications!!!! "
+                    Message = "Enjoy now the last days of this fantastic promotion!"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -94,9 +93,7 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "bla bla bla notifications bla bla bla notifications" +
-                    "bla bla bla notifications" +
-                    "bla bla bla notifications!!!! "
+                    Message = "Come and see our offers and promotions!"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -105,10 +102,7 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "bla bla bla notifications bla bla bla notifications" +
-                    "bla bla bla notifications" +
-                    "bla bla bla notifications" +
-                    "bla bla bla notifications!!!! "
+                    Message = "Please check your tier increase in our Cinel Air Miles program!"
                 });
 
                 await _context.SaveChangesAsync();
@@ -237,7 +231,17 @@ namespace MilesBackOffice.Web.Data
                     Complaint = ComplaintType.Miles,
                     Email = "mariliaa@yopmail.com",
                     Date = DateTime.Now.AddDays(-5),
-                    Body = "bla bla bla",
+                    Body = "TAP Air Portugal fraud!! I booked a group of 8 people " +
+                    "on TAP Toronto-Lisbon and prepaid for seat selection " +
+                    "($44 per seat in each direction - total $704). When we checked in, we were scattered " +
+                    "around the plane and the seats we paid for were assigned to other passengers. " +
+                    "The same thing happened on the waý back!I lodged a complaint with TAP online " +
+                    "(#172341) and was promised a reply within 28 days. Two months, and several " +
+                    "long-distance calls and emails later, TAP Complaints Dept. say they are still" +
+                    " unable to give me an answer.By chance, I was talking to someone about this " +
+                    "last night, and he had the identical experience. If this is systemic, it is fraud! TAP charge for a service" +
+                    " they do not provide.I would like to hear from others who have had the same experience, because I intend " +
+                    "to escalate this matter, and to warn travellers NOT TO PREPAY FOR SERVICES ON TAP!!",
                     Reply = string.Empty,
                     Status = 1
 
@@ -256,7 +260,13 @@ namespace MilesBackOffice.Web.Data
                 _context.Advertisings.Add(new Advertising
                 {
                     Title = "New Promotion",
-                    Content = "bla bla bla",
+                    Content = "November is the month to celebrate the 2nd anniversary of the Cinel Air Miles Program."
+                    + "2 years have passed since the Cinel Air Miles Program was born,  and the best way to celebrate is"
+                    + "with exclusive offers! During the month of November you can find on this page all the surprises that we"
+                    +"- together with our partners - have prepared to celebrate this very special date." +
+                    "There were 24 months of fantastic adventures, " +
+                    " good times and, in the last year,  some less good ones. " +
+                    "However, we remain positive and eager to fly with you on board,  with more confidence and confidence than ever.Time starts to fly.Enjoy every mile.",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner,
                     ImageUrl = ("~/images/advertisings/miles1.jpg"),
@@ -553,12 +563,6 @@ namespace MilesBackOffice.Web.Data
             await _userHelper.CheckRoleAsync(UserType.SuperUser.ToString());
             await _userHelper.CheckRoleAsync(UserType.User.ToString());
             await _userHelper.CheckRoleAsync(UserType.Client.ToString());
-
-
-            await _userHelper.CheckRoleAsync(TierType.None.ToString());
-            await _userHelper.CheckRoleAsync(TierType.Miles.ToString());
-            await _userHelper.CheckRoleAsync(TierType.Silver.ToString());
-            await _userHelper.CheckRoleAsync(TierType.Gold.ToString());
         }
 
         private void AddCountries(string name)
