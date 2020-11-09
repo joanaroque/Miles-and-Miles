@@ -12,6 +12,11 @@
 
 
 
+        public int Miles { get; set; }
+
+
+
+
         public int MaximumSeats { get; set; }
 
 
