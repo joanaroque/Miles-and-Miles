@@ -418,19 +418,27 @@
         /// </summary>
         /// <returns>a list of advertising</returns>
         [HttpGet]
-        public async Task<ActionResult> Advertising()
+        public async Task<ActionResult> AdvertisingIndex()
         {
-            var list = await _advertisingRepository.GetAdvertisingFilteredAsync();
+            try
+            {
+                var list = await _advertisingRepository.GetAdvertisingFilteredAsync();
 
-            var modelList = new List<AdvertisingViewModel>(
-                list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
-                .ToList());
+                var modelList = new List<AdvertisingViewModel>(
+                    list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
+                    .ToList());
 
-            return View(modelList);
+                return View(modelList);
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500");
+            }
+
         }
 
         /// <summary>
-        /// details from advertising content
+        /// details from advertising conten
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>the selected advertising</returns>
@@ -448,8 +456,7 @@
             }
             catch (Exception)
             {
-
-                throw;
+                return new NotFoundViewResult("_Error500");
             }
         }
 

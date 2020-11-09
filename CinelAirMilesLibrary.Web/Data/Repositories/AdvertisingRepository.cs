@@ -25,6 +25,7 @@
         {
             var advertising = await _context.Advertisings
                  .Include(a => a.Partner)
+                 .Include(a => a.CreatedBy)
                  .Where(st => st.Status == 1)
                  .ToListAsync();
 

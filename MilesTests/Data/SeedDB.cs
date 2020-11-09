@@ -256,6 +256,7 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Advertisings.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
 
                 _context.Advertisings.Add(new Advertising
                 {
@@ -263,7 +264,7 @@ namespace MilesBackOffice.Web.Data
                     Content = "November is the month to celebrate the 2nd anniversary of the Cinel Air Miles Program."
                     + "2 years have passed since the Cinel Air Miles Program was born,  and the best way to celebrate is"
                     + "with exclusive offers! During the month of November you can find on this page all the surprises that we"
-                    +"- together with our partners - have prepared to celebrate this very special date." +
+                    + "- together with our partners - have prepared to celebrate this very special date." +
                     "There were 24 months of fantastic adventures, " +
                     " good times and, in the last year,  some less good ones. " +
                     "However, we remain positive and eager to fly with you on board,  with more confidence and confidence than ever.Time starts to fly.Enjoy every mile.",
@@ -271,8 +272,10 @@ namespace MilesBackOffice.Web.Data
                     Partner = partner,
                     ImageUrl = ("~/images/advertisings/miles1.jpg"),
                     Status = 1,
-                    PostGuidId = GuidHelper.CreatedGuid()
-                });
+                    PostGuidId = GuidHelper.CreatedGuid(),
+                    CreatedBy = user
+
+                }) ;
                 await _context.SaveChangesAsync();
             }
         }
