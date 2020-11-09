@@ -42,9 +42,6 @@
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            //todo
-            //redirecionar p/ alt de password quando o user ou su se loggam pela 1ª vez
-
             if (ModelState.IsValid)
             {
                 try
@@ -136,21 +133,28 @@
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var user = await _userHelper.GetUserByIdAsync(model.UserId);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
-                if (result.Succeeded)
+                var user = await _userHelper.GetUserByIdAsync(model.UserId);
+                if (user != null)
                 {
-                    ViewBag.Message = "Password reset successful.";
-                    return View();
+                    var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        user.EmailConfirmed = true;
+                        await _userHelper.UpdateUserAsync(user);
+
+                        return RedirectToAction(nameof(Login));
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Error while resetting the password.");
                 }
-
-                ViewBag.Message = "Error while resetting the password.";
-                return View(model);
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found.");
+                }
             }
-
-            ViewBag.Message = "User not found.";
+            
             return View(model);
         }
 
