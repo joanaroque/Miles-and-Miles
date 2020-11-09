@@ -50,7 +50,6 @@
 
         /// <summary>
         /// The list loaded should be only of the results that were sent back by the SU
-        /// TODO The page should include a button that loads the entire datacontext of PremiumOffers as demand of the User
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> PremiumIndex()
@@ -531,6 +530,14 @@
         private async Task<User> GetUserByName()
         {
             return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+        }
+
+        
+        public async Task<IActionResult> GetFlights(string partnerId)
+        {
+            var list = await _flightRepository.GetFlightsByPartner(int.Parse(partnerId));
+
+            return Json(list);
         }
     }
 }

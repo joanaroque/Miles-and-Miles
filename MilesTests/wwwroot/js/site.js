@@ -31,10 +31,8 @@ function openPartial() {
     const id = event.currentTarget.getAttribute("data-value");
     const action = event.currentTarget.getAttribute("action");
 
-    $('#form_container').load(getPath(document.location.pathname)+ '/' + action + '?id=' + id);
+    $('#form_container').load(getPath(document.location.pathname) + '/' + action + '?id=' + id);
 }
-
-
 
 
 /**
@@ -45,11 +43,33 @@ function openPartial() {
  * */
 function openPartialCreate() {
     const action = event.currentTarget.getAttribute("action");
-    
+
     $('#form_container').load(getPath(document.location.pathname) + '/' + action);
 }
 
 
+function loadFlightCombo(sourceEl, destEl) {
+    $(destEl).empty();
+    
+    $.ajax({
+        type: "POST",
+        url: "/User/GetFlights",
+        data: { partnerId: $(sourceEl).val() },
+        dataType: "json",
+        success: function (result) {
+            $.each(result, function (i, flight) {
+                $(destEl).append('<option value="'
+                    + flight.id + '">'
+                    + flight.Origin + "->" + flight.destination
+                    + " " + flight.departureDate
+                    + '</option>');
+            })
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
 
 /**
  * 
@@ -62,8 +82,8 @@ function openPartialCreate() {
 
 
 //    $("a[id*=btnDeleteItem]").click(function () {
-        
-        
+
+
 //        $('#deleteDialog').modal("show");
 //        return false;
 //    });

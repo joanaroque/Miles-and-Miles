@@ -1,12 +1,14 @@
 ﻿using CinelAirMilesLibrary.Common.Data;
 using CinelAirMilesLibrary.Common.Data.Entities;
 using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Enums;
 using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MilesBackOffice.Web.Helpers;
+using MilesBackOffice.Web.Models;
 using MilesBackOffice.Web.Models.Admin;
 
 using System;
@@ -112,8 +114,6 @@ namespace MilesBackOffice.Web.Controllers
             return View(model);
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> ApproveClient(ApproveClientViewModel model)
         {
@@ -147,7 +147,6 @@ namespace MilesBackOffice.Web.Controllers
         }
 
 
-
         [HttpGet]
         public IActionResult Register()
         {
@@ -155,13 +154,10 @@ namespace MilesBackOffice.Web.Controllers
             {
                 Countries = _countryRepository.GetComboCountries(),
                 Roles = _userHelper.GetComboRoles(),
-                StatusList = _clientRepository.GetComboStatus(),
                 Genders = _clientRepository.GetComboGenders()
             };
             return View(model);
         }
-
-
 
 
         [HttpPost]
@@ -176,6 +172,7 @@ namespace MilesBackOffice.Web.Controllers
                 {
                     try
                     {
+                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
                         user = new User
                         {
                             Name = model.Name,
@@ -183,15 +180,15 @@ namespace MilesBackOffice.Web.Controllers
                             UserName = model.Username,
                             Address = model.Address,
                             PhoneNumber = model.PhoneNumber,
+                            Country = country,
                             City = model.City,
-                            SelectedRole = model.SelectedRole,
                             DateOfBirth = model.DateOfBirth,
+                            Gender = model.Gender,
+                            TIN = model.TIN,
+                            SelectedRole = model.SelectedRole,
                             IsActive = true,
                             IsApproved = true,
-                            BonusMiles = 0,
-                            StatusMiles = 0,
-                            Tier = model.Status,
-                            Gender = model.Gender.ToString()
+                            EmailConfirmed = false
                         };
 
                         var password = UtilityHelper.Generate();
@@ -204,66 +201,37 @@ namespace MilesBackOffice.Web.Controllers
                             return View(model);
                         }
 
-                        var roleName = await _roleManager.FindByNameAsync(user.SelectedRole.ToString());
-                        var roleId = await _roleManager.FindByNameAsync(roleName.ToString());
+                        await _userHelper.AddUSerToRoleAsync(user, user.SelectedRole);
+
+                        var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+                        var link = Url.Action(
+                            "ResetPassword",
+                            "Account",
+                            new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
 
-                        var register = await _userHelper.GetUserByIdAsync(user.Id);
-                        await _userManager.AddToRoleAsync(register, roleId.ToString());
-                        ModelState.AddModelError(string.Empty, "User registered with success. Verify email address.");
+                        _mailHelper.SendMail(user.Email, "Account Created", $"<h1>Complete Account Registration</h1>" +
+                        $"Follow the link to complete your registration:</br></br>" +
+                        $"<a href = \"{link}\">Complete Registration</a>" +
+                        $"/br <p>Your Username: {user.UserName}.</p>" +
+                        $"/br");
 
-                        var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                        var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                        {
-                            userid = user.Id,
-                            token = myToken
-                        }, protocol: HttpContext.Request.Scheme);
-
-                        try
-                        {
-                            if (roleName.ToString() == "Client")
-                            {
-                                _mailHelper.SendMail(model.EmailAddress, "Welcome to the CinelAir Miles!", $"<h1>Email Confirmation</h1>" +
-                          $"Hello, {model.Name}<br/>" +
-                          $"Click on the link below to confirm your email" +
-                          $"<p><a href = \"{tokenLink}\">Confirm Email</a></p>" +
-                          $"<br/>Thank you,<br/>CinelAir Miles");
-                            }
-
-                            else
-                            {
-                                _mailHelper.SendMail(model.EmailAddress, "Welcome to the team!", $"<h1>Email Confirmation</h1>" +
-                          $"Hello, {model.Name}<br/>" +
-                          $"Your user is: {model.Username} and your password {password}.<br/>" +
-                          $"Click this link to confirm your email and be able to login:<p><a href = \"{tokenLink}\">Confirm Email</a></p>");
-
-                            }
-
-                            ViewBag.Message = "The instructions to allow your user has been sent to email.";
-                        }
-                        catch (Exception ex)
-                        {
-                            ModelState.AddModelError(string.Empty, ex.Message);
-                        }
+                        return RedirectToAction(nameof(NewClients));
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-
                 else
                 {
                     ModelState.AddModelError(string.Empty, "This username is already registered.");
-                    model.Countries = _countryRepository.GetComboCountries();
-                    model.Roles = _userHelper.GetComboRoles();
-                    model.Genders = _clientRepository.GetComboGenders();
-                    return View(model);
                 }
-
-                return View(model);
             }
-
+            model.Countries = _countryRepository.GetComboCountries();
+            model.Roles = _userHelper.GetComboRoles();
+            model.Genders = _clientRepository.GetComboGenders();
             return View(model);
         }
 
@@ -312,7 +280,6 @@ namespace MilesBackOffice.Web.Controllers
 
             var user = await _userHelper.GetUserByIdAsync(id);
 
-
             if (user == null)
             {
                 return new NotFoundViewResult("UserNotFound");
@@ -334,7 +301,7 @@ namespace MilesBackOffice.Web.Controllers
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var model = new EditUserViewModel
+            var model = new UserDetailsViewModel
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -379,7 +346,7 @@ namespace MilesBackOffice.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(EditUserViewModel editUser)
+        public async Task<IActionResult> EditUser(UserDetailsViewModel editUser)
         {
             if (ModelState.IsValid)
             {
@@ -395,12 +362,9 @@ namespace MilesBackOffice.Web.Controllers
                 user.PhoneNumber = editUser.PhoneNumber;
                 user.IsActive = editUser.IsActive;
                 user.DateOfBirth = editUser.DateOfBirth;
-                user.BonusMiles = editUser.BonusMiles;
                 user.City = editUser.City;
                 user.Country.Id = editUser.CountryId;
-                user.Gender = editUser.Gender.ToString();
-                user.Tier = editUser.Status;
-                user.StatusMiles = editUser.StatusMiles;
+                user.Gender = editUser.Gender;
                 user.TIN = editUser.TIN;
 
 

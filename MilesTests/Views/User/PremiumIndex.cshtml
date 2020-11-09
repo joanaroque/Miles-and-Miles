@@ -87,5 +87,6 @@
             byID('btn_newVoucher').addEventListener('click', openPartialCreate);
         });
 
+        $("select[id=PartnerId]").change(loadFlightCombo("PartnerId", "FlightId"));
     </script>
 }

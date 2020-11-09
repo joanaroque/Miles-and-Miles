@@ -9,12 +9,10 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-    using Microsoft.AspNetCore.Hosting;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
+
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
@@ -427,7 +425,7 @@
         [HttpGet]
         public async Task<ActionResult> Advertising()
         {
-            var list = await _advertisingRepository.GetAdvertisingSatus1Async();            
+            var list = await _advertisingRepository.GetAdvertisingSatus1Async();
 
             var modelList = new List<AdvertisingViewModel>(
                 list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
@@ -537,8 +535,8 @@
                     await _notificationHelper.CreateNotificationAsync(advertising.PostGuidId, UserType.User, "", NotificationType.Advertising);
                 }
 
-                
-                
+
+
                 return RedirectToAction(nameof(Advertising));
 
             }
@@ -560,6 +558,11 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
+            //todo para SILVER: se o cliente acumular num ano 30.000 milhas ou ter voado 25 segmentos
+
+
+            //para GOLD 70.000 milhas ou 50 segmentos
+
             var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
@@ -604,8 +607,8 @@
 
                 await _tierChangeRepository.UpdateAsync(tierChange);
 
-               // _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
-               //$"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
+                // _mailHelper.SendMail(user.Email, $"Your Tier change has been confirmed.",
+                //$"<h1>You can now use our service as a {tierChange.NewTier}.</h1>");
 
                 return RedirectToAction(nameof(TierChange));
             }

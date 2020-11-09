@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Models.Admin
+﻿namespace MilesBackOffice.Web.Models
 {
     using CinelAirMilesLibrary.Common.CustomValidation;
     using CinelAirMilesLibrary.Common.Enums;
@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class DetailsUserViewModel
+    public class UserDetailsViewModel
     {
         public string Id { get; set; }
 
@@ -54,22 +54,16 @@
         public DateTime? DateOfBirth { get; set; }
 
 
-
         public int StatusMiles { get; set; }
-
 
 
         public int BonusMiles { get; set; }
 
 
-
         public TierType Status { get; set; }
 
 
-
         public Gender Gender { get; set; }
-
-
 
 
         [MaxLength(20)]
@@ -77,18 +71,14 @@
         public string TIN { get; set; }
 
 
-
-
         [Display(Name = "Country")]
         public int CountryId { get; set; }
-
 
 
         public int CityId { get; set; }
 
 
         public IEnumerable<SelectListItem> Cities { get; set; }
-
 
 
         public IEnumerable<SelectListItem> Countries { get; set; }
@@ -100,7 +90,8 @@
         public IEnumerable<SelectListItem> Genders { get; set; }
 
 
-
         public bool IsActive { get; set; }
+
+        public string City { get; set; }
     }
 }

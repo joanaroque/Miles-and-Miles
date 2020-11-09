@@ -4,6 +4,7 @@
 
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Helpers;
+
     using MilesBackOffice.Web.Models;
     using MilesBackOffice.Web.Models.SuperUser;
 
@@ -210,6 +211,38 @@
                 Designation = model.Designation,
                 Description = model.Description,
                 Status = model.Status
+            };
+        }
+
+
+        public User ToUser(UserDetailsViewModel model)
+        {
+            return new User
+            {
+
+            };
+        }
+
+
+        public UserDetailsViewModel ToUserViewModel(User user)
+        {
+            return new UserDetailsViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Address = user.Address,
+                PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                Username = user.UserName,
+                City = user.City,
+                Email = user.Email,
+                IsActive = user.IsActive,
+                Status = user.Status,
+                StatusMiles = user.StatusMiles,
+                BonusMiles = user.BonusMiles,
+                Gender = user.Gender,
+                SelectedRole = user.SelectedRole,
+                TIN = user.TIN
             };
         }
     }

@@ -5,6 +5,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
 
     using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
     using MilesBackOffice.Web.Models.SuperUser;
 
     public interface IConverterHelper
@@ -55,5 +56,10 @@
 
         PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model);
 
+
+        UserDetailsViewModel ToUserViewModel(User user);
+
+
+        User ToUser(UserDetailsViewModel model);
     }
 }
