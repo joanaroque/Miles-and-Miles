@@ -37,6 +37,15 @@
             return flight;
         }
 
+
+        public async Task<IEnumerable<Flight>> GetFlightsByPartner(int id)
+        {
+            return await _context.Flights
+                .Include(p => p.Partner)
+                .Where(pi => pi.Partner.Id == id)
+                .ToListAsync();
+        }
+
         public IEnumerable<SelectListItem> GetComboFlightList()
         {
             var list = _context.Flights.Where(dd => dd.DepartureDate > DateTime.UtcNow);

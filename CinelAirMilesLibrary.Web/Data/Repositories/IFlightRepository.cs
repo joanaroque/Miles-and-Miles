@@ -24,5 +24,6 @@
         /// <returns>a flight</returns>
         Task<Flight> GetByIdWithIncludesAsync(int id);
         IEnumerable<SelectListItem> GetComboFlightList();
+        Task<IEnumerable<Flight>> GetFlightsByPartner(int id);
     }
 }
