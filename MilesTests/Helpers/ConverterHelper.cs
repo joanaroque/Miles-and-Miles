@@ -77,8 +77,9 @@
                 ImageUrl = advertising.ImageUrl,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                PartnerName = advertising.Partner.CompanyName
-
+                PartnerName = advertising.Partner.CompanyName,
+                PostGuidId = advertising.PostGuidId,
+                FlightId = advertising.Flight == null ? 0 : advertising.Flight.Id,
             };
             return advertisings;
         }

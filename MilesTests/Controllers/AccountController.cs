@@ -60,6 +60,9 @@
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            //todo
+            //redirecionar p/ alt de password quando o user ou su se loggam pela 1ª vez
+
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
@@ -138,7 +141,7 @@
                         Gender = model.Gender.ToString(),
                         GuidId = _clientRepository.CreateGuid(),
                         TIN = model.TIN,
-                        Status = TierType.Miles,
+                        Tier = TierType.Miles,
                         StatusMiles = 0
                     };
 

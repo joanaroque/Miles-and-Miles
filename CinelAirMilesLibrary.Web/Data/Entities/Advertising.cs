@@ -11,6 +11,9 @@
         public string Content { get; set; }
 
 
+        public Flight Flight { get; set; }
+
+
         [Display(Name = "Image")]
         public string ImageUrl { get; set; }
 

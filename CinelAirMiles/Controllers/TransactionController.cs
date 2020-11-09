@@ -14,7 +14,7 @@
 
     public class TransactionController : Controller
     {
-        private readonly IUserHelper _userHelper;
+        private readonly IUserHelper _userHelper; 
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientConverterHelper _converterHelper;
         private readonly ITransactionHelper _transactionHelper;
