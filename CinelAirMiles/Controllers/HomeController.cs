@@ -8,5 +8,19 @@ namespace CinelAirMiles.Controllers
         {
             return View();
         }
+
+
+        [Route("error/404")]
+        public IActionResult Error404Client()
+        {
+            return View();
+        }
+
+        [Route("error/500")]
+        public IActionResult Error500Client()
+        {
+            return View();
+        }
+
     }
 }
