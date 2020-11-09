@@ -28,18 +28,17 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123456789",
-                FlightDate = DateTime.Now.AddDays(10),
+                ArrivalFlightDate = DateTime.Now.AddDays(10),
                 Departure = "Brasil",
                 Arrival = "Suécia",
-                Tariff = "Desconto"
-
+                Tariff = "Desconto",
             });
 
 
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123450789",
-                FlightDate = DateTime.Now.AddDays(11),
+                ArrivalFlightDate = DateTime.Now.AddDays(11),
                 Departure = "Alemanha",
                 Arrival = "México",
                 Tariff = "Básica"
@@ -51,7 +50,7 @@ namespace CinelAirMilesMySQL.DataBase
             {
 
                 ClientNumber = "123456189",
-                FlightDate = DateTime.Now.AddDays(12),
+                ArrivalFlightDate = DateTime.Now.AddDays(12),
                 Departure = "Noruega",
                 Arrival = "Costa Rica",
                 Tariff = "Clássica"
@@ -61,7 +60,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "121456789",
-                FlightDate = DateTime.Now.AddDays(13),
+                ArrivalFlightDate = DateTime.Now.AddDays(13),
                 Departure = "Espanha",
                 Arrival = "Finlândia",
                 Tariff = "Desconto"
@@ -72,7 +71,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123456489",
-                FlightDate = DateTime.Now.AddDays(14),
+                ArrivalFlightDate = DateTime.Now.AddDays(14),
                 Departure = "Natal",
                 Arrival = "Lisboa",
                 Tariff = "Clássica"
@@ -83,7 +82,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123455789",
-                FlightDate = DateTime.Now.AddDays(15),
+                ArrivalFlightDate = DateTime.Now.AddDays(15),
                 Departure = "Madrid",
                 Arrival = "Oslo",
                 Tariff = "Básica"
@@ -93,7 +92,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123456189",
-                FlightDate = DateTime.Now.AddDays(16),
+                ArrivalFlightDate = DateTime.Now.AddDays(16),
                 Departure = "Faro",
                 Arrival = "Madeira",
                 Tariff = "Básica"
@@ -103,7 +102,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123456889",
-                FlightDate = DateTime.Now.AddDays(17),
+                ArrivalFlightDate = DateTime.Now.AddDays(17),
                 Departure = "Marte",
                 Arrival = "Jupiter",
                 Tariff = "Clássica"
@@ -113,7 +112,7 @@ namespace CinelAirMilesMySQL.DataBase
             _context.Tickets.Add(new Ticket
             {
                 ClientNumber = "123456729",
-                FlightDate = DateTime.Now.AddDays(18),
+                ArrivalFlightDate = DateTime.Now.AddDays(18),
                 Departure = "Inglaterra",
                 Arrival = "Russia",
                 Tariff = "Desconto"

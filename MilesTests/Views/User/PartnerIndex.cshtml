@@ -5,10 +5,22 @@
 }
 
 
-
-<div>
-    <h2>Partnerships</h2>
-</div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Partnerships</h2>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                    <li class="breadcrumb-item active">Partnerships</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<br />
 
 <div>
     <div class="stats-info stats-last widget-shadow">
@@ -22,36 +34,36 @@
                     <th></th>
                 </tr>
                 @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CompanyName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Url)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PartnerSince)
-                            </td>
-                            <td>
-                                <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="EditPartner"><i class="fa fa-user-edit"></i></a>
-                                <a class="btn btn-danger pull-right" asp-action="Delete"
-                                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.CompanyName?')">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Url)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PartnerSince)
+                        </td>
+                        <td>
+                            <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="EditPartner"><i class="fa fa-user-edit"></i></a>
+                            <a class="btn btn-danger pull-right" asp-action="Delete"
+                               data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.CompanyName?')">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
             </table>
         </div>
     </div>
 </div>
 
 <div>
-    <button id="btn_newPartner" action="AddNewPartner" >Add New Partnership</button>
+    <button id="btn_newPartner" action="AddNewPartner">Add New Partnership</button>
 </div>
 
 

@@ -517,9 +517,11 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            //todo para SILVER: se o cliente acumular num ano 30.000 milhas ou ter voado 25 segmentos
-           
-            
+            //todo por no lciente para SILVER: se o cliente acumular num ano 30.000 milhas ou ter voado 25 segmentos
+            //if (tierChange.OldTier != TierType.Gold)
+            //{
+            //    // todo mesage that says he must pay 80€ of tee
+            //}
             //para GOLD 70.000 milhas ou 50 segmentos
 
             var list = await _tierChangeRepository.GetAllClientListAsync();

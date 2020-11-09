@@ -10,7 +10,10 @@ namespace CinelAirMilesMySQL.DataBase
         public string ClientNumber { get; set; }
 
 
-        public DateTime? FlightDate { get; set; }
+        public DateTime? ArrivalFlightDate { get; set; }
+
+
+        public DateTime? ArrivalFlightHour { get; set; }
 
 
         public string Departure { get; set; }
