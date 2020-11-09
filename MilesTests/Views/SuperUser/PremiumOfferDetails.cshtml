@@ -56,8 +56,12 @@
                                             <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
                                         </p>
                                         <p class="text-md">
-                                            Offer number
-                                            <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+                                            Price
+                                            <b class="d-block">@Html.DisplayFor(model => model.Price)</b>
+                                        </p>
+                                        <p class="text-md">
+                                            Quantity
+                                            <b class="d-block">@Html.DisplayFor(model => model.Quantity)</b>
                                         </p>
                                     </div>
                                 </div>
@@ -65,10 +69,6 @@
                             <div class="col-6">
                                 <div class="post">
                                     <div class="text-muted">
-                                        <p class="text-md">
-                                            Type of offer
-                                            <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
-                                        </p>
                                         @if (Model.FlightId != null && Model.FlightId != 0)
                                         {
                                             <p class="text-md">
@@ -76,20 +76,28 @@
                                                 <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
                                             </p>
                                             <p class="text-md">
-                                                Flight number
-                                                <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
+                                                Departure
+                                                <b class="d-block">@Html.DisplayFor(model => model.Departure)</b>
                                             </p>
                                             <p class="text-md">
-                                                Offer number
-                                                <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+                                                Arrival
+                                                <b class="d-block">@Html.DisplayFor(model => model.Arrival)</b>
+                                            </p>
+                                            <p class="text-md">
+                                                Flight's date
+                                                <b class="d-block">@Html.DisplayFor(model => model.FlightDateTime)</b>
                                             </p>
                                         }
+                                        <p class="text-md">
+                                            Offer number
+                                            <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+                                        </p>
                                     </div>
-                                    <p>
-                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
-                                    </p>
                                 </div>
                             </div>
+                            <p>
+                                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
+                            </p>
                         </div>
                     </div>
                 </div>

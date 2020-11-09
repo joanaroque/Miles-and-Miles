@@ -149,7 +149,6 @@ namespace MilesBackOffice.Web.Data
                     Partner = partner,
                     MaximumSeats = 110,
                     AvailableSeats = 70,
-                    Miles = 7000,
                     Status = 0,
                 });
 
@@ -161,7 +160,6 @@ namespace MilesBackOffice.Web.Data
                     Partner = partner,
                     MaximumSeats = 150,
                     AvailableSeats = 55,
-                    Miles = 10000,
                     Status = 0,
                 });
                 await _context.SaveChangesAsync();
