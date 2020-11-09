@@ -64,7 +64,7 @@
 
 
 
-        public TierType Status { get; set; }
+        public TierType Tier { get; set; }
 
 
     }
