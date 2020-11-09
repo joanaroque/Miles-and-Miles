@@ -105,7 +105,7 @@ namespace MilesBackOffice.Web.Controllers
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Email = user.Email,
-                Status = user.Status,
+                Status = user.Tier,
                 TIN = user.TIN
             };
 
@@ -190,7 +190,7 @@ namespace MilesBackOffice.Web.Controllers
                             IsApproved = true,
                             BonusMiles = 0,
                             StatusMiles = 0,
-                            Status = model.Status,
+                            Tier = model.Status,
                             Gender = model.Gender.ToString()
                         };
 
@@ -345,7 +345,7 @@ namespace MilesBackOffice.Web.Controllers
                 City = user.City,
                 Email = user.Email,
                 IsActive = user.IsActive,
-                Status = user.Status,
+                Status = user.Tier,
                 StatusMiles = user.StatusMiles,
                 BonusMiles = user.BonusMiles,
                 Genders = _clientRepository.GetComboGenders(),
@@ -399,7 +399,7 @@ namespace MilesBackOffice.Web.Controllers
                 user.City = editUser.City;
                 user.Country.Id = editUser.CountryId;
                 user.Gender = editUser.Gender.ToString();
-                user.Status = editUser.Status;
+                user.Tier = editUser.Status;
                 user.StatusMiles = editUser.StatusMiles;
                 user.TIN = editUser.TIN;
 

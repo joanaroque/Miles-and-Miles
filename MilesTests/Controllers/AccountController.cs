@@ -141,7 +141,7 @@
                         Gender = model.Gender.ToString(),
                         GuidId = _clientRepository.CreateGuid(),
                         TIN = model.TIN,
-                        Status = TierType.Miles,
+                        Tier = TierType.Miles,
                         StatusMiles = 0
                     };
 
