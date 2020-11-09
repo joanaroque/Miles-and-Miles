@@ -251,7 +251,7 @@
                         IsActive = true,
                         IsApproved = false,
                         DateOfBirth = model.DateOfBirth,
-                        Gender = model.Gender.ToString(),
+                        Gender = model.Gender,
                         SelectedRole = UserType.Client
                     };
 
