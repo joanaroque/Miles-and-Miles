@@ -37,12 +37,6 @@
         }
 
 
-        public async Task<User> GetUserAsync(string email)
-        {
-            return await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == email);
-        }
-
         public async Task<IdentityResult> AddUSerToRoleAsync(User user, UserType roleName)
         {
             return await _userManager.AddToRoleAsync(user, roleName.ToString());
@@ -109,6 +103,7 @@
         public User GetUserByGuidId(string guidId)
         {
             return _context.Users
+                .Include(c => c.Country)
                 .FirstOrDefault(u => u.GuidId == guidId);
         }
 
@@ -121,7 +116,10 @@
 
         public async Task<User> GetUserByIdAsync(string userId)
         {
-            return await _userManager.FindByIdAsync(userId);
+            return await _context.Users
+                .Include(c => c.Country)
+                .Where(i => i.Id.Equals(userId))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, UserType roleName)
@@ -184,6 +182,27 @@
         {
             return await _context.Users
                               .FirstOrDefaultAsync(u => u.Id == userId.ToString());
+        }
+
+        public async Task<Response> DeleteUserAsync(User user)
+        {
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return new Response
+                {
+                    Success = true,
+                    Message = "This account has been deleted"
+                };
+            }
+            else
+            {
+                return new Response
+                {
+                    Success = false,
+                    Message = "An error ocurred while this account was being deleted"
+                };
+            }
         }
     }
 }
