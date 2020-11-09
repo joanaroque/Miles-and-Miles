@@ -1,14 +1,12 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-
-    using CinelAirMilesLibrary.Common.Helpers;
     using System.Threading.Tasks;
-    using CinelAirMilesLibrary.Common.Data.Repositories;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
-    using System.Linq;
-    using CinelAirMilesLibrary.Common.Enums;
-    using System.Collections.Generic;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Mvc;
 
     public class NotificationsController : Controller
     {
@@ -54,20 +52,17 @@
             {
                 return NotFound();
             }
-            var list = _premiumRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
-            {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
 
-            return Json(list.Count());
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetPremiumLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
+
+            return Json(response);
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> GetPartnerNotifications()
         {
@@ -76,17 +71,14 @@
             {
                 return NotFound();
             }
-            var list = _partnerRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
-            {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
 
-            return Json(list.Count());
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetPartnerLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
+
+            return Json(response);
         }
 
         [HttpGet]
@@ -97,22 +89,26 @@
             {
                 return NotFound();
             }
-            var list = _advertisingRepository.GetAll();
-            if (user.SelectedRole == UserType.SuperUser)
+            var response = new JsonResponse
             {
-                list = list.Where(st => st.Status == 1);
-            }
-            else if (user.SelectedRole == UserType.User)
-            {
-                list = list.Where(st => st.Status == 2);
-            }
+                Count = await _notificationRepository.GetAdvertLenghtByRole(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
 
-            return Json(list.Count());
+            return Json(response);
         }
+
 
         private async Task<User> GetUserByUserNameAsync()
         {
             return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+        }
+
+        protected class JsonResponse
+        {
+            public int Count { get; set; }
+
+            public string UserType { get; set; }
         }
     }
 }

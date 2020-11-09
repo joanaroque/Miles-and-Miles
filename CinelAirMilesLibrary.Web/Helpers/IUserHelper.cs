@@ -12,7 +12,11 @@
 
     public interface IUserHelper
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         User GetUserByGuidId(string user);
 
 
@@ -41,7 +45,7 @@
         /// </summary>
         /// <param name="model">model</param>
         /// <returns>email password with saved information</returns>
-        Task<SignInResult> LoginAsync(LoginViewModel model);
+        Task<SignInResult> LoginAsync(string username, LoginViewModel model);
 
 
         /// <summary>

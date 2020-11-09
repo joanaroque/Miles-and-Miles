@@ -62,7 +62,22 @@
         {
             if (ModelState.IsValid)
             {
-                var result = await _userHelper.LoginAsync(model);
+                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var role = await _userHelper.IsUserInRoleAsync(user, UserType.Client);
+
+                if (role == true)
+                {
+                    return NotAuthorized();
+                }
+
+
+                var result = await _userHelper.LoginAsync(model.UserName, model);
                 if (result.Succeeded)
                 {
                     if (Request.Query.Keys.Contains("ReturnUrl"))

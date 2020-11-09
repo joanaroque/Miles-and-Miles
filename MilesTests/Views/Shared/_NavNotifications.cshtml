@@ -55,13 +55,24 @@
             url: "/Notifications/GetPremiumNotifications",
             type: "GET",
             dataType: "json",
-            success: function (count) {
-                if (count > 0) {
-                    let div = `<div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-warning mr-2"></i> ${count} new Offer(s)
+            success: function (result) {
+                let div = "";
+                if (result.count > 0) {
+                    if (result.userType === "SuperUser") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/SuperUser/PremiumOfferList">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Offer(s)
                             </a>
                             <div class="dropdown-divider"></div>`;
+                    }
+                    else if (result.userType === "User") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/User/PremiumIndex">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Offer(s)
+                            </a>
+                            <div class="dropdown-divider"></div>`;
+                    }
+                    
                     byID("notify_list").innerHTML += div;
                 }
             },
@@ -74,15 +85,27 @@
             url: "/Notifications/GetPartnerNotifications",
             type: "GET",
             dataType: "json",
-            success: function (count) {
-                if (count > 0) {
-                    let div = `<div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-warning mr-2"></i> ${count} new Partner(s)
+            success: function (result) {
+                let div = "";
+                if (result.count > 0) {
+                    if (result.userType === "SuperUser") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/SuperUser/PartnerReferences">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Partner(s)
                             </a>
                             <div class="dropdown-divider"></div>`;
+                    } else if(result.userType === "User") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/User/PartnerIndex">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Partner(s)
+                            </a>
+                            <div class="dropdown-divider"></div>`;
+                    }
                     byID("notify_list").innerHTML += div;
                 }
+            },
+            error: function (err) {
+                console.log(err);
             }
         })
 
@@ -91,14 +114,26 @@
             type: "GET",
             dataType: "json",
             success: function (count) {
+                let div = "";
                 if (count > 0) {
-                    let div = `<div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-warning mr-2"></i> ${count} new Advert(s)
+                    if (result.userType === "SuperUser") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/SuperUser/Advertising">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Advert(s)
                             </a>
                             <div class="dropdown-divider"></div>`;
+                    } else if (result.userType === "User") {
+                        div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/User/NewsIndex">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Advert(s)
+                            </a>
+                            <div class="dropdown-divider"></div>`;
+                    }
                     byID("notify_list").innerHTML += div;
                 }
+            },
+            error: function (err) {
+                console.log(err);
             }
         })
     })

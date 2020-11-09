@@ -188,17 +188,14 @@
                     <!-- Messages Dropdown Menu -->
                     @await Html.PartialAsync("_NavNotifications")
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                            <i class="fas fa-th-large"></i>
-                        </a>
+                    <li class="nav-item nav-link">
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>
+                        <li class="nav-item nav-link">
                             <a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name !</a>
                         </li>
-                        <li>
+                        <li class="nav-item nav-link">
                             <a asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     }

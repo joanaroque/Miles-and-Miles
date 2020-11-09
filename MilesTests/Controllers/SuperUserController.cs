@@ -7,6 +7,7 @@
 
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@
         private readonly IFlightRepository _flightRepository;
         private readonly IPremiumRepository _premiumRepository;
         private readonly IPartnerRepository _partnerRepository;
+        private readonly INotificationHelper _notificationHelper;
         #endregion
 
         public SuperUserController(IUserHelper userHelper,
@@ -40,7 +42,8 @@
             IComplaintRepository clientComplaintRepository,
             IFlightRepository flightRepository,
             IPremiumRepository premiumRepository,
-            IPartnerRepository partnerRepository)
+            IPartnerRepository partnerRepository,
+            INotificationHelper notificationHelper)
         {
             _userHelper = userHelper;
             _advertisingRepository = advertisingRepository;
@@ -51,6 +54,7 @@
             _flightRepository = flightRepository;
             _premiumRepository = premiumRepository;
             _partnerRepository = partnerRepository;
+            _notificationHelper = notificationHelper;
         }
 
 
@@ -129,6 +133,9 @@
                     throw new Exception();
                 }
 
+                //deal with notification
+                await _notificationHelper.DeleteOldByIdAsync(offer.OfferIdGuid);
+
                 return RedirectToAction(nameof(PremiumOfferList));
             }
             catch (DbUpdateException dbUpdateException)
@@ -186,6 +193,15 @@
                 if (!result.Success)
                 {
                     throw new Exception();
+                }
+
+                //update notification
+                result = await _notificationHelper.UpdateNotificationAsync(offer.OfferIdGuid, UserType.User, "");
+                if (!result.Success)
+                {
+                    //if no notification is found one is created
+                    await _notificationHelper.CreateNotificationAsync(offer.OfferIdGuid, UserType.User, "", EnumHelper.GetType(offer.Type));
+
                 }
 
                 return RedirectToAction(nameof(PremiumOfferList));
@@ -326,7 +342,15 @@
                 partner.UpdateDate = DateTime.Now;
                 partner.Status = 0;
 
-                await _partnerRepository.UpdateAsync(partner);
+                var result = await _partnerRepository.UpdateAsync(partner);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong with the update"); //avisar que o update não correu bem
+                }
+
+                //deal with notification
+                await _notificationHelper.DeleteOldByIdAsync(partner.PartnerGuidId);
+
 
                 return RedirectToAction(nameof(PartnerReferences));
             }
@@ -376,9 +400,14 @@
 
                 await _partnerRepository.UpdateAsync(partner);
 
+                var result = await _notificationHelper.UpdateNotificationAsync(partner.PartnerGuidId, UserType.User, "");
+                if (!result.Success)
+                {
+                    //if no notification is found one is created
+                    await _notificationHelper.CreateNotificationAsync(partner.PartnerGuidId, UserType.User, "", NotificationType.Partner);
+                }
 
                 return RedirectToAction(nameof(PartnerReferences));
-
             }
             catch (Exception exception)
             {
@@ -456,7 +485,13 @@
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 0;
 
-                await _advertisingRepository.UpdateAsync(advertising);
+                var result = await _advertisingRepository.UpdateAsync(advertising);
+                if (!result)
+                {
+                    throw new Exception("Update was not successfull");
+                }
+                //deal with notification
+                await _notificationHelper.DeleteOldByIdAsync(advertising.PostGuidId);
 
                 return RedirectToAction(nameof(Advertising));
             }
@@ -495,7 +530,15 @@
 
                 await _advertisingRepository.UpdateAsync(advertising);
 
+                var result = await _notificationHelper.UpdateNotificationAsync(advertising.PostGuidId, UserType.User, "");
+                if (!result.Success)
+                {
+                    //if no notification is found one is created
+                    await _notificationHelper.CreateNotificationAsync(advertising.PostGuidId, UserType.User, "", NotificationType.Advertising);
+                }
 
+                
+                
                 return RedirectToAction(nameof(Advertising));
 
             }

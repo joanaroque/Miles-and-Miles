@@ -128,12 +128,12 @@
             return await _userManager.IsInRoleAsync(user, roleName.ToString());
         }
 
-        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        public async Task<SignInResult> LoginAsync(string username, LoginViewModel model)
         {
             //TODO validação do user type, para clientes não entrarem
 
             return await _signInManager.PasswordSignInAsync(
-               model.GuidId,
+               username,
                model.Password,
                model.RememberMe,
                false);

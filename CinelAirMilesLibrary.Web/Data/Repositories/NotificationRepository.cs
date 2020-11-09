@@ -17,7 +17,7 @@
             _context = context;
         }
 
-        public List<Notification> GetAllNotifications(string currentClient)
+        public IEnumerable<Notification> GetAllNotifications(string currentClient)
         {
             var client = _context.Notifications
               .Where(n => n.CreatedBy.Id == currentClient)
@@ -40,8 +40,39 @@
                 .Where(n => n.Id.Equals(clientId) && n.Status == 1)
                 .FirstOrDefaultAsync();
 
-
             return noti;
+        }
+
+        public async Task<int> GetPremiumLenghtByRole(UserType role)
+        {
+            return await _context.Notifications
+                .Where(u => u.UserGroup == role 
+                && (u.Type == NotificationType.Ticket 
+                || u.Type == NotificationType.Upgrade
+                || u.Type == NotificationType.Voucher))
+                .CountAsync();
+        }
+
+        public async Task<int> GetPartnerLenghtByRole(UserType role)
+        {
+            return await _context.Notifications
+                .Where(u => u.UserGroup == role
+                && u.Type == NotificationType.Partner)
+                .CountAsync();
+        }
+
+        public async Task<int> GetAdvertLenghtByRole(UserType role)
+        {
+            return await _context.Notifications
+                .Where(u => u.UserGroup == role
+                && u.Type == NotificationType.Advertising)
+                .CountAsync();
+        }
+
+        public async Task<Notification> GetByGuidIdAsync(string id)
+        {
+            return await _context.Notifications
+                .Where(i => i.ItemId == id).FirstOrDefaultAsync();
         }
     }
 }
