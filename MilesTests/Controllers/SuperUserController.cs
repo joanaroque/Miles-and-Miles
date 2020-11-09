@@ -87,7 +87,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             var entityList = await _premiumRepository.GetAllIncludes();
@@ -110,7 +110,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_ItemNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -165,7 +165,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_ItemNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -262,7 +262,7 @@
 
                     if (complaint == null)
                     {
-                        return new NotFoundViewResult("_UserNotFound");
+                        return new NotFoundViewResult("_Error404");
 
                     }
 
@@ -270,7 +270,7 @@
 
                     if (user == null)
                     {
-                        return new NotFoundViewResult("_UserNotFound");
+                        return new NotFoundViewResult("_Error404");
                     }
 
                     complaint.ModifiedBy = user;
@@ -319,7 +319,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -328,7 +328,7 @@
 
                 if (partner == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 partner.ModifiedBy = await GetCurrentUser();
@@ -374,7 +374,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -383,7 +383,7 @@
 
                 if (partner == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
 
                 }
 
@@ -438,7 +438,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
             try
             {
@@ -462,7 +462,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -471,7 +471,7 @@
 
                 if (advertising == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 advertising.ModifiedBy = await GetCurrentUser();
@@ -504,7 +504,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -513,7 +513,7 @@
 
                 if (advertising == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
 
                 }
 
@@ -550,11 +550,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-            //todo para SILVER: se o cliente acumular num ano 30.000 milhas ou ter voado 25 segmentos
-
-
-            //para GOLD 70.000 milhas ou 50 segmentos
-
+          
             var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
@@ -570,11 +566,11 @@
         /// <param name="id"></param>
         /// <returns>teh TierChange view</returns>
         [HttpGet]
-        public async Task<IActionResult> ConfirmTierChange(int? id) //tierChange Id
+        public async Task<IActionResult> ConfirmTierChange(int? id) 
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -583,7 +579,7 @@
 
                 if (tierChange == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 tierChange.ModifiedBy = await GetCurrentUser();
@@ -614,7 +610,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -623,7 +619,7 @@
 
                 if (tierChange == null)
                 {
-                    return new NotFoundViewResult("_UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 tierChange.ModifiedBy = await GetCurrentUser();

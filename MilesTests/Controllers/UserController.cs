@@ -151,13 +151,13 @@
 
                 if (partner == null)
                 {
-                    return new NotFoundViewResult("_PartnerNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var flight = await _flightRepository.GetByIdAsync(model.FlightId);
                 if ((model.Type == PremiumType.Ticket || model.Type == PremiumType.Upgrade) && flight == null)
                 {
-                    return new NotFoundViewResult("_FlightNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var offer = _converter.ToPremiumOfferModel(model, true, partner, flight);
@@ -168,19 +168,19 @@
 
                 if (!result.Success)
                 {
-                    //TODO Error DataContext
-                    return new NotFoundViewResult("_DatacontextError");
+                    return new NotFoundViewResult("_Error404");
                 }
                 //send notification to superuser
                 await _notificationHelper.CreateNotificationAsync(offer.OfferIdGuid, UserType.SuperUser, "", EnumHelper.GetType(offer.Type));
 
                 return RedirectToAction(nameof(PremiumIndex));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                //TODO 500 ERROR
-                return new NotFoundViewResult("_500Error");
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(PremiumIndex));
+
         }
 
         /***************EDIT********************/
@@ -190,7 +190,7 @@
             //validate id
             if (id == null)
             {
-                return new NotFoundViewResult("_404NotFound");
+                return new NotFoundViewResult("_Error404");
                 //TODO in case of items we could just send a message
             }
             try
@@ -199,7 +199,7 @@
 
                 if (item == null)
                 {
-                    return new NotFoundViewResult("_404NotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var model = _converter.ToPremiumOfferViewModel(item);
@@ -208,7 +208,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_500Error");
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -220,8 +220,7 @@
                 var current = await _premiumRepository.GetByIdAsync(model.Id);
                 if (current == null)
                 {
-                    //TODO ITEMNOTFOUND ERROR
-                    return new NotFoundViewResult("_ItemNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var partner = await _partnerRepository.GetByIdAsync(model.Id);
@@ -241,7 +240,7 @@
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_DataContextError");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 //update notification to SuperUser
@@ -256,7 +255,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_500Error");
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -292,7 +291,7 @@
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_DataContextError");
+                    return new NotFoundViewResult("_Error404");
                 }
                 //send notification
                 await _notificationHelper.CreateNotificationAsync(partner.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
@@ -301,7 +300,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_500Error");
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -312,14 +311,13 @@
         {
             if (id == null)
             {
-                //TODO error on id is null
-                return new NotFoundViewResult("_ItemNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             var item = await _partnerRepository.GetByIdAsync(id.Value);
             if (item == null)
             {
-                return new NotFoundViewResult("_ItemNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             var model = _converter.ToPartnerViewModel(item);
@@ -336,7 +334,7 @@
                 var newPartner = await _partnerRepository.GetByIdAsync(edit.Id);
                 if (newPartner == null)
                 {
-                    return new NotFoundViewResult("_ItemNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 //TODO take imagefile and convert to Guid
@@ -353,7 +351,7 @@
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_DataContextError");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 result = await _notificationHelper.UpdateNotificationAsync(newPartner.PartnerGuidId, UserType.SuperUser, "");
@@ -366,7 +364,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_500Error");
+                return new NotFoundViewResult("_Error500");
             }
         }
         #endregion
@@ -405,7 +403,7 @@
 
                 if (partner == null)
                 {
-                    return new NotFoundViewResult("_PartnerNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 Advertising post = _converter.ToAdvertising(model, true, path, partner);
@@ -433,14 +431,14 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_ItemNotFound");
+                return new NotFoundViewResult("_Error404");
             }
             try
             {
                 var advertise = await _advertisingRepository.GetByIdAsync(id.Value);
                 if (advertise == null)
                 {
-                    return new NotFoundViewResult("_ItemNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var model = _converter.ToAdvertisingViewModel(advertise);
@@ -450,7 +448,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_500Error");
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -469,7 +467,7 @@
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_DataContextError");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 result = await _notificationHelper.UpdateNotificationAsync(post.PostGuidId, UserType.SuperUser, "");
