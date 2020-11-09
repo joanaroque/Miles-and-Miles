@@ -39,8 +39,7 @@
 
 
         [Required(ErrorMessage = "Must insert the {0}")]
-        public string Gender { get; set; }
-
+        public Gender Gender { get; set; }
 
 
         public string City { get; set; }

@@ -1,17 +1,16 @@
-﻿using CinelAirMilesLibrary.Common.Data;
-using CinelAirMilesLibrary.Common.Data.Entities;
-using CinelAirMilesLibrary.Common.Data.Repositories;
-using CinelAirMilesLibrary.Common.Enums;
-using CinelAirMilesLibrary.Common.Helpers;
-using Microsoft.EntityFrameworkCore;
-
-using MilesBackOffice.Web.Helpers;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
+using CinelAirMilesLibrary.Common.Data;
+using CinelAirMilesLibrary.Common.Data.Entities;
+using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Enums;
+using CinelAirMilesLibrary.Common.Helpers;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace MilesBackOffice.Web.Data
 {
@@ -59,7 +58,7 @@ namespace MilesBackOffice.Web.Data
             await AddAdvertising();
 
             //client project !!
-           // await AddReservations();
+            // await AddReservations();
             await AddNotifications();
 
         }
@@ -136,28 +135,39 @@ namespace MilesBackOffice.Web.Data
             }
         }
 
-            private async Task AddFlights()
+        private async Task AddFlights()
+        {
+            if (!_context.Flights.Any())
             {
-                if (!_context.Flights.Any())
+                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+
+                _context.Flights.Add(new Flight
                 {
-                    var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                    Origin = "Lisboa",
+                    Destination = "Porto",
+                    DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 110,
+                    AvailableSeats = 70,
+                    Miles = 7000,
+                    Status = 0,
+                });
 
-                    _context.Flights.Add(new Flight
-                    {
-                        Origin = "Lisboa",
-                        Destination = "Porto",
-                        DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
-                        Partner = partner,
-                        MaximumSeats = 200,
-                        AvailableSeats = 111,
-                        Miles = 7000,
-                        Status = 0,
-                    });
-
-                    await _context.SaveChangesAsync();
-                }
+                _context.Flights.Add(new Flight
+                {
+                    Origin = "Madrid",
+                    Destination = "Lisboa",
+                    DepartureDate = new DateTime(2020, 11, 16, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 150,
+                    AvailableSeats = 55,
+                    Miles = 10000,
+                    Status = 0,
+                });
+                await _context.SaveChangesAsync();
             }
-        
+        }
+
 
         private async Task AddPartnership()
         {
@@ -198,7 +208,7 @@ namespace MilesBackOffice.Web.Data
                     Type = PremiumType.Ticket,
                     Quantity = 10,
                     Price = 7000,
-                    Status = 0,
+                    Status = 1,
                     Conditions = "Special offer for fear of flying passengers",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
@@ -210,7 +220,7 @@ namespace MilesBackOffice.Web.Data
                     Type = PremiumType.Voucher,
                     Quantity = 50,
                     Price = 10000,
-                    Status = 0,
+                    Status = 1,
                     Conditions = "Special offer for hungry clients",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
@@ -255,7 +265,7 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     PostGuidId = GuidHelper.CreatedGuid()
                 });
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -293,7 +303,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua do teto",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
-                    Gender = "Female",
+                    Gender = Gender.Female,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "2121218",
@@ -336,7 +346,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua do telefone",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
-                    Gender = "Male",
+                    Gender = Gender.Male,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21121218",
@@ -379,7 +389,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua da taça",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
-                    Gender = "Male",
+                    Gender = Gender.Male,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21821218",
@@ -423,7 +433,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua do Ouro",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/10/1983"),
-                    Gender = "Male",
+                    Gender = Gender.Male,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
@@ -467,7 +477,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua da Luz",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("01/09/1997"),
-                    Gender = "Female",
+                    Gender = Gender.Female,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121217",
@@ -511,7 +521,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Rua da Programação",
                     EmailConfirmed = true,
                     DateOfBirth = DateTime.Parse("27/11/1988"),
-                    Gender = "Female",
+                    Gender = Gender.Female,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121212",
