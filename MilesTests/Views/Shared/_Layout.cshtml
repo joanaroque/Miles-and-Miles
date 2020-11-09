@@ -72,28 +72,33 @@
                     }
                     else if (User.Identity.IsAuthenticated && User.IsInRole(UserType.SuperUser.ToString()))
                     {
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a asp-controller="SuperUser" asp-action="TierChange" class="nav-link">
-                                    Tier Change
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="SuperUser" asp-action="Complaints" class="nav-link">
-                                    Complaints
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="SuperUser" asp-action="AdvertisingAndReferences" class="nav-link">
-                                    Advertising
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="SuperUser" asp-action="AvailableSeats" class="nav-link">
-                                    Flights List
-                                </a>
-                            </li>
-                        </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a asp-controller="SuperUser" asp-action="TierChange" class="nav-link">
+                            Tier Change
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="SuperUser" asp-action="Complaints" class="nav-link">
+                            Complaints
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="SuperUser" asp-action="Advertising" class="nav-link">
+                            Advertising
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="SuperUser" asp-action="PremiumOfferList" class="nav-link">
+                            Premium Offers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="SuperUser" asp-action="AvailableSeats" class="nav-link">
+                            Flights List
+                        </a>
+                    </li>
+                </ul>
                     }
                     else if (User.Identity.IsAuthenticated && User.IsInRole(UserType.User.ToString()))
                     {

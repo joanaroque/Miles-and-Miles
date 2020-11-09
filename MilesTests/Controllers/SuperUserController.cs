@@ -67,11 +67,19 @@
             var list = await _premiumRepository.GetAllIncludes();
             list = list.Where(st => st.Status == 1);
 
-            var convertList = new List<PremiumOfferViewModel>(
-                list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
-                .ToList());
+            if (list != null)
+            {
+                var convertList = new List<PremiumOfferViewModel>(
+                    list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
+                    .ToList());
+                return View(convertList);
 
-            return View(convertList);
+            }
+
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]

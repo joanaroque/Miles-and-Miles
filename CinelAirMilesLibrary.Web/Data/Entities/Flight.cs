@@ -24,8 +24,6 @@
 
 
 
-        public int Miles { get; set; }
-
 
         public DateTime DepartureDate { get; set; }
 

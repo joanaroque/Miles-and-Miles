@@ -27,7 +27,6 @@
                 Departure = flight.Departure,
                 Arrival = flight.Arrival,
                 DepartureDate = flight.DepartureDate,
-                Miles = flight.Miles,
                 PartnerName = flight.Partner.CompanyName
             };
             return seats;
@@ -44,7 +43,6 @@
                 Departure = model.Departure,
                 Arrival = model.Arrival,
                 DepartureDate = model.DepartureDate,
-                Miles = model.Miles,
                 Status = 1
             };
 
@@ -164,17 +162,17 @@
                 Conditions = string.IsNullOrWhiteSpace(model.Conditions) ? string.Empty : model.Conditions,
                 Type = model.Type,
                 Status = 1,
-                OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId
+                OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId                
             };
         }
 
         public PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model)
         {
-            return new PremiumOfferViewModel
+            var offer = new PremiumOfferViewModel
             {
                 Id = model.Id,
                 Title = model.Title,
-                FlightId = model.Flight == null ? 0 : model.Flight.Id,
+               // FlightId = model.Flight == null ? 0 : model.Flight.Id,
                 Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
@@ -182,10 +180,12 @@
                 Type = model.Type,
                 PartnerName = model.Partner.CompanyName,
                 OfferGuidId = model.OfferIdGuid,
-                Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
-                Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
-                FlightDateTime = model.Flight.DepartureDate,
+               // Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
+                //Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
+               // FlightDateTime = model.Flight.DepartureDate,
             };
+
+            return offer;
         }
 
         public Partner ToPartnerModel(PartnerViewModel model, bool isNew)

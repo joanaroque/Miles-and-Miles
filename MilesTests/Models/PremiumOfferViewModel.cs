@@ -21,8 +21,8 @@
         public IEnumerable<SelectListItem> Flights { get; set; }
 
 
-        [Required]
-        [Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
+        
+        //[Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
         public int FlightId { get; set; }
 
 

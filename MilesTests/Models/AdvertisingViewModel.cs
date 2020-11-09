@@ -58,5 +58,16 @@
         public string Observations { get; set; }
 
         public string PostGuidId { get; set; }
+
+
+
+        public string Arrival { get; set; }
+
+
+
+        public string Departure { get; set; }
+
+
+        public DateTime FlightDateTime { get; set; }
     }
 }
