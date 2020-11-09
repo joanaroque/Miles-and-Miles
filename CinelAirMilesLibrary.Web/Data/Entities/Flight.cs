@@ -12,6 +12,11 @@
 
 
 
+        public int Distance { get; set; }
+
+
+
+
         public int MaximumSeats { get; set; }
 
 
@@ -23,8 +28,6 @@
         public Partner Partner { get; set; }
 
 
-
-        public int Miles { get; set; }
 
 
         public DateTime DepartureDate { get; set; }

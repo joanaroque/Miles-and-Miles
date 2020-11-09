@@ -189,14 +189,14 @@
                             SelectedRole = model.SelectedRole,
                             IsActive = true,
                             IsApproved = true,
-                            EmailConfirmed = false
+                            EmailConfirmed = true
                         };
 
                         var password = UtilityHelper.Generate();
 
                         var result = await _userHelper.AddUserAsync(user, password);
 
-                        if (result != IdentityResult.Success)
+                        if (!result.Succeeded)
                         {
                             ModelState.AddModelError(string.Empty, "The user couldn't be created.");
                             return View(model);
@@ -209,7 +209,12 @@
                         var link = Url.Action(
                             "ResetPassword",
                             "Account",
-                            new { token = myToken }, protocol: HttpContext.Request.Scheme);
+                            new
+                            {
+                                token = myToken,
+                                userId = user.Id
+                            },
+                            protocol: HttpContext.Request.Scheme);
 
 
                         _mailHelper.SendMail(user.Email, "Account Created", $"<h1>Complete Account Registration</h1>" +

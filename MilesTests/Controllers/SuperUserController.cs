@@ -67,11 +67,19 @@
             var list = await _premiumRepository.GetAllIncludes();
             list = list.Where(st => st.Status == 1);
 
-            var convertList = new List<PremiumOfferViewModel>(
-                list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
-                .ToList());
+            if (list != null)
+            {
+                var convertList = new List<PremiumOfferViewModel>(
+                    list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
+                    .ToList());
+                return View(convertList);
 
-            return View(convertList);
+            }
+
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
@@ -102,7 +110,7 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("_UserNotFound");
+                return new NotFoundViewResult("_ItemNotFound");
             }
 
             try
@@ -114,14 +122,7 @@
                     throw new Exception();
                 }
 
-                //var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
-
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                //offer.ModifiedBy = user;
+                offer.ModifiedBy = await GetCurrentUser();
                 offer.UpdateDate = DateTime.Now;
                 offer.Status = 0;
 
@@ -154,6 +155,7 @@
             return RedirectToAction(nameof(PremiumOfferList));
         }
 
+        
         /// <summary>
         /// cancel the tier change and updated the data
         /// </summary>
@@ -175,14 +177,7 @@
                     throw new Exception();
                 }
 
-                //var user = await _userHelper.GetUserByIdAsync(offer.CreatedBy.Id);
-
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                //offer.ModifiedBy = user;
+                offer.ModifiedBy = await GetCurrentUser();
                 offer.Status = 2;
                 offer.UpdateDate = DateTime.UtcNow;
 
@@ -336,7 +331,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                //partner.ModifiedBy = await _userHelper.GetUserByIdAsync(partner.Id.ToString());
+                partner.ModifiedBy = await GetCurrentUser();
                 partner.UpdateDate = DateTime.Now;
                 partner.Status = 0;
 
@@ -392,7 +387,7 @@
 
                 }
 
-                //partner.ModifiedBy = await _userHelper.GetUserByIdAsync(partner.Id.ToString());
+                partner.ModifiedBy = await GetCurrentUser();
                 partner.UpdateDate = DateTime.Now;
                 partner.Status = 2;
 
@@ -479,7 +474,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                //advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
+                advertising.ModifiedBy = await GetCurrentUser();
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 0;
 
@@ -522,7 +517,7 @@
 
                 }
 
-                //advertising.ModifiedBy = await _userHelper.GetUserByIdAsync(advertising.Id.ToString());
+                advertising.ModifiedBy = await GetCurrentUser();
                 advertising.UpdateDate = DateTime.Now;
                 advertising.Status = 2;
 
@@ -535,10 +530,7 @@
                     await _notificationHelper.CreateNotificationAsync(advertising.PostGuidId, UserType.User, "", NotificationType.Advertising);
                 }
 
-
-
                 return RedirectToAction(nameof(Advertising));
-
             }
             catch (Exception exception)
             {
@@ -594,14 +586,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                //var user = await _userHelper.GetUserByIdAsync(tierChange.Client.Id);
-
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                //tierChange.ModifiedBy = user;
+                tierChange.ModifiedBy = await GetCurrentUser();
                 tierChange.UpdateDate = DateTime.Now;
                 tierChange.Status = 0;
 
@@ -641,7 +626,7 @@
                     return new NotFoundViewResult("_UserNotFound");
                 }
 
-                //tierChange.ModifiedBy = await _userHelper.GetUserByIdAsync(tierChange.Id.ToString());
+                tierChange.ModifiedBy = await GetCurrentUser();
                 tierChange.UpdateDate = DateTime.Now;
                 tierChange.Status = 2;
 
@@ -657,5 +642,11 @@
             return RedirectToAction(nameof(TierChange));
         }
         #endregion
+
+
+        private protected async Task<User> GetCurrentUser()
+        {
+            return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+        }
     }
 }

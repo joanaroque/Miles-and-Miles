@@ -18,28 +18,43 @@
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
 <br />
 
-<div class="news_cards">
-
+<table class="table stats-table">
+    <tr>
+        <th>Article Id</th>
+        <th>Title</th>
+        <th>Created On</th>
+        <th>Created By</th>
+        <th></th>
+    </tr>
     @foreach (var item in Model)
     {
-        <div class="news_card">
-            <header>
-                @Html.DisplayFor(news => item.Title)
-            </header>
-            <div>
-                <div>
-                </div>
-                <p>
-                    @Html.DisplayFor(news => item.Content)
-                </p>
-            </div>
-        </div>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostGuidId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
+                <a class="btn btn-danger pull-right" asp-action="Delete"
+                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
     }
-</div>
+</table>
 
 <div>
     <button id="btn_publishNews" action="PublishPost">New Headline</button>

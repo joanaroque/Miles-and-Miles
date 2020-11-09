@@ -11,8 +11,12 @@
         public IActionResult Index()
         {
             //TODO redirect to login if not authenticated
-            
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult About()
