@@ -53,7 +53,7 @@
             var selectList = list.Select(fl => new SelectListItem
             {
                 Value = fl.Id.ToString(),
-                Text = fl.Origin + "->" + fl.Destination
+                Text = fl.Departure + "->" + fl.Arrival
             });
 
             return selectList;

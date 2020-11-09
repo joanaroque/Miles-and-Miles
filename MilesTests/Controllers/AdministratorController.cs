@@ -1,23 +1,24 @@
-﻿using CinelAirMilesLibrary.Common.Data;
-using CinelAirMilesLibrary.Common.Data.Entities;
-using CinelAirMilesLibrary.Common.Data.Repositories;
-using CinelAirMilesLibrary.Common.Enums;
-using CinelAirMilesLibrary.Common.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.Admin;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using CinelAirMilesLibrary.Common.Data;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
+
     [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
