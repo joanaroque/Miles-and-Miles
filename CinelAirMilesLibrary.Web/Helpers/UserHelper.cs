@@ -94,8 +94,9 @@
             {
                 Text = v.ToString(),
                 Value = ((int)v).ToString()
-            }).ToList();
+            });
 
+            list = list.Where(x => x.Text.Equals("SuperUser") || x.Text.Equals("User") || x.Text.Equals("Admin"));
 
             return list;
         }
@@ -130,13 +131,23 @@
 
         public async Task<SignInResult> LoginAsync(string username, LoginViewModel model)
         {
-            //TODO validação do user type, para clientes não entrarem
+            if(await IsUserClient(username))
+            {
+                throw new Exception("Incorrect UserName/Password");
+            }
 
             return await _signInManager.PasswordSignInAsync(
                username,
                model.Password,
                model.RememberMe,
                false);
+        }
+
+        private protected async Task<bool> IsUserClient(string username)
+        {
+            var user = await GetUserByUsernameAsync(username);
+
+            return user.SelectedRole == UserType.Client;
         }
 
         public async Task LogoutAsync()
