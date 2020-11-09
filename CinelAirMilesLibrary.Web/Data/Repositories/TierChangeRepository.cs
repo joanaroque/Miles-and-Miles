@@ -56,7 +56,7 @@
             ////para GOLD 70.000 milhas ou 50 segmentos
 
             return tier;
-
+            
         }
 
         public async Task<TierChange> UpgradeCancelation()
