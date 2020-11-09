@@ -43,32 +43,23 @@
                     <!-- Left navbar links -->
                     @if (User.Identity.IsAuthenticated && User.IsInRole(UserType.Admin.ToString()))
                     {
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown row">
-                                <a class="nav-link" data-toggle="dropdown" href="#">
-                                    <i class="fas fa-user">Users</i>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-lg-right">
-                                    <a asp-controller="Administrator" asp-action="Register" class="nav-link">
-                                        Create User
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-controller="Administrator" asp-action="ListUsers" class="nav-link">
-                                        List Users
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-controller="Administrator" asp-action="InactiveUsers" class="nav-link">
-                                        Inactive Users
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-controller="Administrator" asp-action="NewClients" class="nav-link">
-                                        Users To be Approved
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                </div>
-                            </li>
-                        </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a asp-controller="Administrator" asp-action="Register" class="nav-link">
+                                Create User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Administrator" asp-action="ListUsers" class="nav-link">
+                                List Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Administrator" asp-action="NewClients" class="nav-link">
+                                Users To be Approved
+                            </a>
+                        </li>
+                    </ul>
                     }
                     else if (User.Identity.IsAuthenticated && User.IsInRole(UserType.SuperUser.ToString()))
                     {
