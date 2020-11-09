@@ -240,9 +240,6 @@
                 City = user.City,
                 Email = user.Email,
                 IsActive = user.IsActive,
-                Status = user.Tier,
-                StatusMiles = user.StatusMiles,
-                BonusMiles = user.BonusMiles,
                 Gender = user.Gender,
                 SelectedRole = user.SelectedRole,
                 TIN = user.TIN

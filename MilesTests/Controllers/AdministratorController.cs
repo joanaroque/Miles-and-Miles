@@ -1,23 +1,24 @@
-﻿using CinelAirMilesLibrary.Common.Data;
-using CinelAirMilesLibrary.Common.Data.Entities;
-using CinelAirMilesLibrary.Common.Data.Repositories;
-using CinelAirMilesLibrary.Common.Enums;
-using CinelAirMilesLibrary.Common.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MilesBackOffice.Web.Helpers;
-using MilesBackOffice.Web.Models;
-using MilesBackOffice.Web.Models.Admin;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MilesBackOffice.Web.Controllers
+﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using CinelAirMilesLibrary.Common.Data;
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
+    using MilesBackOffice.Web.Helpers;
+    using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
+
     [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
@@ -188,14 +189,14 @@ namespace MilesBackOffice.Web.Controllers
                             SelectedRole = model.SelectedRole,
                             IsActive = true,
                             IsApproved = true,
-                            EmailConfirmed = false
+                            EmailConfirmed = true
                         };
 
                         var password = UtilityHelper.Generate();
 
                         var result = await _userHelper.AddUserAsync(user, password);
 
-                        if (result != IdentityResult.Success)
+                        if (!result.Succeeded)
                         {
                             ModelState.AddModelError(string.Empty, "The user couldn't be created.");
                             return View(model);
@@ -208,7 +209,12 @@ namespace MilesBackOffice.Web.Controllers
                         var link = Url.Action(
                             "ResetPassword",
                             "Account",
-                            new { token = myToken }, protocol: HttpContext.Request.Scheme);
+                            new
+                            {
+                                token = myToken,
+                                userId = user.Id
+                            },
+                            protocol: HttpContext.Request.Scheme);
 
 
                         _mailHelper.SendMail(user.Email, "Account Created", $"<h1>Complete Account Registration</h1>" +
