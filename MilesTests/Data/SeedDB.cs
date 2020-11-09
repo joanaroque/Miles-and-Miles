@@ -143,8 +143,8 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Flights.Add(new Flight
                 {
-                    Origin = "Lisboa",
-                    Destination = "Porto",
+                    Departure = "Lisboa",
+                    Arrival = "Porto",
                     DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 110,
@@ -155,8 +155,8 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Flights.Add(new Flight
                 {
-                    Origin = "Madrid",
-                    Destination = "Lisboa",
+                    Departure = "Madrid",
+                    Arrival = "Lisboa",
                     DepartureDate = new DateTime(2020, 11, 16, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 150,

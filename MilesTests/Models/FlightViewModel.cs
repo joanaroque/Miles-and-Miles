@@ -9,11 +9,11 @@ namespace MilesBackOffice.Web.Models
 
 
 
-        public string Origin { get; set; }
+        public string Departure { get; set; }
 
 
 
-        public string Destination { get; set; }
+        public string Arrival { get; set; }
 
 
         public DateTime DepartureDate { get; set; }

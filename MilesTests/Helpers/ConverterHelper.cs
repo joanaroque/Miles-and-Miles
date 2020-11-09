@@ -24,8 +24,8 @@
                 MaximumSeats = flight.MaximumSeats,
                 AvailableSeats = flight.AvailableSeats,
                 Status = flight.Status,
-                Origin = flight.Origin,
-                Destination = flight.Destination,
+                Departure = flight.Departure,
+                Arrival = flight.Arrival,
                 DepartureDate = flight.DepartureDate,
                 Miles = flight.Miles,
                 PartnerName = flight.Partner.CompanyName
@@ -41,8 +41,8 @@
                 UpdateDate = DateTime.Now,
                 MaximumSeats = model.MaximumSeats,
                 AvailableSeats = model.AvailableSeats,
-                Origin = model.Origin,
-                Destination = model.Destination,
+                Departure = model.Departure,
+                Arrival = model.Arrival,
                 DepartureDate = model.DepartureDate,
                 Miles = model.Miles,
                 Status = 1
@@ -181,7 +181,10 @@
                 AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
                 Type = model.Type,
                 PartnerName = model.Partner.CompanyName,
-                OfferGuidId = model.OfferIdGuid
+                OfferGuidId = model.OfferIdGuid,
+                Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
+                Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
+                FlightDateTime = model.Flight.DepartureDate,
             };
         }
 

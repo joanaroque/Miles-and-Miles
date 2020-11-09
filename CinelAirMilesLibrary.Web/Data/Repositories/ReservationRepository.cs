@@ -23,8 +23,8 @@
             return await _context.Reservations
                 .Include(u => u.CreatedBy)
                 .Include(p => p.MyPremium.Partner)
-                .Include(o => o.MyPremium.Flight.Origin)
-                 .Include(d => d.MyPremium.Flight.Destination)
+                .Include(o => o.MyPremium.Flight.Departure)
+                 .Include(d => d.MyPremium.Flight.Arrival)
                  .Include(dt => dt.CreateDate)
                 .Where(i => i.Id == id)
                 .FirstOrDefaultAsync();
