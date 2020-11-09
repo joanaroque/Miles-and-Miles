@@ -299,7 +299,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "2121218",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierType.Miles,
+                    Tier = TierType.Miles,
                     StatusMiles = 500,
                     BonusMiles = 10
                 };
@@ -342,7 +342,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21121218",
                     IsActive = true,
                     IsApproved = false,
-                    Status = TierType.Gold,
+                    Tier = TierType.Gold,
                     StatusMiles = 10000,
                     BonusMiles = 100
                 };
@@ -385,7 +385,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21821218",
                     IsActive = true,
                     IsApproved = false,
-                    Status = TierType.Silver,
+                    Tier = TierType.Silver,
                     StatusMiles = 120,
                     BonusMiles = 100
                 };
@@ -429,7 +429,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121218",
                     IsActive = false,
                     IsApproved = true,
-                    Status = TierType.None,
+                    Tier = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0,
                     SelectedRole = UserType.User
@@ -473,7 +473,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121217",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierType.None,
+                    Tier = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0,
                     SelectedRole = UserType.Admin
@@ -517,7 +517,7 @@ namespace MilesBackOffice.Web.Data
                     TIN = "212121212",
                     IsActive = true,
                     IsApproved = true,
-                    Status = TierType.None,
+                    Tier = TierType.None,
                     StatusMiles = 0,
                     BonusMiles = 0,
                     SelectedRole = UserType.SuperUser
