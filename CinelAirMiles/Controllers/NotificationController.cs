@@ -8,7 +8,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -50,7 +50,7 @@
         {
             if (id == null)
             {
-                return NotFound(); // todo mudar erros
+                return new NotFoundViewResult("_Error404Client");
             }
 
             try
@@ -78,10 +78,12 @@
 
                 return RedirectToAction(nameof(NotificationsIndex));
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(NotificationsIndex));
+
         }
 
         public JsonResult GetNotifications(string id, bool isGetOnlyUnread = false)

@@ -5,8 +5,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
-
-
+    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -46,7 +45,7 @@
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
 
             try
@@ -55,7 +54,7 @@
 
                 if (clientReservation == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
 
                 clientReservation.ModifiedBy = await _userHelper.GetUserByIdAsync(clientReservation.Id.ToString());
@@ -68,10 +67,11 @@
                 return RedirectToAction(nameof(ReservationIndex));
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return NotFound();//todo mudar 
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(ReservationIndex));
 
         }
 

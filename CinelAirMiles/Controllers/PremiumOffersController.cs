@@ -7,6 +7,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
+    using MilesBackOffice.Web.Helpers;
 
     //This is the shop
     public class PremiumOffersController : Controller
@@ -47,20 +48,20 @@
         {
             if (id == 0)
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
             try
             {
                 var offer = await _premiumRepository.GetByIdAsync(id);
                 if (offer == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
 
                 var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
                 if (user == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
                 //create a transaction
                 var trans = _transactionHelper.CreatePurchaseTransaction(user, offer);
@@ -88,24 +89,26 @@
 
                 return View(); //return success message
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                return NotFound(e);//TODO refactor to show proper errors
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return View(); //return success message
+
         }
 
         public async Task<IActionResult> CancelReservation(int id) //Id from reservation not ReservationId
         {
             if (id == 0)
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404Client");
             }
             try
             {
                 var reservation = await _reservationRepository.GetByIdIncludingAsync(id);
                 if (reservation == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404Client");
                 }
                 reservation.Status = 3;
                 var result = await _reservationRepository.UpdateReservationAsync(reservation);
@@ -125,10 +128,12 @@
                 //all goes well
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                return new NotFoundResult();
+                ModelState.AddModelError(string.Empty, exception.Message);
             }
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }
