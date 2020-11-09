@@ -44,16 +44,5 @@
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Route("error/404")]
-        public IActionResult Error404()
-        {
-            return View();
-        }
-
-        [Route("error/500")]
-        public IActionResult Error500()
-        {
-            return View();
-        }
     }
 }

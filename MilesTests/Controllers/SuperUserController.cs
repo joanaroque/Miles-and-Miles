@@ -87,7 +87,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             var entityList = await _premiumRepository.GetAllIncludes();
@@ -110,7 +110,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -165,7 +165,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -262,7 +262,7 @@
 
                     if (complaint == null)
                     {
-                        return RedirectToAction("Error404", "Home");
+                        return new NotFoundViewResult("_Error404");
 
                     }
 
@@ -270,7 +270,7 @@
 
                     if (user == null)
                     {
-                        return RedirectToAction("Error404", "Home");
+                        return new NotFoundViewResult("_Error404");
                     }
 
                     complaint.ModifiedBy = user;
@@ -319,7 +319,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -328,7 +328,7 @@
 
                 if (partner == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 partner.ModifiedBy = await GetCurrentUser();
@@ -374,7 +374,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -383,7 +383,7 @@
 
                 if (partner == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
 
                 }
 
@@ -438,7 +438,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
             try
             {
@@ -462,7 +462,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -471,7 +471,7 @@
 
                 if (advertising == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 advertising.ModifiedBy = await GetCurrentUser();
@@ -504,7 +504,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -513,7 +513,7 @@
 
                 if (advertising == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
 
                 }
 
@@ -570,7 +570,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -579,7 +579,7 @@
 
                 if (tierChange == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 tierChange.ModifiedBy = await GetCurrentUser();
@@ -610,7 +610,7 @@
         {
             if (id == null)
             {
-                return RedirectToAction("Error404", "Home");
+                return new NotFoundViewResult("_Error404");
             }
 
             try
@@ -619,7 +619,7 @@
 
                 if (tierChange == null)
                 {
-                    return RedirectToAction("Error404", "Home");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 tierChange.ModifiedBy = await GetCurrentUser();
