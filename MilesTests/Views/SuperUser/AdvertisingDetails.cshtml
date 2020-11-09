@@ -1,61 +1,95 @@
 ﻿@model MilesBackOffice.Web.Models.AdvertisingViewModel
 
-@{
-    ViewData["Title"] = "AdvertisingDetails";
-}
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <br />
-                    <h1>Content Details</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                        <li class="breadcrumb-item active">Advertising</li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/SuperUser/Advertising">Advertising</a></li>
+                        <li class="breadcrumb-item active">Offer Details</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
 
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
+    <!-- Main content -->
+    <section class="content">
 
-                        <!-- /.card-header -->
-                        <div class="box box-info" style="margin-top:10px">
-                            <div class="box-header with-border">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <dl class="dl-horizontal">
-                                            <dt>
-                                                @Html.DisplayNameFor(model => model.Content)
-                                            </dt>
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Advertising Details</h3>
 
-                                            <dd>
-                                                @Html.DisplayFor(model => model.Content)
-                                            </dd>
-                                        </dl>
-                                        <div>
-                                            <a asp-action="Advertising" class="btn btn-success  pull-right"><i class="fa fa-backward"></i></a>
-                                        </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+                        <div class="row">
+                            <div class="col-3 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">@Html.DisplayFor(model => model.Title)</span>
+                                        <span class="info-box-text text-center text-muted">@Html.DisplayFor(model => model.PartnerName)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="post">
+                                    <p>
+                                        @Html.DisplayFor(model => model.Content)
+                                    </p>
+                                    <div class="text-muted">
+                                        @if (Model.FlightId != null && Model.FlightId != 0)
+                                        {
+                                            <p class="text-sm">
+                                                Flight number
+                                                <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
+                                            </p>
+                                        }
+                                        <p class="text-sm">
+                                            Offer number
+                                            <b class="d-block">@Html.DisplayFor(model => model.PostGuidId)</b>
+                                        </p>
+                                        <p class="text-sm">
+                                            End of offer
+                                            <b class="d-block">@Html.DisplayFor(model => model.EndDate)</b>
+                                        </p>
+                                    </div>
+                                    <p>
+                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:auto;max-width:100%; height:auto" />
+                        }
                     </div>
                 </div>
             </div>
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
 
-    </div>
+    </section>
+    <!-- /.content -->
 </div>
-
-
