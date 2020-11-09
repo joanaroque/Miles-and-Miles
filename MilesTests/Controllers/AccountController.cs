@@ -1,49 +1,31 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
-    using Microsoft.AspNetCore.Identity;
+
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.IdentityModel.Tokens;
+
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
-
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-        private readonly IConfiguration _configuration;
-        private readonly IMailHelper _mailHelper;
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
         private readonly ICountryRepository _countryRepository;
-        private readonly IClientRepository _clientRepository;
+        private readonly IConverterHelper _converterHelper;
 
         public AccountController(IUserHelper userHelper,
-            IConfiguration configuration,
-            IMailHelper mailHelper,
-            SignInManager<User> signInManager,
-              UserManager<User> userManager,
               ICountryRepository countryRepository,
-              IClientRepository clientRepository)
+              IConverterHelper converterHelper)
         {
             _userHelper = userHelper;
-            _configuration = configuration;
-            _mailHelper = mailHelper;
-            _signInManager = signInManager;
-            _userManager = userManager;
             _countryRepository = countryRepository;
-            _clientRepository = clientRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -65,39 +47,38 @@
 
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
-
-                if (user == null)
+                try
                 {
-                    return NotFound();
-                }
+                    var user = await _userHelper.GetUserByUsernameAsync(model.UserName);
 
-                var role = await _userHelper.IsUserInRoleAsync(user, UserType.Client);
-
-                if (role == true)
-                {
-                    return NotAuthorized();
-                }
-
-
-                var result = await _userHelper.LoginAsync(model.UserName, model);
-                if (result.Succeeded)
-                {
-                    if (Request.Query.Keys.Contains("ReturnUrl"))
+                    if (user == null)
                     {
-                        return Redirect(Request.Query["ReturnUrl"].First());
+                        return NotFound();
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    var result = await _userHelper.LoginAsync(model.UserName, model);
+                    if (result.Succeeded)
+                    {
+                        if (Request.Query.Keys.Contains("ReturnUrl"))
+                        {
+                            return Redirect(Request.Query["ReturnUrl"].First());
+                        }
+
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to login.");
 
             }
-
-            ModelState.AddModelError(string.Empty, "Failed to login.");
             return View(model);
         }
-
-
 
         public async Task<IActionResult> Logout()
         {
@@ -105,141 +86,16 @@
             return RedirectToAction("Index", "Home");
         }
 
-
-        public IActionResult Register()
+        [HttpGet]
+        public async Task<IActionResult> AccountDetails()
         {
-            var model = new RegisterNewUserViewModel
-            {
-                Countries = _countryRepository.GetComboCountries(),
-                Genders = _clientRepository.GetComboGenders()
-            };
+            var user = await GetCurrentUser();
 
-            return View(model);
+            return View(_converterHelper.ToUserViewModel(user));
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
-                if (user == null)
-                {
-                    user = new User
-                    {
-                        Name = model.Name,
-                        Email = model.Username,
-                        UserName = model.Username,
-                        Address = model.Address,
-                        PhoneNumber = model.PhoneNumber,
-                        City = model.City,
-                        IsActive = false,
-                        IsApproved = false,
-                        BonusMiles = 0,
-                        DateOfBirth = model.DateOfBirth,
-                        Gender = model.Gender.ToString(),
-                        GuidId = _clientRepository.CreateGuid(),
-                        TIN = model.TIN,
-                        Tier = TierType.Miles,
-                        StatusMiles = 0
-                    };
-
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-                    if (result != IdentityResult.Success)
-                    {
-                        ModelState.AddModelError(string.Empty, "The user couldn't be created.");
-                        return this.View(model);
-                    }
-
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
-                    {
-                        userid = user.Id,
-                        token = myToken
-                    }, protocol: HttpContext.Request.Scheme);
-
-                    _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                        $"To allow the user, " +
-                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                    ViewBag.Message = "The instructions to allow your user has been sent to email.";
-
-
-                    return View(model);
-                }
-
-                ModelState.AddModelError(string.Empty, "The user already exists.");
-
-            }
-
-            return View(model);
-        }
-
-
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-            {
-                return NotFound();
-            }
-
-            var user = await _userHelper.GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var result = await _userHelper.ConfirmEmailAsync(user, token);
-            if (!result.Succeeded)
-            {
-                return NotFound();
-            }
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
-                if (user != null)
-                {
-                    var result = await _userHelper.ValidatePasswordAsync(
-                        user,
-                        model.Password);
-
-                    if (result.Succeeded)
-                    {
-                        var claims = new[]
-                        {
-                            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                          };
-
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
-                        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                        var token = new JwtSecurityToken(
-                            _configuration["Tokens:Issuer"],
-                            _configuration["Tokens:Audience"],
-                            claims,
-                            expires: DateTime.UtcNow.AddMonths(4),
-                            signingCredentials: credentials);
-                        var results = new
-                        {
-                            token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
-                        };
-
-                        return Created(string.Empty, results);
-                    }
-                }
-            }
-
-            return BadRequest();
-        }
-
+        
+        #region Recover Password
         public IActionResult RecoverPassword()
         {
             return View();
@@ -251,53 +107,36 @@
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
-                if (user == null)
+                if (user != null)
                 {
-                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
-                    return View(model);
+                    //Enviar notificação ao Admin do pedido do user
+                    //TODO enviar msg de OK
+                    RedirectToAction(nameof(Login));
                 }
-
-                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-
-                var link = Url.Action(
-                    "ResetPassword",
-                    "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme);
-
-                try
-                {
-                    _mailHelper.SendMail(model.Email, "Password Reset", $"<h1>Password Reset</h1>" +
-                    $"To reset the password click in this link:</br></br>" +
-                    $"<a href = \"{link}\">Reset Password</a>");
-
-                    //ModelState.Clear();
-                    ViewBag.Message = "The instructions to recover your password has been sent to email.";
-
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-
-                }
-
-
-                return View();
-
+                ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
             }
 
             return View(model);
         }
+        #endregion //TODO refactor
 
-        public IActionResult ResetPassword(string token)
+
+
+        public IActionResult ResetPassword(string userId, string token)
         {
-            return View();
-        }
+            var model = new ResetPasswordViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
 
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+            var user = await _userHelper.GetUserByIdAsync(model.UserId);
             if (user != null)
             {
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
@@ -318,6 +157,12 @@
         public IActionResult NotAuthorized()
         {
             return View();
+        }
+
+
+        private async Task<User> GetCurrentUser()
+        {
+            return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
         }
     }
 }
