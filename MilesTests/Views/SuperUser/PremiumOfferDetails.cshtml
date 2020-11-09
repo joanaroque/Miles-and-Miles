@@ -1,8 +1,138 @@
 ﻿@model MilesBackOffice.Web.Models.PremiumOfferViewModel
 
-@{
-    ViewData["Title"] = "Premium Offer Details";
-}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/SuperUser/PremiumOffers">Premium Offers</a></li>
+                        <li class="breadcrumb-item active">Offer Details</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Premium Offer Details</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="post">
+                                    <div class="text-muted">
+                                        <p class="text-md">
+                                            Title
+                                            <b class="d-block">@Html.DisplayFor(model => model.Title)</b>
+                                        </p>
+                                        <p class="text-md">
+                                            Partner
+                                            <b class="d-block">@Html.DisplayFor(model => model.PartnerName)</b>
+                                        </p>
+                                        <p class="text-md">
+                                            Type of offer
+                                            <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
+                                        </p>
+                                        <p class="text-md">
+                                            Offer number
+                                            <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="post">
+                                    <div class="text-muted">
+                                        <p class="text-md">
+                                            Type of offer
+                                            <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
+                                        </p>
+                                        @if (Model.FlightId != null && Model.FlightId != 0)
+                                        {
+                                            <p class="text-md">
+                                                Flight number
+                                                <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
+                                            </p>
+                                            <p class="text-md">
+                                                Flight number
+                                                <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
+                                            </p>
+                                            <p class="text-md">
+                                                Offer number
+                                                <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+                                            </p>
+                                        }
+                                    </div>
+                                    <p>
+                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
