@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -24,95 +25,69 @@
     {
 
         private readonly IUserHelper _userHelper;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<User> _userManager;
         private readonly ICountryRepository _countryRepository;
         private readonly IMailHelper _mailHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly DataContext _context;
         private readonly IClientRepository _clientRepository;
 
         public AdministratorController(
             IUserHelper userHelper,
-            RoleManager<IdentityRole> roleManager,
-            UserManager<User> userManager,
             ICountryRepository countryRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
-            DataContext context,
             IClientRepository clientRepository)
         {
             _userHelper = userHelper;
-            _roleManager = roleManager;
-            _userManager = userManager;
             _countryRepository = countryRepository;
             _mailHelper = mailHelper;
             _converterHelper = converterHelper;
-            _context = context;
             _clientRepository = clientRepository;
         }
 
-        public IActionResult InactiveUsers()
-        {
-            var users = _clientRepository.GetInactiveUsers();
-            var model = new List<InactiveUsersViewModel>();
-
-            foreach (User user in users)
-            {
-                var viewModel = new InactiveUsersViewModel
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    TIN = user.TIN,
-                    SelectedRole = user.SelectedRole,
-                };
-                model.Add(viewModel);
-            }
-
-            return View(model);
-        }
-
+        
         public IActionResult NewClients()
         {
-            var users = _clientRepository.GetNewClients();
-            var model = new List<NewClientsViewModel>();
+            var usersList = _clientRepository.GetNewClients();
 
-            foreach (User user in users)
-            {
-                var viewModel = new NewClientsViewModel
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    TIN = user.TIN
-                };
-                model.Add(viewModel);
-            }
+            var list = usersList.Select(u => _converterHelper.ToUserViewModel(u));
 
-            return View(model);
+            return View(list);
         }
 
 
         public async Task<IActionResult> ApproveClient(string id)
         {
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-            var model = new ApproveClientViewModel
+            if (string.IsNullOrEmpty(id))
             {
-                Name = user.Name,
-                Username = user.UserName,
-                Address = user.Address,
-                City = user.City,
-                CountryId = user.Country.Id,
-                PhoneNumber = user.PhoneNumber,
-                DateOfBirth = user.DateOfBirth,
-                Email = user.Email,
-                Status = user.Tier,
-                TIN = user.TIN
-            };
+                return NotFound();
+            }
+            try
+            {
+                var user = await _userHelper.GetUserByIdAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var model = new ApproveClientViewModel
+                {
+                    Name = user.Name,
+                    Username = user.UserName,
+                    Address = user.Address,
+                    City = user.City,
+                    CountryId = user.Country.Id,
+                    PhoneNumber = user.PhoneNumber,
+                    DateOfBirth = user.DateOfBirth,
+                    Email = user.Email,
+                    Status = user.Tier,
+                    TIN = user.TIN
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (DBConcurrencyException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
@@ -239,27 +214,19 @@
 
 
         [HttpGet]
-        public IActionResult ListRoles()
-        {
-            var roles = _roleManager.Roles;
-            return View(roles);
-        }
-
-
-        [HttpGet]
-        public async Task<ActionResult> ListUsers()
+        public ActionResult ListUsers()
         {
             var users = _clientRepository.GetActiveUsers();
-            var model = new List<UserRoleViewModel>();
+            var model = new List<UserDetailsViewModel>();
 
             foreach (User user in users)
             {
-                var viewModel = new UserRoleViewModel
+                var viewModel = new UserDetailsViewModel
                 {
-                    UserId = user.Id,
+                    Id = user.Id,
                     Name = user.Name,
-                    UserName = user.Email,
-                    Roles = await GetUserRoles(user),
+                    Username = user.Email,
+                    SelectedRole = user.SelectedRole
                 };
                 model.Add(viewModel);
             }
@@ -267,10 +234,6 @@
             return View(model);
         }
 
-        private async Task<List<string>> GetUserRoles(User user)
-        {
-            return new List<string>(await _userManager.GetRolesAsync(user));
-        }
 
         public async Task<IActionResult> DetailsUser(string id)
         {
@@ -300,7 +263,6 @@
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            var userRoles = await _userManager.GetRolesAsync(user);
 
             var model = new UserDetailsViewModel
             {
@@ -319,13 +281,7 @@
                 Genders = _clientRepository.GetComboGenders(),
                 Countries = _countryRepository.GetComboCountries(),
                 StatusList = _clientRepository.GetComboStatus(),
-                Roles = _roleManager.Roles.ToList().Select(
-                    x => new SelectListItem()
-                    {
-                        Selected = userRoles.Contains(x.Name),
-                        Text = x.Name,
-                        Value = x.Id
-                    })
+                SelectedRole = user.SelectedRole
             };
 
             return View(model);
@@ -392,65 +348,37 @@
         // POST: Administrator/Delete/5
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-            if (user == null)
+            try
             {
-                return new NotFoundViewResult("UserNotFound");
+                var user = await _userHelper.GetUserByIdAsync(id);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("UserNotFound");
+                }
+
+                var result = await _userHelper.DeleteUserAsync(user);
+
+                if (!result.Success)
+                {
+                    return NotFound();//TODO refactor
+                }
+
+                _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
+
+                return RedirectToAction("ListUsers");
             }
-            else
+            catch (Exception)
             {
-                var result = await _userManager.DeleteAsync(user);
-
-                if (result.Succeeded)
-                {
-                    _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", $"Your account was deleted.");
-                    return RedirectToAction("ListUsers");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                return View("ListUsers");
+                return new NotFoundViewResult("_404Error");
             }
         }
 
-        public async Task<IActionResult> DeleteRole(string id)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
 
-            if (role == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            var result = await _roleManager.DeleteAsync(role);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ListRoles");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            return View("ListRoles");
-
-        }
 
         public IActionResult UserNotFound()
         {
             return new NotFoundViewResult("UserNotFound");
         }
-
-
-        //public IActionResult ConfirmClientDelete() TODO
-        //{
-        //    var user = _context.Users.Where(u => )
-        //}
     }
 }
