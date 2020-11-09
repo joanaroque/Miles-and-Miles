@@ -12,7 +12,7 @@
 
 
 
-        public int Miles { get; set; }
+        public int Distance { get; set; }
 
 
 
