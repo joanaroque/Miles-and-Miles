@@ -174,7 +174,7 @@
             {
                 Id = model.Id,
                 Title = model.Title,
-               // FlightId = model.Flight == null ? 0 : model.Flight.Id,
+                FlightId = model.Flight == null ? 0 : model.Flight.Id,
                 Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,

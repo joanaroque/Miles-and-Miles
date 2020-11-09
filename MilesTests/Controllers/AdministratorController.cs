@@ -216,12 +216,7 @@
                             },
                             protocol: HttpContext.Request.Scheme);
 
-
-                        _mailHelper.SendMail(user.Email, "Account Created", $"<h1>Complete Account Registration</h1>" +
-                        $"Follow the link to complete your registration:</br></br>" +
-                        $"<a href = \"{link}\">Complete Registration</a>" +
-                        $"/br <p>Your Username: {user.UserName}.</p>" +
-                        $"/br");
+                        _mailHelper.SendToNewUser(user.Email, link, user.Name);
 
                         return RedirectToAction(nameof(NewClients));
                     }

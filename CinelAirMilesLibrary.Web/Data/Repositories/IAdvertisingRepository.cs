@@ -15,7 +15,7 @@
         /// get a list of advertising, including the partner name
         /// </summary>
         /// <returns>list of advertising</returns>
-        Task<List<Advertising>> GetAdvertisingSatus1Async();
+        Task<List<Advertising>> GetAdvertisingFilteredAsync();
 
 
 

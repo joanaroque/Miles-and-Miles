@@ -21,7 +21,7 @@
 
         }
 
-        public async Task<List<Advertising>> GetAdvertisingSatus1Async()
+        public async Task<List<Advertising>> GetAdvertisingFilteredAsync()
         {
             var advertising = await _context.Advertisings
                  .Include(a => a.Partner)
@@ -29,7 +29,6 @@
                  .ToListAsync();
 
             return advertising;
-
         }
 
         public async Task<Advertising> GetByIdWithIncludesAsync(int id)

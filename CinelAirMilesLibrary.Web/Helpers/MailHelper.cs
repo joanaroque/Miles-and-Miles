@@ -42,13 +42,13 @@
         }
 
 
-        public void SendToNewUser(string to, string token)
+        public void SendToNewUser(string to, string token, string toName)
         {
             var config = GetMailConfig();
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(config.NameFrom, config.From));
-            message.To.Add(new MailboxAddress(to, to));
+            message.To.Add(new MailboxAddress(toName, to));
 
             message.Subject = "Welcome to Miles Program Team";
 
@@ -56,24 +56,15 @@
             {
                 HtmlBody = $" <td style = 'background-color: #ecf0f1'>" +
                         $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
-                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
-                        $"                    <p style = 'margin: 2px; font-size: 15px'>" +
-                        $"                      The best specialized Veterinary Clinic in Lisbon focused on providing medical and surgical services<br>" +
-                        $"                      applying the most current techniques for accurate diagnoses and timely treatments..<br>" +
-                        $"                      Among the services we have:</p>" +
-                        $"      <ul style = 'font-size: 15px;  margin: 10px 0'>" +
-                        $"        <li> Emergencies.</li>" +
-                        $"        <li> Internal medicine.</li>" +
-                        $"        <li> Radiology.</li>" +
-                        $"        <li> Laboratory and cabinet tests.</li>" +
+                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to Miles Program Family </h1>" +
                         $"      </ul>" +
                         $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
                         $"  </div>" +
                         $"  <div style = 'width: 100%; text-align: center'>" +
                         $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
-                        $"    To allow the user, please click in this link:</br></br> " +
-                        $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{token}\">Confirm Email</a>" +
-                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Joana Veterinary Clinic 2020 </p>" +
+                        $"    To access our application, please click the link:</br></br> " +
+                        $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{token}\">Complete Registration</a>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
                         $"  </div>" +
                         $" </td >" +
                         $"</tr>" +
