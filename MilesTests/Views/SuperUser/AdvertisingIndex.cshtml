@@ -1,27 +1,28 @@
-﻿@model IEnumerable<MilesBackOffice.Web.Models.PremiumOfferViewModel>
+﻿@model IEnumerable<MilesBackOffice.Web.Models.AdvertisingViewModel>
 
 @{
-    ViewData["Title"] = "PremiumOfferList";
+    ViewData["Title"] = "Advertising";
 }
 
+
 <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <br />
-                    <h1>Premium Offers</h1>
+                    <h1>Advertising</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                        <li class="breadcrumb-item active">Premium Offers</li>
+                        <li class="breadcrumb-item active">Advertising</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
 
     <section class="content">
         <div class="container-fluid">
@@ -37,62 +38,46 @@
                             <table class="table table-bordered table-striped index-table">
                                 <thead>
                                     <tr>
-                                        <th>Offer Nrº</th>
+                                        <th>Image</th>
+                                        <th>Partner</th>
                                         <th>Title</th>
-                                        <th>Company</th>
-                                        <th>Offer Type</th>
-                                        <th>Quantity</th>
-                                        <th>Available Seats</th>
-                                        <th>Price</th>
+                                        <th>Content</th>
+                                        <th>End Date</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Id)
+                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                                {
+                                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                                }
                                             </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Title)
-                                            </td>
-
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.PartnerName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Type)
+                                                @Html.DisplayFor(modelItem => item.Title)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Quantity)
-                                            </td>
-                                            @if (item.AvailableSeats >= 0)
-                                            {
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.AvailableSeats)
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    n/a
-                                                </td>
-                                            }
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Price)
+                                                @Html.DisplayFor(modelItem => item.Content)
                                             </td>
                                             <td>
-                                                <a asp-action="PremiumOfferDetails" class="btn btn-warning" asp-route-id="@item.Id">
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                            </td>
+                                            <td>
+                                                <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id">
                                                     <i class="fa fa-list"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.Id" class="btn btn-success">
+                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
                                                     <i class="far fa-check-circle"></i>
                                                 </a>
                                                 <a>-  -  - </a>
-                                                <a asp-action="ReturnOfferToEditing" asp-route-id="@item.Id" class="btn btn-danger">
+                                                <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
                                                     <i class="fas fa-ban"></i>
                                                 </a>
                                             </td>
@@ -101,7 +86,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -109,7 +93,10 @@
     </section>
 </div>
 
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-}
+    }
+
+

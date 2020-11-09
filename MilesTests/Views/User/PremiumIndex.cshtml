@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-              
+
                 <h2>Premium Offers</h2>
             </div>
             <div class="col-sm-6">
@@ -18,49 +18,55 @@
                 </ol>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
 <br />
+<div id="filter_data" class="row">
 
+</div>
 <div>
     <div class="stats-info stats-last widget-shadow">
         <div class="stats-last-agile">
-            <table class="table stats-table">
-                <tr>
-                    <th>Offer ID</th>
-                    <th>Type</th>
-                    <th>Quantity Available</th>
-                    <th>Price</th>
-                    <th>Created On</th>
-                    <th></th>
-                </tr>
-                @foreach (var item in Model)
-                {
+            <table class="table stats-table index-table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Quantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedOn)
-                        </td>
-                        <td>
-                            <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
-                            <a class="btn btn-danger pull-right" asp-action="Delete"
-                               data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </td>
+                        <th>Offer ID</th>
+                        <th>Type</th>
+                        <th>Quantity Available</th>
+                        <th>Price</th>
+                        <th>Created On</th>
+                        <th></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedOn)
+                            </td>
+                            <td>
+                                <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
+                                <a class="btn btn-danger pull-right" asp-action="Delete"
+                                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
@@ -88,5 +94,7 @@
         });
 
         $("select[id=PartnerId]").change(loadFlightCombo("PartnerId", "FlightId"));
+
+        
     </script>
 }

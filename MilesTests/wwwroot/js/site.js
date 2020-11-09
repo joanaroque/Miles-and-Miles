@@ -128,3 +128,12 @@ function changeCss(elementId, href) {
 function getPath(routehref) {
     return routehref.slice(routehref.indexOf('/'), routehref.lastIndexOf('/'));
 }
+
+$(function () {
+    $(".index-table").DataTable({
+        responsive: true,
+        autoWidth: false,
+        paging: false,
+        info: false
+    });
+});
