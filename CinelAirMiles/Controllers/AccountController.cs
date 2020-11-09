@@ -245,7 +245,7 @@
                         PhoneNumber = model.PhoneNumber,
                         City = model.City,
                         TIN = model.TIN,
-                        Status = TierType.Silver,
+                        Tier = TierType.Silver,
                         BonusMiles = 0,
                         StatusMiles = 0,
                         IsActive = true,

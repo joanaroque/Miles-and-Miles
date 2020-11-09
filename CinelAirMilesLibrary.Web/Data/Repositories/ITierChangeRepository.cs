@@ -23,5 +23,21 @@
         /// <param name="id">id</param>
         /// <returns>a tier change</returns>
         Task<TierChange> GetByIdWithIncludesAsync(int id);
+
+
+
+        /// <summary>
+        /// change tier client
+        /// </summary>
+        /// <returns>updated tier client</returns>
+        Task<TierChange> ChangeTierClient(User client);
+
+
+
+        /// <summary>
+        /// cancelation upgrade
+        /// </summary>
+        /// <returns>updated upgrade client</returns>
+        Task<TierChange> UpgradeCancelation();
     }
 }
