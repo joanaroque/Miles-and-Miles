@@ -11,7 +11,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
@@ -147,13 +147,6 @@
         {
             try
             {
-                //comentado para testes de desenvolvimento
-                //var user = await GetUserByName();
-                //if (user == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
                 var partner = await _partnerRepository.GetByIdAsync(model.PartnerId);
 
                 if (partner == null)
@@ -168,7 +161,7 @@
                 }
 
                 var offer = _converter.ToPremiumOfferModel(model, true, partner, flight);
-                //ticket.CreatedBy = user;
+                offer.CreatedBy = await GetCurrentUser();
                 offer.CreateDate = DateTime.UtcNow;
 
                 var result = await _premiumRepository.CreateEntryAsync(offer);
@@ -224,12 +217,6 @@
         {
             try
             {
-                //var currentUser = await GetUserByName();
-                //if (currentUser == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
                 var current = await _premiumRepository.GetByIdAsync(model.Id);
                 if (current == null)
                 {
@@ -247,7 +234,7 @@
                 current.Quantity = model.Quantity;
                 current.Price = model.Price;
                 current.Status = 1;
-                //current.ModifiedBy = currentUser;
+                current.ModifiedBy = await GetCurrentUser();
                 current.UpdateDate = DateTime.UtcNow;
 
                 var result = await _premiumRepository.UpdateOfferAsync(current);
@@ -264,7 +251,7 @@
                     //if notification does not exist, creates one
                     await _notificationHelper.CreateNotificationAsync(current.OfferIdGuid, UserType.SuperUser, "", EnumHelper.GetType(current.Type));
                 }
-                
+
                 return RedirectToAction(nameof(PremiumIndex));
             }
             catch (Exception)
@@ -297,14 +284,8 @@
         {
             try
             {
-                //var currentUser = await GetUserByName();
-                //if (currentUser == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
                 var partner = _converter.ToPartnerModel(model, true);
-                //partner.CreatedBy = currentUser;
+                partner.CreatedBy = await GetCurrentUser();
                 partner.CreateDate = DateTime.UtcNow;
 
                 var result = await _partnerRepository.AddPartnerAsync(partner);
@@ -352,39 +333,33 @@
         {
             try
             {
-                //var currentUser = await GetUserByName();
-                //if (currentUser == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
-                var current = await _partnerRepository.GetByIdAsync(edit.Id);
-                if (current == null)
+                var newPartner = await _partnerRepository.GetByIdAsync(edit.Id);
+                if (newPartner == null)
                 {
                     return new NotFoundViewResult("_ItemNotFound");
                 }
 
                 //TODO take imagefile and convert to Guid
-                current.CompanyName = edit.CompanyName;
-                current.Address = edit.Address;
-                current.Description = edit.Description;
-                current.Designation = edit.Designation;
-                current.Url = edit.Url;
-                current.Status = 1;
-                //partner.ModifiedBy = currentUser;
-                current.UpdateDate = DateTime.UtcNow;
+                newPartner.CompanyName = edit.CompanyName;
+                newPartner.Address = edit.Address;
+                newPartner.Description = edit.Description;
+                newPartner.Designation = edit.Designation;
+                newPartner.Url = edit.Url;
+                newPartner.Status = 1;
+                newPartner.ModifiedBy = await GetCurrentUser();
+                newPartner.UpdateDate = DateTime.UtcNow;
 
-                var result = await _partnerRepository.UpdatePartnerAsync(current);
+                var result = await _partnerRepository.UpdatePartnerAsync(newPartner);
 
                 if (!result.Success)
                 {
                     return new NotFoundViewResult("_DataContextError");
                 }
 
-                result = await _notificationHelper.UpdateNotificationAsync(current.PartnerGuidId, UserType.SuperUser, "");
+                result = await _notificationHelper.UpdateNotificationAsync(newPartner.PartnerGuidId, UserType.SuperUser, "");
                 if (!result.Success)
                 {
-                    await _notificationHelper.CreateNotificationAsync(current.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
+                    await _notificationHelper.CreateNotificationAsync(newPartner.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
                 }
 
                 return RedirectToAction(nameof(PartnerIndex));
@@ -419,12 +394,6 @@
         {
             try
             {
-                //var currentUser = await GetUserByName();
-                //if (currentUser == null)
-                //{
-                //    return new NotFoundViewResult("_UserNotFound");
-                //}
-
                 var path = string.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -438,14 +407,13 @@
                 {
                     return new NotFoundViewResult("_PartnerNotFound");
                 }
-               
 
                 Advertising post = _converter.ToAdvertising(model, true, path, partner);
 
                 //send notification
                 await _notificationHelper.CreateNotificationAsync(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);
 
-                //post.CreatedBy = currentUser;
+                post.CreatedBy = await GetCurrentUser();
                 post.CreateDate = DateTime.UtcNow;
 
                 await _advertisingRepository.CreateAsync(post);
@@ -492,15 +460,9 @@
         {
             try
             {
-                var currentUser = await GetUserByName();
-                if (currentUser == null)
-                {
-                    return new NotFoundViewResult("_UserNotFound");
-                }
-
                 var post = await _advertisingRepository.GetByIdAsync(model.Id);
 
-                //post.ModifiedBy = currentUser;
+                post.ModifiedBy = await GetCurrentUser();
                 post.UpdateDate = DateTime.UtcNow;
 
                 var result = await _advertisingRepository.UpdatePostAsync(post);
@@ -527,12 +489,12 @@
 
 
 
-        private async Task<User> GetUserByName()
+        private async Task<User> GetCurrentUser()
         {
             return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
         }
 
-        
+
         public async Task<IActionResult> GetFlights(string partnerId)
         {
             var list = await _flightRepository.GetFlightsByPartner(int.Parse(partnerId));
