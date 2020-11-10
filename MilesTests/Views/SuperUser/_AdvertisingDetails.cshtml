@@ -21,8 +21,8 @@
                         <div class="col-3 col-sm-12">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">@Html.DisplayFor(model => model.Title)</span>
-                                    <span class="info-box-text text-center text-muted">@Html.DisplayFor(model => model.PartnerName)</span>
+                                    <span class="card-title font-weight-bold">@Html.DisplayFor(model => model.Title)</span>
+                                    <span class="info-box-text text-left text-muted">@Html.DisplayFor(model => model.CreatedOn)</span>
                                 </div>
                             </div>
                         </div>
@@ -44,10 +44,6 @@
                                     <p class="text-sm">
                                         Offer number
                                         <b class="d-block">@Html.DisplayFor(model => model.PostGuidId)</b>
-                                    </p>
-                                    <p class="text-sm">
-                                        End of offer
-                                        <b class="d-block">@Html.DisplayFor(model => model.EndDate)</b>
                                     </p>
                                 </div>
                                 <p>
