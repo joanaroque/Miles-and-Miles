@@ -565,5 +565,25 @@
 
             return View(model);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DigitalCard(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_Error404Client");// todo AGUAS DE BACALHAU (vou só ao paquer com o if)
+            }
+
+            var client = await _clientRepository.GetCurrentClient(id.Value);
+
+            if (client == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            return PartialView("_DigitalCard");
+        }
+
     }
 }

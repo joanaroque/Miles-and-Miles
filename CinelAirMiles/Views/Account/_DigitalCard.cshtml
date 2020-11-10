@@ -1,0 +1,29 @@
+﻿@model CinelAirMiles.Models.DigitalCardViewModel
+
+@{
+    ViewData["Title"] = "DigitalCard";
+}
+
+<link href="~/digitalCard/card.css" rel="stylesheet" />
+
+<div id="gradient"></div>
+<div id="card">
+    <img src="~/images/user.png" />
+    <h2>
+        @Html.DisplayNameFor(model => model.Name)
+        @Html.DisplayFor(model => model.Name)
+    </h2>
+    <p>
+        @Html.DisplayNameFor(model => model.ClientNumber)
+        @Html.DisplayFor(model => model.ClientNumber)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.TierType)
+        @Html.DisplayFor(model => model.TierType)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.ExpirationDate)
+        @Html.DisplayFor(model => model.ExpirationDate)
+    </p>
+</div>
+

@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
@@ -24,5 +25,12 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 
 
         string CreateGuid();
+
+
+        /// <summary>
+        /// get de current client
+        /// </summary>
+        /// <returns>current client</returns>
+        Task<User> GetCurrentClient(int clientId);
     }
 }
