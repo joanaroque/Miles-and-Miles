@@ -18,15 +18,12 @@ namespace MilesBackOffice.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        private readonly IClientRepository _clientRepository;
 
         public SeedDB(DataContext context,
-            IUserHelper userHelper,
-            IClientRepository clientRepository)
+            IUserHelper userHelper)
         {
             _context = context;
             _userHelper = userHelper;
-            _clientRepository = clientRepository;
         }
 
         public async Task SeedAsync()
@@ -38,8 +35,6 @@ namespace MilesBackOffice.Web.Data
             await FillCountriesAsync();
 
 
-            // atençao as ordens !!!
-
             await FillUser1Async();
             await FillUser2Async();
             await FillUser3Async();
@@ -49,7 +44,6 @@ namespace MilesBackOffice.Web.Data
             await FillUser5Async();
             await FillUser6Async();
 
-            await AddTierChanges();
             await AddClientComplaint();
 
             //User FakeDB
@@ -60,8 +54,6 @@ namespace MilesBackOffice.Web.Data
 
             await AddAdvertising();
 
-            //client project !!
-            // await AddReservations();
             await AddNotifications();
 
         }
@@ -74,11 +66,22 @@ namespace MilesBackOffice.Web.Data
 
                 _context.Notifications.Add(new Notification
                 {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("jacintoafonso@yopmail.com"),
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com"),
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "Enjoy today, don't leave it for tomorrow!"
+                    Message = "Hey Joana, please check the account of client X",
+                    ItemId = GuidHelper.CreatedGuid()
+                });
+
+                _context.Notifications.Add(new Notification
+                {
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com"),
+                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
+                    Status = 1,
+                    Type = NotificationType.Complaint,
+                    Message = "Joana please don't fall asleep while programming!!",
+                    ItemId = GuidHelper.CreatedGuid()
                 });
 
                 _context.Notifications.Add(new Notification
@@ -87,7 +90,8 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "Enjoy now the last days of this fantastic promotion!"
+                    Message = "Come and see our offers and promotions!",
+                    ItemId = GuidHelper.CreatedGuid()
                 });
 
                 _context.Notifications.Add(new Notification
@@ -96,36 +100,8 @@ namespace MilesBackOffice.Web.Data
                     CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
                     Status = 1,
                     Type = NotificationType.Complaint,
-                    Message = "Come and see our offers and promotions!"
-                });
-
-                _context.Notifications.Add(new Notification
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 1,
-                    Type = NotificationType.Complaint,
-                    Message = "Please check your tier increase in our Cinel Air Miles program!"
-                });
-
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        private async Task AddReservations()
-        {
-            if (!_context.Reservations.Any())
-            {
-                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                //var departure = "Lisbon";
-
-                _context.Reservations.Add(new Reservation
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    //Destination = departure,
-                    //PartnerName = partner,
-                    //Date = DateTime.Now.AddDays(6),
-                    Status = 1
+                    Message = "Please check your tier increase in our Cinel Air Miles program!",
+                    ItemId = GuidHelper.CreatedGuid()
                 });
 
                 await _context.SaveChangesAsync();
@@ -141,24 +117,51 @@ namespace MilesBackOffice.Web.Data
                 _context.Flights.Add(new Flight
                 {
                     Departure = "Lisboa",
-                    Arrival = "Porto",
-                    DepartureDate = new DateTime(2020, 11, 25, 13, 00, 00),
+                    Arrival = "Paris",
+                    DepartureDate = new DateTime(2019, 11, 25, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 110,
                     AvailableSeats = 70,
                     Status = 0,
+                    Distance = 1735
                 });
 
                 _context.Flights.Add(new Flight
                 {
                     Departure = "Madrid",
                     Arrival = "Lisboa",
-                    DepartureDate = new DateTime(2020, 11, 16, 13, 00, 00),
+                    DepartureDate = new DateTime(2018, 11, 16, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 150,
                     AvailableSeats = 55,
                     Status = 0,
+                    Distance = 623
                 });
+
+                _context.Flights.Add(new Flight
+                {
+                    Departure = "Tokyo",
+                    Arrival = "Lisboa",
+                    DepartureDate = new DateTime(2021, 11, 16, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 150,
+                    AvailableSeats = 55,
+                    Status = 0,
+                    Distance = 15381
+                });
+
+                _context.Flights.Add(new Flight
+                {
+                    Departure = "Lisboa",
+                    Arrival = "Xangai",
+                    DepartureDate = new DateTime(2022, 11, 16, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 150,
+                    AvailableSeats = 55,
+                    Status = 0,
+                    Distance = 13639
+                });
+
                 await _context.SaveChangesAsync();
             }
         }
@@ -212,16 +215,49 @@ namespace MilesBackOffice.Web.Data
                     Title = "All you can eat",
                     Flight = null,
                     Partner = partner,
-                    Type = PremiumType.Voucher,
+                    Type = PremiumType.Ticket,
                     Quantity = 50,
                     Price = 10000,
                     Status = 1,
                     Conditions = "Special offer for hungry clients",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
-            }
 
-            await _context.SaveChangesAsync();
+                _context.PremiumOffers.Add(new PremiumOffer
+                {
+                    Title = "Vila Vita Parc",
+                    Flight = null,
+                    Partner = partner,
+                    Type = PremiumType.Voucher,
+                    Quantity = 50,
+                    Price = 10000,
+                    Status = 1,
+                    Conditions = "Considered one of the best resorts in Europe, " +
+                    "Vila Vita Parc Resort & Spa is located on a 22-hectare property" +
+                    " with lush sub-tropical gardens overlooking the Algarve coast and the Atlantic Ocean." +
+                    "With the Cinel Air Miles Program you can enjoy your stay and earn and use miles.",
+                    OfferIdGuid = GuidHelper.CreatedGuid()
+                });
+
+                _context.PremiumOffers.Add(new PremiumOffer
+                {
+                    Title = "GRÂNDOLA | CHARM STAY",
+                    Flight = null,
+                    Partner = partner,
+                    Type = PremiumType.Voucher,
+                    Quantity = 50,
+                    Price = 10000,
+                    Status = 1,
+                    Conditions = "Sobreiras - Alentejo Country Hotel offers a unique experience of " +
+                    "tranquility and leisure with Nature at 360º, combining a simple and elegant design " +
+                    "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
+                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. " +
+                    "Enjoy now 2 nights + breakfast and dinner for 2 for just € 199.90",
+                    OfferIdGuid = GuidHelper.CreatedGuid()
+                });
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task AddClientComplaint()
@@ -247,7 +283,24 @@ namespace MilesBackOffice.Web.Data
                     "to escalate this matter, and to warn travellers NOT TO PREPAY FOR SERVICES ON TAP!!",
                     Reply = string.Empty,
                     Status = 1
+                });
 
+                _context.ClientComplaints.Add(new ClientComplaint
+                {
+                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
+                    Complaint = ComplaintType.Miles,
+                    Email = "mariliaa@yopmail.com",
+                    Date = DateTime.Now.AddDays(-5),
+                    Body = "After canceling my flight to Brazil due to the Covid-19 pandemic in May / 2020," +
+                    " I received 6 vouchers (I had two reservations for three tickets each), I intend to receive the" +
+                    " refund and not vouchers since I would go to the wedding of a family member now without reason to travel" +
+                    " and consequent application of the referred vouchers.I placed a refund request through the tap online system," +
+                    " I received a reply saying that my situation was resolved once I received the vouchers.Then I made(in May) a complaint due to the response received," +
+                    "  and I still question what I have to do to receive the money related to the vouchers, as required by the rules defined in the European Union." +
+                    "To date I have not received a reply and the online feedback of the complaint on the Tap portal indicates that the complaint is under analysis," +
+                    " with TAP with money that does not belong to it for a month and a half.",
+                    Reply = string.Empty,
+                    Status = 1
                 });
 
                 await _context.SaveChangesAsync();
@@ -258,43 +311,45 @@ namespace MilesBackOffice.Web.Data
         {
             if (!_context.Advertisings.Any())
             {
-                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-                var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
+                var partner1 = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
+                var partner2 = await _context.Partners.Where(p => p.CompanyName == "Tap Air Portugal").FirstOrDefaultAsync();
+                var user = await _userHelper.GetUserByEmailAsync("jpofelix@gmail.com");
 
                 _context.Advertisings.Add(new Advertising
                 {
                     Title = "New Promotion",
                     Content = "November is the month to celebrate the 2nd anniversary of the Cinel Air Miles Program."
-                    + "2 years have passed since the Cinel Air Miles Program was born,  and the best way to celebrate is"
+                    + "2 years have passed since the Cinel Air Miles Program was born, and the best way to celebrate is"
                     + "with exclusive offers! During the month of November you can find on this page all the surprises that we"
                     + "- together with our partners - have prepared to celebrate this very special date." +
                     "There were 24 months of fantastic adventures, " +
                     " good times and, in the last year,  some less good ones. " +
-                    "However, we remain positive and eager to fly with you on board,  with more confidence and confidence than ever.Time starts to fly.Enjoy every mile.",
+                    "However, we remain positive and eager to fly with you on board, with more confidence and confidence than ever." +
+                    "Time starts to fly.Enjoy every mile.",
                     EndDate = DateTime.Now.AddMonths(12),
-                    Partner = partner,
-                    ImageUrl = ("~/images/advertisings/miles1.jpg"),
+                    Partner = partner1,
+                    ImageUrl = ("~/images/advertisings/miles2.jpg"),
                     Status = 1,
                     PostGuidId = GuidHelper.CreatedGuid(),
-                    CreatedBy = user
+                    CreatedBy = user,
+                    CreateDate = DateTime.Now
 
-                }) ;
-                await _context.SaveChangesAsync();
-            }
-        }
+                });
 
-        public async Task AddTierChanges()
-        {
-            if (!_context.TierChanges.Any())
-            {
-                _context.TierChanges.Add(new TierChange
+                _context.Advertisings.Add(new Advertising
                 {
-                    OldTier = TierType.Silver,
-                    NewTier = TierType.Gold,
-                    NumberOfFlights = 3434,
-                    NumberOfMiles = 34234,
-                    Client = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                    Status = 1
+                    Title = "TAP Miles&Go Pets",
+                    Content = "Because we are a Pet Friendly company," +
+                    " our TAP Miles & Go Customers earn miles when traveling on TAP Air Portugal " +
+                    "with their pets. Whether in the cabin or in the hold, you can get up to 500" +
+                    " miles for taking your faithful friend on our planes!",
+                    EndDate = DateTime.Now.AddMonths(12),
+                    Partner = partner2,
+                    ImageUrl = ("~/images/advertisings/TAP-MilesGO-Pets.jpg"),
+                    Status = 1,
+                    PostGuidId = GuidHelper.CreatedGuid(),
+                    CreatedBy = user,
+                    CreateDate = DateTime.Now
                 });
 
                 await _context.SaveChangesAsync();
@@ -309,7 +364,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user6 = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "Marilia",
                     Email = "mariliaa@yopmail.com",
                     UserName = "Mariliazinha",
@@ -323,9 +378,9 @@ namespace MilesBackOffice.Web.Data
                     TIN = "2121218",
                     IsActive = true,
                     IsApproved = true,
-                    Tier = TierType.Miles,
-                    StatusMiles = 500,
-                    BonusMiles = 10
+                    Tier = TierType.Basic,
+                    StatusMiles = 0,
+                    BonusMiles = 0
                 };
 
                 await _userHelper.AddUserAsync(user6, "123456");
@@ -352,7 +407,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user5 = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "Jacinto",
                     Email = "jacintoafonso@yopmail.com",
                     UserName = "Jacinto",
@@ -366,9 +421,9 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21121218",
                     IsActive = true,
                     IsApproved = false,
-                    Tier = TierType.Gold,
-                    StatusMiles = 10000,
-                    BonusMiles = 100
+                    Tier = TierType.Basic,
+                    StatusMiles = 0,
+                    BonusMiles = 0
                 };
 
                 await _userHelper.AddUserAsync(user5, "123456");
@@ -395,7 +450,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user4 = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "Pedro",
                     Email = "estevescardoso@yopmail.com",
                     UserName = "Pedro",
@@ -409,9 +464,9 @@ namespace MilesBackOffice.Web.Data
                     TIN = "21821218",
                     IsActive = true,
                     IsApproved = false,
-                    Tier = TierType.Silver,
-                    StatusMiles = 120,
-                    BonusMiles = 100
+                    Tier = TierType.Gold,
+                    StatusMiles = 70000,
+                    BonusMiles = 70000
                 };
 
                 await _userHelper.AddUserAsync(user4, "123456");
@@ -439,7 +494,7 @@ namespace MilesBackOffice.Web.Data
 
                 user = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "João Felix",
                     Email = "jpofelix@gmail.com",
                     UserName = "JoaoFelix",
@@ -483,7 +538,7 @@ namespace MilesBackOffice.Web.Data
 
                 user = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "Cátia Oliveira",
                     Email = "catia-96@hotmail.com",
                     UserName = "CatiaOliveira",
@@ -527,7 +582,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user = new User
                 {
-                    GuidId = _clientRepository.CreateGuid(),
+                    GuidId = GuidHelper.CreatedGuid(),
                     Name = "Joana Roque",
                     Email = "joanatpsi@gmail.com",
                     UserName = "JoanaRoque",
