@@ -19,15 +19,6 @@
             _context = context;
         }
 
-        public async Task<ClientComplaint> GetByIdWithIncludesAsync(int id)
-        {
-            var complaint = await _context.ClientComplaints
-                  .Include(c => c.CreatedBy)
-                  .Where(c => c.Id.Equals(id)).FirstOrDefaultAsync();
-
-            return complaint;
-        }
-
         public async Task<List<ClientComplaint>> GetAllComplaintsAsync()
         {
             var complaint = await _context.ClientComplaints

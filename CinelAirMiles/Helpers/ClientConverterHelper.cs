@@ -3,6 +3,7 @@
     using CinelAirMiles.Models;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using System;
 
@@ -41,11 +42,10 @@
                 Email = clientComplaint.CreatedBy.Email,
                 Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
-                Status = clientComplaint.Status,
-                
+                Status = clientComplaint.Status                
             };
 
-            return complaint;
+            return complaint; // todo diz que a lista vem a null
         }
 
         public Notification ToNotification(NotificationViewModel model, bool isNew)
