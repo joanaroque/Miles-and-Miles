@@ -27,7 +27,7 @@
                 {
                     return null;
                 }
-                return $"https://AINDANAOSEIONOme.net{ImageUrl.Substring(1)}"; // todo
+                return $"https://cinelairmiles.azurewebsites.net{ImageUrl.Substring(1)}";
             }
         }
 
