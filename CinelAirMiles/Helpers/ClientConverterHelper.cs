@@ -16,6 +16,23 @@
             _userHelper = userHelper;
         }
 
+        public AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising)
+        {
+            var advertisings = new AdvertisingViewModel
+            {
+                Id = advertising.Id,
+                Title = advertising.Title,
+                Content = advertising.Content,
+                ImageUrl = advertising.ImageUrl,
+                EndDate = advertising.EndDate,
+                Status = advertising.Status,
+                //PartnerName = advertising.Partner.CompanyName,
+                PostGuidId = advertising.PostGuidId,
+                CreatedBy = advertising.CreatedBy == null ? "unknown" : advertising.CreatedBy.Name,
+                CreatedOn = advertising.CreateDate
+            };
+            return advertisings;
+        }
 
         public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
         {
