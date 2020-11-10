@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CinelAirMilesLibrary.Common.Data.Entities;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,13 +14,13 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
         IEnumerable<SelectListItem> GetComboGenders();
 
 
-        IQueryable GetNewClients();
+        IEnumerable<User> GetNewClients();
 
 
-        IQueryable GetActiveUsers();
+        IEnumerable<User> GetActiveUsers();
 
 
-        IQueryable GetInactiveUsers();
+        IEnumerable<User> GetInactiveUsers();
 
 
         string CreateGuid();

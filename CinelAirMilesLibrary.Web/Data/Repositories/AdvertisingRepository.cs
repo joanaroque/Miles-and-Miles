@@ -24,6 +24,7 @@
         public async Task<List<Advertising>> GetAdvertisingFilteredAsync()
         {
             var advertising = await _context.Advertisings
+                 .Include(u => u.CreatedBy)
                  .Include(a => a.Partner)
                  .Include(a => a.CreatedBy)
                  .Where(st => st.Status == 1)

@@ -1,12 +1,16 @@
-﻿using CinelAirMilesLibrary.Common.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CinelAirMilesLibrary.Common.Data.Repositories
+﻿namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
+
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+
+
     public class ClientRepository : IClientRepository
     {
         private readonly DataContext _context;
@@ -17,21 +21,24 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
             _context = context;
         }
 
-        public IQueryable GetActiveUsers()
+        public IEnumerable<User> GetActiveUsers()
         {
             return _context.Users
+                .Include(c => c.Country)
                 .Where(u => u.IsActive == true);
         }
 
-        public IQueryable GetInactiveUsers()
+        public IEnumerable<User> GetInactiveUsers()
         {
             return _context.Users
+                .Include(c => c.Country)
                 .Where(u => u.IsActive == false);
         }
 
-        public IQueryable GetNewClients()
+        public IEnumerable<User> GetNewClients()
         {
             return _context.Users
+                .Include(c => c.Country)
                 .Where(u => u.IsApproved == false);
         }
 

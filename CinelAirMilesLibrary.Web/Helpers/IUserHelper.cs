@@ -146,7 +146,6 @@
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
 
-
         /// <summary>
         /// reset password
         /// </summary>
@@ -158,9 +157,7 @@
 
 
 
-
         IEnumerable<SelectListItem> GetComboRoles();
-
 
 
 
@@ -168,15 +165,13 @@
 
 
 
-
         Task<IdentityRole> FindRoleByTypeAsync(UserType role);
 
 
 
-
-
-
-
         Task RemoveRoleAsync(User user, UserType type);
+
+
+        Task<Response> DeleteUserAsync(User user);
     }
 }

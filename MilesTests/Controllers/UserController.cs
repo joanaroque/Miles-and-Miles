@@ -66,9 +66,9 @@
         }
 
 
-        public IActionResult NewsIndex()
+        public async Task<IActionResult> NewsIndex()
         {
-            var list = _advertisingRepository.GetAll();
+            var list = await _advertisingRepository.GetAdvertisingFilteredAsync();
             var modelList = list.Where(st => st.Status == 2).Select(a => _converter.ToAdvertisingViewModel(a));
             return View(modelList);
         }
@@ -470,6 +470,7 @@
                     return new NotFoundViewResult("_Error404");
                 }
 
+                //notification
                 result = await _notificationHelper.UpdateNotificationAsync(post.PostGuidId, UserType.SuperUser, "");
                 if (!result.Success)
                 {

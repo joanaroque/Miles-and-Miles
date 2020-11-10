@@ -62,7 +62,7 @@
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> PremiumOfferList()
+        public async Task<ActionResult> PremiumIndex()
         {
             var list = await _premiumRepository.GetAllIncludes();
             list = list.Where(st => st.Status == 1);
@@ -97,7 +97,7 @@
                                                    .FirstOrDefault();
 
 
-            return View(_converterHelper.ToPremiumOfferViewModel(selectedPremiumOffer));
+            return PartialView("_PremiumOfferDetails", _converterHelper.ToPremiumOfferViewModel(selectedPremiumOffer));
         }
 
 
@@ -134,8 +134,6 @@
 
                 //deal with notification
                 await _notificationHelper.DeleteOldByIdAsync(offer.OfferIdGuid);
-
-                return RedirectToAction(nameof(PremiumOfferList));
             }
             catch (DbUpdateException dbUpdateException)
             {
@@ -152,7 +150,7 @@
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            return RedirectToAction(nameof(PremiumOfferList));
+            return RedirectToAction(nameof(PremiumIndex));
         }
 
         
@@ -197,13 +195,13 @@
 
                 }
 
-                return RedirectToAction(nameof(PremiumOfferList));
+                return RedirectToAction(nameof(PremiumIndex));
             }
             catch (Exception exception)
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            return RedirectToAction(nameof(PremiumOfferList));
+            return RedirectToAction(nameof(PremiumIndex));
 
         }
         #endregion
@@ -452,7 +450,7 @@
             {
                 var advert = await _advertisingRepository.GetByIdWithIncludesAsync(id.Value);
 
-                return View(_converterHelper.ToAdvertisingViewModel(advert));
+                return PartialView("_AdvertisingDetails", _converterHelper.ToAdvertisingViewModel(advert));
             }
             catch (Exception)
             {

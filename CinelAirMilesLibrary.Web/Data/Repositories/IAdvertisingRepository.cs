@@ -12,7 +12,7 @@
 
 
         /// <summary>
-        /// get a list of advertising, including the partner name
+        /// get a list of advertising, including the partner name and created by 
         /// </summary>
         /// <returns>list of advertising</returns>
         Task<List<Advertising>> GetAdvertisingFilteredAsync();
