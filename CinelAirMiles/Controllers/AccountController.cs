@@ -565,5 +565,29 @@
 
             return View(model);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> DigitalCard()
+        {
+            try
+            {
+                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("_Error404Client");
+                }
+
+                return View();
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500Client");
+            }
+
+        }
+
     }
 }

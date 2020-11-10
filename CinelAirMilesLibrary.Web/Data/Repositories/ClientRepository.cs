@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
 
@@ -72,5 +72,6 @@
             byte[] buffer = Guid.NewGuid().ToByteArray();
             return BitConverter.ToUInt32(buffer).ToString().Substring(0, 9);
         }
+
     }
 }
