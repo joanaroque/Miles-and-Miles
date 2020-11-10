@@ -61,5 +61,6 @@
 
 
         User ToUser(UserDetailsViewModel model);
+        NewClientsViewModel ToNewClientViewModel(User user);
     }
 }

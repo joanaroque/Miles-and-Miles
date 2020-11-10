@@ -6,6 +6,7 @@
     using CinelAirMilesLibrary.Common.Helpers;
 
     using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
     using MilesBackOffice.Web.Models.SuperUser;
 
 
@@ -227,6 +228,19 @@
 
             };
         }
+
+        public NewClientsViewModel ToNewClientViewModel(User user)
+        {
+            return new NewClientsViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                TIN = user.TIN,
+                CountryName = user.Country.Name
+            };
+        } 
+
 
 
         public UserDetailsViewModel ToUserViewModel(User user)
