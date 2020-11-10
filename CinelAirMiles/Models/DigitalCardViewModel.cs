@@ -15,7 +15,7 @@
 
 
         [Display(Name = "Client Nrº: ")]
-        public Guid ClientNumber { get; set; }
+        public string ClientNumber { get; set; }
 
 
         [Display(Name = "Tier: ")]

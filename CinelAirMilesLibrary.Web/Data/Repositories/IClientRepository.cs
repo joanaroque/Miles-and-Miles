@@ -26,11 +26,5 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 
         string CreateGuid();
 
-
-        /// <summary>
-        /// get de current client
-        /// </summary>
-        /// <returns>current client</returns>
-        Task<User> GetCurrentClient(int clientId);
     }
 }

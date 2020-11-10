@@ -73,13 +73,5 @@
             return BitConverter.ToUInt32(buffer).ToString().Substring(0, 9);
         }
 
-
-        public async Task<User> GetCurrentClient(int clientId)
-        {
-            var client = await _context.Users
-              .Where(c => c.Id == clientId.ToString()).FirstOrDefaultAsync();
-
-            return client;
-        }
     }
 }

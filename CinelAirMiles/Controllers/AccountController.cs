@@ -567,22 +567,26 @@
         }
 
 
+
         [HttpGet]
-        public async Task<IActionResult> DigitalCard(int? id)
+        public async Task<IActionResult> DigitalCard()
         {
-            if (id == null)
+            try
             {
-                return new NotFoundViewResult("_Error404Client");// todo AGUAS DE BACALHAU (vou só ao paquer com o if)
+                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+                if (user == null)
+                {
+                    return new NotFoundViewResult("_Error404Client");
+                }
+
+                return View();
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500Client");
             }
 
-            var client = await _clientRepository.GetCurrentClient(id.Value);
-
-            if (client == null)
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
-
-            return PartialView("_DigitalCard");
         }
 
     }
