@@ -1,4 +1,6 @@
-﻿@{
+﻿@*@model CinelAirMiles.Models.HomeViewModel*@
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -23,6 +25,10 @@
 
 </section>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
 
 
 

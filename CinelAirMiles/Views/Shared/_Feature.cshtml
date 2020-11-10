@@ -1,36 +1,60 @@
-﻿@{
+﻿@model IEnumerable<CinelAirMiles.Models.AdvertisingViewModel>
+
+
+@{
     ViewData["Title"] = "Feature";
 }
 
 
 <section id="feature">
-    <div class="container">
-        <div class="row">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            
+            @foreach (var item in Model)
+            {
+                @if (item.Id == 1)
+                {
+                    <div class="item active">
+                        <img src="~/images/advertisings/miles2.jpg" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
+                             style=" height: 500px; text-align: center;margin: auto; width: 50%;">
+                        <div class="carousel-caption">
+                            <h1><a href="#">@Html.DisplayFor(modelItem => item.Title)</a></h1>
+                        </div>
+                    </div>
+                }
 
-            <div class="col-md-4 col-sm-4">
-                <div class="feature-thumb">
-                    <span>01</span>
-                    <h3>Trending Courses</h3>
-                    <p>Known is free education HTML Bootstrap Template. You can download and use this for your website.</p>
-                </div>
-            </div>
+                else
+                {
+                    <div class="item">
+                        <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
+                             style=" height: 500px; text-align: center;margin: auto; width: 50%;">
+                        <div class="carousel-caption">
+                            <h1><a href="#">@Html.DisplayFor(modelItem => item.Title)</a></h1>
+                        </div>
+                    </div>
+                }
 
-            <div class="col-md-4 col-sm-4">
-                <div class="feature-thumb">
-                    <span>02</span>
-                    <h3>Books & Library</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing eiusmod tempor incididunt ut labore et dolore magna.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-4">
-                <div class="feature-thumb">
-                    <span>03</span>
-                    <h3>Certified Teachers</h3>
-                    <p>templatemo provides a wide variety of free Bootstrap Templates for you. Please tell your friends about us. Thank you.</p>
-                </div>
-            </div>
-
+            }
         </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 </section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
