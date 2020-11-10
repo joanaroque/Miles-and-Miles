@@ -452,7 +452,7 @@
             {
                 var advert = await _advertisingRepository.GetByIdWithIncludesAsync(id.Value);
 
-                return View(_converterHelper.ToAdvertisingViewModel(advert));
+                return PartialView("_AdvertisingDetails", _converterHelper.ToAdvertisingViewModel(advert));
             }
             catch (Exception)
             {

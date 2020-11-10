@@ -1,102 +1,89 @@
 ﻿@model IEnumerable<MilesBackOffice.Web.Models.AdvertisingViewModel>
 
 @{
-    ViewData["Title"] = "Advertising";
+    ViewData["Title"] = "Miles News";
 }
 
 
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <br />
-                    <h1>Advertising</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
-                        <li class="breadcrumb-item active">Advertising</li>
-                    </ol>
-                </div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h2>Publicity & News</h2>
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-16">
-
-                    <!-- /.card -->
-
-                    <div class="card">
-
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table class="table table-bordered table-striped index-table">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Partner</th>
-                                        <th>Title</th>
-                                        <th>Content</th>
-                                        <th>End Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                                {
-                                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
-                                                }
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PartnerName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Title)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Content)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.EndDate)
-                                            </td>
-                                            <td>
-                                                <a asp-action="AdvertisingDetails" class="btn btn-warning" asp-route-id="@item.Id">
-                                                    <i class="fa fa-list"></i>
-                                                </a>
-                                                <a>-  -  - </a>
-                                                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
-                                                    <i class="far fa-check-circle"></i>
-                                                </a>
-                                                <a>-  -  - </a>
-                                                <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
-                                                    <i class="fas fa-ban"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Home" asp-controller="Account">Home</a></li>
+                    <li class="breadcrumb-item active">Publicity/News</li>
+                </ol>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
+<br />
 
+<table class="table stats-table index-table">
+    <thead>
+        <tr>
+            <th>Article Id</th>
+            <th>Title</th>
+            <th>Created On</th>
+            <th>Created By</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostGuidId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    <a onclick="openPartial()" action="AdvertisingDetails" class="btn btn-warning" data-value="@item.Id">
+                        <i class="fa fa-list"></i>
+                    </a>
+                    <a>-  -  - </a>
+                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
+                        <i class="far fa-check-circle"></i>
+                    </a>
+                    <a>-  -  - </a>
+                    <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="fas fa-ban"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="form_container">
+
+</div>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+
+
+    function imagePreview(input) {
+        if (input.files && input.files[0]) {
+            let fildr = new FileReader();
+            fildr.onload = function (e) {
+                $('#imgprw').attr('src', e.target.result);
+            }
+            fildr.readAsDataURL(input.files[0]);
+        }
     }
-
-
+</script>
+}
