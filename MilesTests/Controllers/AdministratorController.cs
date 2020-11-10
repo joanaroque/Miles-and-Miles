@@ -59,14 +59,14 @@
         {
             if (string.IsNullOrEmpty(id))
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error404");
             }
             try
             {
                 var user = await _userHelper.GetUserByIdAsync(id);
                 if (user == null)
                 {
-                    return NotFound();
+                    return new NotFoundViewResult("_Error404");
                 }
                 var model = new ApproveClientViewModel
                 {
@@ -86,7 +86,7 @@
             }
             catch (DBConcurrencyException)
             {
-                return NotFound();
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -101,7 +101,7 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 user.IsApproved = model.IsApproved;
@@ -239,14 +239,14 @@
         {
             if (id == null)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             var user = await _userHelper.GetUserByIdAsync(id);
 
             if (user == null)
             {
-                return new NotFoundViewResult("UserNotFound");
+                return new NotFoundViewResult("_Error404");
             }
 
             return View(user);
@@ -264,14 +264,14 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("UserNotFound");
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 var result = await _userHelper.DeleteUserAsync(user);
 
                 if (!result.Success)
                 {
-                    return NotFound();//TODO refactor
+                    return new NotFoundViewResult("_Error404");
                 }
 
                 _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
@@ -288,7 +288,7 @@
 
         public IActionResult UserNotFound()
         {
-            return new NotFoundViewResult("UserNotFound");
+            return new NotFoundViewResult("_Error404");
         }
     }
 }
