@@ -66,7 +66,7 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("_Error404");
+                    throw new DBConcurrencyException();
                 }
 
                 user.IsApproved = true;
@@ -84,12 +84,11 @@
             }
             catch (DBConcurrencyException)
             {
-                throw;
+                return new NotFoundViewResult("_Error404");
             }
             catch (Exception)
             {
-
-                throw;
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -123,12 +122,11 @@
             }
             catch (DBConcurrencyException)
             {
-                throw;
+                return new NotFoundViewResult("_Error404");
             }
             catch (Exception)
             {
-
-                throw;
+                return new NotFoundViewResult("_Error500");
             }
         }
 
@@ -159,23 +157,7 @@
                     try
                     {
                         var country = await _countryRepository.GetByIdAsync(model.CountryId);
-                        user = new User
-                        {
-                            Name = model.Name,
-                            Email = model.EmailAddress,
-                            UserName = model.Username,
-                            Address = model.Address,
-                            PhoneNumber = model.PhoneNumber,
-                            Country = country,
-                            City = model.City,
-                            DateOfBirth = model.DateOfBirth,
-                            Gender = model.Gender,
-                            TIN = model.TIN,
-                            SelectedRole = model.SelectedRole,
-                            IsActive = true,
-                            IsApproved = true,
-                            EmailConfirmed = true
-                        };
+                        user = _converterHelper.ToUser(model, country);
 
                         var password = UtilityHelper.Generate();
 
@@ -276,14 +258,14 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("_Error404");
+                    throw new Exception();
                 }
 
                 var result = await _userHelper.DeleteUserAsync(user);
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_Error404");
+                    throw new Exception();
                 }
 
                 _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
