@@ -353,10 +353,13 @@
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Email);
+                var user = _userHelper.GetUserByGuidId(model.GuidId);
+
+                var email = user.Email;
+
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+                    ModelState.AddModelError(string.Empty, "This Id doesn't correspont to a registered user.");
                     return View(model);
                 }
 
@@ -369,12 +372,11 @@
 
                 try
                 {
-                    _mailHelper.SendMail(model.Email, "Password Reset", $"<h1>Password Reset</h1>" +
+                    _mailHelper.SendMail(email, "Password Reset", $"<h1>Password Reset</h1>" +
                     $"To reset the password click in this link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
 
-                    //ModelState.Clear();
-                    ViewBag.Message = "The instructions to recover your password has been sent to email.";
+                    ModelState.AddModelError(string.Empty, "The instructions to recover your password have been sent to email.");
 
                 }
                 catch (Exception exception)
@@ -433,42 +435,6 @@
             return BadRequest();
         }
 
-        public IActionResult RecoverPasswordClient()
-        {
-            return View();
-        }
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> RecoverPasswordClient(RecoverPasswordViewModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByEmailAsync(model.Email);
-                if (user == null)
-                {
-                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
-                    return this.View(model);
-                }
-
-                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-
-                var link = this.Url.Action(
-                    "ResetPassword",
-                    "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme);
-
-                _mailHelper.SendMail(model.Email, "CinelAir Miles Password Reset",
-                    $"To reset the password click in this link:</br></br>" +
-                $"<a href = \"{link}\">Reset Password</a>");
-                this.ViewBag.Message = "The instructions to recover your password have been sent to email.";
-                return this.View();
-
-            }
-
-            return this.View(model);
-        }
 
         public IActionResult ResetPasswordClient(string token)
         {
