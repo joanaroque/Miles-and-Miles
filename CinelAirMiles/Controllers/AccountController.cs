@@ -307,7 +307,6 @@
         }
 
         public IActionResult ChangePasswordClient()
-
         {
             return View();
         }
@@ -319,7 +318,7 @@
         {
             if (this.ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
                 if (user != null)
                 {
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
