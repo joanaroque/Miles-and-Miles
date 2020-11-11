@@ -63,7 +63,7 @@
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Failed to login.");
+                        ModelState.AddModelError(string.Empty, "Username or Password Incorrect.");
                     }
                 }
                 catch (Exception ex)
