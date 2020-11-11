@@ -482,7 +482,6 @@
                 model.TIN = user.TIN;
                 model.Name = user.Name;
                 model.PhoneNumber = user.PhoneNumber;
-                model.CountryId = user.Country.Id;
             }
 
             model.Countries = _countryRepository.GetComboCountries();
@@ -501,6 +500,8 @@
                     var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
                     if (user != null)
                     {
+                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
+
                         user.Name = model.Name;
                         user.Address = model.Address;
                         user.PhoneNumber = model.PhoneNumber;
@@ -509,12 +510,13 @@
                         user.TIN = model.TIN;
                         user.Name = model.Name;
                         user.PhoneNumber = model.PhoneNumber;
-                        user.Country.Id = model.CountryId;
+                        user.Country = country;
 
                         var respose = await _userHelper.UpdateUserAsync(user);
                         if (respose.Succeeded)
                         {
                             ModelState.AddModelError(string.Empty, "User updated successfully!");
+                            return View(model);
                         }
                         else
                         {
@@ -532,7 +534,6 @@
             {
                 ModelState.AddModelError(string.Empty, "User not found.");
             }
-
 
             return View(model);
         }
