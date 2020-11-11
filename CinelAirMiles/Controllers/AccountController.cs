@@ -570,6 +570,7 @@
 
         [HttpGet]
         public async Task<IActionResult> DigitalCard()
+        
         {
             try
             {
@@ -580,7 +581,15 @@
                     return new NotFoundViewResult("_Error404Client");
                 }
 
-                return View();
+                var model = new DigitalCardViewModel
+                {
+                    Name = user.Name,
+                    ClientNumber = user.GuidId,
+                    TierType = user.Tier,
+                    ExpirationDate = DateTime.Now.AddYears(1)
+                };
+
+                return PartialView("_DigitalCard", model);
             }
             catch (Exception)
             {

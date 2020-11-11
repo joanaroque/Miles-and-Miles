@@ -1,7 +1,7 @@
 ﻿@model CinelAirMiles.Models.DigitalCardViewModel
 
 @{
-    ViewData["Title"] = "DigitalCard";
+    ViewData["Title"] = "_DigitalCard";
 }
 
 <link href="~/digitalCard/card.css" rel="stylesheet" />
@@ -9,10 +9,10 @@
 <div id="gradient"></div>
 <div id="card">
     <img src="~/images/user.png" />
-    <h2>
+    <p>
         @Html.DisplayNameFor(model => model.Name)
         @Html.DisplayFor(model => model.Name)
-    </h2>
+    </p>
     <p>
         @Html.DisplayNameFor(model => model.ClientNumber)
         @Html.DisplayFor(model => model.ClientNumber)

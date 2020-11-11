@@ -33,6 +33,18 @@
             return advertising;
         }
 
+
+        public async Task<List<Advertising>> GetAdvertisingForClientAsync()
+        {
+            var advertising = await _context.Advertisings
+                 //.Include(u => u.Title)
+                 //.Include(a => a.ImageUrl)
+                 .Where(st => st.Status == 0)
+                 .ToListAsync();
+
+            return advertising;
+        }
+
         public async Task<Advertising> GetByIdWithIncludesAsync(int id)
         {
             var advertising = await _context.Advertisings

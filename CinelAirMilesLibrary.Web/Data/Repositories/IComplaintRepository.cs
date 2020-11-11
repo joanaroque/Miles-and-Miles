@@ -13,12 +13,6 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 
         Task<List<ClientComplaint>> GetClientComplaintsAsync(string user);
 
-        /// <summary>
-        /// get the first or default client complaint, including who created
-        /// </summary>
-        /// <param name="id">id</param>
-        /// <returns>a client complaint</returns>
-        Task<ClientComplaint> GetByIdWithIncludesAsync(int id);
 
 
         /// <summary>

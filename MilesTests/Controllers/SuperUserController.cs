@@ -256,7 +256,7 @@
             {
                 try
                 {
-                    var complaint = await _clientComplaintRepository.GetByIdWithIncludesAsync(model.Id);
+                    var complaint = await _clientComplaintRepository.GetClientByIdAsync(model.Id);
 
                     if (complaint == null)
                     {
@@ -491,13 +491,13 @@
                 //deal with notification
                 await _notificationHelper.DeleteOldByIdAsync(advertising.PostGuidId);
 
-                return RedirectToAction(nameof(Advertising));
+                return RedirectToAction(nameof(AdvertisingIndex));
             }
             catch (Exception exception)
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            return RedirectToAction(nameof(Advertising));
+            return RedirectToAction(nameof(AdvertisingIndex));
         }
 
         /// <summary>
@@ -535,13 +535,13 @@
                     await _notificationHelper.CreateNotificationAsync(advertising.PostGuidId, UserType.User, "", NotificationType.Advertising);
                 }
 
-                return RedirectToAction(nameof(Advertising));
+                return RedirectToAction(nameof(AdvertisingIndex));
             }
             catch (Exception exception)
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            return RedirectToAction(nameof(Advertising));
+            return RedirectToAction(nameof(AdvertisingIndex));
 
         }
         #endregion

@@ -9,6 +9,9 @@
     {
         //Reservation ToReservation(ReservationViewModel model, bool isNew);
 
+        AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising);
+
+
 
         ReservationViewModel ToReservationViewModel(Reservation reservation);
 

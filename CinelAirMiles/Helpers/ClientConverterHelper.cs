@@ -3,6 +3,7 @@
     using CinelAirMiles.Models;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using System;
 
@@ -16,6 +17,23 @@
             _userHelper = userHelper;
         }
 
+        public AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising)
+        {
+            var advertisings = new AdvertisingViewModel
+            {
+                Id = advertising.Id,
+                Title = advertising.Title,
+                Content = advertising.Content,
+                ImageUrl = advertising.ImageUrl,
+                EndDate = advertising.EndDate,
+                Status = advertising.Status,
+                //PartnerName = advertising.Partner.CompanyName,
+                PostGuidId = advertising.PostGuidId,
+                CreatedBy = advertising.CreatedBy == null ? "unknown" : advertising.CreatedBy.Name,
+                CreatedOn = advertising.CreateDate
+            };
+            return advertisings;
+        }
 
         public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
         {
@@ -41,11 +59,10 @@
                 Email = clientComplaint.CreatedBy.Email,
                 Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
-                Status = clientComplaint.Status,
-                
+                Status = clientComplaint.Status                
             };
 
-            return complaint;
+            return complaint; // todo diz que a lista vem a null
         }
 
         public Notification ToNotification(NotificationViewModel model, bool isNew)
