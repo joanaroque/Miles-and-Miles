@@ -568,8 +568,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> DigitalCard()
-        
+        public async Task<IActionResult> DigitalCard()  
         {
             try
             {

@@ -87,18 +87,14 @@
                     }
                 </ul>
 
-                @*<div id="noti_Container"></div>*@
             </div>
 
         </div>
     </section>
 
-
     <!-- HOME -->
 
     @RenderBody()
-
-
 
 
     <!-- FOOTER -->
@@ -190,29 +186,3 @@
 </body>
 </html>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#noti_Container").ikrNotificationSetup();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "/Notification/GetNotifications",
-            traditional: true,
-            contentType: "application/json;charset=utf-8",
-            success: function (data) {
-                let notifications = data;
-                $("#noti_Container").ikrNotificationCount({
-                    NotificationList: notifications,
-                    NotiFromPropName: "FromUserName",
-                    ListTitlePropName: "Title",
-                    ListBodyPropName: "Message",
-                    ControllerName: "Notification",
-                    ActionName: "AllNotifications"
-                });
-            },
-            error: function (xhr, status, error) {
-
-            }
-        })
-    });
-</script>
