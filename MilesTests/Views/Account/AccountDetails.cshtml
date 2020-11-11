@@ -2,16 +2,13 @@
 
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container">
             <div class="row mb-2">
                 <h5>@Html.DisplayFor(model => model.Name)</h5>
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
     <div class="content">
         <div class="container">
             <div class="row">
@@ -46,13 +43,9 @@
                                     <a class="btn btn-info pull-right" asp-action="EditUser" asp-route-id="@Model.Id">Edit User</a>
                                 </div>
                             </div>
-
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
         </div>
     </div>
@@ -60,11 +53,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <!--main content end-->
-    <script src="~/template/js/bootstrap.js"></script>
-    <script src="~/template/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="~/template/js/scripts.js"></script>
-    <script src="~/template/js/jquery.slimscroll.js"></script>
-    <script src="~/template/js/jquery.nicescroll.js"></script>
-    <script src="~/template/js/jquery.scrollTo.js"></script>
 }
