@@ -91,6 +91,8 @@
         public async Task<PremiumOffer> GetByIdWithIncludesAsync(int id)
         {
             var seatsAvailable = await _dataContext.PremiumOffers
+                  .Include(f => f.Flight)
+                  .Include(p => p.Partner)
                   .Include(t => t.CreatedBy)
                   .Where(t => t.Id.Equals(id)).FirstOrDefaultAsync();
 
@@ -106,7 +108,7 @@
         {
             return await _dataContext.PremiumOffers
                 .Include(p => p.Partner)
-               // .Include(u => u.CreatedBy)
+                .Include(u => u.CreatedBy)
                 .Include(f => f.Flight)
                 .ToListAsync();
         }

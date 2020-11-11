@@ -54,8 +54,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="EditPartner"><i class="fa fa-user-edit"></i></a>
-                                <a class="btn btn-danger pull-right" asp-action="Delete"
-                                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.CompanyName?')">
+                                <a id="btnDeleteItem" class="btn btn-danger pull-right" data-id="@item.Id" action="DeletePartner" controller="User">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
