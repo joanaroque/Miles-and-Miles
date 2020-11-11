@@ -263,7 +263,7 @@
             return new UserDetailsViewModel
             {
                 Id = user.Id,
-                GuidId = user.GuidId,
+               // GuidId = user.GuidId,
                 Name = user.Name,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,

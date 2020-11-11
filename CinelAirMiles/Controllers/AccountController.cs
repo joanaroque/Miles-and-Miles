@@ -507,7 +507,7 @@
 
         public async Task<IActionResult> ChangeUserClient()
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
             var model = new ChangeUserViewModel();
 
             if (user != null)
