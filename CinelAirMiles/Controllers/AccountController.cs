@@ -363,7 +363,7 @@
                 var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
 
                 var link = Url.Action(
-                    "ResetPassword",
+                    "ResetPasswordClient",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
@@ -442,7 +442,7 @@
         [HttpPost]
         public async Task<IActionResult> ResetPasswordClient(ResetPasswordViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(model.Email);
+            var user = _userHelper.GetUserByGuidId(model.GuidId);
             if (user != null)
             {
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
