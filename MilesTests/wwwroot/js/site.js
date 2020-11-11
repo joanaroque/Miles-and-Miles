@@ -32,6 +32,7 @@ function openPartial() {
     const action = event.currentTarget.getAttribute("action");
 
     $('#form_container').load(getPath(document.location.pathname) + '/' + action + '?id=' + id);
+    window.location.hash = "#form_container";
 }
 
 
@@ -45,6 +46,11 @@ function openPartialCreate() {
     const action = event.currentTarget.getAttribute("action");
 
     $('#form_container').load(getPath(document.location.pathname) + '/' + action);
+}
+
+
+function getPartial(container, action, controller, id) {
+    $(container).load('/' + controller + '/' + action + '?id=' + id);
 }
 
 
