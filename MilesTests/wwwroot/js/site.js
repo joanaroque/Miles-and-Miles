@@ -1,6 +1,5 @@
 ﻿'use strict'
 
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/notificationhub").build();
 
 start();
@@ -32,6 +31,7 @@ function openPartial() {
     const action = event.currentTarget.getAttribute("action");
 
     $('#form_container').load(getPath(document.location.pathname) + '/' + action + '?id=' + id);
+    window.location.hash = "#form_container";
 }
 
 
@@ -48,56 +48,56 @@ function openPartialCreate() {
 }
 
 
-function loadFlightCombo(sourceEl, destEl) {
-    $(destEl).empty();
-    
-    $.ajax({
-        type: "POST",
-        url: "/User/GetFlights",
-        data: { partnerId: $(sourceEl).val() },
-        dataType: "json",
-        success: function (result) {
-            $.each(result, function (i, flight) {
-                $(destEl).append('<option value="'
-                    + flight.id + '">'
-                    + flight.Origin + "->" + flight.destination
-                    + " " + flight.departureDate
-                    + '</option>');
-            })
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
+function getPartial(container, action, controller, id) {
+    $(container).load('/' + controller + '/' + action + '?id=' + id);
 }
+
+
+//function loadFlightCombo(sourceEl, destEl) {
+//    $(destEl).empty();
+    
+//    $.ajax({
+//        type: "POST",
+//        url: "/User/GetFlights",
+//        data: { partnerId: $(sourceEl).val() },
+//        dataType: "json",
+//        success: function (result) {
+//            $.each(result, function (i, flight) {
+//                $(destEl).append('<option value="'
+//                    + flight.id + '">'
+//                    + flight.Origin + "->" + flight.destination
+//                    + " " + flight.departureDate
+//                    + '</option>');
+//            })
+//        },
+//        error: function (err) {
+//            console.log(err);
+//        }
+//    });
+//}
 
 /**
  * 
  * */
-//function DeleteItem() {
-//    const routeId = event.currentTarget.getAttribute('data-id');
-//    const routeHref = document.location.pathname;
-
-//    routeHref = routeHref.splice(routeHref.lastIndexOf('/'));
-
-
-//    $("a[id*=btnDeleteItem]").click(function () {
-
-
-//        $('#deleteDialog').modal("show");
-//        return false;
-//    });
-
-//    $("#btnNoDelete").click(function () {
-//        $("#deleteDialog").modal('hide');
-//        return false;
-//    });
-
-//    $("#btnYesDelete").click(function () {
-//        window.location.href = '/' + routeHref + '/Delete/' + routeId;
-//    });
-//}
-
+window.addEventListener("load", function () {
+    let routeAction = "";
+    let routeHref = "";
+    let routeId = "";
+    $("a[id*=btnDeleteItem]").click(function () {
+        routeAction = event.currentTarget.getAttribute("action");
+        routeHref = event.currentTarget.getAttribute("controller");
+        routeId = event.currentTarget.getAttribute("data-id");
+        $('#deleteDialog').modal("show");
+        return false;
+    });
+    $("#btnNoDelete").click(function () {
+        $("#deleteDialog").modal('hide');
+        return false;
+    });
+    $("#btnYesDelete").click(function () {
+        window.location.href = '/' + routeHref + '/' + routeAction + '/' + routeId;
+    });
+})
 
 
 /**

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<MilesBackOffice.Web.Models.SuperUser.ComplaintClientViewModel>
+
+
+@{
+    ViewData["Title"] = "Complaints";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <br />
+                <h5>Client Requests</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped index-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Date</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Reply</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ClientName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Complaint)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Body)
+                                        </td>
+                                        <td>
+                                            @if (item.Status != 0)
+                                            {
+                                                <label class="label-success">Pending</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="label-success">Processed</label>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

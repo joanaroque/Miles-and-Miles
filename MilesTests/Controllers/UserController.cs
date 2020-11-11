@@ -195,7 +195,7 @@
             }
             try
             {
-                var item = await _premiumRepository.GetByIdAsync(id.Value);
+                var item = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
 
                 if (item == null)
                 {
@@ -262,10 +262,35 @@
 
         /***************DELETE********************/
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            //delete or status 5 == deleted??
-            return RedirectToAction("PremiumIndex");
+            try
+            {
+                if (id == null)
+                {
+                    throw new Exception();
+                }
+
+                var item = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
+                if (item == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _premiumRepository.DeleteAsync(item);
+                if (!result)
+                {
+                    throw new Exception("Failed to delete.");
+                }
+
+                var notify = _notificationHelper.DeleteOldByIdAsync(item.OfferIdGuid);
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error404");
+            }
         }
         #endregion
 
@@ -365,6 +390,38 @@
             catch (Exception)
             {
                 return new NotFoundViewResult("_Error500");
+            }
+        }
+
+
+        public async Task<IActionResult> DeletePartner(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    throw new Exception();
+                }
+
+                var item = await _partnerRepository.GetByIdAsync(id.Value);
+                if (item == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _partnerRepository.DeleteAsync(item);
+                if (!result)
+                {
+                    throw new Exception("Failed to delete.");
+                }
+
+                var notify = _notificationHelper.DeleteOldByIdAsync(item.PartnerGuidId);
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error404");
             }
         }
         #endregion
@@ -482,6 +539,37 @@
             catch (Exception)
             {
                 return new NotFoundViewResult("_500Error");
+            }
+        }
+
+        public async Task<IActionResult> DeletePost(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    throw new Exception();
+                }
+
+                var item = await _advertisingRepository.GetByIdAsync(id.Value);
+                if (item == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _advertisingRepository.DeleteAsync(item);
+                if (!result)
+                {
+                    throw new Exception("Failed to delete.");
+                }
+
+                var notify = _notificationHelper.DeleteOldByIdAsync(item.PostGuidId);
+
+                return RedirectToAction(nameof(PremiumIndex));
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error404");
             }
         }
         #endregion

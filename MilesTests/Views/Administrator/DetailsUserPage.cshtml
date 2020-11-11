@@ -1,0 +1,58 @@
+﻿@model MilesBackOffice.Web.Models.UserDetailsViewModel
+
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <h1>@Model.Name -- User#: @Model.GuidId</h1>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Username)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Email)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.DateOfBirth)</div>
+                            <div class="w-100"></div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Username)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Email)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.DateOfBirth)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.TIN)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Gender)</div>
+                            <div class="w-100"></div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.TIN)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.PhoneNumber)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Gender)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="purchase_container">
+
+</div>
+
+<div id="form_container">
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+    window.addEventListener("load", function () {
+        getPartial("purchase_container", "GetClientPurchases", "Client", "@Model.Id");
+        getPartial("form_container", "GetClientComplaints", "Client", "@Model.Id");
+    })
+</script>
+}

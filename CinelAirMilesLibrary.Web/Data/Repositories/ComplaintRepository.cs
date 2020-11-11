@@ -37,12 +37,12 @@
             return client;
         }
 
-        public async Task<List<ClientComplaint>> GetClientComplaintsAsync(string user)
+        public async Task<List<ClientComplaint>> GetClientComplaintsAsync(string id)
         {
 
             var complaint = await _context.ClientComplaints
                 .Include(c => c.CreatedBy)
-                .Where(c => c.CreatedBy.Id == user)
+                .Where(c => c.CreatedBy.Id == id)
                 .ToListAsync();
 
             return complaint;

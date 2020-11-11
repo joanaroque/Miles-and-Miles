@@ -59,8 +59,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
-                                <a class="btn btn-danger pull-right" asp-action="Delete"
-                                   data-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Title?')">
+                                <a id="btnDeleteItem" class="btn btn-danger pull-right" data-id="@item.Id" action="Delete" controller="User">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </td>
@@ -82,6 +81,8 @@
 
 </div>
 
+<partial name="_DeleteConfirm" />
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -92,9 +93,5 @@
             byID('btn_newUpgrade').addEventListener('click', openPartialCreate);
             byID('btn_newVoucher').addEventListener('click', openPartialCreate);
         });
-
-        $("select[id=PartnerId]").change(loadFlightCombo("PartnerId", "FlightId"));
-
-        
     </script>
 }
