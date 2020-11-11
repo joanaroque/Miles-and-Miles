@@ -380,7 +380,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = true,
                     Tier = TierType.Basic,
                     StatusMiles = 0,
-                    BonusMiles = 0
+                    BonusMiles = 0,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user6, "123456");
@@ -423,7 +424,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = false,
                     Tier = TierType.Basic,
                     StatusMiles = 0,
-                    BonusMiles = 0
+                    BonusMiles = 0,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user5, "123456");
@@ -466,7 +468,8 @@ namespace MilesBackOffice.Web.Data
                     IsApproved = false,
                     Tier = TierType.Gold,
                     StatusMiles = 70000,
-                    BonusMiles = 70000
+                    BonusMiles = 70000,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user4, "123456");
