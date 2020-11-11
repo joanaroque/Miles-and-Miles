@@ -51,6 +51,8 @@
                 {
                     return new NotFoundViewResult("_Error404Client");
                 }
+
+                return View(modelList);
             }
 
             else
@@ -58,7 +60,6 @@
                 return new NotFoundViewResult("_Error404Client");
             }
 
-            return View();
         }
 
 
