@@ -53,7 +53,7 @@
 
                     if (user == null)
                     {
-                        return new NotFoundViewResult("_Error404");
+                        throw new Exception("Username and Password Incorrect");
                     }
 
                     var result = await _userHelper.LoginAsync(model.UserName, model);
