@@ -263,6 +263,7 @@
             return new UserDetailsViewModel
             {
                 Id = user.Id,
+                GuidId = user.GuidId,
                 Name = user.Name,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
@@ -270,7 +271,6 @@
                 Username = user.UserName,
                 City = user.City,
                 Email = user.Email,
-                IsActive = user.IsActive,
                 Gender = user.Gender,
                 SelectedRole = user.SelectedRole,
                 TIN = user.TIN
