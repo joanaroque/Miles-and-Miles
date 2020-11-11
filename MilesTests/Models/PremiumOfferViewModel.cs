@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     using CinelAirMilesLibrary.Common.Enums;
@@ -23,6 +24,7 @@
 
         
         //[Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
+        [DisplayName("Flight")]
         public int FlightId { get; set; }
 
 
@@ -33,6 +35,7 @@
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
+        [DisplayName("From Partner")]
         public int PartnerId { get; set; }
 
 
