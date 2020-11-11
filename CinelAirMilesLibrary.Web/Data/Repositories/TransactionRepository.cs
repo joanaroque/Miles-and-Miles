@@ -49,6 +49,15 @@
             return miles.BonusMiles;
         }
 
+        public async Task<IEnumerable<Transaction>> GetByClientIdAsync(string id)
+        {
+            return await _context.Transactions
+                .Include(u => u.CreatedBy)
+                .Include(po => po.Product)
+                .Where(i => i.CreatedBy.Id.Equals(id))
+                .ToListAsync();
+        }
+
         public async Task<Response> AddTransanctionAsync(Transaction trans)
         {
             var result = await CreateAsync(trans);

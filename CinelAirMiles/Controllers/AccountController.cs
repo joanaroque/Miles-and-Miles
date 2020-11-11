@@ -233,10 +233,9 @@
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
-                    var guid = _clientRepository.CreateGuid();
                     user = new User
                     {
-                        GuidId = guid,
+                        GuidId = GuidHelper.CreatedGuid(),
                         Name = model.Name,
                         Email = model.Username,
                         UserName = model.Username,
@@ -254,7 +253,7 @@
                         SelectedRole = UserType.Client
                     };
 
-                    var role = await _userManager.AddToRoleAsync(user, UserType.Client.ToString());
+                    await _userManager.AddToRoleAsync(user, UserType.Client.ToString());
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
@@ -577,7 +576,7 @@
 
         [HttpGet]
         public async Task<IActionResult> DigitalCard()
-
+        
         {
             try
             {

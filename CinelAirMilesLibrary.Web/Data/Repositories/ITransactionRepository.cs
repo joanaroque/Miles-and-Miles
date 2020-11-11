@@ -14,5 +14,6 @@
         int GetBonusMiles(User user);
 
         Task<List<Transaction>> GetAllByClient(User user);
+        Task<IEnumerable<Transaction>> GetByClientIdAsync(string id);
     }
 }
