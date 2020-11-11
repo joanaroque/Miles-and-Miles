@@ -5,7 +5,6 @@
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
-    using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -506,7 +505,8 @@
 
         public async Task<IActionResult> ChangeUserClient()
         {
-            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
+
             var model = new ChangeUserViewModel();
 
             if (user != null)
@@ -514,13 +514,11 @@
                 model.Name = user.Name;
                 model.Address = user.Address;
                 model.PhoneNumber = user.PhoneNumber;
-                model.CountryId = user.Country.Id;
-                model.Countries = _countryRepository.GetComboCountries();
                 model.City = user.City;
                 model.TIN = user.TIN;
                 model.Name = user.Name;
                 model.PhoneNumber = user.PhoneNumber;
-
+                model.CountryId = user.Country.Id;
             }
 
             model.Countries = _countryRepository.GetComboCountries();
@@ -534,41 +532,51 @@
         {
             if (this.ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                if (user != null)
+                try
                 {
-                    user.Name = model.Name;
-                    user.Address = model.Address;
-                    user.PhoneNumber = model.PhoneNumber;
-                    user.City = model.City;
-                    user.Name = model.Name;
-                    user.TIN = model.TIN;
-                    user.Name = model.Name;
-                    user.PhoneNumber = model.PhoneNumber;
+                    var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
+                    if (user != null)
+                    {
+                        user.Name = model.Name;
+                        user.Address = model.Address;
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.City = model.City;
+                        user.Name = model.Name;
+                        user.TIN = model.TIN;
+                        user.Name = model.Name;
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.Country.Id = model.CountryId;
 
-                    var respose = await _userHelper.UpdateUserAsync(user);
-                    if (respose.Succeeded)
-                    {
-                        ViewBag.UserMessage = "User updated!";
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
+                        var respose = await _userHelper.UpdateUserAsync(user);
+                        if (respose.Succeeded)
+                        {
+                            ModelState.AddModelError(string.Empty, "User updated successfully!");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, "User no found.");
+                    ModelState.AddModelError(string.Empty, ex.Message);
                 }
+
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User not found.");
+            }
+
 
             return View(model);
         }
 
 
-
         [HttpGet]
-        public async Task<IActionResult> DigitalCard()  
+        public async Task<IActionResult> DigitalCard()
+        
         {
             try
             {
