@@ -30,7 +30,8 @@
         public DateTime Date { get; set; }
 
 
-
+        [DataType(DataType.MultilineText)]
+        [Required]
         public string Body { get; set; }
 
 

@@ -88,22 +88,23 @@
             {
                 try
                 {
-                    var complaint = await _complaintRepository.GetClientByIdAsync(model.Id);
+                    // ?? var complaint = await _complaintRepository.GetClientByIdAsync(model.Id);
 
-                    if (complaint == null)
-                    {
-                        return new NotFoundViewResult("_Error404Client");
-                    }
+                    //if (complaint == null)
+                    //{
+                    //    return new NotFoundViewResult("_Error404Client");
+                    //}
 
-                    var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
+                    //var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
+
+                    var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
                     if (user == null)
                     {
                         return new NotFoundViewResult("_Error404Client");
                     }
 
-                    var clientComplaint = _converterHelper.ToClientComplaint(model, true);
-                    clientComplaint.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var clientComplaint = _converterHelper.ToClientComplaint(model, true, user);
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 

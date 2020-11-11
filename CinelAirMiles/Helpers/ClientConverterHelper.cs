@@ -35,16 +35,18 @@
             return advertisings;
         }
 
-        public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
+        public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew, User user)
         {
             var client = new ClientComplaint
             {
                 Id = isNew ? 0 : model.Id,
                 Complaint = model.Complaint,
-                Email = model.Email,
-                Date = model.Date,
+                Email = user.Email,
+                Date = DateTime.UtcNow,
                 Body = model.Body,
-                Status = model.Status,
+                Status = 1,
+                CreateDate = DateTime.UtcNow,
+                CreatedBy = user
             };
 
             return client;
