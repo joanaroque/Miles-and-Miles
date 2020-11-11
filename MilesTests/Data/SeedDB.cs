@@ -365,22 +365,23 @@ namespace MilesBackOffice.Web.Data
                 user6 = new User
                 {
                     GuidId = GuidHelper.CreatedGuid(),
-                    Name = "Marilia",
+                    Name = "Marilia Amélia Santos",
                     Email = "mariliaa@yopmail.com",
                     UserName = "Mariliazinha",
                     PhoneNumber = "965201474",
                     Address = "Rua do teto",
                     EmailConfirmed = true,
-                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    DateOfBirth = DateTime.Parse("04/01/1989"),
                     Gender = Gender.Female,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
-                    TIN = "2121218",
+                    TIN = "240355879",
                     IsActive = true,
                     IsApproved = true,
                     Tier = TierType.Basic,
                     StatusMiles = 0,
-                    BonusMiles = 0
+                    BonusMiles = 0,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user6, "123456");
@@ -408,9 +409,9 @@ namespace MilesBackOffice.Web.Data
                 user5 = new User
                 {
                     GuidId = GuidHelper.CreatedGuid(),
-                    Name = "Jacinto",
+                    Name = "Jacinto Simões Costa",
                     Email = "jacintoafonso@yopmail.com",
-                    UserName = "Jacinto",
+                    UserName = "JacintoSC83",
                     PhoneNumber = "965201474",
                     Address = "Rua do telefone",
                     EmailConfirmed = true,
@@ -418,12 +419,13 @@ namespace MilesBackOffice.Web.Data
                     Gender = Gender.Male,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
-                    TIN = "21121218",
+                    TIN = "230654789",
                     IsActive = true,
-                    IsApproved = false,
+                    IsApproved = true,
                     Tier = TierType.Basic,
                     StatusMiles = 0,
-                    BonusMiles = 0
+                    BonusMiles = 0,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user5, "123456");
@@ -451,22 +453,23 @@ namespace MilesBackOffice.Web.Data
                 user4 = new User
                 {
                     GuidId = GuidHelper.CreatedGuid(),
-                    Name = "Pedro",
+                    Name = "Pedro Esteves Cardoso",
                     Email = "estevescardoso@yopmail.com",
-                    UserName = "Pedro",
+                    UserName = "PedroCardoso",
                     PhoneNumber = "965201474",
                     Address = "Rua da taça",
                     EmailConfirmed = true,
-                    DateOfBirth = DateTime.Parse("01/10/1983"),
+                    DateOfBirth = DateTime.Parse("21/05/1979"),
                     Gender = Gender.Male,
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "21821218",
                     IsActive = true,
-                    IsApproved = false,
+                    IsApproved = true,
                     Tier = TierType.Gold,
                     StatusMiles = 70000,
-                    BonusMiles = 70000
+                    BonusMiles = 70000,
+                    SelectedRole = UserType.Client
                 };
 
                 await _userHelper.AddUserAsync(user4, "123456");
@@ -506,7 +509,7 @@ namespace MilesBackOffice.Web.Data
                     City = "Lisbon",
                     Country = await _context.Countries.Where(c => c.Name == "Portugal").FirstOrDefaultAsync(),
                     TIN = "212121218",
-                    IsActive = false,
+                    IsActive = true,
                     IsApproved = true,
                     Tier = TierType.None,
                     StatusMiles = 0,

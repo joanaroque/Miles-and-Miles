@@ -34,8 +34,9 @@ table {
 }
 
 /* start editing from here */
-a {
+a > span {
 	text-decoration:none;
+	color: whitesmoke;
 }
 .txt-rt {
 	text-align:right;
@@ -81,7 +82,6 @@ img {
 /*--- end reset code ---*/
 
 body {
-	background:url(../images/banner.jpg);
 	background-repeat:no-repeat;
 	background-position:center;
 	background-attachment:fixed;
@@ -108,7 +108,7 @@ h1.w3ls {
     font-size: 45px;
     font-weight: 600;
     padding: 50px 0;
-    color: #fff;
+    color: rgba(0, 0, 0, 0.5);
     text-align: center;
     text-transform: uppercase;
     font-family: 'Comfortaa', cursive;
@@ -454,7 +454,7 @@ p.agileits {
 	font-weight:normal;
 }
 p.agileits a {
-	color:#fff;
+	color:rgba(0, 0, 0, 0.5);
 }
 p.agileits a:hover {
 	color:red;

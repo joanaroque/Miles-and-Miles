@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
 
@@ -29,11 +30,13 @@
         }
 
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                var user = await GetCurrentUser();
+
+                RedirectUserForRole(user);
             }
 
             return View();
@@ -56,11 +59,11 @@
                     var result = await _userHelper.LoginAsync(model.UserName, model);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectUserForRole(user);
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Failed to login.");
+                        ModelState.AddModelError(string.Empty, "Username or Password Incorrect.");
                     }
                 }
                 catch (Exception ex)
@@ -72,10 +75,31 @@
             return View(model);
         }
 
+
+        private protected IActionResult RedirectUserForRole(User user)
+        {
+            if (user.SelectedRole == UserType.Admin)
+            {
+                return RedirectToAction("ListUsers", "Administrator");
+            }
+            else if (user.SelectedRole == UserType.SuperUser)
+            {
+                return RedirectToAction("PremiumIndex", "SuperUser");
+            }
+            else if (user.SelectedRole == UserType.User)
+            {
+                return RedirectToAction("PremiumIndex", "User");
+            }
+            else
+            {
+                return View(nameof(Login));
+            }
+        }
+
         public async Task<IActionResult> Logout()
         {
             await _userHelper.LogoutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(AccountController.Login));
         }
 
         [HttpGet]

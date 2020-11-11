@@ -3,9 +3,11 @@
     using System;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using MilesBackOffice.Web.Models;
+    using MilesBackOffice.Web.Models.Admin;
     using MilesBackOffice.Web.Models.SuperUser;
 
 
@@ -220,20 +222,48 @@
         }
 
 
-        public User ToUser(UserDetailsViewModel model)
+        public User ToUser(RegisterUserViewModel model, Country country)
         {
             return new User
             {
-
+                GuidId = GuidHelper.CreatedGuid(),
+                Name = model.Name,
+                Email = model.EmailAddress,
+                UserName = model.Username,
+                Country = country,
+                Address = model.Address,
+                PhoneNumber = model.PhoneNumber,
+                City = model.City,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                TIN = model.TIN,
+                SelectedRole = model.SelectedRole,
+                IsActive = true,
+                IsApproved = true,
+                EmailConfirmed = true
             };
         }
 
+        public NewClientsViewModel ToNewClientViewModel(User user)
+        {
+            return new NewClientsViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                TIN = user.TIN,
+                CountryName = user.Country.Name
+            };
+        } 
+
+        
 
         public UserDetailsViewModel ToUserViewModel(User user)
         {
             return new UserDetailsViewModel
             {
                 Id = user.Id,
+                GuidId = user.GuidId,
                 Name = user.Name,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
@@ -241,7 +271,6 @@
                 Username = user.UserName,
                 City = user.City,
                 Email = user.Email,
-                IsActive = user.IsActive,
                 Gender = user.Gender,
                 SelectedRole = user.SelectedRole,
                 TIN = user.TIN

@@ -6,15 +6,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CinelAirMilesLibrary.Common.Data;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
 
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
@@ -44,82 +41,93 @@
             _clientRepository = clientRepository;
         }
 
-        
+
         public IActionResult NewClients()
         {
             var usersList = _clientRepository.GetNewClients();
 
-            var list = usersList.Select(u => _converterHelper.ToUserViewModel(u));
+            var list = usersList.Select(u => _converterHelper.ToNewClientViewModel(u));
 
             return View(list);
         }
 
 
+        [HttpPost]
         public async Task<IActionResult> ApproveClient(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                var user = await _userHelper.GetUserByIdAsync(id);
+
+                if (user == null)
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                user.IsApproved = true;
+
+                var result = await _userHelper.UpdateUserAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                _mailHelper.SendApproveClient(user.Email, user.Name);
+
+                return View(nameof(ListUsers));
+            }
+            catch (DBConcurrencyException)
             {
                 return new NotFoundViewResult("_Error404");
             }
-            try
-            {
-                var user = await _userHelper.GetUserByIdAsync(id);
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_Error404");
-                }
-                var model = new ApproveClientViewModel
-                {
-                    Name = user.Name,
-                    Username = user.UserName,
-                    Address = user.Address,
-                    City = user.City,
-                    CountryId = user.Country.Id,
-                    PhoneNumber = user.PhoneNumber,
-                    DateOfBirth = user.DateOfBirth,
-                    Email = user.Email,
-                    Status = user.Tier,
-                    TIN = user.TIN
-                };
-
-                return View(model);
-            }
-            catch (DBConcurrencyException)
+            catch (Exception)
             {
                 return new NotFoundViewResult("_Error500");
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ApproveClient(ApproveClientViewModel model)
-        {
-            //TODO !!! enviar email quando o user é aprovado + trycatch
 
-            if (ModelState.IsValid)
+        public async Task<IActionResult> DeclineClient(string id)
+        {
+            try
             {
-                var user = await _userHelper.GetUserByIdAsync(model.Id);
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                var user = await _userHelper.GetUserByIdAsync(id);
 
                 if (user == null)
                 {
                     return new NotFoundViewResult("_Error404");
                 }
 
-                user.IsApproved = model.IsApproved;
+                var result = await _userHelper.DeleteUserAsync(user);
 
-                var result = await _userHelper.UpdateUserAsync(user);
-
-                if (result.Succeeded)
+                if (!result.Success)
                 {
-                    _mailHelper.SendMail(model.Email, "CinelAir Miles confirmation", $"Your account was approved. You can now log in.");
-                    return RedirectToAction("NewClients");
+                    throw new DBConcurrencyException(result.Message);
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                _mailHelper.SendRefuseClient(user.Email, user.Name);
+
+                return View(nameof(ListUsers));
             }
-            return View(model);
+            catch (DBConcurrencyException)
+            {
+                return new NotFoundViewResult("_Error404");
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500");
+            }
         }
 
 
@@ -149,23 +157,7 @@
                     try
                     {
                         var country = await _countryRepository.GetByIdAsync(model.CountryId);
-                        user = new User
-                        {
-                            Name = model.Name,
-                            Email = model.EmailAddress,
-                            UserName = model.Username,
-                            Address = model.Address,
-                            PhoneNumber = model.PhoneNumber,
-                            Country = country,
-                            City = model.City,
-                            DateOfBirth = model.DateOfBirth,
-                            Gender = model.Gender,
-                            TIN = model.TIN,
-                            SelectedRole = model.SelectedRole,
-                            IsActive = true,
-                            IsApproved = true,
-                            EmailConfirmed = true
-                        };
+                        user = _converterHelper.ToUser(model, country);
 
                         var password = UtilityHelper.Generate();
 
@@ -237,9 +229,9 @@
 
         public async Task<IActionResult> DetailsUser(string id)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(id))
             {
-                return new NotFoundViewResult("_Error404");
+                throw new DBConcurrencyException();
             }
 
             var user = await _userHelper.GetUserByIdAsync(id);
@@ -249,12 +241,14 @@
                 return new NotFoundViewResult("_Error404");
             }
 
-            return View(user);
+            var model = _converterHelper.ToUserViewModel(user);
+
+            return PartialView("_DetailsUser", model);
         }
 
-       
 
-        
+
+
         // POST: Administrator/Delete/5
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -264,14 +258,14 @@
 
                 if (user == null)
                 {
-                    return new NotFoundViewResult("_Error404");
+                    throw new Exception();
                 }
 
                 var result = await _userHelper.DeleteUserAsync(user);
 
                 if (!result.Success)
                 {
-                    return new NotFoundViewResult("_Error404");
+                    throw new Exception();
                 }
 
                 _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
