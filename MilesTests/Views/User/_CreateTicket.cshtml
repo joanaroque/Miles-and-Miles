@@ -10,11 +10,11 @@
         </div>
         <div class="form-group">
             <label>Flight Company</label>
-            <select asp-for="PartnerId" required asp-items="Model.PartnersList" id="PartnerId"></select>
+            <select asp-for="PartnerId" required asp-items="Model.PartnersList" onchange="GetFlights()"><option value="">Select...</option></select>
         </div>
         <div class="form-group">
             <label asp-for="FlightId"></label>
-            <select asp-for="FlightId" asp-items="Model.Flights" required><option value="">Select a flight</option></select>
+            <select asp-for="FlightId" asp-items="Model.Flights" required onchange="CalculatePrice()"><option value="">Select a flight</option></select>
         </div>
         <div class="form-group">
             <label asp-for="Quantity"></label>
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label asp-for="Price"></label>
-            <input type="number" asp-for="Price" required min="0" />
+            <input type="number" asp-for="Price" required min="0" /> Miles
         </div>
         <button type="submit" class="btn btn-outline-success">Create</button>
     </form>
@@ -31,32 +31,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script type="text/javascript">
-            $(document).ready(function () {
-                $("#PartnerId").change(function () {
-                    $("#FlightId").empty();
-                    debugger;
-                    $.ajax({
-                        type: "POST",
-                        url: "/User/GetFlights",
-                        data: { partnerId: $("#PartnerId").val() },
-                        dataType: "json",
-                        success: function (result) {
-                            $.each(result, function (i, flight) {
-                                $("#FlightId").append('<option value="'
-                                    + flight.id + '">'
-                                    + flight.Origin + "->" + flight.destination
-                                    + " " + flight.departureDate
-                                    + '</option>');
-                            });
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                });
-            });
-        </script>*@
+    
 }
 
 

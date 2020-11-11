@@ -12,11 +12,11 @@
             </div>
             <div class="form-group">
                 <label>Flight Company</label>
-                <select type="text" asp-for="PartnerId" required asp-items="Model.PartnersList"></select>
+                <select type="text" asp-for="PartnerId" required asp-items="Model.PartnersList" onchange="GetFlights()"><option value="">Select...</option></select>
             </div>
             <div class="form-group">
                 <label asp-for="FlightId"></label>
-                <select type="text" asp-for="FlightId" required asp-items="Model.Flights"><option value="">Select a flight</option></select>
+                <select type="text" asp-for="FlightId" required asp-items="Model.Flights" onchange="CalculatePrice()"><option value="">Select a flight</option></select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity"></label>
