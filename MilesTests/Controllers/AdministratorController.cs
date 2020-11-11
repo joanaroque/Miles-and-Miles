@@ -261,7 +261,7 @@
 
             var model = _converterHelper.ToUserViewModel(user);
 
-            return PartialView(model);
+            return PartialView("_DetailsUser", model);
         }
 
 

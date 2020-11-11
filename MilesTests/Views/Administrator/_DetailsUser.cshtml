@@ -1,0 +1,42 @@
+﻿@model MilesBackOffice.Web.Models.UserDetailsViewModel
+
+
+
+<div class="content-header">
+    <div class="container">
+        <div class="row mb-2">
+            <h5>@Html.DisplayFor(model => model.Name)</h5>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.DateOfBirth)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.Address)</div>
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.City)</div>
+                            <div class="w-100"></div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.DateOfBirth)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.Address)</div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.City)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col py-3 px-lg-5 bg-light font-weight-bold">@Html.DisplayNameFor(model => model.PhoneNumber)</div>
+                            <div class="w-100"></div>
+                            <div class="col py-3 px-lg-5 bg-light">@Html.DisplayFor(model => model.PhoneNumber)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
