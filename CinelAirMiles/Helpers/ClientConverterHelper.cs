@@ -140,5 +140,30 @@
 
             return model;
         }
+
+
+        public User ToUser(RegisterNewUserViewModel model, Country country)
+        {
+            return new User
+            {
+                GuidId = GuidHelper.CreatedGuid(),
+                Name = model.Name,
+                Email = model.EmailAddress,
+                UserName = model.Username,
+                Country = country,
+                Address = model.Address,
+                PhoneNumber = model.PhoneNumber,
+                City = model.City,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                TIN = model.TIN,
+                SelectedRole = UserType.Client,
+                IsActive = true,
+                IsApproved = false,
+                EmailConfirmed = false,
+                Tier = TierType.Basic
+            };
+        }
+
     }
 }
