@@ -7,11 +7,27 @@ namespace CinelAirMilesLibrary.Common.Data.Repositories
 {
     public interface IComplaintRepository : IGenericRepository<ClientComplaint>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<SelectListItem> GetComboComplaintTypes();
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
         Task<ClientComplaint> GetClientByIdAsync(int clientId);
 
-        Task<List<ClientComplaint>> GetClientComplaintsAsync(string user);
+
+        /// <summary>
+        /// Get all entries for a specific User
+        /// </summary>
+        /// <param name="id">Id of the user that created the complaint</param>
+        /// <returns>A list of complaints</returns>
+        Task<List<ClientComplaint>> GetClientComplaintsAsync(string id);
 
 
 

@@ -3,6 +3,8 @@
     using CinelAirMilesLibrary.Common.CustomValidation;
     using CinelAirMilesLibrary.Common.Enums;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore.SqlServer.Query.ExpressionTranslators.Internal;
+
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -11,6 +13,9 @@
     public class UserDetailsViewModel
     {
         public string Id { get; set; }
+
+        [DisplayName("Miles #ID")]
+        public string GuidId { get; set; }
 
 
         [Display(Name = "Full Name")]
@@ -29,9 +34,6 @@
 
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
-
-
-        public IEnumerable<SelectListItem> Roles { get; set; }
 
 
         [Display(Name = "Role")]
@@ -60,15 +62,6 @@
 
         [Display(Name = "Country")]
         public int CountryId { get; set; }
-
-
-        public IEnumerable<SelectListItem> Countries { get; set; }
-
-
-        public IEnumerable<SelectListItem> StatusList { get; set; }
-
-
-        public IEnumerable<SelectListItem> Genders { get; set; }
 
 
         public bool IsActive { get; set; }
