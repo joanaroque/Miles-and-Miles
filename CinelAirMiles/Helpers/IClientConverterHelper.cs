@@ -7,6 +7,10 @@
 
     public interface IClientConverterHelper
     {
+        User ToUser(RegisterNewUserViewModel model, Country country);
+
+
+
         //Reservation ToReservation(ReservationViewModel model, bool isNew);
 
         AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising);

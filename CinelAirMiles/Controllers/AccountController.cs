@@ -1,5 +1,6 @@
 ﻿namespace CinelAirMiles.Controllers
 {
+    using CinelAirMiles.Helpers;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
@@ -30,6 +31,7 @@
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IClientRepository _clientRepository;
+        private readonly IClientConverterHelper _converterHelper;
 
         public AccountController(
             ICountryRepository countryRepository,
@@ -38,7 +40,8 @@
             IMailHelper mailHelper,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IClientConverterHelper converterHelper)
         {
             _countryRepository = countryRepository;
             _userHelper = userHelper;
@@ -47,6 +50,7 @@
             _signInManager = signInManager;
             _userManager = userManager;
             _clientRepository = clientRepository;
+            _converterHelper = converterHelper;
         }
 
 
@@ -122,88 +126,88 @@
             return RedirectToAction("IndexClient", "Home");
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
-                new { ReturnUrl = returnUrl });
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult ExternalLogin(string provider, string returnUrl)
+        //{
+        //    var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
+        //        new { ReturnUrl = returnUrl });
 
-            var properties =
-                _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+        //    var properties =
+        //        _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
 
-            return new ChallengeResult(provider, properties);
-        }
+        //    return new ChallengeResult(provider, properties);
+        //}
 
-        [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            returnUrl = returnUrl ?? Url.Content("~/");
+        //[AllowAnonymous]
+        //public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        //{
+        //    returnUrl = returnUrl ?? Url.Content("~/");
 
-            LoginViewModel loginViewModel = new LoginViewModel
-            {
-                ReturnUrl = returnUrl,
-                ExternalLogins =
-                (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+        //    LoginViewModel loginViewModel = new LoginViewModel
+        //    {
+        //        ReturnUrl = returnUrl,
+        //        ExternalLogins =
+        //        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+        //    };
 
-            if (remoteError != null)
-            {
-                ModelState.AddModelError(string.Empty,
-                    $"Error from external provider: {remoteError}");
+        //    if (remoteError != null)
+        //    {
+        //        ModelState.AddModelError(string.Empty,
+        //            $"Error from external provider: {remoteError}");
 
-                return View("LoginClient", loginViewModel);
-            }
+        //        return View("LoginClient", loginViewModel);
+        //    }
 
-            var info = await _signInManager.GetExternalLoginInfoAsync();
+        //    var info = await _signInManager.GetExternalLoginInfoAsync();
 
-            if (info == null)
-            {
-                return View("LoginClient", loginViewModel);
-            }
+        //    if (info == null)
+        //    {
+        //        return View("LoginClient", loginViewModel);
+        //    }
 
-            var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+        //    var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
+        //        info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            if (signResult.Succeeded)
-            {
-                return LocalRedirect(returnUrl);
-            }
+        //    if (signResult.Succeeded)
+        //    {
+        //        return LocalRedirect(returnUrl);
+        //    }
 
-            else if (signResult.IsLockedOut)
-            {
-                return RedirectToAction(nameof(ClientRecoverPassword));
-            }
+        //    else if (signResult.IsLockedOut)
+        //    {
+        //        return RedirectToAction(nameof(ClientRecoverPassword));
+        //    }
 
-            else
-            {
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                if (email != null)
-                {
-                    var user = await _userHelper.GetUserByEmailAsync(email);
-                    if (user == null)
-                    {
-                        user = new User
-                        {
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                        };
+        //    else
+        //    {
+        //        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+        //        if (email != null)
+        //        {
+        //            var user = await _userHelper.GetUserByEmailAsync(email);
+        //            if (user == null)
+        //            {
+        //                user = new User
+        //                {
+        //                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+        //                    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+        //                };
 
-                        await _userManager.CreateAsync(user);
-                    }
+        //                await _userManager.CreateAsync(user);
+        //            }
 
-                    await _userManager.AddLoginAsync(user, info);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+        //            await _userManager.AddLoginAsync(user, info);
+        //            await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return LocalRedirect(returnUrl);
-                }
+        //            return LocalRedirect(returnUrl);
+        //        }
 
-                ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
+        //        ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
 
-                return View("Error");
-            }
-        }
+        //        return View("Error");
+        //    }
+        //}
 
 
         public async Task<IActionResult> LogoutClient()
@@ -230,55 +234,49 @@
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                var user = await _userHelper.GetUserByEmailAsync(model.EmailAddress);
                 if (user == null)
                 {
-                    user = new User
+                    try
                     {
-                        GuidId = GuidHelper.CreatedGuid(),
-                        Name = model.Name,
-                        Email = model.Username,
-                        UserName = model.Username,
-                        Address = model.Address,
-                        PhoneNumber = model.PhoneNumber,
-                        City = model.City,
-                        TIN = model.TIN,
-                        Tier = TierType.Silver,
-                        BonusMiles = 0,
-                        StatusMiles = 0,
-                        IsActive = true,
-                        IsApproved = false,
-                        DateOfBirth = model.DateOfBirth,
-                        Gender = model.Gender,
-                        SelectedRole = UserType.Client
-                    };
+                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
 
-                    await _userManager.AddToRoleAsync(user, UserType.Client.ToString());
-                    var result = await _userHelper.AddUserAsync(user, model.Password);
-                    if (result != IdentityResult.Success)
-                    {
-                        this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                        user = _converterHelper.ToUser(model, country);
+
+                        var result = await _userHelper.AddUserAsync(user, model.Password);
+
+                        if (result != IdentityResult.Success)
+                        {
+                            this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                            return this.View(model);
+                        }
+
+                        await _userHelper.AddUSerToRoleAsync(user, user.SelectedRole);
+
+                        var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                        var tokenLink = this.Url.Action("ConfirmEmailClient", "Account", new
+                        {
+                            userid = user.Id,
+                            token = myToken
+                        }, protocol: HttpContext.Request.Scheme);
+
+                        _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                            $"Confirm this is your email by clicking the followiing link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
+                            $"</br></br></br>Your account is waiting approval. " +
+                            $"We'll let you know when it's approved and ready for you to use it.");
+
+                        ModelState.AddModelError(string.Empty, "Verify your email.");
+
+
                         return this.View(model);
                     }
-
-                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    var tokenLink = this.Url.Action("ConfirmEmail", "Account", new
+                    catch (Exception ex)
                     {
-                        userid = user.Id,
-                        token = myToken
-                    }, protocol: HttpContext.Request.Scheme);
-
-                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                        $"Confirm this is your email by clicking the followiing link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
-                        $"</br></br></br>Your account is waiting approval. " +
-                        $"We'll let you know when it's approved and ready for you to use it.");
-                    this.ViewBag.Message = "Verify your email.";
-
-
-                    return this.View(model);
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
                 }
 
-                this.ModelState.AddModelError(string.Empty, "The user already exists.");
+                this.ModelState.AddModelError(string.Empty, "There's already an account with this email address.");
             }
 
             return View(model);
@@ -484,7 +482,6 @@
                 model.TIN = user.TIN;
                 model.Name = user.Name;
                 model.PhoneNumber = user.PhoneNumber;
-                model.CountryId = user.Country.Id;
             }
 
             model.Countries = _countryRepository.GetComboCountries();
@@ -503,6 +500,8 @@
                     var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
                     if (user != null)
                     {
+                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
+
                         user.Name = model.Name;
                         user.Address = model.Address;
                         user.PhoneNumber = model.PhoneNumber;
@@ -511,12 +510,13 @@
                         user.TIN = model.TIN;
                         user.Name = model.Name;
                         user.PhoneNumber = model.PhoneNumber;
-                        user.Country.Id = model.CountryId;
+                        user.Country = country;
 
                         var respose = await _userHelper.UpdateUserAsync(user);
                         if (respose.Succeeded)
                         {
                             ModelState.AddModelError(string.Empty, "User updated successfully!");
+                            return View(model);
                         }
                         else
                         {
@@ -534,7 +534,6 @@
             {
                 ModelState.AddModelError(string.Empty, "User not found.");
             }
-
 
             return View(model);
         }

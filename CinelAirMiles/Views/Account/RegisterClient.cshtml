@@ -48,9 +48,14 @@
                                             <span asp-validation-for="City" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="PhoneNumber">Phone Number</label>
-                                            <input asp-for="PhoneNumber" class="form-control" />
-                                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                            <label asp-for="Gender" class="control-label"></label>
+                                            <select asp-for="Gender" asp-items="Model.Genders" class="form-control"></select>
+                                            <span asp-validation-for="Gender" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="TIN">TIN</label>
+                                            <input asp-for="TIN" class="form-control" />
+                                            <span asp-validation-for="TIN" class="text-warning"></span>
                                         </div>
                                         <br />
                                         <div class="form-group">
@@ -64,6 +69,11 @@
                                             <span asp-validation-for="EmailAddress" class="text-warning"></span>
                                         </div>
                                         <div class="form-group">
+                                            <label asp-for="PhoneNumber">Phone Number</label>
+                                            <input asp-for="PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                        </div>
+                                        <div class="form-group">
                                             <label asp-for="DateOfBirth">Date of Birth</label>
                                             <input asp-for="DateOfBirth" class="form-control" />
                                             <span asp-validation-for="DateOfBirth" class="text-warning"></span>
@@ -74,9 +84,14 @@
                                             <span asp-validation-for="CountryId" class="text-danger"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label asp-for="Gender" class="control-label"></label>
-                                            <select asp-for="Gender" asp-items="Model.Genders" class="form-control"></select>
-                                            <span asp-validation-for="Gender" class="text-danger"></span>
+                                            <label asp-for="Password">Password</label>
+                                            <input asp-for="Password" type="password" class="form-control" />
+                                            <span asp-validation-for="Password" class="text-warning"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="PasswordConfirm">Confirm</label>
+                                            <input asp-for="PasswordConfirm" type="password" class="form-control" />
+                                            <span asp-validation-for="PasswordConfirm" class="text-warning"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -94,31 +109,5 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#CountryId").change(function () {
-                $("#CityId").empty();
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetCitiesAsync")',
-                    dataType: 'json',
-                    data: { countryId: $("#CountryId").val() },
-                    success: function (cities) {
-                        debugger;
-                        $("#CityId").append('<option value="0">(Select a city...)</option>');
-                        $.each(cities, function (i, city) {
-                            $("#CityId").append('<option value="'
-                                + city.id + '">'
-                                + city.name + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        alert('Failed to retrieve cities.' + ex);
-                    }
-                });
-                return false;
-            })
-        });
-    </script>
 }
 
