@@ -3,6 +3,7 @@
     using System;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using MilesBackOffice.Web.Models;
@@ -221,11 +222,25 @@
         }
 
 
-        public User ToUser(UserDetailsViewModel model)
+        public User ToUser(RegisterUserViewModel model, Country country)
         {
             return new User
             {
-
+                GuidId = GuidHelper.CreatedGuid(),
+                Name = model.Name,
+                Email = model.EmailAddress,
+                UserName = model.Username,
+                Country = country,
+                Address = model.Address,
+                PhoneNumber = model.PhoneNumber,
+                City = model.City,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                TIN = model.TIN,
+                SelectedRole = model.SelectedRole,
+                IsActive = true,
+                IsApproved = true,
+                EmailConfirmed = true
             };
         }
 
@@ -241,7 +256,7 @@
             };
         } 
 
-
+        
 
         public UserDetailsViewModel ToUserViewModel(User user)
         {
