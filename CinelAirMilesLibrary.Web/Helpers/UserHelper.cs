@@ -129,10 +129,10 @@
 
         public async Task<SignInResult> LoginAsync(string username, LoginViewModel model)
         {
-            if(await IsUserClient(username))
-            {
-                throw new Exception("Incorrect UserName/Password");
-            }
+            //if(await IsUserClient(username))
+            //{
+            //    throw new Exception("Incorrect UserName/Password");
+            //}
 
             return await _signInManager.PasswordSignInAsync(
                username,
