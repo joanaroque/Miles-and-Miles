@@ -26,19 +26,22 @@
         private readonly IMailHelper _mailHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IClientRepository _clientRepository;
+        private readonly IComplaintRepository _complaintRepository;
 
         public AdministratorController(
             IUserHelper userHelper,
             ICountryRepository countryRepository,
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IComplaintRepository complaintRepository)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
             _mailHelper = mailHelper;
             _converterHelper = converterHelper;
             _clientRepository = clientRepository;
+            _complaintRepository = complaintRepository;
         }
 
 
@@ -226,28 +229,67 @@
             return View(model);
         }
 
-
+        /// <summary>
+        /// Partial View
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Partial View with Client Personal Details</returns>
         public async Task<IActionResult> DetailsUser(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
             {
-                throw new DBConcurrencyException();
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                var user = await _userHelper.GetUserByIdAsync(id);
+
+                if (user == null)
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                var model = _converterHelper.ToUserViewModel(user);
+
+                return PartialView("_DetailsUser", model);
             }
-
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-            if (user == null)
+            catch (Exception)
             {
                 return new NotFoundViewResult("_Error404");
             }
-
-            var model = _converterHelper.ToUserViewModel(user);
-
-            return PartialView("_DetailsUser", model);
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsUserPage(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new DBConcurrencyException();
+                }
 
+                var user = await _userHelper.GetUserByIdAsync(id);
+
+                if (user == null)
+                {
+                    throw new DBConcurrencyException();
+                }
+
+                var model = _converterHelper.ToUserViewModel(user);
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error404");
+            }
+        }
+
+
+        
 
         // POST: Administrator/Delete/5
         public async Task<IActionResult> DeleteUser(string id)
