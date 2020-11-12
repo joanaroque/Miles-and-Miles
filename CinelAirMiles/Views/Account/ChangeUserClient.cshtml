@@ -3,14 +3,12 @@
 
 <section class="content">
     <div class="container">
-        <div class="row">
+            <div class="section-title">
+                <h3 class="card-title">Update your personal information here</h3>
+            </div>
+            <!-- Content Header (Page header) -->
+
             <div class="col-md-12 col-sm-12">
-                <div class="section-title">
-                    <h3 class="card-title">Update your personal information here</h3>
-                </div>
-                <!-- Content Header (Page header) -->
-
-
                 @using (Html.BeginForm("ChangeUserClient", "Account", FormMethod.Post, new { @autocomplete = "on" }))
                 {
                     @Html.AntiForgeryToken()
@@ -34,7 +32,7 @@
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Update" class="btn btn-success" />
-                            <a asp-action="ChangePassword" class="btn btn-warning">Change Password</a>
+                            <a asp-action="ChangePasswordClient" class="btn btn-warning">Change Password</a>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -56,7 +54,6 @@
                         </div>
                     </div>
                 }
+                </div>
             </div>
-        </div>
-    </div>
 </section>

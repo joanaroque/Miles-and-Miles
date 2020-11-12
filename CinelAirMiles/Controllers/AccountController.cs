@@ -307,7 +307,6 @@
         }
 
         public IActionResult ChangePasswordClient()
-
         {
             return View();
         }
@@ -319,7 +318,7 @@
         {
             if (this.ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
                 if (user != null)
                 {
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
@@ -364,7 +363,7 @@
                 var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
 
                 var link = Url.Action(
-                    "ResetPassword",
+                    "ResetPasswordClient",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
@@ -443,7 +442,7 @@
         [HttpPost]
         public async Task<IActionResult> ResetPasswordClient(ResetPasswordViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(model.Email);
+            var user = _userHelper.GetUserByGuidId(model.GuidId);
             if (user != null)
             {
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);

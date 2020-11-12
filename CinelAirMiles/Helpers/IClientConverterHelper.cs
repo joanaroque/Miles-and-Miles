@@ -23,7 +23,7 @@
         ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
 
 
-        ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew);
+        ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew, User user);
 
 
         NotificationViewModel ToNotificationViewModel(Notification notification);

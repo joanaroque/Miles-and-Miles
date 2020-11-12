@@ -50,7 +50,7 @@ namespace CinelAirMilesLibrary.Common.Data.Entities
 
         /// <summary>
         /// 0 - Resolved
-        /// 1 - Waiting Admin Answer
+        /// 1 - Waiting User Answer
         /// 2 - Waiting Client Answer
         /// </summary>
         public int Status { get; set; }
