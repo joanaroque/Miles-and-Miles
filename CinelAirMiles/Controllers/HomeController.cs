@@ -13,13 +13,16 @@ namespace CinelAirMiles.Controllers
     {
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IClientConverterHelper _clientConverterHelper;
+        private readonly IPremiumRepository _premiumRepository;
 
         public HomeController(
             IAdvertisingRepository advertisingRepository,
-            IClientConverterHelper clientConverterHelper)
+            IClientConverterHelper clientConverterHelper,
+            IPremiumRepository premiumRepository)
         {
             _advertisingRepository = advertisingRepository;
             _clientConverterHelper = clientConverterHelper;
+            _premiumRepository = premiumRepository;
         }
 
         public IActionResult IndexClient()
@@ -40,11 +43,30 @@ namespace CinelAirMiles.Controllers
 
                 return PartialView("_Feature", modelList);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                ModelState.AddModelError(string.Empty, e.Message);
             }
+            return RedirectToAction("IndexClient", "Home");
+        }
+
+        public async Task<IActionResult> GetPremiumOffer()
+        {
+            try
+            {
+                var list = await _premiumRepository.GetPremiumOfferForClientAsync();
+
+                var modelList = new List<PremiumOfferViewModel>(
+                    list.Select(a => _clientConverterHelper.ToPremiumOfferViewModel(a))
+                    .ToList());
+
+                return PartialView("_Offers", modelList);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(string.Empty, e.Message);
+            }
+            return RedirectToAction("IndexClient", "Home");
         }
     }
 }

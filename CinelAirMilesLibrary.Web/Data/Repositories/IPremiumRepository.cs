@@ -31,5 +31,8 @@
 
 
         Task<IEnumerable<PremiumOffer>> GetAllIncludes();
+
+
+        Task<List<PremiumOffer>> GetPremiumOfferForClientAsync();
     }
 }

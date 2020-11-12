@@ -33,5 +33,13 @@
 
 
         TransactionViewModel ToTransactionViewModel(Transaction transaction, User user);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model);
     }
 }

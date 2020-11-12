@@ -4,32 +4,34 @@
     ViewData["Title"] = "Home Page";
 }
 
-<section id="home">
-    <section id="feature">
+    <section id="home">
+        <section id="feature">
+        </section>
+
+        <section id="offers">
+        </section>
+
+        <!-- ABOUT -->
+        <partial name="_About" />
+
+
+        <!-- Courses -->
+        <partial name="_Courses" />
+
+        <!-- TESTIMONIAL -->
+        <partial name="_Testemonials" />
+
+        <!-- CONTACT -->
+        <partial name="_Contact" />
+
     </section>
-
-    <!-- ABOUT -->
-    <partial name="_About" />
-
-    <!-- TEAM -->
-    <partial name="_Team" />
-
-    <!-- Courses -->
-    <partial name="_Courses" />
-
-    <!-- TESTIMONIAL -->
-    <partial name="_Testemonials" />
-
-    <!-- CONTACT -->
-    <partial name="_Contact" />
-
-</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
         window.addEventListener("load", function () {
             $("#feature").load("/Home/GetAdvertising");
+            $("#offers").load("/Home/GetPremiumOffer");
 
 
             //new Splide('#myCarousel', {
