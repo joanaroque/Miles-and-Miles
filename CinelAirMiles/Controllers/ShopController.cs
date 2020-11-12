@@ -10,7 +10,7 @@
     using MilesBackOffice.Web.Helpers;
 
     //This is the shop
-    public class PremiumOffersController : Controller
+    public class ShopController : Controller
     {
         private readonly IPremiumRepository _premiumRepository;
         private readonly ITransactionHelper _transactionHelper;
@@ -18,7 +18,7 @@
         private readonly ITransactionRepository _transactionRepository;
         private readonly IReservationRepository _reservationRepository;
 
-        public PremiumOffersController(IPremiumRepository premiumRepository,
+        public ShopController(IPremiumRepository premiumRepository,
             ITransactionHelper transactionHelper,
             IUserHelper userHelper,
             ITransactionRepository transactionRepository,
