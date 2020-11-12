@@ -121,5 +121,14 @@
                 .Where(st => st.Status == status)
                 .AsNoTracking());
         }
+
+        public async Task<List<PremiumOffer>> GetPremiumOfferForClientAsync()
+        {
+            var offer = await _dataContext.PremiumOffers
+                 .Where(st => st.Status == 0)
+                 .ToListAsync();
+
+            return offer;
+        }
     }
 }

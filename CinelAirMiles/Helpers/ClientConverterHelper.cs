@@ -9,12 +9,9 @@
 
     public class ClientConverterHelper : IClientConverterHelper
     {
-        private readonly IUserHelper _userHelper;
 
-        public ClientConverterHelper(
-            IUserHelper userHelper)
+        public ClientConverterHelper()
         {
-            _userHelper = userHelper;
         }
 
         public AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising)
@@ -168,5 +165,26 @@
             };
         }
 
+        public PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model)
+        {
+            var offer = new PremiumOfferViewModel
+            {
+                Id = model.Id,
+                Title = model.Title,
+               // FlightId = model.Flight == null ? 0 : model.Flight.Id,
+                Conditions = model.Conditions,
+                Quantity = model.Quantity,
+                Price = model.Price,
+                AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
+                Type = model.Type,
+                //PartnerId = model.Partner.Id,
+                OfferGuidId = model.OfferIdGuid,
+                //Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
+                //Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
+                //FlightDateTime = model.Flight.DepartureDate,
+            };
+
+            return offer;
+        }
     }
 }
