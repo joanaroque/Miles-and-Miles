@@ -51,6 +51,8 @@
                 {
                     return new NotFoundViewResult("_Error404Client");
                 }
+
+                return View(modelList);
             }
 
             else
@@ -58,7 +60,6 @@
                 return new NotFoundViewResult("_Error404Client");
             }
 
-            return View();
         }
 
 
@@ -87,22 +88,14 @@
             {
                 try
                 {
-                    var complaint = await _complaintRepository.GetClientByIdAsync(model.Id);
-
-                    if (complaint == null)
-                    {
-                        return new NotFoundViewResult("_Error404Client");
-                    }
-
-                    var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
+                    var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
                     if (user == null)
                     {
                         return new NotFoundViewResult("_Error404Client");
                     }
 
-                    var clientComplaint = _converterHelper.ToClientComplaint(model, true);
-                    clientComplaint.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var clientComplaint = _converterHelper.ToClientComplaint(model, true, user);
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 
@@ -115,6 +108,28 @@
                 }
 
             }
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            var complaint = await _complaintRepository.GetByIdAsync(id.Value);
+
+            if (complaint == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            var model = _converterHelper.ToComplaintClientViewModel(complaint);
+
             return View(model);
         }
     }

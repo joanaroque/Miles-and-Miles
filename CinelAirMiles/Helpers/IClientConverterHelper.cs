@@ -7,6 +7,10 @@
 
     public interface IClientConverterHelper
     {
+        User ToUser(RegisterNewUserViewModel model, Country country);
+
+
+
         //Reservation ToReservation(ReservationViewModel model, bool isNew);
 
         AdvertisingViewModel ToAdvertisingViewModel(Advertising advertising);
@@ -19,7 +23,7 @@
         ComplaintViewModel ToComplaintClientViewModel(ClientComplaint clientComplaint);
 
 
-        ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew);
+        ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew, User user);
 
 
         NotificationViewModel ToNotificationViewModel(Notification notification);

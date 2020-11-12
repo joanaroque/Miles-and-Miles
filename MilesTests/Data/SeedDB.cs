@@ -44,18 +44,17 @@ namespace MilesBackOffice.Web.Data
             await FillUser5Async();
             await FillUser6Async();
 
+            await AddPartnership();
+
             await AddClientComplaint();
 
-            //User FakeDB
-            await AddFlights();
-
-            await AddPartnership();
             await AddOffers();
+
+            await AddFlights();
 
             await AddAdvertising();
 
             await AddNotifications();
-
         }
 
         private async Task AddNotifications()
@@ -113,12 +112,44 @@ namespace MilesBackOffice.Web.Data
             if (!_context.Flights.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-
                 _context.Flights.Add(new Flight
                 {
                     Departure = "Lisboa",
                     Arrival = "Paris",
-                    DepartureDate = new DateTime(2019, 11, 25, 13, 00, 00),
+                    DepartureDate = new DateTime(2020, 09, 01, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 110,
+                    AvailableSeats = 70,
+                    Status = 0,
+                    Distance = 1735
+                });
+                _context.Flights.Add(new Flight
+                {
+                    Departure = "Lisboa",
+                    Arrival = "Paris",
+                    DepartureDate = new DateTime(2020, 09, 12, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 110,
+                    AvailableSeats = 70,
+                    Status = 0,
+                    Distance = 1735
+                });
+                _context.Flights.Add(new Flight
+                {
+                    Departure = "Lisboa",
+                    Arrival = "Paris",
+                    DepartureDate = new DateTime(2020, 09, 21, 13, 00, 00),
+                    Partner = partner,
+                    MaximumSeats = 110,
+                    AvailableSeats = 70,
+                    Status = 0,
+                    Distance = 1735
+                });
+                _context.Flights.Add(new Flight
+                {
+                    Departure = "Lisboa",
+                    Arrival = "Paris",
+                    DepartureDate = new DateTime(2020, 09, 30, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 110,
                     AvailableSeats = 70,
@@ -130,7 +161,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     Departure = "Madrid",
                     Arrival = "Lisboa",
-                    DepartureDate = new DateTime(2018, 11, 16, 13, 00, 00),
+                    DepartureDate = new DateTime(2020, 11, 16, 13, 00, 00),
                     Partner = partner,
                     MaximumSeats = 150,
                     AvailableSeats = 55,

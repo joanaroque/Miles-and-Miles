@@ -47,36 +47,68 @@ function openPartialCreate() {
     $('#form_container').load(getPath(document.location.pathname) + '/' + action);
 }
 
-
+/**
+ * Load a partial with parameters
+ * @param {any} container The div that contains the form
+ * @param {any} action The action to be called
+ * @param {any} controller The controller associated
+ * @param {any} id The id of the Item
+ */
 function getPartial(container, action, controller, id) {
     $(container).load('/' + controller + '/' + action + '?id=' + id);
 }
 
-
-//function loadFlightCombo(sourceEl, destEl) {
-//    $(destEl).empty();
-    
-//    $.ajax({
-//        type: "POST",
-//        url: "/User/GetFlights",
-//        data: { partnerId: $(sourceEl).val() },
-//        dataType: "json",
-//        success: function (result) {
-//            $.each(result, function (i, flight) {
-//                $(destEl).append('<option value="'
-//                    + flight.id + '">'
-//                    + flight.Origin + "->" + flight.destination
-//                    + " " + flight.departureDate
-//                    + '</option>');
-//            })
-//        },
-//        error: function (err) {
-//            console.log(err);
-//        }
-//    });
-//}
+/**
+ * Calculates the price for a flight
+ * */
+function CalculatePrice() {
+    let id = $(event.currentTarget).val();
+    $.ajax({
+        type: "POST",
+        url: "/User/GetPrice",
+        data: { itemId: id },
+        dataType: "json",
+        success: function (result) {
+            $("#Price").val(result);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
 
 /**
+ * Get all flights from a company
+ * */
+function GetFlights() {
+    let id = $(event.currentTarget).val();
+    $("#FlightId").empty();
+    $.ajax({
+        type: "POST",
+        url: "/User/GetFlights",
+        data: { partnerId: id },
+        dataType: "json",
+        success: function (result) {
+            if (result === []) {
+                $("#FlightId").append('<option value="">No flights found</option>');
+            } else {
+                $.each(result, function (i, flight) {
+                    $("#FlightId").append('<option value="'
+                        + flight.id + '">'
+                        + flight.departure + "->"
+                        + flight.arrival + " "
+                        + flight.departureDate + '</option>');
+                });
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+/**
+ * Delete Item from Repository
  * 
  * */
 window.addEventListener("load", function () {

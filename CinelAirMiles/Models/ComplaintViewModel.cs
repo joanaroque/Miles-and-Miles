@@ -11,6 +11,8 @@
         public int Id { get; set; }
 
 
+        public string Reply { get; set; }
+
         public IEnumerable<SelectListItem> Complaints { get; set; }
 
 
@@ -30,7 +32,8 @@
         public DateTime Date { get; set; }
 
 
-
+        [DataType(DataType.MultilineText)]
+        [Required]
         public string Body { get; set; }
 
 

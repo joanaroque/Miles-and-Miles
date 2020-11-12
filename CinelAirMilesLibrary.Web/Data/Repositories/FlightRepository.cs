@@ -42,7 +42,7 @@
         {
             return await _context.Flights
                 .Include(p => p.Partner)
-                .Where(pi => pi.Partner.Id == id)
+                .Where(pi => pi.Partner.Id == id && pi.DepartureDate > DateTime.UtcNow)
                 .ToListAsync();
         }
 

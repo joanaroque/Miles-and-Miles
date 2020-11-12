@@ -35,16 +35,18 @@
             return advertisings;
         }
 
-        public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew)
+        public ClientComplaint ToClientComplaint(ComplaintViewModel model, bool isNew, User user)
         {
             var client = new ClientComplaint
             {
                 Id = isNew ? 0 : model.Id,
                 Complaint = model.Complaint,
-                Email = model.Email,
-                Date = model.Date,
+                Email = user.Email,
+                Date = DateTime.UtcNow,
                 Body = model.Body,
-                Status = model.Status,
+                Status = 1,
+                CreateDate = DateTime.UtcNow,
+                CreatedBy = user
             };
 
             return client;
@@ -59,7 +61,8 @@
                 Email = clientComplaint.CreatedBy.Email,
                 Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
-                Status = clientComplaint.Status                
+                Status = clientComplaint.Status,
+                Reply = clientComplaint.Reply
             };
 
             return complaint; // todo diz que a lista vem a null
@@ -140,5 +143,30 @@
 
             return model;
         }
+
+
+        public User ToUser(RegisterNewUserViewModel model, Country country)
+        {
+            return new User
+            {
+                GuidId = GuidHelper.CreatedGuid(),
+                Name = model.Name,
+                Email = model.EmailAddress,
+                UserName = model.Username,
+                Country = country,
+                Address = model.Address,
+                PhoneNumber = model.PhoneNumber,
+                City = model.City,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                TIN = model.TIN,
+                SelectedRole = UserType.Client,
+                IsActive = true,
+                IsApproved = false,
+                EmailConfirmed = false,
+                Tier = TierType.Basic
+            };
+        }
+
     }
 }
