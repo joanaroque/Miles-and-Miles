@@ -118,6 +118,8 @@
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<INotificationHelper, NotificationHelper>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionHelper, TransactionHelper>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
