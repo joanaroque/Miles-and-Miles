@@ -3,11 +3,12 @@
     using System;
     using System.Threading.Tasks;
 
+    using CinelAirMiles.Helpers;
+
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
 
     //This is the shop
     public class ShopController : Controller
@@ -17,18 +18,21 @@
         private readonly IUserHelper _userHelper;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IReservationRepository _reservationRepository;
+        private readonly IClientConverterHelper _converterHelper;
 
         public ShopController(IPremiumRepository premiumRepository,
             ITransactionHelper transactionHelper,
             IUserHelper userHelper,
             ITransactionRepository transactionRepository,
-            IReservationRepository reservationRepository)
+            IReservationRepository reservationRepository,
+            IClientConverterHelper converterHelper)
         {
             _premiumRepository = premiumRepository;
             _transactionHelper = transactionHelper;
             _userHelper = userHelper;
             _transactionRepository = transactionRepository;
             _reservationRepository = reservationRepository;
+            _converterHelper = converterHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -47,7 +51,7 @@
                     throw new Exception("This item was not found!");
                 }
 
-                var model = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
+                var model = _converterHelper.ToPremiumOfferViewModel(await _premiumRepository.GetByIdWithIncludesAsync(id.Value));
                 return View(model);
             }
             catch (Exception e)
@@ -65,24 +69,26 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> PurchasePremium(int id)
+        public async Task<IActionResult> PurchasePremium(int? id)
         {
-            if (id == 0)
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
             try
             {
-                var offer = await _premiumRepository.GetByIdAsync(id);
+                if (id == null)
+                {
+                    throw new Exception("No item found!");
+                }
+                
+                var offer = await _premiumRepository.GetByIdAsync(id.Value);
                 if (offer == null)
                 {
-                    return new NotFoundViewResult("_Error404Client");
+                    throw new Exception("No item found!");
                 }
 
                 var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
                 if (user == null)
                 {
-                    return new NotFoundViewResult("_Error404Client");
+                    await _userHelper.LogoutAsync();
+                    return RedirectToAction(nameof(HomeController.IndexClient), nameof(HomeController));
                 }
                 //create a transaction
                 var trans = _transactionHelper.CreatePurchaseTransaction(user, offer);
@@ -120,17 +126,19 @@
 
         public async Task<IActionResult> CancelReservation(int id) //Id from reservation not ReservationId
         {
-            if (id == 0)
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
             try
             {
+                if (id == 0)
+                {
+                    throw new Exception("No item found!");
+                }
+
                 var reservation = await _reservationRepository.GetByIdIncludingAsync(id);
                 if (reservation == null)
                 {
-                    return new NotFoundViewResult("_Error404Client");
+                    throw new Exception("No item found!");
                 }
+
                 reservation.Status = 3;
                 var result = await _reservationRepository.UpdateReservationAsync(reservation);
                 if (!result.Success)
