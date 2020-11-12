@@ -11,6 +11,8 @@
         public int Id { get; set; }
 
 
+        public string Reply { get; set; }
+
         public IEnumerable<SelectListItem> Complaints { get; set; }
 
 

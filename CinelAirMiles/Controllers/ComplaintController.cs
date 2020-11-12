@@ -88,15 +88,6 @@
             {
                 try
                 {
-                    // ?? var complaint = await _complaintRepository.GetClientByIdAsync(model.Id);
-
-                    //if (complaint == null)
-                    //{
-                    //    return new NotFoundViewResult("_Error404Client");
-                    //}
-
-                    //var user = await _userHelper.GetUserByIdAsync(complaint.CreatedBy.Id);
-
                     var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
                     if (user == null)
@@ -123,12 +114,12 @@
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            if (user == null)
             {
                 return new NotFoundViewResult("_Error404Client");
             }
-
-            var user = _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
             var complaint = await _complaintRepository.GetByIdAsync(id.Value);
 
@@ -137,11 +128,9 @@
                 return new NotFoundViewResult("_Error404Client");
             }
 
-            //var model = await _converterHelper.ToClientComplaint(complaint, false, user);
+            var model = _converterHelper.ToComplaintClientViewModel(complaint);
 
-            //return View(model);
-
-            return View();
+            return View(model);
         }
     }
 }

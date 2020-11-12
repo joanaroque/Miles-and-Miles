@@ -1,7 +1,78 @@
-﻿
-@{
-    ViewData["Title"] = "Details";
-}
+﻿@model CinelAirMiles.Models.ComplaintViewModel
 
-<h2>Details</h2>
 
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">My messages</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        Type of request:
+                        <h4>
+                            @Html.DisplayFor(model => model.Complaint)
+                        </h4>
+                        <table class="display table table-bordered table-striped" style="width:100%">
+                            My message:
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Body)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        Sent on:
+                        <p>
+                            @Html.DisplayFor(model => model.Date)
+                        </p>
+                        Status:
+                        @if (Model.Status == 1)
+                        {
+                            <p>
+                                Awaiting response
+                            </p>
+                        }
+                        @if (Model.Status == 0)
+                        {
+                            <p>
+                                Resolved
+                            </p>
+                        }
+                        @if (Model.Status == 2)
+                        {
+                            <p>
+                                Awaiting your response
+                            </p>
+                        }
+
+                        @if (Model.Reply != null)
+                        {
+                            <table class="display table table-bordered table-striped" style="width:100%">
+                                Reply:
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Reply)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

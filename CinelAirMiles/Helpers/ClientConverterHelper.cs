@@ -61,7 +61,8 @@
                 Email = clientComplaint.CreatedBy.Email,
                 Date = clientComplaint.CreateDate,
                 Body = clientComplaint.Body,
-                Status = clientComplaint.Status                
+                Status = clientComplaint.Status,
+                Reply = clientComplaint.Reply
             };
 
             return complaint; // todo diz que a lista vem a null
