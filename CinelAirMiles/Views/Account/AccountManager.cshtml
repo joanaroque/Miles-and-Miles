@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -56,14 +60,10 @@
             <!-- MENU LINKS -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#top" class="smoothScroll">Home</a></li>
-                    <li><a href="#about" class="smoothScroll">About</a></li>
 
-                    <li><a asp-controller="Reservation" asp-action="ReservationIndex" class="smoothScroll">My Reservations</a></li>
+                    <li><a asp-controller="Miles" asp-action="Index" class="smoothScroll">Shop Miles</a></li>
 
-                    <li><a asp-controller="Complaint" asp-action="ComplaintsIndex" class="smoothScroll">My Complaints</a></li>
-
-                    <li><a asp-controller="Account" asp-action="DigitalCard" class="smoothScroll">My Miles Cinel Card</a></li>
+                    <li><a asp-controller="PremiumOffers" asp-action="Index" class="smoothScroll">Premium Offers</a></li>
 
                     <li><a href="#contact" class="smoothScroll">Contact</a></li>
 
@@ -74,9 +74,6 @@
                     {
                         <li>
                             <a asp-controller="Account" asp-action="ChangeUserClient">Hello @this.User.Identity.Name !</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Account" asp-action="AccountManager">My account</a>
                         </li>
                         <li>
                             <a asp-controller="Account" asp-action="LogoutClient">Logout</a>
@@ -91,15 +88,34 @@
                 </ul>
 
             </div>
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    </button>
+                    <a asp-controller="Home" asp-action="IndexClient" class="navbar-brand"><p>My account</p></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#top" class="smoothScroll">Home</a></li>
+                        <li><a href="#about" class="smoothScroll">About</a></li>
 
+                        <li><a asp-controller="Account" asp-action="ChangeUser" class="smoothScroll">My Information</a></li>
+
+                        <li><a asp-controller="Reservation" asp-action="ReservationIndex" class="smoothScroll">My Reservations</a></li>
+
+                        <li><a asp-controller="Complaint" asp-action="ComplaintsIndex" class="smoothScroll">My Messages</a></li>
+
+                        <li><a asp-controller="Account" asp-action="DigitalCard" class="smoothScroll">My Miles Cinel Card</a></li>
+
+                        <li><a href="#contact" class="smoothScroll">Contact</a></li>
+
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- HOME -->
-
-    @RenderBody()
-
-
     <!-- FOOTER -->
     <footer id="footer">
         <div class="container">
@@ -185,7 +201,6 @@
 
     <script src="~/notifications/ikr.notificationPlugin.js"></script>
 
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
 

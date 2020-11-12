@@ -53,6 +53,11 @@
             _converterHelper = converterHelper;
         }
 
+        public IActionResult AccountManager()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
