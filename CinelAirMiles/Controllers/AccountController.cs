@@ -61,13 +61,12 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginClient(string returnUrl)
+        public IActionResult LoginClient(string returnUrl)
         {
             LoginViewModel model = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
-                ExternalLogins =
-                (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+                //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
             };
 
             return View(model);
@@ -77,8 +76,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
         {
-            model.ExternalLogins =
-                (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
@@ -466,7 +464,7 @@
         }
 
 
-        public IActionResult NotAuthorized()
+        public IActionResult NotAuthorizedClient()
         {
             return View();
         }
@@ -536,7 +534,7 @@
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "User not found.");
+                return new NotFoundViewResult("_Error404Client");
             }
 
             return View(model);
@@ -544,8 +542,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> DigitalCard()
-        
+        public async Task<IActionResult> DigitalCard()    
         {
             try
             {

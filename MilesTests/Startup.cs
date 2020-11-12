@@ -92,14 +92,7 @@
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddTransient<SeedDB>();
@@ -118,6 +111,8 @@
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<INotificationHelper, NotificationHelper>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionHelper, TransactionHelper>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -159,9 +154,9 @@
             app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseSignalR(routes => 
+            app.UseSignalR(routes =>
             {
-                routes.MapHub<NotificationHub>("/notificationhub");            
+                routes.MapHub<NotificationHub>("/notificationhub");
             });
 
             app.UseMvc(routes =>

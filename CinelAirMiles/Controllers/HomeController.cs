@@ -22,7 +22,13 @@ namespace CinelAirMiles.Controllers
             _clientConverterHelper = clientConverterHelper;
         }
 
-        public async Task<IActionResult> IndexClient()
+        public IActionResult IndexClient()
+        {
+            return View();
+        }
+
+
+        public async Task<IActionResult> GetAdvertising()
         {
             try
             {
@@ -32,11 +38,12 @@ namespace CinelAirMiles.Controllers
                     list.Select(a => _clientConverterHelper.ToAdvertisingViewModel(a))
                     .ToList());
 
-                return View(modelList);
+                return PartialView("_Feature", modelList);
             }
             catch (Exception)
             {
-                return View();
+
+                throw;
             }
         }
     }

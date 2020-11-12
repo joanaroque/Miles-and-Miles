@@ -5,8 +5,8 @@
 }
 
 <section id="home">
-    <!-- FEATURE -->
-    <partial name="_Feature" />
+    <section id="feature">
+    </section>
 
     <!-- ABOUT -->
     <partial name="_About" />
@@ -27,11 +27,17 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            $("#feature").load("/Home/GetAdvertising");
 
+
+            //new Splide('#myCarousel', {
+            //    type: 'loop',
+            //    perPage: 3,
+            //    autoplay: true,
+            //}).mount();
+        });
+        
+    </script>
 }
-
-
-
-
-
-
