@@ -36,6 +36,27 @@
             return View(await _premiumRepository.GetAllOffersAsync());
         }
 
+
+
+        public async Task<IActionResult> PremiumDetails(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    throw new Exception("This item was not found!");
+                }
+
+                var model = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
         /// <summary>
         /// Completes a purchase from a User(client) 
         /// Updates the User's BonusMiles
