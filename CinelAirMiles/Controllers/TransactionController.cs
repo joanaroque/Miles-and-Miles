@@ -142,20 +142,32 @@
         [HttpGet]
         public IActionResult ExtendMiles()
         {
-            //TODO blocos de 2000 milhas
+            //TODO blocos de 2000 milhas e max de 20 000 milhas por ano (fazer validação)
 
-
-
+           
 
             return PartialView("_ExtendMiles");
         }
+
+
+        //[HttpPost]
+        //public IActionResult ExtendMiles()
+        //{
+        //    TODO
+        //    validas durante 3 anos
+
+        //     é apenas possível para as milhas que estão a caducar
+        //    na sua próxima data de caducidade de milhas ????? = as proximas na fila, a caducar?
+
+
+        //    return PartialView("_ExtendMiles");
+        //}
 
 
         [HttpGet]
         public async Task<IActionResult> TransferMiles(TransactionViewModel model)
         {
             //TODO blocos de 2000 milhas
-            //com o guid id
 
             try
             {
@@ -184,6 +196,12 @@
         [HttpPost]
         public async Task<IActionResult> TransferMiles(Transaction transaction, User user, User userTo)
         {
+            //TODO
+            //validas por 1 ano
+
+            //transf de status, bonus ou as duas?? passam para bonus!
+
+
             user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
             userTo = _userHelper.GetUserByGuidId(transaction.TransferTo.GuidId);
@@ -237,7 +255,9 @@
         [HttpGet]
         public IActionResult NominateToGold()
         {
-            //com o guid id
+            //TODO
+            //apenas clientes silver ou basic
+            
             return PartialView("_NominateToGold");
         }
 
