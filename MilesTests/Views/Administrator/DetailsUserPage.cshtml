@@ -43,7 +43,7 @@
 </div>
 
 <div id="form_container">
-
+    
 </div>
 
 
@@ -51,8 +51,9 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript">
     window.addEventListener("load", function () {
-        getPartial("purchase_container", "GetClientPurchases", "Client", "@Model.Id");
-        getPartial("form_container", "GetClientComplaints", "Client", "@Model.Id");
+        //getPartial("purchase_container", "GetClientPurchases", "Client", "@Model.Id");
+        //getPartial("form_container", "GetClientComplaints", "Client", "@Model.Id");
+        $("#form_container").load("/Client/GetClientComplaints?id=@Model.Id");
     })
 </script>
 }
