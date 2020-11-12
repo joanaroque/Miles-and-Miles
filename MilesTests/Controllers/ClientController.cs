@@ -31,7 +31,7 @@
 
         //TODO more methods
 
-
+        [HttpGet]
         public async Task<IActionResult> GetClientComplaints(string id)
         {
             try
