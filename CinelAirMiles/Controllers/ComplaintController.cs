@@ -119,5 +119,29 @@
             }
             return View(model);
         }
+
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            var user = _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            var complaint = await _complaintRepository.GetByIdAsync(id.Value);
+
+            if (complaint == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            //var model = await _converterHelper.ToClientComplaint(complaint, false, user);
+
+            //return View(model);
+
+            return View();
+        }
     }
 }

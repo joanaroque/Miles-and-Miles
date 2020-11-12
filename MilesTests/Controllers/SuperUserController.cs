@@ -274,11 +274,12 @@
                     complaint.ModifiedBy = user;
                     complaint.UpdateDate = DateTime.Now;
                     complaint.Status = 0;
+                    complaint.Reply = model.Reply;
 
                     await _clientComplaintRepository.UpdateAsync(complaint);
 
                     _mailHelper.SendMail(user.Email, $"Your complaint has been processed.",
-                       $"<h1>You are very important for us.\nThank you very much.</h1>");
+                       $"<h1>You are very important to us.\nThank you very much.</h1>");
 
                     //todo:  ViewBag.Message = "An error ocurred. Try again please.";
 
