@@ -1,4 +1,23 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CinelAirMiles.Models.TransactionViewModel
+
+
+<div id="Transfer">
+    <div><h2>Nominate to Gold</h2></div>
+    <div class="row">
+        <form method="post" asp-action="NominateToGold">
+            <input type="hidden" asp-for="Type" />
+            <label asp-for="TransferTo">Client Id you want to nomeate</label>
+            <div class="form-group">
+                <input type="number" asp-for="TransferTo" name="value" required />
+                <span asp-validation-for="TransferTo"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-success">Nomeate</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -144,15 +144,24 @@
         {
             //TODO blocos de 2000 milhas e max de 20 000 milhas por ano (fazer validação)
 
-            //validas durante 3 anos
-
-            // é apenas possível para as milhas que estão a caducar
-            //na sua próxima data de caducidade de milhas ????? = as proximas na fila, a caducar?
-
            
 
             return PartialView("_ExtendMiles");
         }
+
+
+        //[HttpPost]
+        //public IActionResult ExtendMiles()
+        //{
+        //    TODO
+        //    validas durante 3 anos
+
+        //     é apenas possível para as milhas que estão a caducar
+        //    na sua próxima data de caducidade de milhas ????? = as proximas na fila, a caducar?
+
+
+        //    return PartialView("_ExtendMiles");
+        //}
 
 
         [HttpGet]
@@ -246,7 +255,9 @@
         [HttpGet]
         public IActionResult NominateToGold()
         {
-            //com o guid id
+            //TODO
+            //apenas clientes silver ou basic
+            
             return PartialView("_NominateToGold");
         }
 
