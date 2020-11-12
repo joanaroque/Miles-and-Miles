@@ -498,7 +498,7 @@
         }
 
 
-        public IActionResult NotAuthorized()
+        public IActionResult NotAuthorizedClient()
         {
             return View();
         }
@@ -566,7 +566,7 @@
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "User not found.");
+                return new NotFoundViewResult("_Error404Client");
             }
 
 
@@ -575,8 +575,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> DigitalCard()
-        
+        public async Task<IActionResult> DigitalCard()    
         {
             try
             {

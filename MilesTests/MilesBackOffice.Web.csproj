@@ -17,13 +17,7 @@
     <None Remove="wwwroot\template\**" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <Content Remove="web.config" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="2.0.0-rc2-final" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -50,6 +44,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinelAirMilesLibrary.Web\CinelAirMilesLibrary.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

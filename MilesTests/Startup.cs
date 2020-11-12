@@ -92,14 +92,7 @@
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddTransient<SeedDB>();
@@ -159,9 +152,9 @@
             app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseSignalR(routes => 
+            app.UseSignalR(routes =>
             {
-                routes.MapHub<NotificationHub>("/notificationhub");            
+                routes.MapHub<NotificationHub>("/notificationhub");
             });
 
             app.UseMvc(routes =>
