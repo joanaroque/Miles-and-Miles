@@ -167,6 +167,49 @@
         }
 
 
+        public bool SendNewsletterConfirmation(string email)
+        {
+            var config = GetMailConfig();
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(config.NameFrom, config.From));
+            message.To.Add(new MailboxAddress(email, email));
+
+            message.Subject = "Welcome to Miles Program Team";
+
+            var bodybuilder = new BodyBuilder
+            {
+                HtmlBody = "<table> <tr> " +
+                        "   <td style = 'background-color: #ecf0f1'>" +
+                        "       <div style = 'color: #34495e; margin: 10% 10; text-align: justify;font-family: sans-serif'>" +
+                        "           <h1 style = 'color: #e67e22; margin: 5px' > Miles Program </h1>" +
+                        "           <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
+                        "           <h3>Your subscription has been activated.</h3>" +
+                        "       </div>" +
+                        "       <div style = 'width: 100%; text-align: center'>" +
+                        "           <h5 style = 'color: #e67e22; margin: 0 0 7px'>We won't spam your email account.</h5>" +
+                        "           <h5 style = 'color: #e67e22; margin: 0 0 7px'> Thank you for choosing Cinel Air.</h5>" +
+                        "           </br></br> " +
+                        "           <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
+                        "       </div>" +
+                        "   </td >" +
+                        "   </tr>" +
+                        "</table>"
+            };
+
+            message.Body = bodybuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(config.Smtp, int.Parse(config.Port), false);
+                client.Authenticate(config.From, config.Password);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+            return true;
+        }
+
+
         public void SendMailWithAttachment(string to, string subject, string body, byte[] pdf)
         {
             var nameFrom = _configuration["Mail:NameFrom"];

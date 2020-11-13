@@ -25,6 +25,7 @@
         /// <param name="body"></param>
         /// <param name="pdf"></param>
         void SendMailWithAttachment(string to, string subject, string body, byte[] pdf);
+        bool SendNewsletterConfirmation(string email);
 
         /// <summary>
         /// 
