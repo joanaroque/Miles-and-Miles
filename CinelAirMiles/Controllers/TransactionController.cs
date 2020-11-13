@@ -4,6 +4,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;

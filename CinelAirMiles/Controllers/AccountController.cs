@@ -12,7 +12,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
-
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -49,27 +49,39 @@
             _converterHelper = converterHelper;
         }
 
+        public IActionResult AccountManager()
+        {
+            return View();
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
        
         #region LOGIN
+
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult LoginClient(string returnUrl)
+        public IActionResult LoginClient()
         {
-            LoginViewModel model = new LoginViewModel
+            if (this.User.Identity.IsAuthenticated)
             {
-                ReturnUrl = returnUrl,
-                //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+                return this.RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
+            return this.View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
         {
-            //model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 var user = _userHelper.GetUserByGuidId(model.GuidId);
@@ -77,11 +89,12 @@
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect UserName or Password");
+                    return View(model);
                 }
 
                 if (!user.EmailConfirmed)
                 {
-                    ModelState.AddModelError(string.Empty, "You must validate your email before login in!");
+                    ModelState.AddModelError(string.Empty, "You must validate your email before logging in!");
                     return View(model);
                 }
 
@@ -101,14 +114,11 @@
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("IndexClient", "home");
-                    }
+                    return RedirectToAction("Indexclient", "Home");
                 }
 
                 else

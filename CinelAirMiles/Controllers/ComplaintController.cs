@@ -2,6 +2,7 @@
 {
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
@@ -52,7 +53,8 @@
 
             else
             {
-                return new NotFoundViewResult("_Error404Client");
+                string retUrl = Request.PathBase;
+                return RedirectToAction("LoginClient", "Account", new { returnUrl = retUrl });
             }
 
         }
