@@ -1,0 +1,52 @@
+﻿
+<div class="container">
+
+    <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+        </button>
+        <a asp-controller="Home" asp-action="IndexClient" class="navbar-brand">CinelAir Miles</a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="/Home/IndexClient" class="smoothScroll">Home</a>
+            </li>
+
+            <li>
+                <a asp-controller="Shop" asp-action="Index" class="smoothScroll">Shop</a>
+            </li>
+
+            <li>
+                <a asp-controller="ClientArea" asp-action="AccountManager">My account</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <p>Hello @this.User.Identity.Name !</p>
+                </li>
+                <li>
+                    <a asp-controller="ClientArea" asp-action="AccountManager">My account</a>
+                </li>
+                <li>
+                    <a asp-controller="Account" asp-action="LogoutClient">Logout</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-controller="Account" asp-action="LoginClient">Login</a>
+                </li>
+                <li>
+                    <a asp-controller="Account" asp-action="RegisterClient">Register</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

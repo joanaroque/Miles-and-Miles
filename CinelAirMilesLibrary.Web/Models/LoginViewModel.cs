@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace CinelAirMilesLibrary.Common.Models
+﻿namespace CinelAirMilesLibrary.Common.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Authentication;
+
     public class LoginViewModel
     {
         public string UserName { get; set; }
@@ -25,9 +25,5 @@ namespace CinelAirMilesLibrary.Common.Models
         public bool RememberMe { get; set; }
 
 
-        public string ReturnUrl { get; set; }
-
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }

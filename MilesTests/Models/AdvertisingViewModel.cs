@@ -37,11 +37,11 @@
 
 
         [Display(Name = "Image Location")]
-        public string ImageUrl { get; set; }
+        public byte[] Image { get; set; }
 
 
         [Display(Name = "Image")]
-        public IFormFile ImageFile { get; set; }
+        public List<IFormFile> ImageFile { get; set; }
 
 
         [Required(ErrorMessage = "Must insert the {0}")]

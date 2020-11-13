@@ -1,16 +1,16 @@
 ﻿namespace CinelAirMiles.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+
     using CinelAirMiles.Helpers;
-    using CinelAirMiles.Models;
+
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
+
     using MilesBackOffice.Web.Helpers;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReservationController : Controller
     {
@@ -25,27 +25,6 @@
             _reservationRepository = reservationRepository;
             _userHelper = userHelper;
             _clientConverterHelper = clientConverterHelper;
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> ReservationIndex()
-        {
-            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync(user.Id);
-
-            var list = new List<ReservationViewModel>(clientReservation.
-                Select(c => _clientConverterHelper.ToReservationViewModel(c)).
-                ToList());
-
-
-            return View(list);
         }
 
         public async Task<IActionResult> CancelReservation(int? id)
@@ -71,14 +50,14 @@
                 await _reservationRepository.UpdateAsync(clientReservation);
 
 
-                return RedirectToAction(nameof(ReservationIndex));
+                return RedirectToAction(nameof(ClientAreaController.ReservationIndex), nameof(ClientAreaController));
 
             }
             catch (Exception exception)
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            return RedirectToAction(nameof(ReservationIndex));
+            return RedirectToAction(nameof(ClientAreaController.ReservationIndex), nameof(ClientAreaController));
         }
     }
 }

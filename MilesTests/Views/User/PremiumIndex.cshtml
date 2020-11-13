@@ -93,5 +93,17 @@
             byID('btn_newUpgrade').addEventListener('click', openPartialCreate);
             byID('btn_newVoucher').addEventListener('click', openPartialCreate);
         });
+
+
+        function imagePreview(input) {
+            if (input.files && input.files[0]) {
+                let fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
+            }
+        }
+
     </script>
 }

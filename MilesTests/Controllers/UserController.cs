@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     using MilesBackOffice.Web.Helpers;
@@ -449,11 +450,23 @@
         {
             try
             {
-                var path = string.Empty;
+                //var path = string.Empty;
 
-                if (model.ImageFile != null && model.ImageFile.Length > 0)
+                //if (model.ImageFile != null && model.ImageFile.Length > 0)
+                //{
+                //    path = await _imageHelper.UploadImageAsync(model.ImageFile, "advertisings");
+                //}
+
+                foreach (var item in model.ImageFile)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "advertisings");
+                    if (item.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            await item.CopyToAsync(stream);
+                            model.Image = stream.ToArray();
+                        }
+                    }
                 }
 
                 var partner = await _partnerRepository.GetByIdAsync(model.PartnerId);
@@ -463,7 +476,7 @@
                     return new NotFoundViewResult("_Error404");
                 }
 
-                Advertising post = _converter.ToAdvertising(model, true, path, partner);
+                Advertising post = _converter.ToAdvertising(model, true, partner);
 
                 //send notification
                 await _notificationHelper.CreateNotificationAsync(post.PostGuidId, UserType.SuperUser, "", NotificationType.Advertising);

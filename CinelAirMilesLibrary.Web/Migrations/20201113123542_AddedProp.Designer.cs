@@ -4,14 +4,16 @@ using CinelAirMilesLibrary.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MilesBackOffice.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201113123542_AddedProp")]
+    partial class AddedProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int?>("FlightId");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<byte>("Image");
 
                     b.Property<string>("ModifiedById");
 
@@ -251,7 +253,7 @@ namespace MilesBackOffice.Web.Migrations
 
                     b.Property<int?>("FlightId");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<byte>("Image");
 
                     b.Property<string>("ModifiedById");
 

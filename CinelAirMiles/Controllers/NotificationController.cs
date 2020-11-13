@@ -1,18 +1,18 @@
 ﻿namespace CinelAirMiles.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using CinelAirMiles.Helpers;
     using CinelAirMiles.Models;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class NotificationController : Controller
     {

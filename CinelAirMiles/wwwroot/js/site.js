@@ -1,5 +1,6 @@
 ﻿'use strict'
 
+
 function openPartial() {
     const id = event.currentTarget.getAttribute("data-value");
     const action = event.currentTarget.getAttribute("action");

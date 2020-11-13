@@ -1,14 +1,14 @@
 ﻿namespace MilesBackOffice.Web.Controllers
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
+
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
 
     using MilesBackOffice.Web.Helpers;
@@ -72,7 +72,7 @@
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            
+
             return View(model);
         }
 
@@ -111,7 +111,7 @@
             return View(_converterHelper.ToUserViewModel(user));
         }
 
-        
+
         #region Recover Password
         public IActionResult RecoverPassword()
         {
@@ -184,7 +184,7 @@
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            
+
             return View(model);
         }
 
