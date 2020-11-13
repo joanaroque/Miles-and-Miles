@@ -6,7 +6,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using MilesBackOffice.Web.Helpers;
     using System;

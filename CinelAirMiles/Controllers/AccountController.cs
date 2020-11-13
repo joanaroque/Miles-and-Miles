@@ -6,6 +6,7 @@
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -91,6 +92,7 @@
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect UserName or Password");
+                    return View(model);
                 }
 
                 if (!user.EmailConfirmed)
@@ -115,14 +117,11 @@
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("IndexClient", "home");
-                    }
+                    return RedirectToAction("Indexclient", "Home");
                 }
 
                 else

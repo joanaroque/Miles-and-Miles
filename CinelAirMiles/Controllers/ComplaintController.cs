@@ -2,6 +2,7 @@
 {
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
+    using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
 
