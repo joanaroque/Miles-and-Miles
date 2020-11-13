@@ -1,11 +1,17 @@
 ﻿namespace CinelAirMiles.Controllers
 {
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+
     using CinelAirMiles.Helpers;
-    using CinelAirMilesLibrary.Common.Data.Entities;
+
     using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
+
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -13,13 +19,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-    using MilesBackOffice.Web.Helpers;
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
 
 
     public class AccountController : Controller
@@ -28,8 +27,6 @@
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
         private readonly IClientRepository _clientRepository;
         private readonly IClientConverterHelper _converterHelper;
 
@@ -38,8 +35,6 @@
             IUserHelper userHelper,
             IConfiguration configuration,
             IMailHelper mailHelper,
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
             IClientRepository clientRepository,
             IClientConverterHelper converterHelper)
         {
@@ -47,8 +42,6 @@
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
-            _signInManager = signInManager;
-            _userManager = userManager;
             _clientRepository = clientRepository;
             _converterHelper = converterHelper;
         }
@@ -58,26 +51,34 @@
             return View();
         }
 
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        #region LOGIN
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult LoginClient(string returnUrl)
+        public IActionResult LoginClient()
         {
-            LoginViewModel model = new LoginViewModel
+            if (this.User.Identity.IsAuthenticated)
             {
-                ReturnUrl = returnUrl,
-                //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+                return this.RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
+            return this.View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
         {
-            //model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 var user = _userHelper.GetUserByGuidId(model.GuidId);
@@ -85,11 +86,12 @@
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect UserName or Password");
+                    return View(model);
                 }
 
                 if (!user.EmailConfirmed)
                 {
-                    ModelState.AddModelError(string.Empty, "You must validate your email before login in!");
+                    ModelState.AddModelError(string.Empty, "You must validate your email before logging in!");
                     return View(model);
                 }
 
@@ -109,14 +111,11 @@
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("IndexClient", "home");
-                    }
+                    return RedirectToAction("Indexclient", "Home");
                 }
 
                 else
@@ -128,90 +127,7 @@
 
             return RedirectToAction("IndexClient", "Home");
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult ExternalLogin(string provider, string returnUrl)
-        //{
-        //    var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
-        //        new { ReturnUrl = returnUrl });
-
-        //    var properties =
-        //        _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-
-        //    return new ChallengeResult(provider, properties);
-        //}
-
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        //{
-        //    returnUrl = returnUrl ?? Url.Content("~/");
-
-        //    LoginViewModel loginViewModel = new LoginViewModel
-        //    {
-        //        ReturnUrl = returnUrl,
-        //        ExternalLogins =
-        //        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-        //    };
-
-        //    if (remoteError != null)
-        //    {
-        //        ModelState.AddModelError(string.Empty,
-        //            $"Error from external provider: {remoteError}");
-
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var info = await _signInManager.GetExternalLoginInfoAsync();
-
-        //    if (info == null)
-        //    {
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-        //        info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
-        //    if (signResult.Succeeded)
-        //    {
-        //        return LocalRedirect(returnUrl);
-        //    }
-
-        //    else if (signResult.IsLockedOut)
-        //    {
-        //        return RedirectToAction(nameof(ClientRecoverPassword));
-        //    }
-
-        //    else
-        //    {
-        //        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        //        if (email != null)
-        //        {
-        //            var user = await _userHelper.GetUserByEmailAsync(email);
-        //            if (user == null)
-        //            {
-        //                user = new User
-        //                {
-        //                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-        //                    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-        //                };
-
-        //                await _userManager.CreateAsync(user);
-        //            }
-
-        //            await _userManager.AddLoginAsync(user, info);
-        //            await _signInManager.SignInAsync(user, isPersistent: false);
-
-        //            return LocalRedirect(returnUrl);
-        //        }
-
-        //        ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
-
-        //        return View("Error");
-        //    }
-        //}
-
+        #endregion
 
         public async Task<IActionResult> LogoutClient()
         {
@@ -219,7 +135,7 @@
             return RedirectToAction("IndexClient", "Home");
         }
 
-
+        #region REGISTER
         public IActionResult RegisterClient()
         {
             var model = new RegisterNewUserViewModel
@@ -308,41 +224,10 @@
 
             return View();
         }
-
-        public IActionResult ChangePasswordClient()
-        {
-            return View();
-        }
+        #endregion
 
 
-
-        [HttpPost]
-        public async Task<IActionResult> ChangePasswordClient(ChangePasswordViewModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
-                if (user != null)
-                {
-                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return this.RedirectToAction("ChangeUserClient");
-                    }
-                    else
-                    {
-                        this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
-                    }
-                }
-                else
-                {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
-                }
-            }
-
-            return View(model);
-        }
-
+        #region ACCOUNT RECOVER
         public IActionResult ClientRecoverPassword()
         {
             return View();
@@ -393,6 +278,41 @@
             return View(model);
         }
 
+
+        public IActionResult ResetPasswordClient(string token)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordClient(ResetPasswordViewModel model)
+        {
+            var user = _userHelper.GetUserByGuidId(model.GuidId);
+            if (user != null)
+            {
+                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+                if (result.Succeeded)
+                {
+                    this.ViewBag.Message = "Password reset successfully.";
+                    return this.View();
+                }
+
+                this.ViewBag.Message = "Error while resetting the password.";
+                return View(model);
+            }
+
+            this.ViewBag.Message = "User not found.";
+            return View(model);
+        }
+        #endregion
+
+        public IActionResult NotAuthorizedClient()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateTokenClient([FromBody] LoginViewModel model)
         {
@@ -436,139 +356,89 @@
         }
 
 
-        public IActionResult ResetPasswordClient(string token)
-        {
-            return View();
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult ExternalLogin(string provider, string returnUrl)
+        //{
+        //    var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
+        //        new { ReturnUrl = returnUrl });
 
+        //    var properties =
+        //        _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
 
-        [HttpPost]
-        public async Task<IActionResult> ResetPasswordClient(ResetPasswordViewModel model)
-        {
-            var user = _userHelper.GetUserByGuidId(model.GuidId);
-            if (user != null)
-            {
-                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
-                if (result.Succeeded)
-                {
-                    this.ViewBag.Message = "Password reset successfully.";
-                    return this.View();
-                }
+        //    return new ChallengeResult(provider, properties);
+        //}
 
-                this.ViewBag.Message = "Error while resetting the password.";
-                return View(model);
-            }
+        //[AllowAnonymous]
+        //public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        //{
+        //    returnUrl = returnUrl ?? Url.Content("~/");
 
-            this.ViewBag.Message = "User not found.";
-            return View(model);
-        }
+        //    LoginViewModel loginViewModel = new LoginViewModel
+        //    {
+        //        ReturnUrl = returnUrl,
+        //        ExternalLogins =
+        //        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+        //    };
 
+        //    if (remoteError != null)
+        //    {
+        //        ModelState.AddModelError(string.Empty,
+        //            $"Error from external provider: {remoteError}");
 
-        public IActionResult NotAuthorizedClient()
-        {
-            return View();
-        }
+        //        return View("LoginClient", loginViewModel);
+        //    }
 
-        public async Task<IActionResult> ChangeUserClient()
-        {
-            var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
+        //    var info = await _signInManager.GetExternalLoginInfoAsync();
 
-            var model = new ChangeUserViewModel();
+        //    if (info == null)
+        //    {
+        //        return View("LoginClient", loginViewModel);
+        //    }
 
-            if (user != null)
-            {
-                model.Name = user.Name;
-                model.Address = user.Address;
-                model.PhoneNumber = user.PhoneNumber;
-                model.City = user.City;
-                model.TIN = user.TIN;
-                model.Name = user.Name;
-                model.PhoneNumber = user.PhoneNumber;
-            }
+        //    var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
+        //        info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            model.Countries = _countryRepository.GetComboCountries();
-            return View(model);
-        }
+        //    if (signResult.Succeeded)
+        //    {
+        //        return LocalRedirect(returnUrl);
+        //    }
 
+        //    else if (signResult.IsLockedOut)
+        //    {
+        //        return RedirectToAction(nameof(ClientRecoverPassword));
+        //    }
 
+        //    else
+        //    {
+        //        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+        //        if (email != null)
+        //        {
+        //            var user = await _userHelper.GetUserByEmailAsync(email);
+        //            if (user == null)
+        //            {
+        //                user = new User
+        //                {
+        //                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+        //                    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+        //                };
 
-        [HttpPost]
-        public async Task<IActionResult> ChangeUserClient(ChangeUserViewModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                try
-                {
-                    var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
-                    if (user != null)
-                    {
-                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
+        //                await _userManager.CreateAsync(user);
+        //            }
 
-                        user.Name = model.Name;
-                        user.Address = model.Address;
-                        user.PhoneNumber = model.PhoneNumber;
-                        user.City = model.City;
-                        user.Name = model.Name;
-                        user.TIN = model.TIN;
-                        user.Name = model.Name;
-                        user.PhoneNumber = model.PhoneNumber;
-                        user.Country = country;
+        //            await _userManager.AddLoginAsync(user, info);
+        //            await _signInManager.SignInAsync(user, isPersistent: false);
 
-                        var respose = await _userHelper.UpdateUserAsync(user);
-                        if (respose.Succeeded)
-                        {
-                            ModelState.AddModelError(string.Empty, "User updated successfully!");
-                            return View(model);
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
+        //            return LocalRedirect(returnUrl);
+        //        }
 
-            }
-            else
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
+        //        ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
 
-            return View(model);
-        }
+        //        return View("Error");
+        //    }
+        //}
 
-
-        [HttpGet]
-        public async Task<IActionResult> DigitalCard()    
-        {
-            try
-            {
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_Error404Client");
-                }
-
-                var model = new DigitalCardViewModel
-                {
-                    Name = user.Name,
-                    ClientNumber = user.GuidId,
-                    TierType = user.Tier,
-                    ExpirationDate = DateTime.Now.AddYears(1)
-                };
-
-                return PartialView("_DigitalCard", model);
-            }
-            catch (Exception)
-            {
-                return new NotFoundViewResult("_Error500Client");
-            }
-
-        }
 
     }
 }

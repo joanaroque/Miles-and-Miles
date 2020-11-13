@@ -219,6 +219,22 @@ namespace MilesBackOffice.Web.Data
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "Vila Vita Hotel & SPA",
+                    Address = "Algarve",
+                    Designation = "Hotel",
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
+                });
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "Sobreiras - Alentejo Country Hotel",
+                    Address = "Alentejo",
+                    Designation = "Hotel",
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
+                });
 
                 await _context.SaveChangesAsync();
             }
@@ -270,7 +286,7 @@ namespace MilesBackOffice.Web.Data
                     Image = image2
 
                 });
-
+                partner = await _context.Partners.Where(p => p.CompanyName == "Vila Vita Hotel & SPA").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "Vila Vita Parc",
@@ -288,7 +304,7 @@ namespace MilesBackOffice.Web.Data
                     Image = image3
 
                 });
-
+                partner = await _context.Partners.Where(p => p.CompanyName == "Sobreiras - Alentejo Country Hotel").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "GRÂNDOLA | CHARM STAY",

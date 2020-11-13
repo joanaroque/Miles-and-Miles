@@ -1,6 +1,8 @@
 ﻿using CinelAirMiles.Helpers;
 using CinelAirMiles.Models;
 using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Helpers;
+
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,15 +16,18 @@ namespace CinelAirMiles.Controllers
         private readonly IAdvertisingRepository _advertisingRepository;
         private readonly IClientConverterHelper _clientConverterHelper;
         private readonly IPremiumRepository _premiumRepository;
+        private readonly IMailHelper _mailHelper;
 
         public HomeController(
             IAdvertisingRepository advertisingRepository,
             IClientConverterHelper clientConverterHelper,
-            IPremiumRepository premiumRepository)
+            IPremiumRepository premiumRepository,
+            IMailHelper mailHelper)
         {
             _advertisingRepository = advertisingRepository;
             _clientConverterHelper = clientConverterHelper;
             _premiumRepository = premiumRepository;
+            _mailHelper = mailHelper;
         }
 
         public IActionResult IndexClient()
@@ -81,6 +86,23 @@ namespace CinelAirMiles.Controllers
                 ModelState.AddModelError(string.Empty, e.Message);
             }
             return RedirectToAction("IndexClient", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult SubscriveNewsletter(string email)
+        {
+            string message;
+            var result = _mailHelper.SendNewsletterConfirmation(email);
+            if (!result)
+            {
+                message = "Something went wrong!";
+            }
+            else
+            {
+                message = "Thank you for subscriving.";
+            }
+            
+            return Json(message);
         }
         [HttpGet]
         public async Task<IActionResult> GetOffersImageFile(int id)

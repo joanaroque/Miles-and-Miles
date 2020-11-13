@@ -1,4 +1,4 @@
-﻿namespace MilesBackOffice.Web.Helpers
+﻿namespace CinelAirMilesLibrary.Common.Helpers
 {
     using Microsoft.AspNetCore.Mvc;
 
