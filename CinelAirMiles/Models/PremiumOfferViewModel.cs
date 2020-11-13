@@ -16,27 +16,10 @@
 
         public string Title { get; set; }
 
-        /// <summary>
-        /// list of flights
-        /// </summary>
-        public IEnumerable<SelectListItem> Flights { get; set; }
-
-
         
         //[Range(1, double.MaxValue, ErrorMessage = "Choose a flight from the list.")]
         [DisplayName("Flight")]
         public int FlightId { get; set; }
-
-
-
-        public IEnumerable<SelectListItem> PartnersList { get; set; }
-
-
-
-        [Required]
-        [Range(1, double.MaxValue, ErrorMessage = "Choose a Partner from the list.")]
-        [DisplayName("From Partner")]
-        public int PartnerId { get; set; }
 
 
         public string PartnerName { get; set; }
