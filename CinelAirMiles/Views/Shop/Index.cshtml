@@ -1,28 +1,62 @@
 ﻿
-@{ 
+@{
     ViewData["Title"] = "Miles Premium Shop";
 }
-
-<div id="finder_premium">
+@using CinelAirMilesLibrary.Common.Enums
+<section id="finder_premium">
     <h2>Find a promotion</h2>
-    <div class="form-inline">
-        <div>
-            <label>Departure <i class="fas fa-plane"></i></label>
-            <input type="text" />
-        </div>
-        <div>
-            <label>Destination <i class="fas fa-plane"></i></label>
-            <input type="text"/>
-        </div>
-        <div>
-            <a href="">Search</a>
-        </div>
+    <div class="nav navbar-nav">
+        <label>Departure <i class="fa fa-plane"></i></label>
+        <input type="text" id="departure" />
+        <label>Destination <i class="fa fa-plane"></i></label>
+        <input type="text" id="arrival"/>
+        <select id="offer_type">
+            <option value="@PremiumType.Ticket">@PremiumType.Ticket.ToString()</option>
+            <option value="@PremiumType.Upgrade">@PremiumType.Upgrade.ToString()</option>
+            <option value="@PremiumType.Voucher">@PremiumType.Voucher.ToString()</option>
+        </select>
+        <a id="search_button" class="btn">Search</a>
     </div>
-</div>
+</section>
 <div id="result">
 
 </div>
+<span id="error_zone">@TempData["ErrorMessage"]</span>
 
-<div id="promotions">
-    
-</div>
+<section id="promotions">
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            $("#promotions").load("/Home/GetPremiumOffer");
+
+            $("#offer_type").change(function () {
+                if ($("#offer_type option:selected").val() === "Voucher") {
+                    $("#departure").attr("disabled");
+                    $("#arrival").attr("disabled");
+                } else {
+                    $("#departure").removeAttr("disabled");
+                    $("#arrival").removeAttr("disabled");
+                }
+            });
+
+            $("#search_button").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Shop/SearchOffers",
+                    dataType: "html",
+                    data: { departure: $("#departure").val(), arrival: $("#arrival").val() },
+                    success: function (result) {
+                        $("#result").html(result);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        })
+    </script>
+}
