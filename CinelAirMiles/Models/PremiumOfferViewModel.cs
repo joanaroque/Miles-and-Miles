@@ -6,7 +6,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using CinelAirMilesLibrary.Common.Enums;
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class PremiumOfferViewModel
@@ -21,6 +21,14 @@
         [DisplayName("Flight")]
         public int FlightId { get; set; }
 
+
+        [Display(Name = "Image Location")]
+        public byte[] Image { get; set; }
+
+
+
+        [Display(Name = "Image")]
+        public List<IFormFile> ImageFile { get; set; }
 
         public string PartnerName { get; set; }
 

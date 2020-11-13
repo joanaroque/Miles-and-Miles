@@ -2,6 +2,7 @@
 {
     using CinelAirMilesLibrary.Common.Enums;
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public class PremiumOffer : IEntity
     {
@@ -22,6 +23,8 @@
 
         public string OfferIdGuid { get; set; }
 
+
+        public byte[] Image { get; set; }
         /// <summary>
         /// for vouchers
         /// </summary>

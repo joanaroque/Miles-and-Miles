@@ -21,7 +21,7 @@
                 Id = advertising.Id,
                 Title = advertising.Title,
                 Content = advertising.Content,
-                ImageUrl = advertising.ImageUrl,
+                Image = advertising.Image,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
                 //PartnerName = advertising.Partner.CompanyName,
@@ -176,6 +176,7 @@
                 Quantity = model.Quantity,
                 Price = model.Price,
                 Type = model.Type,
+                Image = model.Image,
                 PartnerName = model.Partner.CompanyName,
                 OfferGuidId = model.OfferIdGuid,
                 

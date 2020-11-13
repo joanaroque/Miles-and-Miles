@@ -14,22 +14,8 @@
         public Flight Flight { get; set; }
 
 
-        [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
+        public byte[] Image { get; set; }
 
-
-        [Display(Name = "Image")]
-        public string ImageFullPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(ImageUrl))
-                {
-                    return null;
-                }
-                return $"https://cinelairmiles.azurewebsites.net{ImageUrl.Substring(1)}";
-            }
-        }
 
 
         [Required(ErrorMessage = "Must insert the {0}")]

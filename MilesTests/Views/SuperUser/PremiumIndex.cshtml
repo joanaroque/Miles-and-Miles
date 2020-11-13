@@ -31,7 +31,7 @@
                         <th>Offer Nrº</th>
                         <th>Title</th>
                         <th>Company</th>
-                        <th>Offer Type</th>
+                        <th>Type</th>
                         <th>Quantity</th>
                         <th>Available Seats</th>
                         <th>Price</th>
@@ -41,52 +41,52 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
 
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PartnerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        @if (item.AvailableSeats >= 0)
+                        {
                             <td>
-                                @Html.DisplayFor(modelItem => item.PartnerName)
+                                @Html.DisplayFor(modelItem => item.AvailableSeats)
                             </td>
+                        }
+                        else
+                        {
                             <td>
-                                @Html.DisplayFor(modelItem => item.Type)
+                                n/a
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Quantity)
-                            </td>
-                            @if (item.AvailableSeats >= 0)
-                            {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AvailableSeats)
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    n/a
-                                </td>
-                            }
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Price)
-                            </td>
-                            <td>
-                                <a action="PremiumOfferDetails" onclick="openPartial()" class="btn btn-warning" data-value="@item.Id">
-                                    <i class="fa fa-list"></i>
-                                </a>
-                                <a>-  -  - </a>
-                                <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.Id" class="btn btn-success">
-                                    <i class="far fa-check-circle"></i>
-                                </a>
-                                <a>-  -  - </a>
-                                <a asp-action="ReturnOfferToEditing" asp-route-id="@item.Id" class="btn btn-danger">
-                                    <i class="fas fa-ban"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            <a action="PremiumOfferDetails" onclick="openPartial()" class="btn btn-warning" data-value="@item.Id">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            <a>-  -  - </a>
+                            <a asp-action="ConfirmPremiumOffer" asp-route-id="@item.Id" class="btn btn-success">
+                                <i class="far fa-check-circle"></i>
+                            </a>
+                            <a>-  -  - </a>
+                            <a asp-action="ReturnOfferToEditing" asp-route-id="@item.Id" class="btn btn-danger">
+                                <i class="fas fa-ban"></i>
+                            </a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

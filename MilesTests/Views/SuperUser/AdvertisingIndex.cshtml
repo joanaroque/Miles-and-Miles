@@ -35,33 +35,34 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostGuidId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    <a onclick="openPartial()" action="AdvertisingDetails" class="btn btn-warning" data-value="@item.Id">
-                        <i class="fa fa-list"></i>
-                    </a>
-                    <a>-  -  - </a>
-                    <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
-                        <i class="far fa-check-circle"></i>
-                    </a>
-                    <a>-  -  - </a>
-                    <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
-                        <i class="fas fa-ban"></i>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.PostGuidId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                <a onclick="openPartial()" action="AdvertisingDetails" class="btn btn-warning" data-value="@item.Id">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a>-  -  - </a>
+                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
+                    <i class="far fa-check-circle"></i>
+                </a>
+                <a>-  -  - </a>
+                <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
+                    <i class="fas fa-ban"></i>
+                </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

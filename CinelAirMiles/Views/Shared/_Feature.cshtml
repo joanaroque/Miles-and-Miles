@@ -22,7 +22,7 @@
             @if (item.Id == 1)
             {
                 <div class="item active">
-                    <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
+                    <img src="@Url.Content(item.Image.ToString())" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
                          style=" height: 500px; text-align: center;margin: auto; width: 50%;">
                     <div class="carousel-caption">
                         <h1><a href="#">@Html.DisplayFor(modelItem => item.Title)</a></h1>
@@ -33,7 +33,7 @@
             else
             {
                 <div class="item">
-                    <img src="@Url.Content(item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
+                    <img src="@Url.Content(item.Image.ToString())" alt="@Html.DisplayFor(modelItem => item.PostGuidId)"
                          style=" height: 500px; text-align: center;margin: auto; width: 50%;">
                     <div class="carousel-caption">
                         <h1><a href="#">@Html.DisplayFor(modelItem => item.Title)</a></h1>

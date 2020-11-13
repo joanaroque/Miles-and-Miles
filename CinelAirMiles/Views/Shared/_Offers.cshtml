@@ -19,7 +19,7 @@
                         <div class="team-image">
                             @if (item.Id == 1)
                             {
-                                <img src="~/images/5.jpg" class="img-responsive" alt="" />
+                                @Html.DisplayFor(modelItem => item.Image)
                             }
                             @if (item.Id == 2)
                             {
@@ -41,7 +41,7 @@
                         </div>
 
                     </div>
-                </div>*@
+                </div>
             }
         </div>
     </div>

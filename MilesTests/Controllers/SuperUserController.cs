@@ -83,6 +83,15 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetOffersImageFile(int id)
+        {
+            var offer = await _premiumRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(offer.Image);
+            return imageUserFile;
+        }
+
+        [HttpGet]
         public async Task<ActionResult> PremiumOfferDetails(int? id)
         {
             if (id == null)
@@ -153,7 +162,7 @@
             return RedirectToAction(nameof(PremiumIndex));
         }
 
-        
+
         /// <summary>
         /// cancel the tier change and updated the data
         /// </summary>
@@ -436,6 +445,20 @@
 
         }
 
+        public FileResult GetFileFromBytes(byte[] bytesIn)
+        {
+            return File(bytesIn, "image/png");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAdvertisingImageFile(int id)
+        {
+            var advertising = await _advertisingRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(advertising.Image);
+            return imageUserFile;
+        }
+
         /// <summary>
         /// details from advertising conten
         /// </summary>
@@ -556,7 +579,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-          
+
             var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
@@ -572,7 +595,7 @@
         /// <param name="id"></param>
         /// <returns>teh TierChange view</returns>
         [HttpGet]
-        public async Task<IActionResult> ConfirmTierChange(int? id) 
+        public async Task<IActionResult> ConfirmTierChange(int? id)
         {
             if (id == null)
             {

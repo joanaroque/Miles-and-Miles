@@ -51,14 +51,14 @@
             return seats;
         }
 
-        public Advertising ToAdvertising(AdvertisingViewModel model, bool isNew, string path, Partner partner)
+        public Advertising ToAdvertising(AdvertisingViewModel model, bool isNew, Partner partner)
         {
             var advertisng = new Advertising
             {
                 Id = isNew ? 0 : model.Id,
                 Title = model.Title,
                 Content = model.Content,
-                ImageUrl = path,
+                Image = model.Image,
                 EndDate = model.EndDate,
                 UpdateDate = DateTime.Now,
                 Status = 1,
@@ -75,10 +75,10 @@
                 Id = advertising.Id,
                 Title = advertising.Title,
                 Content = advertising.Content,
-                ImageUrl = advertising.ImageUrl,
+                Image = advertising.Image,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                PartnerName = advertising.Partner.CompanyName,
+                //PartnerName = advertising.Partner.CompanyName,
                 PostGuidId = advertising.PostGuidId,
                 FlightId = advertising.Flight == null ? 0 : advertising.Flight.Id,
                 CreatedBy = advertising.CreatedBy == null? "unknown" : advertising.CreatedBy.Name,
@@ -166,6 +166,7 @@
                 Conditions = string.IsNullOrWhiteSpace(model.Conditions) ? string.Empty : model.Conditions,
                 Type = model.Type,
                 Status = 1,
+                Image = model.Image,
                 OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId                
             };
         }
@@ -182,6 +183,7 @@
                 Price = model.Price,
                 AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
                 Type = model.Type,
+                Image = model.Image,
                 PartnerName = model.Partner.CompanyName,
                 OfferGuidId = model.OfferIdGuid,
                // Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
