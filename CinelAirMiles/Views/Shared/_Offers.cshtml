@@ -17,22 +17,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="team-thumb">
                         <div class="team-image">
-                            @if (item.Id == 1)
-                            {
-                                @Html.DisplayFor(modelItem => item.Image)
-                            }
-                            @if (item.Id == 2)
-                            {
-                                <img src="~/images/6.jpg" class="img-responsive" alt="" />
-                            }
-                            @if (item.Id == 3)
-                            {
-                                <img src="~/images/4.jpg" class="img-responsive" alt="" />
-                            }
-                            @if (item.Id == 4)
-                            {
-                                <img src="~/images/20.jpg" class="img-responsive" alt="" />
-                            }
+                            <img style="max-width:300px; max-height:300px" src='@Url.Action("GetOffersImageFile", "Home", new { id = item.Id})' />
                         </div>
                         <div class="team-info">
                             <p>
