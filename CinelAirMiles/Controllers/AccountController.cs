@@ -58,6 +58,15 @@
             return View();
         }
 
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -125,6 +134,8 @@
 
             return RedirectToAction("IndexClient", "Home");
         }
+
+
 
 
         public async Task<IActionResult> LogoutClient()

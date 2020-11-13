@@ -52,7 +52,8 @@
 
             else
             {
-                return RedirectToAction("LoginClient", "account");
+                string retUrl = Request.PathBase;
+                return RedirectToAction("LoginClient", "Account", new { returnUrl = retUrl });
             }
 
         }
