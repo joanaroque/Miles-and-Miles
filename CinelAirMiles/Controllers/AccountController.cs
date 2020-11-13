@@ -133,7 +133,6 @@
 
             return RedirectToAction("IndexClient", "Home");
         }
-        #endregion
 
         public async Task<IActionResult> LogoutClient()
         {
@@ -361,94 +360,19 @@
             return BadRequest();
         }
 
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult ExternalLogin(string provider, string returnUrl)
+        //[HttpGet]
+        //public async Task<IActionResult> DigitalCard()
         //{
-        //    var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
-        //        new { ReturnUrl = returnUrl });
-
-        //    var properties =
-        //        _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-
-        //    return new ChallengeResult(provider, properties);
-        //}
-
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        //{
-        //    returnUrl = returnUrl ?? Url.Content("~/");
-
-        //    LoginViewModel loginViewModel = new LoginViewModel
+        //    try
         //    {
-        //        ReturnUrl = returnUrl,
-        //        ExternalLogins =
-        //        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-        //    };
+        //        var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
-        //    if (remoteError != null)
-        //    {
-        //        ModelState.AddModelError(string.Empty,
-        //            $"Error from external provider: {remoteError}");
-
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var info = await _signInManager.GetExternalLoginInfoAsync();
-
-        //    if (info == null)
-        //    {
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-        //        info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
-        //    if (signResult.Succeeded)
-        //    {
         //        return LocalRedirect(returnUrl);
         //    }
 
-        //    else if (signResult.IsLockedOut)
-        //    {
-        //        return RedirectToAction(nameof(ClientRecoverPassword));
-        //    }
+        //                ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
 
-        //    else
-        //    {
-        //        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        //        if (email != null)
-        //        {
-        //            var user = await _userHelper.GetUserByEmailAsync(email);
-        //            if (user == null)
-        //            {
-        //                user = new User
-        //                {
-        //                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-        //                    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-        //                };
-
-        //                await _userManager.CreateAsync(user);
-        //            }
-
-        [HttpGet]
-        public async Task<IActionResult> DigitalCard()    
-        {
-            try
-            {
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-        //            return LocalRedirect(returnUrl);
-        //        }
-
-        //        ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
-
-        //        return View("Error");
-        //    }
+        //    return View("Error");
         //}
-
-
     }
 }
