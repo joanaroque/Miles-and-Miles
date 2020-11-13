@@ -32,11 +32,17 @@
         {
             var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
 
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync(user.Id);
 
             var list = new List<ReservationViewModel>(clientReservation.
                 Select(c => _clientConverterHelper.ToReservationViewModel(c)).
                 ToList());
+
 
             return View(list);
         }
@@ -72,9 +78,6 @@
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
             return RedirectToAction(nameof(ReservationIndex));
-
         }
-
-
     }
 }

@@ -51,8 +51,8 @@
                     throw new Exception("This item was not found!");
                 }
 
-                var model = _converterHelper.ToPremiumOfferViewModel(await _premiumRepository.GetByIdWithIncludesAsync(id.Value));
-                return View(model);
+                //var model = _converterHelper.ToPremiumOfferViewModel(await _premiumRepository.GetByIdWithIncludesAsync(id.Value));
+                return View();
             }
             catch (Exception e)
             {
