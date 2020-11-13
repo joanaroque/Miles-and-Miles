@@ -49,16 +49,22 @@
                             <p>
                                 Resolved
                             </p>
+                            <table class="display table table-bordered table-striped" style="width:100%">
+                                Reply:
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => model.Reply)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         }
                         @if (Model.Status == 2)
                         {
                             <p>
                                 Awaiting your response
                             </p>
-                        }
-
-                        @if (Model.Reply != null)
-                        {
                             <table class="display table table-bordered table-striped" style="width:100%">
                                 Reply:
                                 <tbody>
