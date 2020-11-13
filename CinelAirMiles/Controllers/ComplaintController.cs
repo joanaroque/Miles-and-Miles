@@ -52,7 +52,7 @@
 
             else
             {
-                return new NotFoundViewResult("_Error404Client");
+                return RedirectToAction("LoginClient", "account");
             }
 
         }

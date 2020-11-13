@@ -61,23 +61,20 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult LoginClient(string returnUrl)
+        public IActionResult LoginClient()
         {
-            LoginViewModel model = new LoginViewModel
+            if (this.User.Identity.IsAuthenticated)
             {
-                ReturnUrl = returnUrl,
-                //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+                return this.RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
+            return this.View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
         {
-            //model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 var user = _userHelper.GetUserByGuidId(model.GuidId);
@@ -89,7 +86,7 @@
 
                 if (!user.EmailConfirmed)
                 {
-                    ModelState.AddModelError(string.Empty, "You must validate your email before login in!");
+                    ModelState.AddModelError(string.Empty, "You must validate your email before logging in!");
                     return View(model);
                 }
 
@@ -128,89 +125,6 @@
 
             return RedirectToAction("IndexClient", "Home");
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult ExternalLogin(string provider, string returnUrl)
-        //{
-        //    var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
-        //        new { ReturnUrl = returnUrl });
-
-        //    var properties =
-        //        _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-
-        //    return new ChallengeResult(provider, properties);
-        //}
-
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        //{
-        //    returnUrl = returnUrl ?? Url.Content("~/");
-
-        //    LoginViewModel loginViewModel = new LoginViewModel
-        //    {
-        //        ReturnUrl = returnUrl,
-        //        ExternalLogins =
-        //        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-        //    };
-
-        //    if (remoteError != null)
-        //    {
-        //        ModelState.AddModelError(string.Empty,
-        //            $"Error from external provider: {remoteError}");
-
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var info = await _signInManager.GetExternalLoginInfoAsync();
-
-        //    if (info == null)
-        //    {
-        //        return View("LoginClient", loginViewModel);
-        //    }
-
-        //    var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-        //        info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
-        //    if (signResult.Succeeded)
-        //    {
-        //        return LocalRedirect(returnUrl);
-        //    }
-
-        //    else if (signResult.IsLockedOut)
-        //    {
-        //        return RedirectToAction(nameof(ClientRecoverPassword));
-        //    }
-
-        //    else
-        //    {
-        //        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        //        if (email != null)
-        //        {
-        //            var user = await _userHelper.GetUserByEmailAsync(email);
-        //            if (user == null)
-        //            {
-        //                user = new User
-        //                {
-        //                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-        //                    Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-        //                };
-
-        //                await _userManager.CreateAsync(user);
-        //            }
-
-        //            await _userManager.AddLoginAsync(user, info);
-        //            await _signInManager.SignInAsync(user, isPersistent: false);
-
-        //            return LocalRedirect(returnUrl);
-        //        }
-
-        //        ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
-
-        //        return View("Error");
-        //    }
-        //}
 
 
         public async Task<IActionResult> LogoutClient()
