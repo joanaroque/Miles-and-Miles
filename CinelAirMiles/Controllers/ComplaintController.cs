@@ -1,17 +1,17 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
-    using global::CinelAirMiles.Helpers;
-    using global::CinelAirMiles.Models;
-
-    using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using global::CinelAirMiles.Helpers;
+    using global::CinelAirMiles.Models;
+
+    using Microsoft.AspNetCore.Mvc;
 
     public class ComplaintController : Controller
     {

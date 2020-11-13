@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CinelAirMiles.Helpers;
 using CinelAirMiles.Models;
 using CinelAirMilesLibrary.Common.Data.Repositories;
 using CinelAirMilesLibrary.Common.Helpers;
@@ -13,12 +14,18 @@ namespace CinelAirMiles.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly ICountryRepository _countryRepository;
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IClientConverterHelper _clientConverterHelper;
 
         public ClientAreaController(IUserHelper userHelper,
-            ICountryRepository countryRepository)
+            ICountryRepository countryRepository,
+            IReservationRepository reservationRepository,
+            IClientConverterHelper clientConverterHelper)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
+            _reservationRepository = reservationRepository;
+            _clientConverterHelper = clientConverterHelper;
         }
 
 
@@ -47,7 +54,7 @@ namespace CinelAirMiles.Controllers
             }
 
             model.Countries = _countryRepository.GetComboCountries();
-            return View(model);
+            return PartialView(nameof(UpdateClientInfo),model);
         }
 
 
@@ -103,7 +110,7 @@ namespace CinelAirMiles.Controllers
 
         public IActionResult UpdatePassword()
         {
-            return View();
+            return PartialView(nameof(UpdatePassword));
         }
 
 
@@ -131,12 +138,13 @@ namespace CinelAirMiles.Controllers
                 }
             }
 
-            return View(model);
+            return PartialView(nameof(UpdatePassword),model);
         }
 
         #endregion
 
 
+        #region DIGITAL CARD
         [HttpGet]
         public async Task<IActionResult> DigitalCard()
         {
@@ -166,5 +174,29 @@ namespace CinelAirMiles.Controllers
             }
 
         }
+        #endregion
+
+
+        #region RESERVATIONS INDEX
+        [HttpGet]
+        public async Task<IActionResult> ReservationIndex()
+        {
+            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var clientReservation = await _reservationRepository.GetReservationsFromCurrentClientToListAsync(user.Id);
+
+            var list = new List<ReservationViewModel>(clientReservation.
+                Select(c => _clientConverterHelper.ToReservationViewModel(c)).
+                ToList());
+
+
+            return PartialView(nameof(ReservationIndex),list);
+        }
+        #endregion
     }
 }

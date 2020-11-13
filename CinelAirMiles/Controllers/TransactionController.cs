@@ -1,22 +1,23 @@
 ﻿namespace CinelAirMiles.Controllers
 {
-    using CinelAirMiles.Helpers;
-    using CinelAirMilesLibrary.Common.Data.Entities;
-    using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
-    using global::CinelAirMiles.Models;
-
-    using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CinelAirMiles.Helpers;
+
+    using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Helpers;
+
+    using global::CinelAirMiles.Models;
+
+    using Microsoft.AspNetCore.Mvc;
+
     public class TransactionController : Controller
     {
-        private readonly IUserHelper _userHelper; 
+        private readonly IUserHelper _userHelper;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IClientConverterHelper _converterHelper;
         private readonly ITransactionHelper _transactionHelper;
@@ -145,7 +146,7 @@
         {
             //TODO blocos de 2000 milhas e max de 20 000 milhas por ano (fazer validação)
 
-           
+
 
             return PartialView("_ExtendMiles");
         }
@@ -258,7 +259,7 @@
         {
             //TODO
             //apenas clientes silver ou basic
-            
+
             return PartialView("_NominateToGold");
         }
 

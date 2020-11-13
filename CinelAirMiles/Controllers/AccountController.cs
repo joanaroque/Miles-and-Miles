@@ -2,7 +2,6 @@
 {
     using System;
     using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -12,7 +11,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+
     using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -20,8 +19,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-
-    using MilesBackOffice.Web.Helpers;
 
 
     public class AccountController : Controller
@@ -63,7 +60,7 @@
             return RedirectToAction("Index", "Home");
         }
 
-       
+
         #region LOGIN
 
         [HttpGet]

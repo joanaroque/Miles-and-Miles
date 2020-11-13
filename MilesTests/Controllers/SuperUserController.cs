@@ -9,7 +9,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Web.Helpers;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -153,7 +153,7 @@
             return RedirectToAction(nameof(PremiumIndex));
         }
 
-        
+
         /// <summary>
         /// cancel the tier change and updated the data
         /// </summary>
@@ -556,7 +556,7 @@
         [HttpGet]
         public async Task<ActionResult> TierChange()
         {
-          
+
             var list = await _tierChangeRepository.GetAllClientListAsync();
 
             var modelList = new List<TierChangeViewModel>(
@@ -572,7 +572,7 @@
         /// <param name="id"></param>
         /// <returns>teh TierChange view</returns>
         [HttpGet]
-        public async Task<IActionResult> ConfirmTierChange(int? id) 
+        public async Task<IActionResult> ConfirmTierChange(int? id)
         {
             if (id == null)
             {
