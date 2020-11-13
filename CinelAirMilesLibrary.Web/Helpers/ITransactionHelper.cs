@@ -24,13 +24,28 @@ namespace CinelAirMilesLibrary.Common.Helpers
         /// <returns>The Transaction created</returns>
         Transaction CreatePurchaseTransaction(User user, PremiumOffer offer);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Transaction NewPurchase(Transaction transaction, User user);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="miles"></param>
+        /// <returns></returns>
         int MilesPrice(int miles);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="user"></param>
+        /// <param name="userTo"></param>
+        /// <returns></returns>
         Transaction NewTransfer(Transaction transaction, User user, User userTo);
     }
 }
