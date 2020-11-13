@@ -1,91 +1,63 @@
-﻿@model MilesBackOffice.Web.Models.PremiumOfferViewModel
+﻿@model CinelAirMiles.Models.PremiumOfferViewModel
 
 
-<section class="content">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Premium Offer Details</h3>
-
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="post">
-                                <div class="text-muted">
-                                    <p class="text-md">
-                                        Title
-                                        <b class="d-block">@Html.DisplayFor(model => model.Title)</b>
-                                    </p>
-                                    <p class="text-md">
-                                        Partner
-                                        <b class="d-block">@Html.DisplayFor(model => model.PartnerName)</b>
-                                    </p>
-                                    <p class="text-md">
-                                        Type of offer
-                                        <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
-                                    </p>
-                                    <p class="text-md">
-                                        Price
-                                        <b class="d-block">@Html.DisplayFor(model => model.Price)</b>
-                                    </p>
-                                    <p class="text-md">
-                                        Quantity
-                                        <b class="d-block">@Html.DisplayFor(model => model.Quantity)</b>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="post">
-                                <div class="text-muted">
-                                    @if (Model.FlightId != 0)
-                                    {
-                                        <p class="text-md">
-                                            Flight number
-                                            <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
-                                        </p>
-                                        <p class="text-md">
-                                            Departure
-                                            <b class="d-block">@Html.DisplayFor(model => model.Departure)</b>
-                                        </p>
-                                        <p class="text-md">
-                                            Arrival
-                                            <b class="d-block">@Html.DisplayFor(model => model.Arrival)</b>
-                                        </p>
-                                        <p class="text-md">
-                                            Flight's date
-                                            <b class="d-block">@Html.DisplayFor(model => model.FlightDateTime)</b>
-                                        </p>
-                                    }
-                                    <p class="text-md">
-                                        Offer number
-                                        <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
-                                    </p>
-                                    <p class="text-md">
-                                        Conditions
-                                        <b class="d-block">@Html.DisplayFor(model => model.Conditions)</b>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section id="item_details">
+    <h3 class="card-title">Premium Offer Details</h3>
+    <div class="col-6">
+        <p class="text-md">
+            Title
+            <b class="d-block">@Html.DisplayFor(model => model.Title)</b>
+        </p>
+        <p class="text-md">
+            Partner
+            <b class="d-block">@Html.DisplayFor(model => model.PartnerName)</b>
+        </p>
+        <p class="text-md">
+            Type of offer
+            <b class="d-block">@Html.DisplayFor(model => model.Type)</b>
+        </p>
+        <p class="text-md">
+            Price
+            <b class="d-block">@Html.DisplayFor(model => model.Price)</b>
+        </p>
+        <p class="text-md">
+            Quantity
+            <b class="d-block">@Html.DisplayFor(model => model.Quantity)</b>
+        </p>
     </div>
+
+    <div class="col-6">
+        @if (Model.FlightId != 0)
+        {
+            <p class="text-md">
+                Flight number
+                <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
+            </p>
+            <p class="text-md">
+                Departure
+                <b class="d-block">@Html.DisplayFor(model => model.Departure)</b>
+            </p>
+            <p class="text-md">
+                Arrival
+                <b class="d-block">@Html.DisplayFor(model => model.Arrival)</b>
+            </p>
+            <p class="text-md">
+                Flight's date
+                <b class="d-block">@Html.DisplayFor(model => model.FlightDateTime)</b>
+            </p>
+        }
+        <p class="text-md">
+            Offer number
+            <b class="d-block">@Html.DisplayFor(model => model.OfferGuidId)</b>
+        </p>
+        <p class="text-md">
+            Conditions
+            <b class="d-block">@Html.DisplayFor(model => model.Conditions)</b>
+        </p>
+    </div>
+    <p>
+        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Terms and Conditions</a>
+    </p>
 </section>
 
 
