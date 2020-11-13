@@ -165,24 +165,28 @@
             };
         }
 
+
         public PremiumOfferViewModel ToPremiumOfferViewModel(PremiumOffer model)
         {
             var offer = new PremiumOfferViewModel
             {
                 Id = model.Id,
                 Title = model.Title,
-               // FlightId = model.Flight == null ? 0 : model.Flight.Id,
-                Conditions = model.Conditions,
+                Conditions = string.IsNullOrEmpty(model.Conditions) ? string.Empty : model.Conditions,
                 Quantity = model.Quantity,
                 Price = model.Price,
-                AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats,
                 Type = model.Type,
-                //PartnerId = model.Partner.Id,
+                PartnerName = model.Partner.CompanyName,
                 OfferGuidId = model.OfferIdGuid,
-                //Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
-                //Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
-                //FlightDateTime = model.Flight.DepartureDate,
+                
             };
+            if (model.Flight != null)
+            {
+                offer.AvailableSeats = model.Flight == null ? -1 : model.Flight.AvailableSeats;
+                offer.Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival;
+                offer.Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure;
+                offer.FlightDateTime = model.Flight.DepartureDate;
+            }
 
             return offer;
         }
