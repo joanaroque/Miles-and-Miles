@@ -122,13 +122,26 @@
                 .AsNoTracking());
         }
 
-        public async Task<List<PremiumOffer>> GetPremiumOfferForClientAsync()
-        {
-            var offer = await _dataContext.PremiumOffers
-                 .Where(st => st.Status == 0)
-                 .ToListAsync();
 
-            return offer;
+        public IEnumerable<PremiumOffer> SearchByParameters(string departure, string arrival)
+        {
+            //search only by destination
+            if (string.IsNullOrWhiteSpace(arrival))
+            {
+                return _dataContext.PremiumOffers
+                    .Include(f => f.Flight)
+                    .Include(p => p.Partner)
+                    .Where(fi => fi.Flight.Departure.Equals(departure) && fi.Flight.DepartureDate.Date > DateTime.Now.Date);
+            }
+            else 
+            {
+                return _dataContext.PremiumOffers
+                    .Include(f => f.Flight)
+                    .Include(p => p.Partner)
+                    .Where(fi => fi.Flight.Departure.Equals(departure) && fi.Flight.Arrival.Equals(arrival) && fi.Flight.DepartureDate.Date >= DateTime.Now.Date);
+            }
         }
+
+        
     }
 }

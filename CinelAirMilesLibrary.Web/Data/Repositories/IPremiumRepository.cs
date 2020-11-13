@@ -33,6 +33,7 @@
         Task<IEnumerable<PremiumOffer>> GetAllIncludes();
 
 
-        Task<List<PremiumOffer>> GetPremiumOfferForClientAsync();
+
+        IEnumerable<PremiumOffer> SearchByParameters(string destination, string arrival);
     }
 }
