@@ -1,6 +1,7 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using CinelAirMiles.Helpers;
@@ -51,8 +52,13 @@
                     throw new Exception("This item was not found!");
                 }
 
-                var model = _converterHelper.ToPremiumOfferViewModel(await _premiumRepository.GetByIdWithIncludesAsync(id.Value));
-                return View(model);
+                var model = await _premiumRepository.GetByIdWithIncludesAsync(id.Value);
+                if (model == null)
+                {
+                    throw new Exception("This item was not found!");
+                }
+
+                return View(_converterHelper.ToPremiumOfferViewModel(model));
             }
             catch (Exception e)
             {
@@ -121,7 +127,16 @@
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
             return View(); //return success message
+        }
 
+
+        public IActionResult SearchOffers(string departure, string arrival, string type)
+        {
+            var list = _premiumRepository.SearchByParameters(departure, arrival);
+
+            var modelList = list.Select(i => _converterHelper.ToPremiumOfferViewModel(i));
+
+            return PartialView("_OfferList", modelList);
         }
 
         public async Task<IActionResult> CancelReservation(int id) //Id from reservation not ReservationId
