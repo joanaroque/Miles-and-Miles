@@ -19,7 +19,11 @@
         /// <returns></returns>
         User GetUserByGuidId(string user);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         Task<User> GetUserByUsernameAsync(string username);
 
 
@@ -156,22 +160,42 @@
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<SelectListItem> GetComboRoles();
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<User> GetUserImageAsync(Guid userId);
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         Task<IdentityRole> FindRoleByTypeAsync(UserType role);
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         Task RemoveRoleAsync(User user, UserType type);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         Task<Response> DeleteUserAsync(User user);
     }
 }

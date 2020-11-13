@@ -16,8 +16,27 @@ namespace CinelAirMilesLibrary.Common.Helpers
         /// <param name="usergroup">the user's role</param>
         /// <returns></returns>
         Task CreateNotificationAsync(string id, UserType usergroup, string message, NotificationType type);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task DeleteOldByIdAsync(string id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<string> GetNotificationMessages();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="usergroup"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         Task<Response> UpdateNotificationAsync(string id, UserType usergroup, string message);
     }
 }
