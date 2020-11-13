@@ -54,7 +54,7 @@ namespace CinelAirMiles.Controllers
         {
             try
             {
-                var list = await _premiumRepository.GetPremiumOfferForClientAsync();
+                var list = await _premiumRepository.GetAllIncludes();
 
                 var modelList = new List<PremiumOfferViewModel>(
                     list.Select(a => _clientConverterHelper.ToPremiumOfferViewModel(a))
