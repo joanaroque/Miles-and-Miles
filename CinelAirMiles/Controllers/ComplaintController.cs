@@ -5,9 +5,8 @@
     using CinelAirMilesLibrary.Common.Web.Helpers;
     using global::CinelAirMiles.Helpers;
     using global::CinelAirMiles.Models;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using MilesBackOffice.Web.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -30,6 +29,7 @@
         }
 
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> ComplaintsIndex()
         {
@@ -53,8 +53,8 @@
 
             else
             {
-                string retUrl = Request.PathBase;
-                return RedirectToAction("LoginClient", "Account", new { returnUrl = retUrl });
+                //string retUrl = Request.PathBase;
+                return RedirectToAction("LoginClient", "Account");
             }
 
         }

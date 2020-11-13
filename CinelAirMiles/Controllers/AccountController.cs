@@ -3,7 +3,6 @@
     using CinelAirMiles.Helpers;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
-    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
     using CinelAirMilesLibrary.Common.Web.Helpers;
@@ -14,7 +13,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-    using MilesBackOffice.Web.Helpers;
     using System;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
@@ -59,16 +57,6 @@
             return View();
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult LoginClient()
@@ -83,7 +71,7 @@
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginClient(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> LoginClient(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -117,10 +105,11 @@
 
                 if (result.Succeeded)
                 {
-                    if (Url.IsLocalUrl(returnUrl))
+                    if (this.Request.Query.Keys.Contains("ReturnUrl"))
                     {
-                        return Redirect(returnUrl);
+                        return this.Redirect(this.Request.Query["ReturnUrl"].First());
                     }
+
                     return RedirectToAction("Indexclient", "Home");
                 }
 
@@ -466,7 +455,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> DigitalCard()    
+        public async Task<IActionResult> DigitalCard()
         {
             try
             {
