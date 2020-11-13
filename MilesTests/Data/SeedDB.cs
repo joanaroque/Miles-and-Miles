@@ -218,6 +218,22 @@ namespace MilesBackOffice.Web.Data
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "Vila Vita Hotel & SPA",
+                    Address = "Algarve",
+                    Designation = "Hotel",
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
+                });
+                _context.Partners.Add(new Partner
+                {
+                    CompanyName = "Sobreiras - Alentejo Country Hotel",
+                    Address = "Alentejo",
+                    Designation = "Hotel",
+                    Status = 0,
+                    PartnerGuidId = GuidHelper.CreatedGuid()
+                });
 
                 await _context.SaveChangesAsync();
             }
@@ -253,7 +269,7 @@ namespace MilesBackOffice.Web.Data
                     Conditions = "Special offer for hungry clients",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
-
+                partner = await _context.Partners.Where(p => p.CompanyName == "Vila Vita Hotel & SPA").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "Vila Vita Parc",
@@ -269,7 +285,7 @@ namespace MilesBackOffice.Web.Data
                     "With the Cinel Air Miles Program you can enjoy your stay and earn and use miles.",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
-
+                partner = await _context.Partners.Where(p => p.CompanyName == "Sobreiras - Alentejo Country Hotel").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "GRÂNDOLA | CHARM STAY",
@@ -282,8 +298,7 @@ namespace MilesBackOffice.Web.Data
                     Conditions = "Sobreiras - Alentejo Country Hotel offers a unique experience of " +
                     "tranquility and leisure with Nature at 360º, combining a simple and elegant design " +
                     "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
-                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. " +
-                    "Enjoy now 2 nights + breakfast and dinner for 2 for just € 199.90",
+                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. ",
                     OfferIdGuid = GuidHelper.CreatedGuid()
                 });
 
