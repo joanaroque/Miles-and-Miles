@@ -179,7 +179,7 @@
                         }, protocol: HttpContext.Request.Scheme);
 
                         _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                            $"Confirm this is your email by clicking the followiing link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
+                            $"Confirm this is your email by clicking the following link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
                             $"</br></br></br>Your account is waiting approval. " +
                             $"We'll let you know when it's approved and ready for you to use it.");
 

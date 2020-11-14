@@ -57,6 +57,16 @@
                         throw new Exception("Username and Password Incorrect");
                     }
 
+                    if (user.IsActive == false)
+                    {
+                        throw new Exception("Your account is inactive.");
+                    }
+
+                    if (user.SelectedRole == UserType.Client)
+                    {
+                        throw new Exception("Only employees allowed.");
+                    }
+
                     var result = await _userHelper.LoginAsync(model.UserName, model);
                     if (result.Succeeded)
                     {
