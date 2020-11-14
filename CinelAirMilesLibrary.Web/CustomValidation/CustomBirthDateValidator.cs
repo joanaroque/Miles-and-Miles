@@ -13,8 +13,7 @@
         public override bool IsValid(object value)
         {
             DateTime dateTime = Convert.ToDateTime(value);
-            return dateTime < DateTime.Now;
+            return dateTime.AddYears(2) < DateTime.Now;
         }
-
     }
 }

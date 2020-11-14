@@ -27,7 +27,7 @@ namespace MilesBackOffice.Web.Models.Admin
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Of Birth")]
-        [CustomBirthDateValidator(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
+        [CustomBirthDateValidator(ErrorMessage = "Must be at least 2 years old.")]
         public DateTime DateOfBirth { get; set; }
 
 
