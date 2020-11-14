@@ -240,6 +240,7 @@
             try
             {
                 if (string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(id))
                 {
                     throw new DBConcurrencyException();
                 }
@@ -292,7 +293,7 @@
 
 
 
-        // POST: Administrator/Delete/5
+        [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
