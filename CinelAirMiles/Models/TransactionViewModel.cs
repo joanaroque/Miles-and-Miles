@@ -1,7 +1,9 @@
 ﻿namespace CinelAirMiles.Models
 {
+    using System.Collections.Generic;
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Enums;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class TransactionViewModel
     {
@@ -33,6 +35,7 @@
         /// </summary>
         public TransactionType Type { get; set; }
 
+
         public User TransferTo { get; set; }
 
         /// <summary>
@@ -49,5 +52,8 @@
 
 
         public int PremiumOffer { get; set; }
+
+
+        public IEnumerable<SelectListItem> Values { get; set; }
     }
 }

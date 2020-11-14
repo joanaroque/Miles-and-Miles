@@ -124,23 +124,6 @@
         }
 
 
-        public TransactionViewModel ToTransactionViewModel(Transaction transaction, User user)
-        {
-            var model = new TransactionViewModel
-            {
-                Id = transaction.Id,
-                EndBalance = transaction.EndBalance,
-                //Todo PremiumOffer = transaction.Product.Title,
-                Price = transaction.Price,
-                StartBalance = transaction.StartBalance,
-                TransferTo = transaction.TransferTo,
-                Type = transaction.Type,
-                Value = transaction.Value
-            };
-
-            return model;
-        }
-
 
         public User ToUser(RegisterNewUserViewModel model, Country country)
         {
@@ -191,5 +174,68 @@
 
             return offer;
         }
+
+
+        #region TRANSACTION CONVERTERS
+        public TransactionViewModel ToTransactionViewModel(Transaction transaction, User user)
+        {
+            var model = new TransactionViewModel
+            {
+                Id = transaction.Id,
+                EndBalance = transaction.EndBalance,
+                //Todo PremiumOffer = transaction.Product.Title,
+                Price = transaction.Price,
+                StartBalance = transaction.StartBalance,
+                TransferTo = transaction.TransferTo,
+                Type = transaction.Type,
+                Value = transaction.Value
+            };
+
+            return model;
+        }
+
+        public Transaction CreateConversionTransaction(TransactionViewModel model, User user)
+        {
+            return new Transaction
+            {
+                CreatedBy = user,
+                CreateDate = DateTime.Now,
+                Type = TransactionType.Convert,
+                Value = model.Value/2,
+                Price = model.Price,
+                Status = 0
+            };
+        }
+
+
+        public Transaction CreateTransferTransaction(TransactionViewModel model, User from, User to)
+        {
+            return new Transaction
+            {
+                CreatedBy = from,
+                CreateDate = DateTime.Now,
+                TransferTo = to,
+                Value = model.Value,
+                Price = model.Price,
+                Type = TransactionType.Transfer,
+                Status = 0,
+                StartBalance = from.BonusMiles
+            };
+        }
+
+
+        public Transaction CreatePurchaseTransaction(TransactionViewModel model, User user)
+        {
+            return new Transaction
+            {
+                CreatedBy = user,
+                CreateDate = DateTime.Now,
+                Type = TransactionType.Purchase,
+                Value = model.Value,
+                Price = model.Price,
+                Status = 0
+            };
+        }
+        #endregion
     }
 }

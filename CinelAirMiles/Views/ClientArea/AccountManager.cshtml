@@ -8,17 +8,16 @@
 
             <li><a controller="ClientArea" action="ComplaintsIndex" class="btn">My Messages</a></li>
 
-            <li><a controller="ClientArea" action="DigitalCard" class="btn">My Miles Cinel Card</a></li>
-
             <li><a controller="ClientArea" action="NominateToGold" class="btn">Nominate Gold</a></li>
 
             <li><a controller="ClientArea" action="TransactionIndex" class="btn">My Transactions</a></li>
         </ul>
         <div class="nav navbar-nav dropdown">
-            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+            <a class="btn dropdown-toggle" data-toggle="dropdown">
                 Miles Shop
                 <span class="caret"></span>
-            </button>
+            </a>
+
             <ul class="dropdown-menu">
                 <li><a controller="ClientArea" action="Purchase" class="btn">Purchase Miles</a></li>
 
@@ -31,9 +30,10 @@
         </div>
     </div>
 </div>
+<section id="card_container">
 
+</section>
 <section id="area_container">
-    @*@{ await Html.RenderPartialAsync("UpdateClientInfo", new CinelAirMiles.Models.ChangeUserViewModel());}*@
 </section>
 
 @section Scripts {
@@ -41,12 +41,30 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#area_container").load("/ClientArea/UpdateClientInfo");
+            $("#card_container").load("/ClientArea/DigitalCard");
 
             $("a").on("click", function () {
+                $("#area_container").empty();
                 action = this.getAttribute("action");
                 controller = this.getAttribute("controller");
-                $("#area_container").load('/'+controller+'/'+action);
+                $("#card_container").load('/' + controller + '/' + action);
             })
+
+            $("form").on("submit", function () {
+                event.preventDefault();
+                $.ajax({
+                    type: this.method,
+                    url: this.action,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $("#card_container").html(result);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            })
+
         })
     </script>
 }

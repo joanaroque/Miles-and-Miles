@@ -7,7 +7,7 @@
         <input type="hidden" asp-for="Type" />
         <label asp-for="Value"></label>
         <div class="form-group">
-            <input type="text" asp-for="Value" name="value" required />
+            <select asp-for="Value" asp-items="Model.Values" name="value" required><option value="">Select a value..</option></select>
             <span asp-validation-for="Value"></span>
         </div>
         <label asp-for="Price"></label>

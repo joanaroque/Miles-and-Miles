@@ -7,6 +7,7 @@
         Loan,
         Purchase,
         Transfer,
-        Extension
+        Extension,
+        Convert
     }
 }

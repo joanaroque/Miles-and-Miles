@@ -6,8 +6,10 @@ using CinelAirMiles.Helpers;
 using CinelAirMiles.Models;
 using CinelAirMilesLibrary.Common.Data.Entities;
 using CinelAirMilesLibrary.Common.Data.Repositories;
+using CinelAirMilesLibrary.Common.Enums;
 using CinelAirMilesLibrary.Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CinelAirMiles.Controllers
 {
@@ -164,7 +166,7 @@ namespace CinelAirMiles.Controllers
 
                 if (user == null)
                 {
-                    //return new NotFoundViewResult("_Error404Client");
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
                 }
 
                 var model = new DigitalCardViewModel
@@ -250,33 +252,24 @@ namespace CinelAirMiles.Controllers
         {
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var user = await GetCurrentUser();
+                if (user == null)
                 {
-                    var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-                    if (user == null)
-                    {
-                        return new NotFoundViewResult("_Error404Client");
-                    }
-
-                    var list = await _transactionRepository.GetAllByClient(user.Id);
-
-                    var modelList = list.Select(c => _clientConverterHelper.ToTransactionViewModel(c, user));
-
-                    return PartialView(modelList);
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
                 }
 
-                else
-                {
-                    return new NotFoundViewResult("_Error404Client");
-                }
+                var list = await _transactionRepository.GetByClientIdAsync(user.Id);
+
+                var modelList = list.Select(c => _clientConverterHelper.ToTransactionViewModel(c, user));
+
+                return PartialView(modelList);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError(string.Empty, e.Message);
-            }
 
-            return PartialView();
+                return PartialView();
+            }
         }
 
 
@@ -288,23 +281,20 @@ namespace CinelAirMiles.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Purchase(TransactionViewModel model)
+        public async Task<IActionResult> Purchase()
         {
-            //TODO blocos de 2000 milhas
             try
             {
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+                var user = await GetCurrentUser();
                 if (user == null)
                 {
-                    return new NotFoundViewResult("_Error404Client");
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
                 }
 
-                var value = 2000;
-
-                model = new TransactionViewModel
+                var model = new TransactionViewModel
                 {
-                    Value = value,
-                    Price = _transactionHelper.MilesPrice(value)
+                    Values = GetBlocks(),
+                    StartBalance = user.BonusMiles
                 };
 
                 return PartialView("_Purchase", model);
@@ -312,41 +302,60 @@ namespace CinelAirMiles.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+                return PartialView("_Purchase");
             }
-
-            return PartialView("_Purchase", model);
         }
 
 
 
         [HttpPost]
-        public async Task<IActionResult> Purchase(Transaction transaction)
+        public async Task<IActionResult> Purchase(TransactionViewModel model)
         {
-            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-            _transactionHelper.NewPurchase(transaction, user);
-
-            var result = await _transactionRepository.CreateAsync(transaction);
-
-            if (!result)
+            try
             {
+                var user = await GetCurrentUser();
+                if (user == null)
+                {
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+                }
+
+                var operation = _transactionRepository.GetTransactionHistory(user);
+                if (!operation)
+                {
+                    throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
+                }
+
+                var transaction = _clientConverterHelper.CreatePurchaseTransaction(model, user);
+                transaction.StartBalance = user.BonusMiles;
+                transaction.EndBalance = transaction.StartBalance + transaction.Value;
+
+                user.BonusMiles += transaction.Value;
+                var result2 = await _userHelper.UpdateUserAsync(user);
+
+                if (!result2.Succeeded)
+                {
+                    //send error 
+                }
+
+                var result = await _transactionRepository.AddTransanctionAsync(transaction);
+                if (!result.Success)
+                {
+                    ModelState.AddModelError(string.Empty,
+                        "An error ocurred while submitting your request. Please try again.");
+
+                    return PartialView("_Purchase");
+                }
+
                 ModelState.AddModelError(string.Empty,
-                    "An error ocurred while submitting your request. Please try again.");
+                        "You purchase was successfull. Your balance should reflect it in the next hours.");
 
                 return PartialView("_Purchase");
             }
-
-            user.BonusMiles = transaction.EndBalance;
-
-            var result2 = await _userHelper.UpdateUserAsync(user);
-
-            if (result2.Succeeded)
+            catch (Exception)
             {
-                ModelState.AddModelError(string.Empty,
-                    "You purchase was successfull. Your balance should reflect it in the next hours.");
-            }
 
-            return PartialView("_Purchase");
+                throw;
+            }
         }
 
 
@@ -362,7 +371,7 @@ namespace CinelAirMiles.Controllers
         [HttpPost]
         public IActionResult ExtendMiles(TransactionViewModel model)
         {
-            //TODO
+            
             //validas durante 3 anos
 
             // é apenas possível para as milhas que estão a caducar
@@ -374,78 +383,71 @@ namespace CinelAirMiles.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> TransferMiles(TransactionViewModel model)
+        public async Task<IActionResult> TransferMiles()
         {
-            //TODO blocos de 2000 milhas
-
-            try
+            var user = await GetCurrentUser();
+            if (user == null)
             {
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_Error404Client");
-                }
-
-                model = new TransactionViewModel
-                {
-                    Value = 2000,
-                    Price = 10
-                };
-
-                return PartialView("_TransferMiles", model);
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
             }
-            catch (Exception ex)
+
+            var model = new TransactionViewModel
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
-            }
+                Values = GetBlocks()
+            };
 
             return PartialView("_TransferMiles", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> TransferMiles(Transaction transaction, User user, User userTo)
+        public async Task<IActionResult> TransferMiles(TransactionViewModel model)
         {
-            //TODO
-            //validas por 1 ano
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
 
-            //transf de status, bonus ou as duas?? passam para bonus!
+            var userTo = _userHelper.GetUserByGuidId(model.TransferTo.GuidId);
+            if (userTo == null)
+            {
+                //send error user not found
+            }
 
+            var operation = _transactionRepository.GetTransactionHistory(user);
+            if (!operation)
+            {
+                throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
+            }
 
-            user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+            var transaction = _clientConverterHelper.CreateTransferTransaction(model, user, userTo);
+            transaction.EndBalance = transaction.StartBalance - transaction.Value;
 
-            userTo = _userHelper.GetUserByGuidId(transaction.TransferTo.GuidId);
+            user.BonusMiles = transaction.EndBalance;
 
-            _transactionHelper.NewTransfer(transaction, user, userTo);
+            var result2 = await _userHelper.UpdateUserAsync(user);
 
-            var result = await _transactionRepository.CreateAsync(transaction);
+            userTo.BonusMiles += transaction.Value;
 
-            if (!result)
+            var result3 = await _userHelper.UpdateUserAsync(userTo);
+
+            if (!result2.Succeeded && !result3.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty,
+                   "An error ocurred while submitting your request. Please try again.");
+                return PartialView("_TransferMiles");
+            }
+            
+            var response = await _transactionRepository.AddTransanctionAsync(transaction);
+            if (!response.Success)
             {
                 ModelState.AddModelError(string.Empty,
                     "An error ocurred while submitting your request. Please try again.");
 
                 return PartialView("_TransferMiles");
             }
-
-            user.BonusMiles = transaction.EndBalance;
-
-            var result2 = await _userHelper.UpdateUserAsync(user);
-
-            userTo.BonusMiles = userTo.BonusMiles + transaction.Value;
-
-            var result3 = await _userHelper.UpdateUserAsync(userTo);
-
-            if (result2.Succeeded && result3.Succeeded)
-            {
-                ModelState.AddModelError(string.Empty,
+            ModelState.AddModelError(string.Empty,
                     "You transfer was successfull. Your balance should reflect it in the next hours.");
-            }
-
-            else
-            {
-                ModelState.AddModelError(string.Empty,
-                   "An error ocurred while submitting your request. Please try again.");
-            }
 
             return PartialView("_TransferMiles");
         }
@@ -453,13 +455,23 @@ namespace CinelAirMiles.Controllers
 
 
         [HttpGet]
-        public IActionResult ConvertMiles()
+        public async Task<IActionResult> ConvertMiles()
         {
-            //TODO blocos de 2000 milhas
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
 
-            return PartialView("_ConvertMiles");
+            var list = GetBlocks();
+            var model = new TransactionViewModel
+            {
+                Values = list,
+                StartBalance = user.BonusMiles
+            };
+
+            return PartialView("_ConvertMiles", model);
         }
-
 
 
         [HttpPost]
@@ -473,27 +485,61 @@ namespace CinelAirMiles.Controllers
                     return RedirectToAction(nameof(AccountController.LoginClient), "Account");
                 }
 
-                //verificar as transactions para saber quantas milhas o user já converteu
-                //se o pedido exceder o numero retornar um erro
+                if (user.BonusMiles < model.Value)
+                {
+                    throw new Exception("You do not have enough miles to complete this operation");
+                }
 
-                var trans
+                var operation = _transactionRepository.GetTransactionHistory(user);
+                if (!operation)
+                {
+                    throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
+                }
+
+                var trans = _clientConverterHelper.CreateConversionTransaction(model, user);
+                trans.StartBalance = user.BonusMiles;
+                trans.EndBalance = user.BonusMiles;
+
+                user.StatusMiles += model.Value;
+                var result = await _userHelper.UpdateUserAsync(user);
+                if (!result.Succeeded)
+                {
+                    throw new Exception("Cannot process this operation at the moment. Please try again later.");
+                }
+
+                var response = await _transactionRepository.AddTransanctionAsync(trans);
+                if (!response.Success)
+                {
+                    //TODO enviar notificação para superuser ou admin para introduzir a transacção à mão
+                    throw new Exception("Culpa do utilizador");
+                }
+
+                return PartialView("_ConvertMiles", model);
             }
             catch (Exception)
             {
-
-                throw;
+                return new NotFoundViewResult("_Error404Client");
             }
         }
 
 
 
         [HttpGet]
-        public IActionResult NominateToGold()
+        public async Task<IActionResult> NominateToGold()
         {
-            //TODO
-            //apenas clientes silver ou basic
-
-            return PartialView("_NominateToGold");
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
+            var model = new NominateViewModel();
+            if (user.Tier == TierType.Silver || user.Tier == TierType.Gold)
+            {
+                //TODO novo bool para o cliente HasNominated
+                model.CheckTier = true;
+            }
+            
+            return PartialView("_NominateToGold", model);
         }
         #endregion
 
@@ -589,12 +635,9 @@ namespace CinelAirMiles.Controllers
                 {
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
-
             }
             return View(model);
         }
-
-
         #endregion
 
 
@@ -607,5 +650,24 @@ namespace CinelAirMiles.Controllers
             }
             return await _userHelper.GetUserByUsernameAsync(user);
         }
+
+
+        private IEnumerable<SelectListItem> GetBlocks()
+        {
+            List<int> blocks = new List<int>();
+            for (int i = 2000; i <= 20000; i += 2000)
+            {
+                blocks.Add(i);
+            }
+
+            var modelList = blocks.Select(b => new SelectListItem
+            {
+                Value = b.ToString(),
+                Text = b.ToString()
+            });
+
+            return modelList;
+        }
+
     }
 }

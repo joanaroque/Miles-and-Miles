@@ -3,11 +3,15 @@
 
 <div class="container">
     <h2>Convert Miles</h2>
+    <div>
+        <h5>Bonus Miles: @Html.DisplayFor(item => item.StartBalance)</h5>
+    </div>
+
     <form method="post" asp-action="ConvertMiles">
         <input type="hidden" asp-for="Type" />
         <label asp-for="Value">Miles to convert</label>
         <div class="form-group">
-            <input type="text" asp-for="Value" name="Value" required />
+            <select asp-for="Value" asp-items="Model.Values" required min="2000"><option value="">Select a value..</option></select>
             <span asp-validation-for="Value"></span>
         </div>
         <label asp-for="Price"></label>
