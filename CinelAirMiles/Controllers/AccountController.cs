@@ -2,6 +2,7 @@
 {
     using System;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -12,20 +13,13 @@
     using CinelAirMilesLibrary.Common.Helpers;
     using CinelAirMilesLibrary.Common.Models;
 
-    using global::CinelAirMiles.Models;
+    using CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-    using MilesBackOffice.Web.Helpers;
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
 
 
     public class AccountController : Controller
