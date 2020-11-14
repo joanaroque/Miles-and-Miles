@@ -28,17 +28,14 @@ namespace CinelAirMiles.Prism.ViewModels
 
         public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(Register));
 
-        public string Document { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string FullName { get; set; }
 
         public string Address { get; set; }
 
         public string Email { get; set; }
 
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string Password { get; set; }
 
@@ -70,11 +67,9 @@ namespace CinelAirMiles.Prism.ViewModels
             var request = new UserResponse
             {
                 Address = Address,
-                Document = Document,
                 Email = Email,
-                FirstName = FirstName,
-                LastName = LastName,
-                PhoneNumber = Phone
+                FullName = FullName,
+                PhoneNumber = PhoneNumber
             };
 
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -105,27 +100,16 @@ namespace CinelAirMiles.Prism.ViewModels
 
         private async Task<bool> ValidateData()
         {
-            if (string.IsNullOrEmpty(Document))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a document.", "Accept");
-                return false;
-            }
 
-            if (string.IsNullOrEmpty(FirstName))
+            if (string.IsNullOrEmpty(FullName))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a firstname.", "Accept");
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(LastName))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a lastname.", "Accept");
+                await App.Current.MainPage.DisplayAlert("Error", "You must enter a Full Name.", "Accept");
                 return false;
             }
 
             if (string.IsNullOrEmpty(Address))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter an address.", "Accept");
+                await App.Current.MainPage.DisplayAlert("Error", "You must enter an Address.", "Accept");
                 return false;
             }
 
@@ -135,7 +119,7 @@ namespace CinelAirMiles.Prism.ViewModels
                 return false;
             }
 
-            if (string.IsNullOrEmpty(Phone))
+            if (string.IsNullOrEmpty(PhoneNumber))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "You must enter a phone.", "Accept");
                 return false;

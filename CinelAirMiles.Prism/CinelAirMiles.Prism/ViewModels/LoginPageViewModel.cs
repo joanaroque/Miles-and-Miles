@@ -133,7 +133,7 @@ namespace CinelAirMiles.Prism.ViewModels
             IsRunning = false;
             IsEnabled = true;
 
-            await _navigationService.NavigateAsync("/VeterinaryMasterDetailPage/NavigationPage/PetsPage");
+            await _navigationService.NavigateAsync("/CinelAirMailesMasterDetailPage/NavigationPage/ProfilePage");
             Password = string.Empty;
         }
 
