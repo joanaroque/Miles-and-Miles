@@ -207,6 +207,40 @@ namespace CinelAirMiles.Controllers
 
             return PartialView(nameof(ReservationIndex),list);
         }
+
+        public async Task<IActionResult> CancelReservation(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            try
+            {
+                var clientReservation = await _reservationRepository.GetByIdAsync(id.Value);
+
+                if (clientReservation == null)
+                {
+                    return new NotFoundViewResult("_Error404Client");
+                }
+
+                clientReservation.ModifiedBy = await _userHelper.GetUserByIdAsync(clientReservation.Id.ToString());
+                clientReservation.UpdateDate = DateTime.Now;
+                clientReservation.Status = 6;
+
+                await _reservationRepository.UpdateAsync(clientReservation);
+
+
+                return RedirectToAction(nameof(ClientAreaController.ReservationIndex), nameof(ClientAreaController));
+
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            return RedirectToAction(nameof(ClientAreaController.ReservationIndex), nameof(ClientAreaController));
+        }
+
         #endregion
 
 
@@ -427,6 +461,32 @@ namespace CinelAirMiles.Controllers
         }
 
 
+
+        [HttpPost]
+        public async Task<IActionResult> ConvertMiles(TransactionViewModel model)
+        {
+            try
+            {
+                var user = await GetCurrentUser();
+                if (user == null)
+                {
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+                }
+
+                //verificar as transactions para saber quantas milhas o user já converteu
+                //se o pedido exceder o numero retornar um erro
+
+                var trans
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+
         [HttpGet]
         public IActionResult NominateToGold()
         {
@@ -485,6 +545,67 @@ namespace CinelAirMiles.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var client = User.Identity.Name;
+
+            if (client == null)
+            {
+                return new NotFoundViewResult("_Error404Client");
+            }
+
+            var model = new ComplaintViewModel
+            {
+                Complaints = _complaintRepository.GetComboComplaintTypes()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ComplaintViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+
+                    if (user == null)
+                    {
+                        return new NotFoundViewResult("_Error404Client");
+                    }
+
+                    var clientComplaint = _clientConverterHelper.ToClientComplaint(model, true, user);
+
+                    await _complaintRepository.CreateAsync(clientComplaint);
+
+                    return RedirectToAction(nameof(ClientAreaController.ComplaintsIndex), nameof(ClientAreaController));
+
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+
+            }
+            return View(model);
+        }
+
+
         #endregion
+
+
+        private protected async Task<User> GetCurrentUser()
+        {
+            var user = User.Identity.Name;
+            if (user == null)
+            {
+                return null;
+            }
+            return await _userHelper.GetUserByUsernameAsync(user);
+        }
     }
 }

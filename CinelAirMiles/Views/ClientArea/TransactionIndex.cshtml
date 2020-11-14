@@ -77,9 +77,9 @@
 </div>
 
 
-@*@section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script type="text/javascript">
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*<script type="text/javascript">
 
             window.addEventListener('DOMContentLoaded', function () {
                 byID('btn_ConvertMiles').addEventListener('click', openPartialCreate);
@@ -89,6 +89,6 @@
                 byID('btn_Transfer').addEventListener('click', openPartialCreate);
             });
 
-        </script>
-    }*@
+        </script>*@
+}
 
