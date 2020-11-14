@@ -11,12 +11,12 @@
         <input type="hidden" asp-for="Type" />
         <label asp-for="Value">Miles to convert</label>
         <div class="form-group">
-            <select asp-for="Value" asp-items="Model.Values" required min="2000"><option value="">Select a value..</option></select>
+            <select asp-for="Value" asp-items="Model.Values" required min="2000" onchange="calculatePrice()"><option value="">Select a value..</option></select>
             <span asp-validation-for="Value"></span>
         </div>
         <label asp-for="Price"></label>
-        <div class="form-group">
-            <input type="number" asp-for="Price" name="price" readonly />
+        <div class="form-group" >
+            <input type="number" asp-for="Price" disabled id="price"/>€
             <span asp-validation-for="Price"></span>
         </div>
         <div>

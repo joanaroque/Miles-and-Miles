@@ -11,12 +11,12 @@
         </div>
         <label asp-for="Value"></label>
         <div class="form-group">
-            <select asp-for="Value" asp-items="Model.Values" name="value" required><option value="">Select a value..</option></select>
+            <select asp-for="Value" asp-items="Model.Values" name="value" required onchange="calculatePrice()"><option value="">Select a value..</option></select>
             <span asp-validation-for="Value"></span>
         </div>
         <label asp-for="Price"></label>
         <div class="form-group">
-            <input type="number" asp-for="Price" name="price" readonly />
+            <input type="number" asp-for="Price" name="price" readonly id="price"/>€
             <span asp-validation-for="Price"></span>
         </div>
         <div>
