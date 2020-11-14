@@ -16,7 +16,11 @@
 
                 <div class="col-md-3 col-sm-6">
                     <div class="team-thumb">
-                        <div><h5>@item.Title</h5></div>
+                        <div>
+                            <a href="/shop/premiumdetails/@item.Id">
+                                <h5>@item.Title</h5>
+                            </a>
+                        </div>
                         <div class="team-image">
                             <a href="/shop/premiumdetails/@item.Id">
                                 <img style="max-width:300px; max-height:300px" src='@Url.Action("GetOffersImageFile", "Home", new { id = item.Id})' />
