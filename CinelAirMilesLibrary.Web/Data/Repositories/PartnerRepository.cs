@@ -74,11 +74,12 @@
             var list = new List<SelectListItem>();
             await Task.Run(() =>
             {
-                list = _context.Partners.Select(item => new SelectListItem
+                list = _context.Partners.Where(p => p.Status == 0).Select(item => new SelectListItem
                 {
                     Text = item.CompanyName,
                     Value = item.Id.ToString()
-                }).ToList();
+                })
+                .ToList();
             });
             return list;
         }
