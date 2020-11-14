@@ -8,7 +8,9 @@
     <!-- Application resource dictionary -->
         <ResourceDictionary>
 
+            <x:String x:Key="UrlAPI">https://cinelairmilesfrontoffice.azurewebsites.net</x:String>
 
+            
             <!-- Colors -->
             <Color x:Key="colorBackgroud">#F2F2F2</Color>
             <Color x:Key="colorPrimary">#0468BF</Color>

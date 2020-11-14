@@ -24,6 +24,13 @@ namespace CinelAirMiles.Prism.ViewModels
 
         private async void SelectMenuAsync()
         {
+            if (PageName.Equals("LoginPage"))
+            {
+                Settings.IsRemembered = false;
+                await _navigationService.NavigateAsync("/NavigationPage/LoginPage");
+                return;
+            }
+
             await _navigationService.NavigateAsync($"/{nameof(CinelAirMilesMasterDetailPage)}/NavigationPage/{PageName}");
         }
     }

@@ -3,12 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             BackgroundColor="{StaticResource colorBackgroud}"
              x:Class="CinelAirMiles.Prism.Views.CinelAirMilesMasterDetailPage">
-    
+
     <MasterDetailPage.Master>
-        <ContentPage
+        <ContentPage BackgroundColor="{StaticResource colorBackgroud}"
+             IconImageSource="hamburger_icon"
             Title="Menu">
+
+            <ContentPage.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android, UWP">0</On>
+                    <On Platform="iOS">0,20,0,0</On>
+                </OnPlatform>
+            </ContentPage.Padding>
+
+
             <StackLayout Padding="20">
                 <Image
                     HeightRequest="150"
