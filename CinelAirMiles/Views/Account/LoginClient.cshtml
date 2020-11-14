@@ -1,57 +1,44 @@
 ﻿@model CinelAirMilesLibrary.Common.Models.LoginViewModel
 
 
-<section class="center">
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div id="login" class="animate form" style="text-align:center">
+<section>
+    <div class="container">
+        <div class="card">
+            <div id="login" class="animate form">
+                @using (Html.BeginForm("LoginClient", "Account", FormMethod.Post, new { @autocomplete = "on" }))
 
-                                @using (Html.BeginForm("LoginClient", "Account", FormMethod.Post, new { @autocomplete = "on" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                                {
-                                    @Html.AntiForgeryToken()
-
-                                    <h2>Log in</h2>
-                                    <div>@Html.ValidationSummary(true, "", new { @style = "color: black" })</div>
-                                    <br />
-                                    <p>
-                                        <label for="GuidId" class="uname" data-icon="u"><span>Your Client Number</span></label>
-                                            @Html.TextBoxFor(l => l.GuidId, new { @placeholder = "Id" })
-                                    </p>
-                                    <p>
-                                        <label for="Password" class="youpasswd" data-icon="p"><span>Your password</span></label>
-                                        @Html.PasswordFor(l => l.Password, new { @placeholder = "Password" })
-                                    </p>
-                                    <p>
-                                        @Html.CheckBoxFor(l => l.RememberMe, new { @id = "brand" })
-                                        <label for="brand"><span></span> Remember me?</label>
-                                    </p>
-                                    <p class="login button">
-                                        <input type="submit" value="Login" />
-                                    </p>
-
-                                    <p class="login button">
-                                        <a href="RegisterClient" class="to_register">
-                                            <span>Register here</span>
-                                        </a>
-                                    </p>
-
-                                    <p class="login button">
-                                        <a href="ClientRecoverPassword" class="to_register">
-                                            <span>Forgot your password?</span>
-                                        </a>
-                                    </p>
-
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <h1>Log in</h1>
+                    <div>@Html.ValidationSummary(true, "", new { @style = "color: black" })</div>
+                    <br />
+                    <p>
+                        <label for="GuidId" class="uname" data-icon="u"><span>Your Client Number</span></label>
+                        @Html.TextBoxFor(l => l.GuidId, new { @placeholder = "Id" })
+                    </p>
+                    <p>
+                        <label for="Password" class="youpasswd" data-icon="p"><span>Your password</span></label>
+                        @Html.PasswordFor(l => l.Password, new { @placeholder = "Password" })
+                    </p>
+                    <p>
+                        @Html.CheckBoxFor(l => l.RememberMe, new { @id = "brand" })
+                        <label for="brand"><span></span> Remember me?</label>
+                    </p>
+                    <p class="login button">
+                        <input type="submit" value="Login" />
+                    </p>
+                    <p class="login button">
+                        <a href="RegisterClient" class="to_register">
+                            <span>Register here</span>
+                        </a>
+                    </p>
+                    <p class="login button">
+                        <a href="ClientRecoverPassword" class="to_register">
+                            <span>Forgot your password?</span>
+                        </a>
+                    </p>
+                }
             </div>
         </div>
     </div>
@@ -59,6 +46,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-
 }

@@ -1,15 +1,13 @@
 ﻿namespace CinelAirMiles.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
+
+    using CinelAirMiles.Helpers;
+    using CinelAirMiles.Models;
 
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-
-    using global::CinelAirMiles.Helpers;
-    using global::CinelAirMiles.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -27,36 +25,6 @@
             _complaintRepository = complaintRepository;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
-        }
-
-
-        [HttpGet]
-        public async Task<ActionResult> ComplaintsIndex()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-                if (user == null)
-                {
-                    return new NotFoundViewResult("_Error404Client");
-                }
-
-                var list = await _complaintRepository.GetClientComplaintsAsync(user.Id);
-
-                var modelList = new List<ComplaintViewModel>(
-                    list.Select(c => _converterHelper.ToComplaintClientViewModel(c))
-                    .ToList());
-
-                return View(modelList);
-            }
-
-            else
-            {
-                string retUrl = Request.PathBase;
-                return RedirectToAction("LoginClient", "Account", new { returnUrl = retUrl });
-            }
-
         }
 
 
@@ -96,7 +64,7 @@
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 
-                    return RedirectToAction(nameof(ComplaintsIndex));
+                    return RedirectToAction(nameof(ClientAreaController.ComplaintsIndex), nameof(ClientAreaController));
 
                 }
                 catch (Exception ex)
@@ -105,28 +73,6 @@
                 }
 
             }
-            return View(model);
-        }
-
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
-
-            var complaint = await _complaintRepository.GetByIdAsync(id.Value);
-
-            if (complaint == null)
-            {
-                return new NotFoundViewResult("_Error404Client");
-            }
-
-            var model = _converterHelper.ToComplaintClientViewModel(complaint);
-
             return View(model);
         }
     }

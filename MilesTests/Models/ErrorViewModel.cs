@@ -1,5 +1,3 @@
-using System;
-
 namespace MilesBackOffice.Web.Models
 {
     public class ErrorViewModel

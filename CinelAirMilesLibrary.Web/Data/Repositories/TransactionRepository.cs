@@ -21,10 +21,10 @@
             _userHelper = userHelper;
         }
 
-        public Task<List<Transaction>> GetAllByClient(User user)
+        public async Task<IEnumerable<Transaction>> GetAllByClient(string id)
         {
-            var list = _context.Transactions
-                .Where(u => u.User.Id == user.Id)
+            var list = await _context.Transactions
+                .Where(u => u.User.Id == id)
                 .ToListAsync();
 
             return list;

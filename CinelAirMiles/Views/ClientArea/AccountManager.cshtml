@@ -1,22 +1,52 @@
 ﻿
-    <div class="container">
-        <div class="collapse navbar-collapse">
-        </div>
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-controller="ClientArea" asp-action="UpdateClientInfo" class="smoothScroll">My Profile</a></li>
+<div class="container">
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a asp-controller="ClientArea" asp-action="AccountManager" class="btn">My Profile</a></li>
 
-                    <li><a asp-controller="Reservation" asp-action="ReservationIndex" class="smoothScroll">My Reservations</a></li>
+            <li><a controller="ClientArea" action="ReservationIndex" class="btn">My Reservations</a></li>
 
-                    <li><a asp-controller="Complaint" asp-action="ComplaintsIndex" class="smoothScroll">My Messages</a></li>
+            <li><a controller="ClientArea" action="ComplaintsIndex" class="btn">My Messages</a></li>
 
-                    <li><a asp-controller="ClientArea" asp-action="DigitalCard" class="smoothScroll">My Miles Cinel Card</a></li>
-                </ul>
+            <li><a controller="ClientArea" action="DigitalCard" class="btn">My Miles Cinel Card</a></li>
 
-            </div>
+            <li><a controller="ClientArea" action="NominateToGold" class="btn">Nominate Gold</a></li>
+
+            <li><a controller="ClientArea" action="TransactionIndex" class="btn">My Transactions</a></li>
+        </ul>
+        <div class="nav navbar-nav dropdown">
+            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                Miles Shop
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a controller="ClientArea" action="Purchase" class="btn">Purchase Miles</a></li>
+
+                <li><a controller="ClientArea" action="ConvertMiles" class="btn">Convert Miles</a></li>
+
+                <li><a controller="ClientArea" action="ExtendMiles" class="btn">Extend Period</a></li>
+
+                <li><a controller="ClientArea" action="TransferMiles" class="btn">Transfer Miles</a></li>
+            </ul>
         </div>
     </div>
+</div>
+
+<section id="area_container">
+    @*@{ await Html.RenderPartialAsync("UpdateClientInfo", new CinelAirMiles.Models.ChangeUserViewModel());}*@
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#area_container").load("/ClientArea/UpdateClientInfo");
+
+            $("a").on("click", function () {
+                action = this.getAttribute("action");
+                controller = this.getAttribute("controller");
+                $("#area_container").load('/'+controller+'/'+action);
+            })
+        })
+    </script>
+}
