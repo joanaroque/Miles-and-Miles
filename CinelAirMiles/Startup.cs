@@ -65,26 +65,10 @@ namespace CinelAirMiles
                      IssuerSigningKey = new SymmetricSecurityKey(
                          Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                  };
-             });
-
-            services
-                .AddAuthentication()
-
-                 .AddGoogle(options =>
-                 {
-                     options.ClientId = Configuration["App:GoogleClientId"];
-                     options.ClientSecret = Configuration["App:GoogleClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
-                 .AddFacebook(options =>
-                 {
-                     options.ClientId = Configuration["App:FacebookClientId"];
-                     options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                     options.SignInScheme = IdentityConstants.ExternalScheme;
-                 })
+             })
 
 
-                 .AddCookie(options =>
+            .AddCookie(options =>
                  {
                      options.Cookie.Name = ".AspNet.ExternalCookie";
                      options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
@@ -110,14 +94,8 @@ namespace CinelAirMiles
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                if (_env.IsDevelopment())
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                }
-                else
-                {
-                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
-                }
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+
             });
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -238,13 +239,26 @@ namespace MilesBackOffice.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
-
+        public static byte[] ImageToBinary(string imagePath)
+        {
+            FileStream fS = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+            byte[] b = new byte[fS.Length];
+            fS.Read(b, 0, (int)fS.Length);
+            fS.Close();
+            return b;
+        }
         private async Task AddOffers()
         {
             if (!_context.PremiumOffers.Any())
             {
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
                 var flight = await _context.Flights.Where(i => i.Id == 1).FirstOrDefaultAsync();
+
+                Byte[] image1 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\21.jpg");
+                Byte[] image2 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\5.jpg");
+                Byte[] image3 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\4.jpg");
+                Byte[] image4 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\20.jpg");
+
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
                     Title = "Portugal Aerial Bridge",
@@ -255,7 +269,8 @@ namespace MilesBackOffice.Web.Data
                     Price = 7000,
                     Status = 1,
                     Conditions = "Special offer for fear of flying passengers",
-                    OfferIdGuid = GuidHelper.CreatedGuid()
+                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    Image = image1
                 });
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
@@ -267,7 +282,9 @@ namespace MilesBackOffice.Web.Data
                     Price = 10000,
                     Status = 1,
                     Conditions = "Special offer for hungry clients",
-                    OfferIdGuid = GuidHelper.CreatedGuid()
+                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    Image = image2
+
                 });
                 partner = await _context.Partners.Where(p => p.CompanyName == "Vila Vita Hotel & SPA").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
@@ -283,7 +300,9 @@ namespace MilesBackOffice.Web.Data
                     "Vila Vita Parc Resort & Spa is located on a 22-hectare property" +
                     " with lush sub-tropical gardens overlooking the Algarve coast and the Atlantic Ocean." +
                     "With the Cinel Air Miles Program you can enjoy your stay and earn and use miles.",
-                    OfferIdGuid = GuidHelper.CreatedGuid()
+                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    Image = image3
+
                 });
                 partner = await _context.Partners.Where(p => p.CompanyName == "Sobreiras - Alentejo Country Hotel").FirstOrDefaultAsync();
                 _context.PremiumOffers.Add(new PremiumOffer
@@ -298,8 +317,10 @@ namespace MilesBackOffice.Web.Data
                     Conditions = "Sobreiras - Alentejo Country Hotel offers a unique experience of " +
                     "tranquility and leisure with Nature at 360º, combining a simple and elegant design " +
                     "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
-                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. ",
-                    OfferIdGuid = GuidHelper.CreatedGuid()
+                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. " +
+                    "Enjoy now 2 nights + breakfast and dinner for 2 for just € 199.90",
+                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    Image = image4
                 });
 
                 await _context.SaveChangesAsync();
@@ -361,6 +382,9 @@ namespace MilesBackOffice.Web.Data
                 var partner2 = await _context.Partners.Where(p => p.CompanyName == "Tap Air Portugal").FirstOrDefaultAsync();
                 var user = await _userHelper.GetUserByEmailAsync("jpofelix@gmail.com");
 
+                Byte[] image1 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\advertisings\miles1.jpg");
+                Byte[] image2 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\advertisings\TAP-MilesGO-Pets.jpg");
+
                 _context.Advertisings.Add(new Advertising
                 {
                     Title = "New Promotion",
@@ -374,7 +398,7 @@ namespace MilesBackOffice.Web.Data
                     "Time starts to fly.Enjoy every mile.",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner1,
-                    ImageUrl = ("~/images/advertisings/miles2.jpg"),
+                    Image = image1,
                     Status = 1,
                     PostGuidId = GuidHelper.CreatedGuid(),
                     CreatedBy = user,
@@ -391,7 +415,7 @@ namespace MilesBackOffice.Web.Data
                     " miles for taking your faithful friend on our planes!",
                     EndDate = DateTime.Now.AddMonths(12),
                     Partner = partner2,
-                    ImageUrl = ("~/images/advertisings/TAP-MilesGO-Pets.jpg"),
+                     Image = image2,
                     Status = 1,
                     PostGuidId = GuidHelper.CreatedGuid(),
                     CreatedBy = user,

@@ -4,19 +4,29 @@
 <div id="newVoucher">
     <div><h2>New Premium Voucher</h2></div>
     <div class="row">
-        <form method="post" asp-action="CreateOffer" >
+        <form method="post" asp-action="CreateOffer">
             <input type="hidden" asp-for="Type" />
+            <input type="hidden" asp-for="Image" />
+
+            <div class="pull-right">
+                <img id="imgprw" alt="Image" width="150" height="150" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageFile"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" onchange="imagePreview(this)" />
+            </div>
             <div class="form-group">
                 <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" name="title" required />
             </div>
             <div class="form-group">
                 <label asp-for="PartnerId"></label>
-                <select type="text" asp-for="PartnerId" asp-items="Model.PartnersList" required ><option value="">Select a Partner</option></select>
+                <select type="text" asp-for="PartnerId" asp-items="Model.PartnersList" required><option value="">Select a Partner</option></select>
             </div>
             <div class="form-group">
                 <label>Terms and Conditions</label>
-                <textarea type="text" asp-for="Conditions" name="conditions" required ></textarea>
+                <textarea type="text" asp-for="Conditions" name="conditions" required></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity"></label>

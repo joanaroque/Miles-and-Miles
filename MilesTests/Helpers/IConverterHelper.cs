@@ -18,7 +18,7 @@
         /// <param name="path"></param>
         /// <param name="partner"></param>
         /// <returns></returns>
-        Advertising ToAdvertising(AdvertisingViewModel model, bool isNew, string path, Partner partner);
+        Advertising ToAdvertising(AdvertisingViewModel model, bool isNew, Partner partner);
 
 
         /// <summary>

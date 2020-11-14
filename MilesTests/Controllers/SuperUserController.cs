@@ -83,6 +83,15 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetOffersImageFile(int id)
+        {
+            var offer = await _premiumRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(offer.Image);
+            return imageUserFile;
+        }
+
+        [HttpGet]
         public async Task<ActionResult> PremiumOfferDetails(int? id)
         {
             if (id == null)
@@ -434,6 +443,20 @@
                 return new NotFoundViewResult("_Error500");
             }
 
+        }
+
+        public FileResult GetFileFromBytes(byte[] bytesIn)
+        {
+            return File(bytesIn, "image/png");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAdvertisingImageFile(int id)
+        {
+            var advertising = await _advertisingRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(advertising.Image);
+            return imageUserFile;
         }
 
         /// <summary>

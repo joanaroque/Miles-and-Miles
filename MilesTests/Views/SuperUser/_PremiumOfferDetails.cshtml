@@ -23,6 +23,10 @@
                             <div class="post">
                                 <div class="text-muted">
                                     <p class="text-md">
+                                        Image
+                                        <b class="d-block">@Html.DisplayFor(model => model.ImageFile)</b>
+                                    </p>
+                                    <p class="text-md">
                                         Title
                                         <b class="d-block">@Html.DisplayFor(model => model.Title)</b>
                                     </p>
@@ -50,6 +54,10 @@
                                 <div class="text-muted">
                                     @if (Model.FlightId != 0)
                                     {
+                                        <p class="text-md">
+                                            Flight number
+                                            <b class="d-block">@Html.DisplayFor(model => model.ImageFile)</b>
+                                        </p>
                                         <p class="text-md">
                                             Flight number
                                             <b class="d-block">@Html.DisplayFor(model => model.FlightId)</b>
@@ -83,7 +91,11 @@
                         </p>
                     </div>
                 </div>
+                <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                    <img style="max-width:300px; max-height:300px" src='@Url.Action("GetOffersImageFile", "SuperUser", new { id = Model.Id})' />
+                </div>
             </div>
         </div>
+     
     </div>
 </section>

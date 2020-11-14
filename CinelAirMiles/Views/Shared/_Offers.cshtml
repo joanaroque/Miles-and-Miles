@@ -18,22 +18,9 @@
                     <div class="team-thumb">
                         <div><h5>@item.Title</h5></div>
                         <div class="team-image">
-                            @if (item.Id == 1)
-                            {
-                                <img src="~/images/5.jpg" class="img-responsive" alt="" />
-                            }
-                            @if (item.Id == 2)
-                            {
-                                <img src="~/images/6.jpg" class="img-responsive" alt="" />
-                            }
-                            @if (item.Id == 3)
-                            {
-                                <img src="~/images/4.jpg" class="img-responsive" alt="" />
-                            }
-                            @if (item.Id == 4)
-                            {
-                                <img src="~/images/20.jpg" class="img-responsive" alt="" />
-                            }
+                            <a href="/shop/premiumdetails/@item.Id">
+                                <img style="max-width:300px; max-height:300px" src='@Url.Action("GetOffersImageFile", "Home", new { id = item.Id})' />
+                            </a>
                         </div>
                         <div class="team-info">
                             <p>

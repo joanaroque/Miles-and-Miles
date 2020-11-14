@@ -55,6 +55,20 @@ namespace CinelAirMiles.Controllers
             return RedirectToAction("IndexClient", "Home");
         }
 
+        public FileResult GetFileFromBytes(byte[] bytesIn)
+        {
+            return File(bytesIn, "image/png");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAdvertisingImageFile(int id)
+        {
+            var advertising = await _advertisingRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(advertising.Image);
+            return imageUserFile;
+        }
+
         public async Task<IActionResult> GetPremiumOffer()
         {
             try
@@ -89,6 +103,14 @@ namespace CinelAirMiles.Controllers
             }
             
             return Json(message);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetOffersImageFile(int id)
+        {
+            var offer = await _premiumRepository.GetByIdWithIncludesAsync(id);
+
+            FileResult imageUserFile = GetFileFromBytes(offer.Image);
+            return imageUserFile;
         }
     }
 }
