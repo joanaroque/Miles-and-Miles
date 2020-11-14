@@ -293,7 +293,6 @@
 
 
 
-        [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -311,8 +310,6 @@
                 {
                     throw new Exception();
                 }
-
-                _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
 
                 return RedirectToAction("ListUsers");
             }
