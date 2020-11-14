@@ -476,7 +476,7 @@ namespace CinelAirMiles.Controllers
                 //verificar as transactions para saber quantas milhas o user já converteu
                 //se o pedido exceder o numero retornar um erro
 
-                var trans
+                return View();
             }
             catch (Exception)
             {
