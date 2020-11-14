@@ -16,6 +16,7 @@
     using MilesBackOffice.Web.Helpers;
     using MilesBackOffice.Web.Models;
 
+
     public class UserController : Controller
     {
         private readonly IPremiumRepository _premiumRepository;
@@ -51,6 +52,7 @@
         /// The list loaded should be only of the results that were sent back by the SU
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> PremiumIndex()
         {
             var list = await _premiumRepository.GetAllIncludes();
