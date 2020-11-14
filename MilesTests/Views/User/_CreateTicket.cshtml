@@ -4,34 +4,26 @@
     <div><h2>New Premium Ticket</h2></div>
     <form method="post" asp-action="CreateOffer" id="form_ticket">
         <input type="hidden" asp-for="Type" />
+        <label asp-for="Title"></label>
         <div class="form-group">
-            <label asp-for="Title"></label>
             <input type="text" asp-for="Title" required name="title" />
         </div>
+        <label>Flight Company</label>
         <div class="form-group">
-            <label>Flight Company</label>
             <select asp-for="PartnerId" required asp-items="Model.PartnersList" onchange="GetFlights()"><option value="">Select...</option></select>
         </div>
+        <label asp-for="FlightId"></label>
         <div class="form-group">
-            <label asp-for="FlightId"></label>
             <select asp-for="FlightId" asp-items="Model.Flights" required onchange="CalculatePrice()"><option value="">Select a flight</option></select>
         </div>
+        <label asp-for="Quantity"></label>
         <div class="form-group">
-            <label asp-for="Quantity"></label>
             <input type="number" asp-for="Quantity" required min="1" value="1" />
         </div>
+        <label asp-for="Price"></label>
         <div class="form-group">
-            <label asp-for="Price"></label>
             <input type="number" asp-for="Price" required min="0" /> Miles
         </div>
         <button type="submit" class="btn btn-outline-success">Create</button>
     </form>
 </div>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-}
-
-
