@@ -134,7 +134,7 @@
                 Price = transaction.Price,
                 StartBalance = transaction.StartBalance,
                 TransferTo = transaction.TransferTo,
-                Type = transaction.Type,
+                Type = transaction.TransactionType,
                 Value = transaction.Value
             };
 

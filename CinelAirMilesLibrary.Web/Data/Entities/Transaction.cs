@@ -21,6 +21,7 @@
         public int Value { get; set; }
 
 
+
         /// <summary>
         /// 0 - Debit,
         /// 1 - Credit,
@@ -29,7 +30,11 @@
         /// 4 - Transfer,
         /// 5 - Extension
         /// </summary>
-        public TransactionType Type { get; set; }
+        public TransactionType TransactionType { get; set; }
+
+
+        public MilesType MilesType { get; set; }
+
 
 
         public User TransferTo { get; set; }

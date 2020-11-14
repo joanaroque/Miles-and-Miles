@@ -37,7 +37,7 @@
                 .Include(u => u.StatusMiles)
                 .FirstOrDefault(u => u.Id == user.Id);
 
-            return miles.BonusMiles;
+            return miles.StatusMiles;
         }
 
         public int GetBonusMiles(User user)

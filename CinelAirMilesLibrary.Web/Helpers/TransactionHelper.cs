@@ -21,7 +21,7 @@
                 StartBalance = user.BonusMiles,
                 CreatedBy = user,
                 CreateDate = DateTime.UtcNow,
-                Type = Enums.TransactionType.Debit,
+                TransactionType = Enums.TransactionType.Debit,
                 Value = offer.Price,
                 Product = offer,
                 Status = 0
@@ -39,7 +39,7 @@
                 StartBalance = reservation.CreatedBy.BonusMiles,
                 CreatedBy = reservation.CreatedBy,
                 CreateDate = DateTime.UtcNow,
-                Type = Enums.TransactionType.Credit,
+                TransactionType = Enums.TransactionType.Credit,
                 Value = reservation.MyPremium.Price,
                 Product = reservation.MyPremium,
                 Status = 0
