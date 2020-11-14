@@ -447,13 +447,6 @@
         {
             try
             {
-                //var path = string.Empty;
-
-                //if (model.ImageFile != null && model.ImageFile.Length > 0)
-                //{
-                //    path = await _imageHelper.UploadImageAsync(model.ImageFile, "advertisings");
-                //}
-
                 foreach (var item in model.ImageFile)
                 {
                     if (item.Length > 0)
@@ -579,7 +572,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_Error404");
+                return new NotFoundViewResult("_Error500");
             }
         }
         #endregion
@@ -616,8 +609,7 @@
             }
             catch (Exception)
             {
-
-                throw;
+                return new NotFoundViewResult("_Error500");
             }
         }
     }
