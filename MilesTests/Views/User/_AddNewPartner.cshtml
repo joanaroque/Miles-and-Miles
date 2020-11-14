@@ -22,8 +22,7 @@
             </div>
             <label asp-for="Designation"></label>
             <div class="form-group">
-                <input asp-for="Designation" type="text" required />
-                <span asp-validation-for="Designation"></span>
+                <select type="text" asp-for="Designation" required asp-items="Model.PartnerTypes" onchange="GetFlights()"><option value="">Select...</option></select>
             </div>
             <label asp-for="Logo"></label>
             <div class="form-group">
