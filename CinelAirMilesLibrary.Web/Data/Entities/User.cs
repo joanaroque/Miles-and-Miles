@@ -61,5 +61,8 @@
 
 
         public TierType Tier { get; set; }
+
+
+        public DateTime AccountApprovedDate { get; set; }
     }
 }

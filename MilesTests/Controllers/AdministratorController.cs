@@ -73,6 +73,7 @@
                 }
 
                 user.IsApproved = true;
+                user.AccountApprovedDate = DateTime.Now;
 
                 var result = await _userHelper.UpdateUserAsync(user);
 
