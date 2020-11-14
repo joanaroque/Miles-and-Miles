@@ -92,13 +92,13 @@
         [HttpGet]
         public async Task<IActionResult> CreateTicket()
         {
-            //var flights = _flightRepository.GetComboFlightList();
+            var flights = _flightRepository.GetComboFlightList();
 
-            var partners = await _partnerRepository.GetComboPartners();
+            var partners = await _partnerRepository.GetComboAirlines();
 
             var model = new PremiumOfferViewModel
             {
-                //Flights = flights,
+                Flights = flights,
                 PartnersList = partners,
                 Type = PremiumType.Ticket
             };
@@ -111,13 +111,13 @@
         public async Task<IActionResult> CreateUpgrade()
         {
 
-            //var flights = _flightRepository.GetComboFlightList();
+            var flights = _flightRepository.GetComboFlightList();
 
-            var partners = await _partnerRepository.GetComboPartners();
+            var partners = await _partnerRepository.GetComboAirlines();
 
             var model = new PremiumOfferViewModel
             {
-                //Flights = flights,
+                Flights = flights,
                 PartnersList = partners,
                 Type = PremiumType.Upgrade
             };
@@ -299,7 +299,12 @@
 
         public IActionResult AddNewPartner()
         {
-            return PartialView("_AddNewPartner");
+            var model = new PartnerViewModel
+            {
+                PartnerTypes = _partnerRepository.GetComboPartnerTypes()
+            };
+
+            return PartialView("_AddNewPartner", model);
         }
 
         /*****************CREATE******************/

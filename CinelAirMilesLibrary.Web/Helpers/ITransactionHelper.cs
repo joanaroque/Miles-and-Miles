@@ -46,6 +46,6 @@ namespace CinelAirMilesLibrary.Common.Helpers
         /// <param name="user"></param>
         /// <param name="userTo"></param>
         /// <returns></returns>
-        Transaction NewTransfer(Transaction transaction, User user, User userTo);
+        Transaction NewTransfer(Transaction transaction);
     }
 }

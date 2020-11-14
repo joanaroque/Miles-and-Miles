@@ -2,7 +2,7 @@
 
 
 <div id="newPartner">
-    <h2>Premium Ticket</h2>
+    <h2>New Partner</h2>
     <div class="row">
         <form action="AddNewPartner" method="post" class="form-group">
             <label asp-for="CompanyName"></label>
@@ -22,8 +22,7 @@
             </div>
             <label asp-for="Designation"></label>
             <div class="form-group">
-                <input asp-for="Designation" type="text" required />
-                <span asp-validation-for="Designation"></span>
+                <select type="text" asp-for="Designation" required asp-items="Model.PartnerTypes" onchange="GetFlights()"><option value="">Select...</option></select>
             </div>
             <label asp-for="Logo"></label>
             <div class="form-group">

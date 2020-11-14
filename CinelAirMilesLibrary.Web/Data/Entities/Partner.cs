@@ -1,5 +1,6 @@
 ﻿namespace CinelAirMilesLibrary.Common.Data.Entities
 {
+    using CinelAirMilesLibrary.Common.Enums;
     using System;
 
     public class Partner : IEntity
@@ -13,7 +14,7 @@
         public string Description { get; set; }
 
 
-        public string Designation { get; set; }
+        public PartnerType Designation { get; set; }
 
 
         public string Url { get; set; }

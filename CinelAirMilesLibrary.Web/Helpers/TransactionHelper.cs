@@ -82,25 +82,11 @@
         }
 
 
-        public Transaction NewTransfer(Transaction transaction, User user, User userTo)
+        public Transaction NewTransfer(Transaction transaction)
         {
-            var quantity = transaction.Value;
-
-            var endBalance = transaction.StartBalance - quantity;
-
-            transaction = new Transaction
-            {
-                Value = quantity,
-                Price = 10,
-                StartBalance = transaction.User.StatusMiles,
-                EndBalance = endBalance,
-                TransferTo = userTo,
-                CreateDate = DateTime.UtcNow,
-                CreatedBy = user
-            };
-
+            transaction.EndBalance = transaction.StartBalance - transaction.Value;
+            
             return transaction;
-
         }
     }
 }

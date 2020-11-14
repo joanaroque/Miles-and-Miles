@@ -41,5 +41,6 @@
         /// <param name="id"></param>
         /// <returns></returns>
         Task<IEnumerable<Transaction>> GetByClientIdAsync(string id);
+        bool GetTransactionHistory(User user);
     }
 }

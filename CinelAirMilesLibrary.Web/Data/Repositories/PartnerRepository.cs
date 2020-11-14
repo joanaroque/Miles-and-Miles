@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using CinelAirMilesLibrary.Common.Data.Entities;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -74,14 +75,45 @@
             var list = new List<SelectListItem>();
             await Task.Run(() =>
             {
-                list = _context.Partners.Select(item => new SelectListItem
+                list = _context.Partners.Where(p => p.Status == 0).Select(item => new SelectListItem
                 {
                     Text = item.CompanyName,
                     Value = item.Id.ToString()
-                }).ToList();
+                })
+                .ToList();
             });
             return list;
         }
+
+
+        public async Task<IEnumerable<SelectListItem>> GetComboAirlines()
+        {
+            var list = new List<SelectListItem>();
+            await Task.Run(() =>
+            {
+                list = _context.Partners.Where(p => p.Status == 0 && p.Designation == PartnerType.Airline)
+                .Select(item => new SelectListItem
+                {
+                    Text = item.CompanyName,
+                    Value = item.Id.ToString()
+                })
+                .ToList();
+            });
+            return list;
+        }
+
+
+        public IEnumerable<SelectListItem> GetComboPartnerTypes()
+        {
+            var list = Enum.GetValues(typeof(PartnerType)).Cast<PartnerType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+
+            return list;
+        }
+
 
         public async Task<List<Partner>> GetPartnerWithStatus1Async()
         {

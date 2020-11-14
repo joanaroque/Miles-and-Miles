@@ -1,26 +1,31 @@
 ﻿
 <section class="content">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">E-mail confirmed!</h3>
+    <div class="container">
+        <h2>E-mail confirmed!</h2>
+        <div class="container-fluid">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div class="panel-body">
+                        <div class="col-12">
+                            @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post, new { @autocomplete = "on" }))
+                            {
+                                @Html.AntiForgeryToken()
 
-            </div>
-            <!-- Content Header (Page header) -->
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>You can now log in into your account.</label>
+                                    </div>
 
-
-            @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post, new { @autocomplete = "on" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="card-body">
-                    <div class="form-group">
-                        <label>You can now log in into your account.</label>
+                                </div>
+                            }
+                        </div>
                     </div>
-
                 </div>
-            }
+            </div>
         </div>
     </div>
-
 </section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

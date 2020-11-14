@@ -1,9 +1,11 @@
 ﻿namespace MilesBackOffice.Web.Models
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-
+    using CinelAirMilesLibrary.Common.Enums;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class PartnerViewModel
     {
@@ -31,7 +33,10 @@
         /// TODO maybe transform into a class with areas of work ex:
         /// hotels, souvenir shops, transport companies
         [Required]
-        public string Designation { get; set; }
+        public PartnerType Designation { get; set; }
+
+
+        public IEnumerable<SelectListItem> PartnerTypes { get; set; }
 
 
 

@@ -1,17 +1,23 @@
-﻿@model CinelAirMiles.Models.TransactionViewModel
+﻿@model CinelAirMiles.Models.NominateViewModel
 
 
 <div class="container">
     <h2>Nominate to Gold</h2>
     <form method="post" asp-action="NominateToGold">
-        <input type="hidden" asp-for="Type" />
-        <label asp-for="TransferTo">Client Id you want to nomeate</label>
-        <div class="form-group">
-            <input type="number" asp-for="TransferTo" name="value" required />
-            <span asp-validation-for="TransferTo"></span>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-outline-success">Nomenate</button>
-        </div>
+        @if (Model.CheckTier)
+        {
+            <label asp-for="NomineeID">Client Id you want to nomeate</label>
+            <div class="form-group">
+                <input type="number" asp-for="NomineeID" name="value" required />
+                <span asp-validation-for="NomineeID"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-success">Confirm</button>
+            </div>
+        }
+        else
+        {
+            <div><h3>Your Status does not allow this operation.</h3></div>
+        }
     </form>
 </div>

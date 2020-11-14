@@ -84,8 +84,8 @@ namespace CinelAirMiles.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError(string.Empty, e.Message);
+                return PartialView("_Error404Client");
             }
-            return RedirectToAction("IndexClient", "Home");
         }
 
         [HttpPost]

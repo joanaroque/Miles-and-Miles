@@ -26,17 +26,12 @@
         public byte[] Image { get; set; }
 
 
-
-        [Display(Name = "Image")]
-        public List<IFormFile> ImageFile { get; set; }
-
         public string PartnerName { get; set; }
 
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Value must be a positive number!")]
         public int Quantity { get; set; }
-
 
 
         [Required]
@@ -64,9 +59,7 @@
         public string OfferGuidId { get; set; }
 
 
-
         public string Arrival { get; set; }
-
 
 
         public string Departure { get; set; }

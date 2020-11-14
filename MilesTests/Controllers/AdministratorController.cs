@@ -240,6 +240,7 @@
             try
             {
                 if (string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(id))
                 {
                     throw new DBConcurrencyException();
                 }
@@ -292,7 +293,6 @@
 
 
 
-        // POST: Administrator/Delete/5
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -310,8 +310,6 @@
                 {
                     throw new Exception();
                 }
-
-                _mailHelper.SendMail(user.Email, "CinelAir Miles confirmation", result.Message);//TODO refactor
 
                 return RedirectToAction("ListUsers");
             }

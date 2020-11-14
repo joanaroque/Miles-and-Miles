@@ -32,10 +32,7 @@
                                         <td>@user.SelectedRole</td>
                                         <td>
                                             <a class="btn btn-info pull-right" asp-action="DetailsUserPage" asp-route-id="@user.Id"><i class="fa fa-list"></i></a>
-                                            @if (user.SelectedRole != CinelAirMilesLibrary.Common.Enums.UserType.Client)
-                                            {
-                                                <a class="btn btn-danger pull-right" asp-action="Delete" asp-route-id="@user.Id" onclick="return confirm('Are you sure you want to delete @user.Name account?')"><i class="fa fa-trash"></i></a>
-                                            }
+                                            <a class="btn btn-danger pull-right" asp-action="DeleteUser" asp-route-id="@user.Id" onclick="return confirm('Are you sure you want to delete @user.Name account?')"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 }

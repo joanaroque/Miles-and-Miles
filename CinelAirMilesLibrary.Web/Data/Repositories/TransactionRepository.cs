@@ -4,6 +4,7 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Helpers;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -74,6 +75,27 @@
             {
                 Success = true
             };
+        }
+
+
+        public bool GetTransactionHistory(User user)
+        {
+            var year = DateTime.Now.Year - user.AccountApprovedDate.Year;
+            var season = user.AccountApprovedDate.AddYears(year);
+            var trans = _context.Transactions
+                .Include(u => u.CreatedBy)
+                .Where(f => f.CreatedBy.Id == user.Id && f.CreateDate > season);
+            int total = 0;
+            foreach (var item in trans)
+            {
+                total += item.Value;
+            }
+
+            if (total > 20000)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

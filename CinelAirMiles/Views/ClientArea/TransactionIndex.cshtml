@@ -56,10 +56,24 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PremiumOffer)
+                        @if (item.PremiumOffer == 0)
+                        {
+                            <p>n/a</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.PremiumOffer)
+                        }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TransferTo)
+                        @if (item.TransferTo == null)
+                        {
+                            <p>n/a</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.TransferTo)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartBalance)
@@ -79,16 +93,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script type="text/javascript">
-
-            window.addEventListener('DOMContentLoaded', function () {
-                byID('btn_ConvertMiles').addEventListener('click', openPartialCreate);
-                byID('btn_ExtendMiles').addEventListener('click', openPartialCreate);
-                byID('btn_NominateToGold').addEventListener('click', openPartialCreate);
-                byID('btn_Purchase').addEventListener('click', openPartialCreate);
-                byID('btn_Transfer').addEventListener('click', openPartialCreate);
-            });
-
-        </script>*@
 }
 
