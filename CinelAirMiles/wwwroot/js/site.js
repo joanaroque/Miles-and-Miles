@@ -20,6 +20,13 @@ function openPartialCreate() {
     $('#form_container').load(getPath(document.location.pathname) + '/' + action);
 }
 
+function calculatePrice() {
+    let value = $(event.currentTarget).val();
+    value = value * 0.05;
+    $("#price").val(value);
+}
+
+
 
 //var connection = new signalR.HubConnectionBuilder().withUrl("/notificationhub").build();
 

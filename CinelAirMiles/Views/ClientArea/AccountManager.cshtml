@@ -44,9 +44,12 @@
             $("#card_container").load("/ClientArea/DigitalCard");
 
             $("a").on("click", function () {
-                $("#area_container").empty();
                 action = this.getAttribute("action");
                 controller = this.getAttribute("controller");
+                if (!action || !controller) {
+                    return;
+                }
+                $("#area_container").empty();
                 $("#card_container").load('/' + controller + '/' + action);
             })
 
@@ -55,9 +58,10 @@
                 $.ajax({
                     type: this.method,
                     url: this.action,
+                    dataType: "json",
                     data: $(this).serialize(),
                     success: function (result) {
-                        $("#card_container").html(result);
+                        $("#card_container").appendTo("<h4>"+{result}+"</h4>");
                     },
                     error: function (err) {
                         console.log(err);

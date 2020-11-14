@@ -41,8 +41,14 @@ namespace CinelAirMiles.Controllers
         }
 
 
-        public IActionResult AccountManager()
+        public async Task<IActionResult> AccountManager()
         {
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
+
             return View();
         }
 
@@ -340,21 +346,14 @@ namespace CinelAirMiles.Controllers
                 var result = await _transactionRepository.AddTransanctionAsync(transaction);
                 if (!result.Success)
                 {
-                    ModelState.AddModelError(string.Empty,
-                        "An error ocurred while submitting your request. Please try again.");
-
-                    return PartialView("_Purchase");
+                    return Json("An error ocurred while submitting your request. Please try again.");
                 }
 
-                ModelState.AddModelError(string.Empty,
-                        "You purchase was successfull. Your balance should reflect it in the next hours.");
-
-                return PartialView("_Purchase");
+                return Json("You purchase was successfull. Your balance should reflect it in the next hours.");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Json(e.Message);
             }
         }
 
@@ -435,7 +434,7 @@ namespace CinelAirMiles.Controllers
             {
                 ModelState.AddModelError(string.Empty,
                    "An error ocurred while submitting your request. Please try again.");
-                return PartialView("_TransferMiles");
+                return Json("_TransferMiles");
             }
             
             var response = await _transactionRepository.AddTransanctionAsync(transaction);
@@ -444,12 +443,10 @@ namespace CinelAirMiles.Controllers
                 ModelState.AddModelError(string.Empty,
                     "An error ocurred while submitting your request. Please try again.");
 
-                return PartialView("_TransferMiles");
+                return Json("_TransferMiles");
             }
-            ModelState.AddModelError(string.Empty,
-                    "You transfer was successfull. Your balance should reflect it in the next hours.");
 
-            return PartialView("_TransferMiles");
+            return Json("You transfer was successfull.Your balance should reflect it in the next hours.");
         }
 
 
@@ -514,11 +511,11 @@ namespace CinelAirMiles.Controllers
                     throw new Exception("Culpa do utilizador");
                 }
 
-                return PartialView("_ConvertMiles", model);
+                return Json("Purchase successfull");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new NotFoundViewResult("_Error404Client");
+                return Json(e.Message);
             }
         }
 
