@@ -279,12 +279,12 @@ https://templatemo.com/tm-516-known
     margin-left: 8em;
   }
 
-  .custom-navbar .navbar-nav.navbar-right li a {
+  .custom-navbar .navbar-nav.navbar-right li a label {
     padding-right: 12px;
     padding-left: 12px;
   }
 
-  .custom-navbar .navbar-nav.navbar-right li a .fa {
+  .custom-navbar .navbar-nav.navbar-right li a label .fa {
     background: #29ca8e;
     border-radius: 100%;
     color: #ffffff;

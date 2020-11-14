@@ -56,7 +56,6 @@ function getPartial(container, action, controller, id) {
 }
 
 
-
 /**
  * Fast call for getElementById
  * 

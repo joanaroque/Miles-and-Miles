@@ -10,7 +10,7 @@
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-    using Microsoft.AspNetCore.Http;
+
     using Microsoft.AspNetCore.Mvc;
 
     using MilesBackOffice.Web.Helpers;
@@ -45,8 +45,6 @@
             _flightRepository = flightRepository;
             _notificationHelper = notificationHelper;
             _imageHelper = imageHelper;
-
-
         }
 
         /// <summary>
@@ -63,7 +61,6 @@
                 .ToList());
 
             return View(modelList);
-
         }
 
 

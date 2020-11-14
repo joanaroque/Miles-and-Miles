@@ -27,7 +27,6 @@
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
 
-        <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
                 <div class="navbar-brand">
@@ -40,7 +39,6 @@
                 </button>
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- Left navbar links -->
                     @if (User.Identity.IsAuthenticated && User.IsInRole(UserType.Admin.ToString()))
                     {
                     <ul class="navbar-nav">
@@ -109,9 +107,7 @@
 
                 </div>
 
-                <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Messages Dropdown Menu -->
                     @await Html.PartialAsync("_NavNotifications")
 
                     <li class="nav-item nav-link">
@@ -134,7 +130,6 @@
                 </ul>
             </div>
         </nav>
-        <!-- /.navbar -->
 
         <div class="content-wrapper">
             <div class="content">
@@ -144,17 +139,16 @@
             </div>
         </div>
         <partial name="_CookieConsentPartial" />
-        <!-- Main Footer -->
         <footer class="main-footer">
-            <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
                 Where do you want to go today?
             </div>
-            <!-- Default to the left -->
             <strong>CinelAir Miles.</strong> All rights reserved.
         </footer>
     </div>
-    <!-- ./wrapper -->
+
+
+
     <!-- REQUIRED SCRIPTS -->
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <!-- jQuery -->

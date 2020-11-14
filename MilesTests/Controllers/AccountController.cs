@@ -81,15 +81,15 @@
         {
             if (user.SelectedRole == UserType.Admin)
             {
-                return RedirectToAction("ListUsers", "Administrator");
+                return RedirectToAction(nameof(AdministratorController.ListUsers), nameof(AdministratorController));
             }
             else if (user.SelectedRole == UserType.SuperUser)
             {
-                return RedirectToAction("PremiumIndex", "SuperUser");
+                return RedirectToAction(nameof(SuperUserController.PremiumIndex), nameof(SuperUserController));
             }
             else if (user.SelectedRole == UserType.User)
             {
-                return RedirectToAction("PremiumIndex", "User");
+                return RedirectToAction(nameof(UserController.PremiumIndex), nameof(UserController));
             }
             else
             {

@@ -1,34 +1,26 @@
 ﻿@model CinelAirMiles.Models.DigitalCardViewModel
 
-@{
-    ViewData["Title"] = "_DigitalCard";
-}
 
-<link href="~/digitalCard/card.css" rel="stylesheet" />
+<link href="~/css/card.css" rel="stylesheet" />
 
-<div id="gradient"></div>
-<div id="card">
-    <img src="~/images/user.png" />
-    <p>
-        @Html.DisplayNameFor(model => model.Name)
-        @Html.DisplayFor(model => model.Name)
-    </p>
-    <p>
-        @Html.DisplayNameFor(model => model.ClientNumber)
-        @Html.DisplayFor(model => model.ClientNumber)
-    </p>
-    <p>
-        @Html.DisplayNameFor(model => model.TierType)
-        @Html.DisplayFor(model => model.TierType)
-    </p>
-    <p>
-        @Html.DisplayNameFor(model => model.ExpirationDate)
-        @Html.DisplayFor(model => model.ExpirationDate)
-    </p>
-    <br />
-    <br />
-    <div>
-        <p> <a asp-action="IndexClient" asp-controller="Home">Home Page</a> </p>
+<div class="container">
+    <div id="card">
+        <img src="~/images/user.png" />
+        <p>
+            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayFor(model => model.Name)
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.ClientNumber)
+            @Html.DisplayFor(model => model.ClientNumber)
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.TierType)
+            @Html.DisplayFor(model => model.TierType)
+        </p>
+        <p>
+            @Html.DisplayNameFor(model => model.ExpirationDate)
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </p>
     </div>
 </div>
-

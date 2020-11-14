@@ -36,33 +36,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @{ 
-                    var base64 = Convert.ToBase64String(item.Image);
-                    var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
-                }
-                <img src="@imgsrc" alt="Image" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostGuidId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
-                <a id="btnDeleteItem" class="btn btn-danger pull-right" data-id="@item.Id" action="DeletePost" controller="User">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.Image);
+                        var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                    }
+                    <img src="@imgsrc" alt="Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostGuidId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    <a class="btn btn-info pull-right" data-value="@item.Id" onclick="openPartial()" action="Edit"><i class="fa fa-user-edit"></i></a>
+                    <a id="btnDeleteItem" class="btn btn-danger pull-right" data-id="@item.Id" action="DeletePost" controller="User">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -77,18 +77,22 @@
 
 </div>
 
-<script type="text/javascript">
-    window.addEventListener('load', function () {
-        byID('btn_publishNews').addEventListener('click', openPartialCreate);
-    });
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    function imagePreview(input) {
-        if (input.files && input.files[0]) {
-            let fildr = new FileReader();
-            fildr.onload = function (e) {
-                $('#imgprw').attr('src', e.target.result);
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            byID('btn_publishNews').addEventListener('click', openPartialCreate);
+        });
+
+        function imagePreview(input) {
+            if (input.files && input.files[0]) {
+                let fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
             }
-            fildr.readAsDataURL(input.files[0]);
         }
-    }
-</script>
+    </script>
+}

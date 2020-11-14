@@ -41,23 +41,4 @@
 
         <input type="submit" value="Create" class="btn btn-success" />
     </form>
-
 </div>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script type="text/javascript">
-        function imagePreview(input) {
-
-    
-            if (input.files && input.files[0]) {
-                let fildr = new FileReader();
-                fildr.onload = function (e) {
-                    $('#imgprw').attr('src', e.target.result);
-                }
-                fildr.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>*@
-}

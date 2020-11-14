@@ -254,10 +254,10 @@ namespace MilesBackOffice.Web.Data
                 var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
                 var flight = await _context.Flights.Where(i => i.Id == 1).FirstOrDefaultAsync();
 
-                Byte[] image1 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\21.jpg");
-                Byte[] image2 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\5.jpg");
-                Byte[] image3 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\4.jpg");
-                Byte[] image4 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\20.jpg");
+                byte[] image1 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\21.jpg");
+                byte[] image2 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\5.jpg");
+                byte[] image3 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\4.jpg");
+                byte[] image4 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\20.jpg");
 
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
@@ -317,8 +317,7 @@ namespace MilesBackOffice.Web.Data
                     Conditions = "Sobreiras - Alentejo Country Hotel offers a unique experience of " +
                     "tranquility and leisure with Nature at 360º, combining a simple and elegant design " +
                     "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
-                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. " +
-                    "Enjoy now 2 nights + breakfast and dinner for 2 for just € 199.90",
+                    "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. ",
                     OfferIdGuid = GuidHelper.CreatedGuid(),
                     Image = image4
                 });
@@ -382,8 +381,8 @@ namespace MilesBackOffice.Web.Data
                 var partner2 = await _context.Partners.Where(p => p.CompanyName == "Tap Air Portugal").FirstOrDefaultAsync();
                 var user = await _userHelper.GetUserByEmailAsync("jpofelix@gmail.com");
 
-                Byte[] image1 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\advertisings\miles1.jpg");
-                Byte[] image2 = ImageToBinary(@"C:\Projects\projetoFinalMiles\Miles-and-Miles\MilesTests\wwwroot\images\advertisings\TAP-MilesGO-Pets.jpg");
+                Byte[] image1 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\advertisings\miles1.jpg");
+                Byte[] image2 = ImageToBinary(@$"{Directory.GetCurrentDirectory()}\wwwroot\images\advertisings\TAP-MilesGO-Pets.jpg");
 
                 _context.Advertisings.Add(new Advertising
                 {

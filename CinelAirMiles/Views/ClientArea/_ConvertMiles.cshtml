@@ -1,0 +1,23 @@
+﻿@model CinelAirMiles.Models.TransactionViewModel
+
+
+<div class="container">
+    <h2>Convert Miles</h2>
+    <form method="post" asp-action="ConvertMiles">
+        <input type="hidden" asp-for="Type" />
+        <label asp-for="Value">Miles to convert</label>
+        <div class="form-group">
+            <input type="text" asp-for="Value" name="Value" required />
+            <span asp-validation-for="Value"></span>
+        </div>
+        <label asp-for="Price"></label>
+        <div class="form-group">
+            <input type="number" asp-for="Price" name="price" readonly />
+            <span asp-validation-for="Price"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-outline-success">Convert</button>
+        </div>
+    </form>
+</div>
+

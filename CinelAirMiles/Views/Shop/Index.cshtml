@@ -4,18 +4,20 @@
 }
 @using CinelAirMilesLibrary.Common.Enums
 <section id="finder_premium">
-    <h2>Find a promotion</h2>
-    <div class="nav navbar-nav">
-        <label>Departure <i class="fa fa-plane"></i></label>
-        <input type="text" id="departure" />
-        <label>Destination <i class="fa fa-plane"></i></label>
-        <input type="text" id="arrival"/>
-        <select id="offer_type">
-            <option value="@PremiumType.Ticket">@PremiumType.Ticket.ToString()</option>
-            <option value="@PremiumType.Upgrade">@PremiumType.Upgrade.ToString()</option>
-            <option value="@PremiumType.Voucher">@PremiumType.Voucher.ToString()</option>
-        </select>
-        <a id="search_button" class="btn">Search</a>
+    <div class="container">
+        <h2>Find a promotion</h2>
+        <div class="nav navbar-nav">
+            <label>Departure <i class="fa fa-plane"></i></label>
+            <input type="text" id="departure" />
+            <label>Destination <i class="fa fa-plane"></i></label>
+            <input type="text" id="arrival" />
+            <select id="offer_type">
+                <option value="@PremiumType.Ticket">@PremiumType.Ticket.ToString()</option>
+                <option value="@PremiumType.Upgrade">@PremiumType.Upgrade.ToString()</option>
+                <option value="@PremiumType.Voucher">@PremiumType.Voucher.ToString()</option>
+            </select>
+            <a id="search_button" class="btn">Search</a>
+        </div>
     </div>
 </section>
 <div id="result">

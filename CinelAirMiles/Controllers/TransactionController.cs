@@ -48,7 +48,7 @@
                         return new NotFoundViewResult("_Error404Client");
                     }
 
-                    var list = await _transactionRepository.GetAllByClient(user);
+                    var list = await _transactionRepository.GetAllByClient(user.Id);
 
                     var modelList = new List<TransactionViewModel>(
                         list.Select(c => _converterHelper.ToTransactionViewModel(c, user))

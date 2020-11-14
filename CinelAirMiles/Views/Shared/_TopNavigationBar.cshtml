@@ -29,7 +29,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <li>
-                    <p>Hello @this.User.Identity.Name !</p>
+                    <a class="navbar-header navbar-brand">Hello @this.User.Identity.Name !</a>
                 </li>
                 <li>
                     <a asp-controller="ClientArea" asp-action="AccountManager">My account</a>

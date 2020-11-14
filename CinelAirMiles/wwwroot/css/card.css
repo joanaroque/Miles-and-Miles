@@ -1,0 +1,40 @@
+﻿
+#card {
+    position: relative;
+    width: 450px;
+    height: 225px;
+    padding: 25px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #E9E2D0;
+    box-shadow: -20px 0 35px -25px black, 20px 0 35px -25px black;
+    z-index: 5;
+}
+
+    #card img {
+        width: 150px;
+        float: left;
+        border-radius: 5px;
+        margin-right: 20px;
+        -webkit-filter: sepia(1);
+        -moz-filter: sepia(1);
+        filter: sepia(1);
+    }
+
+    #card h2 {
+        font-family: courier;
+        color: #333;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 15pt;
+    }
+
+    #card p {
+        font-family: courier;
+        color: #555;
+        font-size: 13px;
+    }
+
+    #card span {
+        font-family: courier;
+    }
