@@ -41,8 +41,14 @@ namespace CinelAirMiles.Controllers
         }
 
 
-        public IActionResult AccountManager()
+        public async Task<IActionResult> AccountManager()
         {
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
+
             return View();
         }
 
