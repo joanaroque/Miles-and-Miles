@@ -17,6 +17,12 @@
         /// <param name="body"></param>
         void SendMail(string to, string subject, string body);
 
+
+        void SendToNewClient(string to, string token, string toName);
+
+
+
+
         /// <summary>
         /// 
         /// </summary>
