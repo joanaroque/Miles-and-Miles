@@ -187,7 +187,7 @@
                 Price = transaction.Price,
                 StartBalance = transaction.StartBalance,
                 TransferTo = transaction.TransferTo,
-                Type = transaction.Type,
+                Type = transaction.TransactionType,
                 Value = transaction.Value
             };
 
@@ -200,7 +200,7 @@
             {
                 CreatedBy = user,
                 CreateDate = DateTime.Now,
-                Type = TransactionType.Convert,
+                TransactionType = TransactionType.Convert,
                 Value = model.Value/2,
                 Price = model.Price,
                 Status = 0
@@ -217,7 +217,7 @@
                 TransferTo = to,
                 Value = model.Value,
                 Price = model.Price,
-                Type = TransactionType.Transfer,
+                TransactionType = TransactionType.Transfer,
                 Status = 0,
                 StartBalance = from.BonusMiles
             };
@@ -230,7 +230,7 @@
             {
                 CreatedBy = user,
                 CreateDate = DateTime.Now,
-                Type = TransactionType.Purchase,
+                TransactionType = TransactionType.Purchase,
                 Value = model.Value,
                 Price = model.Price,
                 Status = 0
