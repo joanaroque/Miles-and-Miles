@@ -29,6 +29,9 @@
         private readonly IClientRepository _clientRepository;
         private readonly IComplaintRepository _complaintRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IPremiumRepository _premiumRepository;
+        private readonly IAdvertisingRepository _advertisingRepository;
+        private readonly IPartnerRepository _partnerRepository;
 
         public AdministratorController(
             IUserHelper userHelper,
@@ -37,7 +40,10 @@
             IConverterHelper converterHelper,
             IClientRepository clientRepository,
             IComplaintRepository complaintRepository,
-            INotificationRepository notificationRepository)
+            INotificationRepository notificationRepository,
+            IPremiumRepository premiumRepository,
+            IAdvertisingRepository advertisingRepository,
+            IPartnerRepository partnerRepository)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
@@ -46,6 +52,9 @@
             _clientRepository = clientRepository;
             _complaintRepository = complaintRepository;
             _notificationRepository = notificationRepository;
+            _premiumRepository = premiumRepository;
+            _advertisingRepository = advertisingRepository;
+            _partnerRepository = partnerRepository;
         }
 
 
@@ -373,6 +382,131 @@
         public IActionResult UserNotFound()
         {
             return new NotFoundViewResult("_Error404");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OffersIndex()
+        {
+            var list = await _premiumRepository.GetAllIncludes();
+            list = list.Where(st => st.Status == 0);
+
+            if (list != null)
+            {
+                var convertList = new List<PremiumOfferViewModel>(
+                    list.Select(po => _converterHelper.ToPremiumOfferViewModel(po))
+                    .ToList());
+                return View(convertList);
+
+            }
+
+            else
+            {
+                return new NotFoundViewResult("_Error404");
+            }
+        }
+
+
+
+        public async Task<IActionResult> DeleteOffer(int id)
+        {
+            try
+            {
+                var offer = await _premiumRepository.GetByIdAsync(id);
+
+                if (offer == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _premiumRepository.DeleteAsync(offer);
+
+                return RedirectToAction("OffersIndex");
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_404Error");
+            }
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> AdsIndex()
+        {
+            try
+            {
+                var list = await _advertisingRepository.GetAdvertisingApproved();
+
+                var modelList = new List<AdvertisingViewModel>(
+                    list.Select(a => _converterHelper.ToAdvertisingViewModel(a))
+                    .ToList());
+
+                return View(modelList);
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500");
+            }
+        }
+
+
+        public async Task<IActionResult> DeleteAd(int id)
+        {
+            try
+            {
+                var ad = await _advertisingRepository.GetByIdAsync(id);
+
+                if (ad == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _advertisingRepository.DeleteAsync(ad);
+
+                return RedirectToAction("AdsIndex");
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_404Error");
+            }
+        }
+
+        public async Task<IActionResult> PartnersIndex(int id)
+        {
+            try
+            {
+                var list = await _partnerRepository.GetPartnerWithStatus0Async();
+                var modelList = new List<PartnerViewModel>(
+                 list.Select(a => _converterHelper.ToPartnerViewModel(a))
+                 .ToList());
+
+                return View(modelList);
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500");
+            }
+        }
+
+        public async Task<IActionResult> DeletePartner(int id)
+        {
+            try
+            {
+                var partner = await _partnerRepository.GetByIdAsync(id);
+
+                if (partner == null)
+                {
+                    throw new Exception();
+                }
+
+                var result = await _partnerRepository.DeleteAsync(partner);
+
+                return RedirectToAction("PartnersIndex");
+            }
+            catch (Exception)
+            {
+                return new NotFoundViewResult("_Error500");
+            }
         }
     }
 }

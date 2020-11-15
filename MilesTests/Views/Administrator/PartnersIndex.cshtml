@@ -14,11 +14,11 @@
                     <h1>Partners</h1>
                 </div>
                 @*<div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li class="breadcrumb-item active">Partners</li>
-                    </ol>
-                </div>*@
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                            <li class="breadcrumb-item active">Partners</li>
+                        </ol>
+                    </div>*@
             </div>
         </div>
     </section>
@@ -36,7 +36,6 @@
                                         <th>Address</th>
                                         <th>Url</th>
                                         <th>Designation</th>
-                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,13 +55,7 @@
                                                 @Html.DisplayFor(modelItem => item.Designation)
                                             </td>
                                             <td>
-                                                <a asp-action="ConfirmPartnerReferences" asp-route-id="@item.Id" class="btn btn-success">
-                                                    <i class="far fa-check-circle"></i>
-                                                </a>
-                                                <a>-  -  - </a>
-                                                <a asp-action="CancelPartnerReferences" asp-route-id="@item.Id" class="btn btn-danger">
-                                                    <i class="fas fa-ban"></i>
-                                                </a>
+                                                <a class="btn btn-danger pull-right" asp-action="DeletePartner" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this partner?')"><i class="fa fa-trash"></i></a>
 
                                             </td>
                                         </tr>
@@ -81,7 +74,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
+
 }
 
 

@@ -124,6 +124,16 @@
             return partner;
         }
 
+
+        public async Task<List<Partner>> GetPartnerWithStatus0Async()
+        {
+            var partner = await _context.Partners
+                 .Where(st => st.Status == 0)
+                 .ToListAsync();
+
+            return partner;
+        }
+
         public async Task<Response> UpdatePartnerAsync(Partner model)
         {
             try
