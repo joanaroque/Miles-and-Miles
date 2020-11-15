@@ -181,9 +181,7 @@
 
                         _mailHelper.SendToNewClient(user.Email, tokenLink, user.Name);
 
-                        ModelState.AddModelError(string.Empty, "Account created! Please check your mail to confirm your account.");
-
-                        return this.View(model);
+                        return RedirectToAction(nameof(ConfirmRegistration));
                     }
                     catch (Exception ex)
                     {
@@ -199,7 +197,10 @@
             return View(model);
         }
 
-
+        public IActionResult ConfirmRegistration()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> ConfirmEmailClient(string userId, string token)
         {
