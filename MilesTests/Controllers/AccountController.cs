@@ -145,6 +145,11 @@
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
                 if (user != null && user.SelectedRole != UserType.Client)
                 {
+                    if (_notificationRepository.ExistsNotificationByGuid(user.GuidId))
+                    {
+                        var notification = await _notificationRepository.GetByGuidIdAsync(user.GuidId);
+                        await _notificationRepository.DeleteAsync(notification);
+                    }
                     await _notificationHelper.CreateNotificationAsync(user.GuidId, UserType.Admin, "Send Reset Password Email.", NotificationType.Recover);
 
                     ModelState.AddModelError(string.Empty, "Notification sent to admin.");
