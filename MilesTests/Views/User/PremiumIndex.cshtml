@@ -87,13 +87,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
-
         window.addEventListener('DOMContentLoaded', function () {
             byID('btn_newTicket').addEventListener('click', openPartialCreate);
             byID('btn_newUpgrade').addEventListener('click', openPartialCreate);
             byID('btn_newVoucher').addEventListener('click', openPartialCreate);
         });
-
 
         function imagePreview(input) {
             if (input.files && input.files[0]) {
@@ -104,6 +102,5 @@
                 fildr.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
 }

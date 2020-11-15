@@ -41,6 +41,13 @@
         /// <param name="id"></param>
         /// <returns></returns>
         Task<IEnumerable<Transaction>> GetByClientIdAsync(string id);
-        bool GetTransactionHistory(User user);
+
+
+        /// <summary>
+        /// Get the total of transaction values from the current season
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>An int that reflects the total amount of transaction values</returns>
+        int GetTransactionHistory(User user);
     }
 }

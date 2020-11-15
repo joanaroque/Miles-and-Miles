@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        User GetUserByGuidId(string user);
+        Task<User> GetUserByGuidIdAsync(string user);
 
         /// <summary>
         /// 

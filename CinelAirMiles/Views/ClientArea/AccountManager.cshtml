@@ -31,7 +31,7 @@
     </div>
 </div>
 <section id="card_container">
-
+    <div class="container" id="error"></div>
 </section>
 <section id="area_container">
 </section>
@@ -53,21 +53,22 @@
                 $("#card_container").load('/' + controller + '/' + action);
             })
 
-            $("form").on("submit", function () {
-                event.preventDefault();
-                $.ajax({
-                    type: this.method,
-                    url: this.action,
-                    dataType: "json",
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        $("#card_container").appendTo("<h4>"+{result}+"</h4>");
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            })
+            //$("#purchase").on("submit", function () {
+            //    event.preventDefault();
+            //    console.log("aqui estou eu");
+            //    $.ajax({
+            //        type: this.method,
+            //        url: this.action,
+            //        dataType: "json",
+            //        data: $(this).serialize(),
+            //        success: function (result) {
+            //            $("#area_container").html("<h4>"+{result}+"</h4>");
+            //        },
+            //        error: function (err) {
+            //            console.log(err);
+            //        }
+            //    })
+            //})
 
         })
     </script>

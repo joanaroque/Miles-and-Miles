@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CinelAirMiles.Helpers;
 using CinelAirMiles.Models;
+
 using CinelAirMilesLibrary.Common.Data.Entities;
 using CinelAirMilesLibrary.Common.Data.Repositories;
 using CinelAirMilesLibrary.Common.Enums;
 using CinelAirMilesLibrary.Common.Helpers;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -56,8 +59,11 @@ namespace CinelAirMiles.Controllers
         #region USER UPDATE & PASSWORD UPDATE
         public async Task<IActionResult> UpdateClientInfo()
         {
-            var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
-
+            var user = await GetCurrentUser();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+            }
             var model = new ChangeUserViewModel();
 
             if (user != null)
@@ -69,10 +75,11 @@ namespace CinelAirMiles.Controllers
                 model.TIN = user.TIN;
                 model.Name = user.Name;
                 model.PhoneNumber = user.PhoneNumber;
+                model.CountryId = user.Country.Id;
             }
 
             model.Countries = _countryRepository.GetComboCountries();
-            return PartialView(nameof(UpdateClientInfo),model);
+            return PartialView(nameof(UpdateClientInfo), model);
         }
 
 
@@ -80,49 +87,44 @@ namespace CinelAirMiles.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateClientInfo(ChangeUserViewModel model)
         {
-            if (this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
+                ModelState.AddModelError(string.Empty, "Failed Update");
+                return RedirectToAction(nameof(AccountManager));
+            }
+            try
+            {
+                var user = await GetCurrentUser();
+                if (user == null)
                 {
-                    var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
-                    if (user != null)
-                    {
-                        var country = await _countryRepository.GetByIdAsync(model.CountryId);
-
-                        user.Name = model.Name;
-                        user.Address = model.Address;
-                        user.PhoneNumber = model.PhoneNumber;
-                        user.City = model.City;
-                        user.Name = model.Name;
-                        user.TIN = model.TIN;
-                        user.Name = model.Name;
-                        user.PhoneNumber = model.PhoneNumber;
-                        user.Country = country;
-
-                        var respose = await _userHelper.UpdateUserAsync(user);
-                        if (respose.Succeeded)
-                        {
-                            ModelState.AddModelError(string.Empty, "User updated successfully!");
-                            return View(model);
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
                 }
 
-            }
-            else
-            {
-                return new NotFoundResult();
-            }
+                user.Name = model.Name;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+                user.City = model.City;
+                user.Name = model.Name;
+                user.TIN = model.TIN;
+                user.Name = model.Name;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Country = await _countryRepository.GetByIdAsync(model.CountryId) ?? user.Country;
 
-            return View(model);
+                var respose = await _userHelper.UpdateUserAsync(user);
+                if (respose.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, "User updated successfully!");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+            return RedirectToAction(nameof(AccountManager));
         }
 
 
@@ -137,26 +139,24 @@ namespace CinelAirMiles.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByUsernameAsync(this.User.Identity.Name);
-                if (user != null)
+                var user = await GetCurrentUser();
+                if (user == null)
                 {
-                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return this.RedirectToAction("ChangeUserClient");
-                    }
-                    else
-                    {
-                        this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
-                    }
+
+                }
+                var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToAction("ChangeUserClient");
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
+                    this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
                 }
+                this.ModelState.AddModelError(string.Empty, "User no found.");
             }
 
-            return PartialView(nameof(AccountManager),model);
+            return PartialView(nameof(AccountManager), model);
         }
 
         #endregion
@@ -213,7 +213,7 @@ namespace CinelAirMiles.Controllers
                 ToList());
 
 
-            return PartialView(nameof(ReservationIndex),list);
+            return PartialView(nameof(ReservationIndex), list);
         }
 
         public async Task<IActionResult> CancelReservation(int? id)
@@ -326,9 +326,9 @@ namespace CinelAirMiles.Controllers
                 }
 
                 var operation = _transactionRepository.GetTransactionHistory(user);
-                if (!operation)
+                if (operation + model.Value > 20000)
                 {
-                    throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
+                    throw new Exception("Cannot complete this operation. The amount exceeds your maximum amount per year.");
                 }
 
                 var transaction = _clientConverterHelper.CreatePurchaseTransaction(model, user);
@@ -370,7 +370,7 @@ namespace CinelAirMiles.Controllers
         [HttpPost]
         public IActionResult ExtendMiles(TransactionViewModel model)
         {
-            
+
             //validas durante 3 anos
 
             // é apenas possível para as milhas que estão a caducar
@@ -401,52 +401,54 @@ namespace CinelAirMiles.Controllers
         [HttpPost]
         public async Task<IActionResult> TransferMiles(TransactionViewModel model)
         {
-            var user = await GetCurrentUser();
-            if (user == null)
+            try
             {
-                return RedirectToAction(nameof(AccountController.LoginClient), "Account");
-            }
+                var user = await GetCurrentUser();
+                if (user == null)
+                {
+                    return RedirectToAction(nameof(AccountController.LoginClient), "Account");
+                }
 
-            var userTo = _userHelper.GetUserByGuidId(model.TransferTo.GuidId);
-            if (userTo == null)
+                var userTo = await _userHelper.GetUserByGuidIdAsync(model.UserGuidID);
+                if (userTo == null)
+                {
+                    throw new Exception("That user doesn't exist! Please confirm the Id");
+                }
+
+                var operation = _transactionRepository.GetTransactionHistory(user);
+                if (operation + model.Value > 20000)
+                {
+                    throw new Exception("Cannot complete this operation. The amount exceeds your maximum amount per year.");
+                }
+
+                var transaction = _clientConverterHelper.CreateTransferTransaction(model, user, userTo);
+                transaction.EndBalance = transaction.StartBalance - transaction.Value;
+
+                user.BonusMiles = transaction.EndBalance;
+
+                var result2 = await _userHelper.UpdateUserAsync(user);
+
+                userTo.BonusMiles += transaction.Value;
+
+                var result3 = await _userHelper.UpdateUserAsync(userTo);
+
+                if (!result2.Succeeded && !result3.Succeeded)
+                {
+                       throw new Exception("An error ocurred while submitting your request. Please try again.");
+                }
+
+                var response = await _transactionRepository.AddTransanctionAsync(transaction);
+                if (!response.Success)
+                {
+                        throw new Exception("An error ocurred while submitting your request. Please try again.");
+                }
+
+                return Json("You transfer was successfull.Your balance should reflect it in the next hours.");
+            }
+            catch (Exception e)
             {
-                //send error user not found
+                return Json(e.Message);
             }
-
-            var operation = _transactionRepository.GetTransactionHistory(user);
-            if (!operation)
-            {
-                throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
-            }
-
-            var transaction = _clientConverterHelper.CreateTransferTransaction(model, user, userTo);
-            transaction.EndBalance = transaction.StartBalance - transaction.Value;
-
-            user.BonusMiles = transaction.EndBalance;
-
-            var result2 = await _userHelper.UpdateUserAsync(user);
-
-            userTo.BonusMiles += transaction.Value;
-
-            var result3 = await _userHelper.UpdateUserAsync(userTo);
-
-            if (!result2.Succeeded && !result3.Succeeded)
-            {
-                ModelState.AddModelError(string.Empty,
-                   "An error ocurred while submitting your request. Please try again.");
-                return Json("_TransferMiles");
-            }
-            
-            var response = await _transactionRepository.AddTransanctionAsync(transaction);
-            if (!response.Success)
-            {
-                ModelState.AddModelError(string.Empty,
-                    "An error ocurred while submitting your request. Please try again.");
-
-                return Json("_TransferMiles");
-            }
-
-            return Json("You transfer was successfull.Your balance should reflect it in the next hours.");
         }
 
 
@@ -488,9 +490,9 @@ namespace CinelAirMiles.Controllers
                 }
 
                 var operation = _transactionRepository.GetTransactionHistory(user);
-                if (!operation)
+                if (operation + model.Value > 20000)
                 {
-                    throw new Exception("You cannot complete this operation. You maximum value per year has been reached!");
+                    throw new Exception("Cannot complete this operation. The amount exceeds your maximum amount per year.");
                 }
 
                 var trans = _clientConverterHelper.CreateConversionTransaction(model, user);
@@ -535,7 +537,7 @@ namespace CinelAirMiles.Controllers
                 //TODO novo bool para o cliente HasNominated
                 model.CheckTier = true;
             }
-            
+
             return PartialView("_NominateToGold", model);
         }
         #endregion

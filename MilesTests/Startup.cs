@@ -25,13 +25,10 @@
 
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration,
-            IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _env = env;
         }
 
         public IConfiguration Configuration { get; }

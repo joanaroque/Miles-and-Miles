@@ -96,15 +96,18 @@
         }
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _context.Users
+                .Include(c => c.Country)
+                .Where(u => u.UserName.Equals(username)).FirstOrDefaultAsync();
         }
 
 
-        public User GetUserByGuidId(string guidId)
+        public async Task<User> GetUserByGuidIdAsync(string guidId)
         {
-            return _context.Users
+            return await _context.Users
                 .Include(c => c.Country)
-                .FirstOrDefault(u => u.GuidId == guidId);
+                .Where(u => u.GuidId.Equals(guidId))
+                .FirstOrDefaultAsync();
         }
 
 

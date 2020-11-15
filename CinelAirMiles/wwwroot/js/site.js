@@ -1,5 +1,5 @@
 ﻿'use strict'
-
+const mileprice = 0.05;
 
 function openPartial() {
     const id = event.currentTarget.getAttribute("data-value");
@@ -22,8 +22,8 @@ function openPartialCreate() {
 
 function calculatePrice() {
     let value = $(event.currentTarget).val();
-    value = value * 0.05;
-    $("#price").val(value);
+    value = value * mileprice;
+    $("#calc").val(value);
 }
 
 

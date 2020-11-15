@@ -37,7 +37,7 @@
             {
                 var user = await GetCurrentUser();
 
-                RedirectUserForRole(user);
+                return RedirectUserForRole(user);
             }
 
             return View();
@@ -145,7 +145,7 @@
 
             return View(model);
         }
-        #endregion //TODO refactor
+        #endregion //TODO refactor to send notifiction to admin
 
 
 
