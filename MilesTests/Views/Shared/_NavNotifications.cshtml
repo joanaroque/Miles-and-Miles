@@ -24,6 +24,25 @@
             }
         })
 
+        
+        $.ajax({
+            url: "/Notifications/GetAdminNotifications",
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                let div = "";
+                if (result.count > 0) {
+                    div = `<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Administrator/UserNotifications">
+                                <i class="fas fa-warning mr-2"></i> ${result.count} new Request(s)
+                            </a>
+                            <div class="dropdown-divider"></div>`;
+                }
+                byID("notify_list").innerHTML += div;
+            }
+        })
+
+
         $.ajax({
             url: "/Notifications/GetPremiumNotifications",
             type: "GET",

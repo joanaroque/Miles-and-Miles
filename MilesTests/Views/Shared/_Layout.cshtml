@@ -52,11 +52,6 @@
                                     List Users
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a asp-controller="Administrator" asp-action="NewClients" class="nav-link">
-                                    Users To be Approved
-                                </a>
-                            </li>
                         </ul>
                     }
                     else if (User.Identity.IsAuthenticated && User.IsInRole(UserType.SuperUser.ToString()))

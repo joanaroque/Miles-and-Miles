@@ -29,7 +29,7 @@
         <div id="wrapper">
             <div id="login" class="animate form">
 
-                @using (Html.BeginForm("RecoverPassword", "Account", FormMethod.Post, new { @autocomplete = "on" }))
+                @using (Html.BeginForm("RecoverAccount", "Account", FormMethod.Post, new { @autocomplete = "on" }))
 
                 {
                     @Html.AntiForgeryToken()
@@ -42,7 +42,7 @@
                         @Html.TextBoxFor(l => l.Email, new { @placeholder = "E-mail" })
                     </p>
                     <p class="login button">
-                        <input type="submit" value="RecoverPassword" />
+                        <input type="submit" value="Recover Password" />
                     </p>
                     <p class="login button">
                         <a href="/" class="to_register">
