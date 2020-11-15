@@ -33,13 +33,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.TransferTo)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StartBalance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EndBalance)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -74,15 +67,6 @@
                         {
                             @Html.DisplayFor(modelItem => item.TransferTo)
                         }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartBalance)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndBalance)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     </td>
                 </tr>
             }
