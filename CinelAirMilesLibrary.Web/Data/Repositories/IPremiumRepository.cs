@@ -36,6 +36,6 @@
 
 
 
-        IEnumerable<PremiumOffer> SearchByParameters(string destination, string arrival);
+        IEnumerable<PremiumOffer> SearchByParameters(string destination, string arrival, string type);
     }
 }

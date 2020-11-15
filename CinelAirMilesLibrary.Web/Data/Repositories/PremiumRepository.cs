@@ -124,10 +124,17 @@
         }
 
 
-        public IEnumerable<PremiumOffer> SearchByParameters(string departure, string arrival)
+        public IEnumerable<PremiumOffer> SearchByParameters(string departure, string arrival, string type)
         {
             //search only by destination
-            if (string.IsNullOrWhiteSpace(arrival))
+            if (string.IsNullOrWhiteSpace(departure) && string.IsNullOrWhiteSpace(arrival))
+            {
+                return _dataContext.PremiumOffers
+                    .Include(f => f.Flight)
+                    .Include(p => p.Partner)
+                    .Where(e => e.Type.ToString() == type);
+            }
+            else if(string.IsNullOrWhiteSpace(arrival))
             {
                 return _dataContext.PremiumOffers
                     .Include(f => f.Flight)

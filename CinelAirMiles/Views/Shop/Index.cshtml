@@ -50,7 +50,7 @@
                     type: "POST",
                     url: "/Shop/SearchOffers",
                     dataType: "html",
-                    data: { departure: $("#departure").val(), arrival: $("#arrival").val() },
+                    data: { departure: $("#departure").val(), arrival: $("#arrival").val(), type: $("#offer_type").val() },
                     success: function (result) {
                         $("#result").html(result);
                     },

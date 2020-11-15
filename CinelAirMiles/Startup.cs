@@ -86,9 +86,9 @@ namespace CinelAirMiles
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Account/Login";
+                options.LoginPath = "/Account/LoginClient";
                 options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/LoginClient";
 
             });
 

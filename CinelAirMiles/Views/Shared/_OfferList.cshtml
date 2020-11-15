@@ -8,11 +8,12 @@
 }
 else
 {
+<div class="container">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Image)
+
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
@@ -35,34 +36,49 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PartnerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Arrival)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Departure)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <a href="/shop/premiumdetails/@item.Id">
+                            <img style="max-width:100px; max-height:100px" src='@Url.Action("GetOffersImageFile", "Home", new { id = item.Id})' alt="@item.Title" />
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartnerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @if (item.Departure == null)
+                        {
+                            <p>n/a</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Departure)
+                        }
+                    </td>
+                    <td>
+                        @if (item.Arrival == null)
+                        {
+                            <p>n/a</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Arrival)
+                        }
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
+</div>
 }
 
 

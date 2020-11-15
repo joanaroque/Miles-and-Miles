@@ -8,9 +8,10 @@
 
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     //This is the shop
     public class ShopController : Controller
     {
@@ -132,7 +133,7 @@
 
         public IActionResult SearchOffers(string departure, string arrival, string type)
         {
-            var list = _premiumRepository.SearchByParameters(departure, arrival);
+            var list = _premiumRepository.SearchByParameters(departure, arrival, type);
 
             var modelList = list.Select(i => _converterHelper.ToPremiumOfferViewModel(i));
 

@@ -69,12 +69,12 @@
         [AllowAnonymous]
         public IActionResult LoginClient()
         {
-            if (this.User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-                return this.RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
-            return this.View();
+            return View();
         }
 
         [HttpPost]
@@ -113,9 +113,9 @@
 
                 if (result.Succeeded)
                 {
-                    if (this.Request.Query.Keys.Contains("ReturnUrl"))
+                    if (Request.Query.Keys.Contains("ReturnUrl"))
                     {
-                        return this.Redirect(this.Request.Query["ReturnUrl"].First());
+                        return Redirect(Request.Query["ReturnUrl"].First());
                     }
 
                     return RedirectToAction("Indexclient", "Home");
@@ -380,20 +380,5 @@
 
             return BadRequest();
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> DigitalCard()
-        //{
-        //    try
-        //    {
-        //        var user = await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
-
-        //        return LocalRedirect(returnUrl);
-        //    }
-
-        //                ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
-
-        //    return View("Error");
-        //}
     }
 }
