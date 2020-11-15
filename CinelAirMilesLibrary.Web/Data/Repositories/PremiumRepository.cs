@@ -104,11 +104,13 @@
 
         public async Task<IEnumerable<PremiumOffer>> GetAllIncludes()
         {
-            return await _dataContext.PremiumOffers
+          var offer = await _dataContext.PremiumOffers
                 .Include(p => p.Partner)
                 .Include(u => u.CreatedBy)
                 .Include(f => f.Flight)
                 .ToListAsync();
+
+            return offer;
         }
 
         public async Task<IEnumerable<PremiumOffer>> GetAllInclundedWithStatus(int status)

@@ -88,6 +88,6 @@
         public string Departure { get; set; }
 
 
-        public DateTime FlightDateTime { get; set; }
+        public DateTime? FlightDateTime { get; set; }
     }
 }
