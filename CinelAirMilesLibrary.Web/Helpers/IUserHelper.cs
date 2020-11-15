@@ -197,6 +197,12 @@
         /// <param name="user"></param>
         /// <returns></returns>
         Task<Response> DeleteUserAsync(User user);
-        IEnumerable<User> GetUsersInList(IEnumerable<Notification> list);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+       Task<IEnumerable<User>> GetUsersInListAsync(IEnumerable<Notification> list);
     }
 }

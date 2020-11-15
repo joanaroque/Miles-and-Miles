@@ -209,12 +209,11 @@
         }
 
 
-        public IEnumerable<User> GetUsersInList(IEnumerable<Notification> list)
+        public async Task<IEnumerable<User>> GetUsersInListAsync(IEnumerable<Notification> list)
         {
-            var users = _context.Users
-                .Where(u => u.GuidId.Equals(list.Select(i => i.Id)));
-
-            return users;
+            return await _context.Users
+                .Include(c => c.Country)
+                .Where(u => list.Any(x => x.ItemId == u.GuidId)).ToListAsync();
         }
     }
 }
