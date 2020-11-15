@@ -107,8 +107,8 @@
                         $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
                         $"    We need to confirm your email address, please click the link:</br></br> " +
                         $"    <a style ='text-decoration: none; border-radius: 2px; padding: 5px 15px; color: white; background-color: #3498db' href = \"{token}\">Complete Registration</a>" +
-                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Your account will be approved soon after. </p>" +
-                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' >We'll let you know when it's approved and ready for you to login and start gaining Miles. </p>" +
+                        $"    <p>Your account will be approved soon after. </p>" +
+                        $"    <p>We'll let you know when it's approved and ready for you to login and start gaining Miles. </p>" +
                         $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
                         $"  </div>" +
                         $" </td >" +
