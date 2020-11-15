@@ -226,7 +226,7 @@
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(config.NameFrom, config.From));
-            message.To.Add(new MailboxAddress(email, name));
+            message.To.Add(new MailboxAddress(name, email));
 
             message.Subject = "Recover Account";
 
