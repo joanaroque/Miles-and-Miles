@@ -453,7 +453,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.Client
                 };
 
-                await _userHelper.AddUserAsync(user6, "123456");
+                await _userHelper.AddUserAsync(user6, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user6);
                 await _userHelper.ConfirmEmailAsync(user6, token);
@@ -497,7 +497,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.Client
                 };
 
-                await _userHelper.AddUserAsync(user5, "123456");
+                await _userHelper.AddUserAsync(user5, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user5);
                 await _userHelper.ConfirmEmailAsync(user5, token);
@@ -541,7 +541,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.Client
                 };
 
-                await _userHelper.AddUserAsync(user4, "123456");
+                await _userHelper.AddUserAsync(user4, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user4);
                 await _userHelper.ConfirmEmailAsync(user4, token);
@@ -586,7 +586,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.User
                 };
 
-                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserAsync(user, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
@@ -630,7 +630,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.Admin
                 };
 
-                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserAsync(user, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
@@ -674,7 +674,7 @@ namespace MilesBackOffice.Web.Data
                     SelectedRole = UserType.SuperUser
                 };
 
-                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserAsync(user, "Senha123?");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
