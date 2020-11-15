@@ -78,7 +78,7 @@
         }
 
 
-        public bool GetTransactionHistory(User user)
+        public int GetTransactionHistory(User user)
         {
             var year = DateTime.Now.Year - user.AccountApprovedDate.Year;
             var season = user.AccountApprovedDate.AddYears(year);
@@ -91,11 +91,7 @@
                 total += item.Value;
             }
 
-            if (total > 20000)
-            {
-                return false;
-            }
-            return true;
+            return total;
         }
     }
 }
