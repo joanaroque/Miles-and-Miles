@@ -78,10 +78,10 @@
                 Image = advertising.Image,
                 EndDate = advertising.EndDate,
                 Status = advertising.Status,
-                //PartnerName = advertising.Partner.CompanyName,
+                PartnerName = advertising.Partner.CompanyName,
                 PostGuidId = advertising.PostGuidId,
                 FlightId = advertising.Flight == null ? 0 : advertising.Flight.Id,
-                CreatedBy = advertising.CreatedBy == null? "unknown" : advertising.CreatedBy.Name,
+                CreatedBy = advertising.CreatedBy == null ? "unknown" : advertising.CreatedBy.Name,
                 CreatedOn = advertising.CreateDate
             };
             return advertisings;
@@ -167,7 +167,8 @@
                 Type = model.Type,
                 Status = 1,
                 Image = model.Image,
-                OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId                
+                OfferIdGuid = isNew ? GuidHelper.CreatedGuid() : model.OfferGuidId,
+                CreateDate = model.CreatedOn
             };
         }
 
@@ -186,9 +187,10 @@
                 Image = model.Image,
                 PartnerName = model.Partner.CompanyName,
                 OfferGuidId = model.OfferIdGuid,
-               // Arrival = string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival,
-                //Departure = string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure,
-               // FlightDateTime = model.Flight.DepartureDate,
+                Arrival = model.Flight != null ? (string.IsNullOrEmpty(model.Flight.Arrival) ? string.Empty : model.Flight.Arrival) : string.Empty,
+                Departure = model.Flight != null ? (string.IsNullOrEmpty(model.Flight.Departure) ? string.Empty : model.Flight.Departure) : string.Empty,
+                FlightDateTime = model.Flight !=null ? model.Flight.DepartureDate : new DateTime?(),
+                CreatedOn = model.CreateDate
             };
 
             return offer;
@@ -257,9 +259,9 @@
                 TIN = user.TIN,
                 CountryName = user.Country.Name
             };
-        } 
+        }
 
-        
+
 
         public UserDetailsViewModel ToUserViewModel(User user)
         {

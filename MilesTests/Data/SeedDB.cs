@@ -55,57 +55,6 @@ namespace MilesBackOffice.Web.Data
 
             await AddAdvertising();
 
-            await AddNotifications();
-        }
-
-        private async Task AddNotifications()
-        {
-            if (!_context.Notifications.Any())
-            {
-                var partner = await _context.Partners.Where(p => p.CompanyName == "CinelAir Portugal").FirstOrDefaultAsync();
-
-                _context.Notifications.Add(new Notification
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com"),
-                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 1,
-                    Type = NotificationType.Complaint,
-                    Message = "Hey Joana, please check the account of client X",
-                    ItemId = "123456789"
-                });
-
-                _context.Notifications.Add(new Notification
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com"),
-                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 1,
-                    Type = NotificationType.Complaint,
-                    Message = "Joana please don't fall asleep while programming!!",
-                    ItemId = "356985421"
-                });
-
-                _context.Notifications.Add(new Notification
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("mariliaa@yopmail.com"),
-                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 1,
-                    Type = NotificationType.Complaint,
-                    Message = "Come and see our offers and promotions!",
-                    ItemId = "456525415"
-                });
-
-                _context.Notifications.Add(new Notification
-                {
-                    CreatedBy = await _userHelper.GetUserByEmailAsync("estevescardoso@yopmail.com"),
-                    CreateDate = DateTime.Now.AddDays(-8).AddHours(1).AddMinutes(1).AddSeconds(1),
-                    Status = 1,
-                    Type = NotificationType.Complaint,
-                    Message = "Please check your tier increase in our Cinel Air Miles program!",
-                    ItemId = "541252226"
-                });
-
-                await _context.SaveChangesAsync();
-            }
         }
 
         private async Task AddFlights()
@@ -239,6 +188,7 @@ namespace MilesBackOffice.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+
         public static byte[] ImageToBinary(string imagePath)
         {
             FileStream fS = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
@@ -247,6 +197,7 @@ namespace MilesBackOffice.Web.Data
             fS.Close();
             return b;
         }
+
         private async Task AddOffers()
         {
             if (!_context.PremiumOffers.Any())
@@ -270,7 +221,8 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Conditions = "Special offer for fear of flying passengers",
                     OfferIdGuid = "789456545",
-                    Image = image1
+                    Image = image1,
+                    CreateDate = DateTime.Now.AddDays(-1)
                 });
                 _context.PremiumOffers.Add(new PremiumOffer
                 {
@@ -283,7 +235,8 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Conditions = "Special offer for hungry clients",
                     OfferIdGuid = "785658965",
-                    Image = image2
+                    Image = image2,
+                    CreateDate = DateTime.Now.AddDays(-2)
 
                 });
                 partner = await _context.Partners.Where(p => p.CompanyName == "Vila Vita Hotel & SPA").FirstOrDefaultAsync();
@@ -301,7 +254,8 @@ namespace MilesBackOffice.Web.Data
                     " with lush sub-tropical gardens overlooking the Algarve coast and the Atlantic Ocean." +
                     "With the Cinel Air Miles Program you can enjoy your stay and earn and use miles.",
                     OfferIdGuid = "566523254",
-                    Image = image3
+                    Image = image3,
+                    CreateDate = DateTime.Now.AddDays(-1)
 
                 });
                 partner = await _context.Partners.Where(p => p.CompanyName == "Sobreiras - Alentejo Country Hotel").FirstOrDefaultAsync();
@@ -319,7 +273,8 @@ namespace MilesBackOffice.Web.Data
                     "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
                     "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. ",
                     OfferIdGuid = "785454121",
-                    Image = image4
+                    Image = image4,
+                    CreateDate = DateTime.Now.AddDays(-1)
                 });
 
                 await _context.SaveChangesAsync();
