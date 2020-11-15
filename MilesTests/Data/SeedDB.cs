@@ -207,7 +207,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     CompanyName = "CinelAir Portugal",
                     Address = "Lisboa",
-                    Designation = "Air Transport Company",
+                    Designation = PartnerType.Airline,
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });
@@ -215,7 +215,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     CompanyName = "Tap Air Portugal",
                     Address = "Lisboa",
-                    Designation = "Air Transport Company",
+                    Designation = PartnerType.Airline,
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });
@@ -223,7 +223,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     CompanyName = "Vila Vita Hotel & SPA",
                     Address = "Algarve",
-                    Designation = "Hotel",
+                    Designation = PartnerType.Hotel,
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });
@@ -231,7 +231,7 @@ namespace MilesBackOffice.Web.Data
                 {
                     CompanyName = "Sobreiras - Alentejo Country Hotel",
                     Address = "Alentejo",
-                    Designation = "Hotel",
+                    Designation = PartnerType.Hotel,
                     Status = 0,
                     PartnerGuidId = GuidHelper.CreatedGuid()
                 });

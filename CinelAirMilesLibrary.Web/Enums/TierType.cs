@@ -4,7 +4,6 @@
     {
         None,
         Basic,
-        Miles,
         Silver,
         Gold
     }

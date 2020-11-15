@@ -19,7 +19,7 @@
         public void SendMail(string to, string subject, string body)
         {
             var config = GetMailConfig();
-            
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(config.NameFrom, config.From));
             message.To.Add(new MailboxAddress(to, to));
@@ -70,7 +70,7 @@
                         $"</tr>" +
                         $"</table>"
             };
-        
+
             message.Body = bodybuilder.ToMessageBody();
 
             using (var client = new SmtpClient())
@@ -81,6 +81,52 @@
                 client.Disconnect(true);
             }
         }
+
+
+        public void SendToNewClient(string to, string token, string toName)
+        {
+            var config = GetMailConfig();
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(config.NameFrom, config.From));
+            message.To.Add(new MailboxAddress(toName, to));
+
+            message.Subject = "Welcome to Miles Program Team";
+
+            var bodybuilder = new BodyBuilder
+            {
+                HtmlBody = $" <td style = 'background-color: #ecf0f1'>" +
+                        $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
+                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to the CinelAir Miles Program Family </h1>" +
+                        $"      </ul>" +
+                        $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
+                        $"  </div>" +
+                        $"  <div style = 'width: 100%; text-align: center'>" +
+                        $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
+                        $"    To access our application, please click the link:</br></br> " +
+                        $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{token}\">Complete Registration</a>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Your account is waiting approval. </p>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' >We'll let you know when it's approved and ready for you to use it. </p>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
+                        $"  </div>" +
+                        $" </td >" +
+                        $"</tr>" +
+                        $"</table>"
+            };
+
+            message.Body = bodybuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(config.Smtp, int.Parse(config.Port), false);
+                client.Authenticate(config.From, config.Password);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
+
+
 
 
         public void SendApproveClient(string to, string toName)

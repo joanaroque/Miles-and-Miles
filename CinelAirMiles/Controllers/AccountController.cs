@@ -172,19 +172,16 @@
                         await _userHelper.AddUSerToRoleAsync(user, user.SelectedRole);
 
                         var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+
                         var tokenLink = this.Url.Action("ConfirmEmailClient", "Account", new
                         {
                             userid = user.Id,
                             token = myToken
                         }, protocol: HttpContext.Request.Scheme);
 
-                        _mailHelper.SendMail(model.EmailAddress, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                            $"Confirm this is your email by clicking the following link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>" +
-                            $"</br></br></br>Your account is waiting approval. " +
-                            $"We'll let you know when it's approved and ready for you to use it.");
+                        _mailHelper.SendToNewClient(user.Email, tokenLink, user.Name);
 
                         ModelState.AddModelError(string.Empty, "Verify your email.");
-
 
                         return this.View(model);
                     }

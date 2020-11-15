@@ -55,7 +55,6 @@
         }
 
 
-        [HttpPost]
         public async Task<IActionResult> ApproveClient(string id)
         {
             try

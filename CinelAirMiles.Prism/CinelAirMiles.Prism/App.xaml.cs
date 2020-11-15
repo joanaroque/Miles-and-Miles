@@ -10,7 +10,8 @@ using Prism;
 using Prism.Ioc;
 
 using System;
-
+using Xamarin.Essentials.Implementation;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 
@@ -38,24 +39,20 @@ namespace CinelAirMiles.Prism
             {
                 await NavigationService.NavigateAsync("/NavigationPage/LoginPage");
             }
-
-            await NavigationService.NavigateAsync("CinelAirMilesMasterDetailPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
-            //containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
-            //containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
-            //containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
-            //containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
-            //containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
-            //containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
+            containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }
