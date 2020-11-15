@@ -89,5 +89,11 @@
                 .Where(u => u.ItemId == id && u.Type.Equals(recover))
                 .FirstOrDefaultAsync();
         }
+
+        public bool ExistsNotificationByGuid(string guidId)
+        {
+            return _context.Notifications
+                .Any(f => f.ItemId == guidId);
+        }
     }
 }

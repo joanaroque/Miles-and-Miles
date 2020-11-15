@@ -77,5 +77,13 @@
         /// <param name="recover"></param>
         /// <returns></returns>
         Task<Notification> GetByGuidIdAndTypeAsync(string id, NotificationType recover);
+
+
+        /// <summary>
+        /// checks if a notification with the given guid exists
+        /// </summary>
+        /// <param name="guidId"></param>
+        /// <returns>True if exists, false otherwise</returns>
+        bool ExistsNotificationByGuid(string guidId);
     }
 }
