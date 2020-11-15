@@ -206,7 +206,7 @@
 
                         _mailHelper.SendToNewUser(user.Email, link, user.Name);
 
-                        return RedirectToAction(nameof(NewClients));
+                        return RedirectToAction(nameof(ListUsers));
                     }
                     catch (Exception ex)
                     {
