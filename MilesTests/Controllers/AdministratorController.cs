@@ -8,6 +8,7 @@
 
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
+    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
 
     using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,7 @@
         private readonly IConverterHelper _converterHelper;
         private readonly IClientRepository _clientRepository;
         private readonly IComplaintRepository _complaintRepository;
+        private readonly INotificationRepository _notificationRepository;
 
         public AdministratorController(
             IUserHelper userHelper,
@@ -34,7 +36,8 @@
             IMailHelper mailHelper,
             IConverterHelper converterHelper,
             IClientRepository clientRepository,
-            IComplaintRepository complaintRepository)
+            IComplaintRepository complaintRepository,
+            INotificationRepository notificationRepository)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
@@ -42,6 +45,7 @@
             _converterHelper = converterHelper;
             _clientRepository = clientRepository;
             _complaintRepository = complaintRepository;
+            _notificationRepository = notificationRepository;
         }
 
 
@@ -54,7 +58,7 @@
             return View(list);
         }
 
-
+        #region NEW CLIENTS
         public async Task<IActionResult> ApproveClient(string id)
         {
             try
@@ -81,9 +85,9 @@
                     throw new DBConcurrencyException();
                 }
 
-                _mailHelper.SendApproveClient(user.Email, user.Name);
+                _mailHelper.SendApproveClient(user.Email, user.Name, user.GuidId);
 
-                return View(nameof(ListUsers));
+                return RedirectToAction(nameof(ListUsers));
             }
             catch (DBConcurrencyException)
             {
@@ -116,12 +120,12 @@
 
                 if (!result.Success)
                 {
-                    throw new DBConcurrencyException(result.Message);
+                    throw new DBConcurrencyException();
                 }
 
                 _mailHelper.SendRefuseClient(user.Email, user.Name);
 
-                return View(nameof(ListUsers));
+                return RedirectToAction(nameof(ListUsers));
             }
             catch (DBConcurrencyException)
             {
@@ -132,8 +136,9 @@
                 return new NotFoundViewResult("_Error500");
             }
         }
+        #endregion
 
-
+        #region REGISTER NEW USER
         [HttpGet]
         public IActionResult Register()
         {
@@ -205,28 +210,17 @@
             model.Genders = _clientRepository.GetComboGenders();
             return View(model);
         }
+        #endregion
 
-
-
+        #region USER ACTIONS LIST/DETAILS/DELETE
         [HttpGet]
         public ActionResult ListUsers()
         {
             var users = _clientRepository.GetActiveUsers();
-            var model = new List<UserDetailsViewModel>();
+            
+            var modelList = users.Select(u => _converterHelper.ToUserViewModel(u));
 
-            foreach (User user in users)
-            {
-                var viewModel = new UserDetailsViewModel
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Username = user.Email,
-                    SelectedRole = user.SelectedRole
-                };
-                model.Add(viewModel);
-            }
-
-            return View(model);
+            return View(modelList);
         }
 
         /// <summary>
@@ -291,7 +285,6 @@
 
 
 
-
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -319,6 +312,59 @@
         }
 
 
+        public async Task<IActionResult> SendResetPassEmail(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    //error    
+                }
+
+                var user = await _userHelper.GetUserByGuidIdAsync(id);
+                if (user == null)
+                {
+                    //error
+                }
+
+                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+                var link = Url.Action(
+                    "ResetPassword",
+                    "Account",
+                    new
+                    {
+                        validToken = myToken,
+                        userId = user.GuidId
+                    }, protocol: HttpContext.Request.Scheme);
+
+                _mailHelper.SendResetEmail(user.Email, user.Name, link);
+
+                var notification = await _notificationRepository.GetByGuidIdAndTypeAsync(id, NotificationType.Recover);
+                await _notificationRepository.DeleteAsync(notification);
+
+                return RedirectToAction(nameof(UserNotifications));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region NOTIFICATIONS
+        public async Task<IActionResult> UserNotifications()
+        {
+            var notifications = await _notificationRepository.GetNotificationsByRoleAsync(UserType.Admin);
+
+            var userList = await _userHelper.GetUsersInListAsync(notifications);
+
+            var modelList = userList.Select(u => _converterHelper.ToNotifyViewModel(u));
+
+            
+            return View("_NewClients", modelList);
+        }
+        #endregion
 
         public IActionResult UserNotFound()
         {
