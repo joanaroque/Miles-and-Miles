@@ -181,7 +181,7 @@
 
                         _mailHelper.SendToNewClient(user.Email, tokenLink, user.Name);
 
-                        ModelState.AddModelError(string.Empty, "Verify your email.");
+                        ModelState.AddModelError(string.Empty, "Account created! Please check your mail to confirm your account.");
 
                         return this.View(model);
                     }
@@ -193,7 +193,9 @@
 
                 this.ModelState.AddModelError(string.Empty, "There's already an account with this email address.");
             }
-
+            model.Countries = _countryRepository.GetComboCountries();
+            model.Genders = _clientRepository.GetComboGenders();
+          
             return View(model);
         }
 
@@ -249,7 +251,11 @@
                 var link = Url.Action(
                     "ResetPasswordClient",
                     "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme);
+                    new 
+                    { 
+                        validToken = myToken,
+                        userId = user.GuidId
+                    }, protocol: HttpContext.Request.Scheme);
 
                 try
                 {
@@ -275,9 +281,27 @@
         }
 
 
-        public IActionResult ResetPasswordClient(string token)
+        public async Task<IActionResult> ResetPasswordClient(string validToken, string userId)
         {
-            return View();
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(validToken))
+            {
+                return new NotFoundViewResult("_404FileNotFound");
+            }
+
+            var user = await _userHelper.GetUserByGuidIdAsync(userId);
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("_404FileNotFound");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                GuidId = userId,
+                Token = validToken
+            };
+
+            return View(model);
         }
 
 
