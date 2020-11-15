@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
-        IEnumerable<Notification> GetNotificationsByRole(UserType role);
+        Task<IEnumerable<Notification>> GetNotificationsByRoleAsync(UserType role);
 
 
         /// <summary>
@@ -62,5 +62,20 @@
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Notification> GetByGuidIdAsync(string id);
+
+        /// <summary>
+        /// Get the lenght of notifications for administrator
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        Task<int> GetAdminLenght(UserType role);
+
+        /// <summary>
+        /// gets a notification by user and type
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="recover"></param>
+        /// <returns></returns>
+        Task<Notification> GetByGuidIdAndTypeAsync(string id, NotificationType recover);
     }
 }

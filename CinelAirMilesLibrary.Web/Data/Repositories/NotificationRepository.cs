@@ -4,6 +4,7 @@
     using CinelAirMilesLibrary.Common.Enums;
 
     using Microsoft.EntityFrameworkCore;
+
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -26,12 +27,10 @@
             return client;
         }
 
-        public IEnumerable<Notification> GetNotificationsByRole(UserType role)
+        public async Task<IEnumerable<Notification>> GetNotificationsByRoleAsync(UserType role)
         {
-            var list = _context.Notifications
-                .Where(t => t.UserGroup == role && t.Status == 1);
-
-            return list;
+            return await _context.Notifications
+            .Where(t => t.UserGroup == role && t.Status == 1).AsNoTracking().ToListAsync();
         }
 
         public async Task<Notification> GetUnreadNotifications(int clientId)
@@ -43,11 +42,20 @@
             return noti;
         }
 
+        public async Task<int> GetAdminLenght(UserType role)
+        {
+            return await _context.Notifications
+                .Where(u => u.UserGroup == role
+                && u.Type == NotificationType.Recover
+                || u.Type == NotificationType.NewClient).CountAsync();
+        }
+
+
         public async Task<int> GetPremiumLenghtByRole(UserType role)
         {
             return await _context.Notifications
-                .Where(u => u.UserGroup == role 
-                && (u.Type == NotificationType.Ticket 
+                .Where(u => u.UserGroup == role
+                && (u.Type == NotificationType.Ticket
                 || u.Type == NotificationType.Upgrade
                 || u.Type == NotificationType.Voucher))
                 .CountAsync();
@@ -73,6 +81,13 @@
         {
             return await _context.Notifications
                 .Where(i => i.ItemId == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<Notification> GetByGuidIdAndTypeAsync(string id, NotificationType recover)
+        {
+            return await _context.Notifications
+                .Where(u => u.ItemId == id && u.Type.Equals(recover))
+                .FirstOrDefaultAsync();
         }
     }
 }
