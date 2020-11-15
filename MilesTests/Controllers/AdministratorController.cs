@@ -320,7 +320,7 @@
             }
             catch (Exception)
             {
-                return new NotFoundViewResult("_404Error");
+                return new NotFoundViewResult("_Error404");
             }
         }
 

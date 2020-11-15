@@ -189,7 +189,9 @@
 
         public async Task<Response> DeleteUserAsync(User user)
         {
-            var result = await _userManager.DeleteAsync(user);
+            user.IsActive = false;
+
+            var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 return new Response
