@@ -627,7 +627,7 @@ namespace CinelAirMiles.Controllers
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 
-                    return RedirectToAction(nameof(ClientAreaController.ComplaintsIndex), nameof(ClientAreaController));
+                    return RedirectToAction("AccountManager");
 
                 }
                 catch (Exception ex)
