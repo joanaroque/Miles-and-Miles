@@ -87,6 +87,8 @@
 
                 _mailHelper.SendApproveClient(user.Email, user.Name, user.GuidId);
 
+                await _notificationRepository.DeleteAsync(await _notificationRepository.GetByGuidIdAsync(user.GuidId));
+
                 return RedirectToAction(nameof(ListUsers));
             }
             catch (DBConcurrencyException)
@@ -109,7 +111,7 @@
                     throw new DBConcurrencyException();
                 }
 
-                var user = await _userHelper.GetUserByIdAsync(id);
+                var user = await _userHelper.GetUserByGuidIdAsync(id);
 
                 if (user == null)
                 {
@@ -124,6 +126,8 @@
                 }
 
                 _mailHelper.SendRefuseClient(user.Email, user.Name);
+
+                await _notificationRepository.DeleteAsync(await _notificationRepository.GetByGuidIdAsync(user.GuidId));
 
                 return RedirectToAction(nameof(ListUsers));
             }
