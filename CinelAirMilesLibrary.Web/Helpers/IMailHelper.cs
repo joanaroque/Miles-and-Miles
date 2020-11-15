@@ -17,10 +17,13 @@
         /// <param name="body"></param>
         void SendMail(string to, string subject, string body);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="token"></param>
+        /// <param name="toName"></param>
         void SendToNewClient(string to, string token, string toName);
-
-
 
 
         /// <summary>
@@ -31,6 +34,13 @@
         /// <param name="body"></param>
         /// <param name="pdf"></param>
         void SendMailWithAttachment(string to, string subject, string body, byte[] pdf);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         bool SendNewsletterConfirmation(string email);
 
         /// <summary>
