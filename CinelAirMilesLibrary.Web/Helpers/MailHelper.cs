@@ -54,7 +54,8 @@
 
             var bodybuilder = new BodyBuilder
             {
-                HtmlBody = $" <td style = 'background-color: #ecf0f1'>" +
+                HtmlBody = "<table> <tr> " +
+                        $" <td style = 'background-color: #ecf0f1'>" +
                         $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
                         $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to Miles Program Team </h1>" +
                         $"      </ul>" +
@@ -97,7 +98,8 @@
 
             var bodybuilder = new BodyBuilder
             {
-                HtmlBody = $" <td style = 'background-color: #ecf0f1'>" +
+                HtmlBody = "<table> <tr> " +
+                        $" <td style = 'background-color: #ecf0f1'>" +
                         $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
                         $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to the CinelAir Miles Program Family </h1>" +
                         $"      </ul>" +
@@ -218,6 +220,49 @@
             }
         }
 
+        public void SendResetEmail(string email, string name, string link)
+        {
+            var config = GetMailConfig();
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(config.NameFrom, config.From));
+            message.To.Add(new MailboxAddress(email, name));
+
+            message.Subject = "Recover Account";
+
+            var bodybuilder = new BodyBuilder
+            {
+                HtmlBody = "<table> <tr> " +
+                        $" <td style = 'background-color: #ecf0f1'>" +
+                        $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
+                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Recover Account </h1>" +
+                        $"      </ul>" +
+                        $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
+                        $"  </div>" +
+                        $"  <div style = 'width: 100%; text-align: center'>" +
+                        $"    <h4 style = 'color: #e67e22; margin: 0 0 7px' >This was sent because of a request you made. If it wasn't you please change your password immediately.</h4>" +
+                        $"    Please click the link to :</br></br> " +
+                        $"    <a style ='text-decoration: none; border-radius: 2px; padding: 5px 15px; color: white; background-color: #3498db' href = \"{link}\">Recover Account</a>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
+                        $"  </div>" +
+                        $" </td >" +
+                        $"</tr>" +
+                        $"</table>"
+            };
+
+            message.Body = bodybuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(config.Smtp, int.Parse(config.Port), false);
+                client.Authenticate(config.From, config.Password);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+
+        }
+
+
 
         public bool SendNewsletterConfirmation(string email)
         {
@@ -295,6 +340,11 @@
 
 
 
+
+
+
+
+
         private protected MailConfig GetMailConfig()
         {
             return new MailConfig
@@ -306,6 +356,7 @@
                 Password = _configuration["Mail:Password"]
             };
         }
+
 
         private protected class MailConfig
         {
