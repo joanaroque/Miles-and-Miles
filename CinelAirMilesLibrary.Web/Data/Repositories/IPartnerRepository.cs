@@ -55,6 +55,7 @@
         /// <returns>list of advertising</returns>
         Task<List<Partner>> GetPartnerWithStatus1Async();
 
+        Task<List<Partner>> GetPartnerWithStatus0Async();
 
 
         Task<List<Partner>> GetAllIncludes();

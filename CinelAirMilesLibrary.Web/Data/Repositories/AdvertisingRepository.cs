@@ -33,6 +33,18 @@
         }
 
 
+        public async Task<List<Advertising>> GetAdvertisingApproved()
+        {
+            var advertising = await _context.Advertisings
+                 .Include(u => u.CreatedBy)
+                 .Include(a => a.Partner)
+                 .Where(st => st.Status == 0)
+                 .ToListAsync();
+
+            return advertising;
+        }
+
+
         public async Task<List<Advertising>> GetAdvertisingForClientAsync()
         {
             var advertising = await _context.Advertisings

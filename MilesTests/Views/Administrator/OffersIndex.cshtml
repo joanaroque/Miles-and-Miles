@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MilesBackOffice.Web.Models.PremiumOfferViewModel>
+
+@{
+    ViewData["Title"] = "PremiumOfferList";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <br />
+                <h1>Premium Offers</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <div class="stats-info stats-last widget-shadow">
+        <div class="stats-last-agile">
+            <table class="display table table-bordered table-striped index-table">
+                <thead>
+                    <tr>
+                        <th>Offer Nrº</th>
+                        <th>Title</th>
+                        <th>Company</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Available Seats</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PartnerName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            @if (item.AvailableSeats >= 0)
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AvailableSeats)
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    n/a
+                                </td>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                <a class="btn btn-danger pull-right" asp-action="DeleteOffer" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this offer?')"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

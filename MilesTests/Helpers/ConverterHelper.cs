@@ -221,7 +221,8 @@
                 Url = model.Url,
                 Designation = model.Designation,
                 Description = model.Description,
-                Status = model.Status
+                Status = model.Status,
+                PartnerGuidId = model.PartnerGuidId
             };
         }
 

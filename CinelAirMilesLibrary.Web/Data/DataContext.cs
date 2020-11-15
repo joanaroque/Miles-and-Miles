@@ -78,6 +78,10 @@ namespace CinelAirMilesLibrary.Common.Data
                 .HasIndex(a => a.UserName)
                 .IsUnique();
 
+            modelBuilder.Entity<User>()
+                .HasIndex(a => a.Email)
+                .IsUnique();
+
 
             modelBuilder.Entity<Transaction>()
               .Property(p => p.Price)

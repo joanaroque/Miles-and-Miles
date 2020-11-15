@@ -21,6 +21,9 @@
 
 
 
+        Task<List<Advertising>> GetAdvertisingApproved();
+
+
         /// <summary>
         /// get the first or default advertising, including who created, and partner name
         /// </summary>
