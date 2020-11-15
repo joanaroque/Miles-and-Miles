@@ -117,7 +117,7 @@ namespace CinelAirMiles
             services.AddScoped<ITransactionHelper, TransactionHelper>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<INotificationHelper, NotificationHelper>();
-
+            services.AddScoped<INotificationRepository, NotificationRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddXmlSerializerFormatters();
         }
