@@ -81,7 +81,7 @@
                     throw new DBConcurrencyException();
                 }
 
-                _mailHelper.SendApproveClient(user.Email, user.Name);
+                _mailHelper.SendApproveClient(user.Email, user.Name, user.GuidId);
 
                 return View(nameof(ListUsers));
             }

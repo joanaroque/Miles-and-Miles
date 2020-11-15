@@ -148,7 +148,7 @@ namespace CinelAirMiles.Controllers
                 var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    return this.RedirectToAction("ChangeUserClient");
+                    return this.RedirectToAction(nameof(AccountManager));
                 }
                 else
                 {
@@ -628,7 +628,7 @@ namespace CinelAirMiles.Controllers
 
                     await _complaintRepository.CreateAsync(clientComplaint);
 
-                    return RedirectToAction(nameof(ClientAreaController.ComplaintsIndex), nameof(ClientAreaController));
+                    return RedirectToAction("AccountManager");
 
                 }
                 catch (Exception ex)
