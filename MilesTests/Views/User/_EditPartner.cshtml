@@ -3,40 +3,41 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="_EditPartner">
+        <form asp-action="EditPartner">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="PartnerGuidId" />
             <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" required type="text"/>
+                <input asp-for="CompanyName" class="form-control" required type="text" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" required type="text"/>
+                <input asp-for="Address" class="form-control" required type="text" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" required type="text"/>
+                <input asp-for="Description" class="form-control" required type="text" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Designation" class="control-label"></label>
-                <input asp-for="Designation" class="form-control" required/>
+                <input asp-for="Designation" class="form-control" required />
                 <span asp-validation-for="Designation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Url" class="control-label"></label>
-                <input asp-for="Url" class="form-control" required type="url"/>
+                <input asp-for="Url" class="form-control" required />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" type="file"/>
+                <input asp-for="Logo" class="form-control" type="file" />
                 <span asp-validation-for="Logo" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
