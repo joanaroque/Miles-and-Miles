@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CinelAirMiles.Prism\CinelAirMiles.Prism\CinelAirMiles.Prism.csproj" />
     <ProjectReference Include="..\CinelAirMilesLibrary.Web\CinelAirMilesLibrary.Common.csproj" />
   </ItemGroup>
 
