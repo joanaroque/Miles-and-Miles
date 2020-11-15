@@ -3,20 +3,19 @@
 
 <div class="container">
     <h2>New Transfer</h2>
-    <form method="post" asp-action="TranferMiles" asp-controller="ClientArea">
-        <input type="hidden" asp-for="Type" />
+    <form method="post" asp-action="TransferMiles" asp-controller="ClientArea" id="transfer">
         <label>Client Id you want to transfer to</label>
         <div class="form-group">
-            <input type="number" asp-for="TransferTo.GuidId" name="value" required />
+            <input type="number" asp-for="UserGuidID" name="userguidid" required />
         </div>
         <label asp-for="Value"></label>
         <div class="form-group">
-            <select asp-for="Value" asp-items="Model.Values" name="value" required onchange="calculatePrice()"><option value="">Select a value..</option></select>
+            <select asp-for="Value" asp-items="Model.Values" name="value" required min="2000" onchange="calculatePrice()"><option value="">Select a value..</option></select>
             <span asp-validation-for="Value"></span>
         </div>
-        <label asp-for="Price"></label>
+        <label>Cost of Operation</label>
         <div class="form-group">
-            <input type="number" asp-for="Price" name="price" readonly id="price"/>€
+            <input type="number" asp-for="Price" name="price" readonly id="calc"/>€
             <span asp-validation-for="Price"></span>
         </div>
         <div>
@@ -24,3 +23,26 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    $("#transfer").on("submit", function () {
+        event.preventDefault();
+        console.log("aqui estou eu");
+        $.ajax({
+            type: this.method,
+            url: this.action,
+            dataType: "json",
+            data: $(this).serialize(),
+            success: function (result) {
+                if (!!$("#error")) {
+                    $("#card_container").append("<div id='error' class='container'></div>");
+                }
+                $("#error").empty();
+                $("#error").html("<h4>" + result + "</h4>");
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    })
+</script>
