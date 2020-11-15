@@ -25,7 +25,7 @@
         {
             return _context.Users
                 .Include(c => c.Country)
-                .Where(u => u.IsApproved);
+                .Where(u => u.IsApproved && u.SelectedRole != UserType.Admin && u.IsActive);
         }
 
         public IEnumerable<User> GetInactiveUsers()
