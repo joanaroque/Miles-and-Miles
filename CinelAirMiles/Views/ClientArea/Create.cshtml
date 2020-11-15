@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Register</h1>
+                    <h1 class="m-0 text-dark">New Message</h1>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        @using (Html.BeginForm("Create", "Complaint", FormMethod.Post, new { @autocomplete = "on" }))
+                        @using (Html.BeginForm("Create", "ClientArea", FormMethod.Post, new { @autocomplete = "on" }))
                         {
                             @Html.ValidationSummary(false)
                             <div class="card-body">
