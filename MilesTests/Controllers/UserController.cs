@@ -361,33 +361,33 @@
         {
             try
             {
-                var newPartner = await _partnerRepository.GetByIdAsync(edit.Id);
-                if (newPartner == null)
+                var editPartner = await _partnerRepository.GetByIdAsync(edit.Id);
+                if (editPartner == null)
                 {
                     return new NotFoundViewResult("_Error404");
                 }
 
                 //TODO take imagefile and convert to Guid
-                newPartner.CompanyName = edit.CompanyName;
-                newPartner.Address = edit.Address;
-                newPartner.Description = edit.Description;
-                newPartner.Designation = edit.Designation;
-                newPartner.Url = edit.Url;
-                newPartner.Status = 1;
-                newPartner.ModifiedBy = await GetCurrentUser();
-                newPartner.UpdateDate = DateTime.UtcNow;
+                editPartner.CompanyName = edit.CompanyName;
+                editPartner.Address = edit.Address;
+                editPartner.Description = edit.Description;
+                editPartner.Designation = edit.Designation;
+                editPartner.Url = edit.Url;
+                editPartner.Status = 1;
+                editPartner.ModifiedBy = await GetCurrentUser();
+                editPartner.UpdateDate = DateTime.UtcNow;
 
-                var result = await _partnerRepository.UpdatePartnerAsync(newPartner);
+                var result = await _partnerRepository.UpdatePartnerAsync(editPartner);
 
                 if (!result.Success)
                 {
                     return new NotFoundViewResult("_Error404");
                 }
 
-                result = await _notificationHelper.UpdateNotificationAsync(newPartner.PartnerGuidId, UserType.SuperUser, "");
+                result = await _notificationHelper.UpdateNotificationAsync(editPartner.PartnerGuidId, UserType.SuperUser, "");
                 if (!result.Success)
                 {
-                    await _notificationHelper.CreateNotificationAsync(newPartner.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
+                    await _notificationHelper.CreateNotificationAsync(editPartner.PartnerGuidId, UserType.SuperUser, "", NotificationType.Partner);
                 }
 
                 return RedirectToAction(nameof(PartnerIndex));

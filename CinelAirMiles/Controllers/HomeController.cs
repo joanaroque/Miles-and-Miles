@@ -46,7 +46,7 @@ namespace CinelAirMiles.Controllers
                     list.Select(a => _clientConverterHelper.ToAdvertisingViewModel(a))
                     .ToList());
 
-                return PartialView("_Feature", modelList);
+                return PartialView("_Feature", modelList.Take(4));
             }
             catch (Exception e)
             {
@@ -75,11 +75,9 @@ namespace CinelAirMiles.Controllers
             {
                 var list = await _premiumRepository.GetAllIncludes();
 
-                var modelList = new List<PremiumOfferViewModel>(
-                    list.Select(a => _clientConverterHelper.ToPremiumOfferViewModel(a))
-                    .ToList());
+                var modelList = list.Select(a => _clientConverterHelper.ToPremiumOfferViewModel(a));
 
-                return PartialView("_Offers", modelList);
+                return PartialView("_Offers", modelList.Take(4));
             }
             catch (Exception e)
             {
