@@ -20,14 +20,20 @@
         private readonly IUserHelper _userHelper;
         private readonly ICountryRepository _countryRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly INotificationHelper _notificationHelper;
+        private readonly INotificationRepository _notificationRepository;
 
         public AccountController(IUserHelper userHelper,
               ICountryRepository countryRepository,
-              IConverterHelper converterHelper)
+              IConverterHelper converterHelper,
+              INotificationHelper notificationHelper,
+              INotificationRepository notificationRepository)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
             _converterHelper = converterHelper;
+            _notificationHelper = notificationHelper;
+            _notificationRepository = notificationRepository;
         }
 
 
@@ -36,7 +42,10 @@
             if (User.Identity.IsAuthenticated)
             {
                 var user = await GetCurrentUser();
-
+                if (user == null)
+                {
+                    return await Logout();
+                }
                 return RedirectUserForRole(user);
             }
 
@@ -64,7 +73,7 @@
 
                     if (user.SelectedRole == UserType.Client)
                     {
-                        throw new Exception("Only employees allowed.");
+                        throw new Exception("Username or Password Invalid.");
                     }
 
                     var result = await _userHelper.LoginAsync(model.UserName, model);
@@ -123,35 +132,35 @@
 
 
         #region Recover Password
-        public IActionResult RecoverPassword()
+        public IActionResult RecoverAccount()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> RecoverAccount(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
-                if (user != null)
+                if (user != null && user.SelectedRole != UserType.Client)
                 {
-                    //Enviar notificação ao Admin do pedido do user
-                    //TODO enviar msg de OK
-                    RedirectToAction(nameof(Login));
-                }
-                ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
-            }
+                    await _notificationHelper.CreateNotificationAsync(user.GuidId, UserType.Admin, "Send Reset Password Email.", NotificationType.Recover);
 
+                    ModelState.AddModelError(string.Empty, "Notification sent to admin.");
+                    return View();
+                }
+                ModelState.AddModelError(string.Empty, "There is no user registered with that email.");
+            }
             return View(model);
         }
-        #endregion //TODO refactor to send notifiction to admin
+        #endregion
 
 
 
-        public IActionResult ResetPassword(string userId, string token)
+        public IActionResult ResetPassword(string userId, string validToken)
         {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(validToken))
             {
                 return new NotFoundViewResult("_Error404");
             }
@@ -159,7 +168,7 @@
             var model = new ResetPasswordViewModel
             {
                 UserId = userId,
-                Token = token
+                Token = validToken
             };
 
             return View(model);
@@ -172,7 +181,7 @@
             {
                 try
                 {
-                    var user = await _userHelper.GetUserByIdAsync(model.UserId);
+                    var user = await _userHelper.GetUserByGuidIdAsync(model.UserId);
                     if (user != null)
                     {
                         var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
@@ -206,7 +215,12 @@
 
         private async Task<User> GetCurrentUser()
         {
-            return await _userHelper.GetUserByUsernameAsync(User.Identity.Name);
+            var user = User.Identity.Name;
+            if (user == null)
+            {
+                return null;
+            }
+            return await _userHelper.GetUserByUsernameAsync(user);
         }
     }
 }
