@@ -9,6 +9,7 @@
         Partner,
         NewClient,
         Complaint,
-        Broken
+        Broken,
+        Recover
     }
 }
