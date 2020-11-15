@@ -147,7 +147,7 @@ namespace CinelAirMiles.Controllers
                 var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    return this.RedirectToAction("ChangeUserClient");
+                    return this.RedirectToAction(nameof(AccountManager));
                 }
                 else
                 {
