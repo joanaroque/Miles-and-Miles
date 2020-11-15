@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="to"></param>
         /// <param name="toName"></param>
-        void SendApproveClient(string to, string toName);
+        void SendApproveClient(string to, string toName, string userId);
 
         /// <summary>
         /// 

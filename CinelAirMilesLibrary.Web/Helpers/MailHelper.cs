@@ -56,9 +56,11 @@
             {
                 HtmlBody = $" <td style = 'background-color: #ecf0f1'>" +
                         $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
-                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to Miles Program Family </h1>" +
+                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello & Welcome to Miles Program Team </h1>" +
                         $"      </ul>" +
                         $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
+                        "       <h4 style = 'color: #e67e22; margin: 0 0 7px' >After confirming your email you'll be able to access our platform. </h4>"+
+                        "       <h4 style = 'color: #e67e22; margin: 0 0 7px' >Let's fly together. </h4>" +
                         $"  </div>" +
                         $"  <div style = 'width: 100%; text-align: center'>" +
                         $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
@@ -91,7 +93,7 @@
             message.From.Add(new MailboxAddress(config.NameFrom, config.From));
             message.To.Add(new MailboxAddress(toName, to));
 
-            message.Subject = "Welcome to Miles Program Team";
+            message.Subject = "Welcome to Miles Program";
 
             var bodybuilder = new BodyBuilder
             {
@@ -103,10 +105,10 @@
                         $"  </div>" +
                         $"  <div style = 'width: 100%; text-align: center'>" +
                         $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
-                        $"    To access our application, please click the link:</br></br> " +
-                        $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{token}\">Complete Registration</a>" +
-                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Your account is waiting approval. </p>" +
-                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' >We'll let you know when it's approved and ready for you to use it. </p>" +
+                        $"    We need to confirm your email address, please click the link:</br></br> " +
+                        $"    <a style ='text-decoration: none; border-radius: 2px; padding: 5px 15px; color: white; background-color: #3498db' href = \"{token}\">Complete Registration</a>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Your account will be approved soon after. </p>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' >We'll let you know when it's approved and ready for you to login and start gaining Miles. </p>" +
                         $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > CinelAir Miles Program 2020</p>" +
                         $"  </div>" +
                         $" </td >" +
@@ -129,7 +131,7 @@
 
 
 
-        public void SendApproveClient(string to, string toName)
+        public void SendApproveClient(string to, string toName, string userId)
         {
             var config = GetMailConfig();
 
@@ -137,7 +139,7 @@
             message.From.Add(new MailboxAddress(config.NameFrom, config.From));
             message.To.Add(new MailboxAddress(toName, to));
 
-            message.Subject = "Welcome to Miles Program Team";
+            message.Subject = "Welcome to Miles Program";
 
             var bodybuilder = new BodyBuilder
             {
@@ -147,6 +149,10 @@
                         "           <h1 style = 'color: #e67e22; margin: 5px' > Welcome to Miles Program </h1>" +
                         "           <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
                         "           <h3>Your account has been approved!</h3>" +
+                        "       </div>" +
+                         "       <div style = 'width: 100%; text-align: center'>" +
+                        $"           <h5 style = 'color: #e67e22; margin: 0 0 7px'> Your Miles Program ID: {userId} </h5>" +
+                        "           <h5 style = 'color: #e67e22; margin: 0 0 7px'> You will need this Id to login in our applications. Don't lose it!</h5>" +
                         "       </div>" +
                         "       <div style = 'width: 100%; text-align: center'>" +
                         "           <h5 style = 'color: #e67e22; margin: 0 0 7px'> You can start earning Miles with us and our Partners! </h5>" +

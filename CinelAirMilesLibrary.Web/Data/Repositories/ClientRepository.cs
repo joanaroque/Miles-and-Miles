@@ -25,7 +25,7 @@
         {
             return _context.Users
                 .Include(c => c.Country)
-                .Where(u => u.IsActive == true);
+                .Where(u => u.IsApproved);
         }
 
         public IEnumerable<User> GetInactiveUsers()
@@ -39,7 +39,7 @@
         {
             return _context.Users
                 .Include(c => c.Country)
-                .Where(u => u.IsApproved == false);
+                .Where(u => !u.IsApproved && u.EmailConfirmed);
         }
 
         public IEnumerable<SelectListItem> GetComboStatus()
