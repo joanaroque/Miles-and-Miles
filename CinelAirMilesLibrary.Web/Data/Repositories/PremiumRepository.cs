@@ -7,16 +7,14 @@
 
     using CinelAirMilesLibrary.Common.Data;
     using CinelAirMilesLibrary.Common.Data.Entities;
-    using CinelAirMilesLibrary.Common.Enums;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Hub.Notification;
-    using Microsoft.AspNetCore.SignalR;
+
     using Microsoft.EntityFrameworkCore;
 
     public class PremiumRepository : GenericRepository<PremiumOffer>, IPremiumRepository
     {
         private readonly DataContext _dataContext;
-        
+
 
         public PremiumRepository(DataContext dataContext)
             : base(dataContext)
@@ -115,7 +113,7 @@
 
         public async Task<IEnumerable<PremiumOffer>> GetAllInclundedWithStatus(int status)
         {
-            return await Task.Run(()=> _dataContext.PremiumOffers
+            return await Task.Run(() => _dataContext.PremiumOffers
                 .Include(p => p.Partner)
                 .Include(u => u.CreatedBy)
                 .Where(st => st.Status == status)
@@ -133,7 +131,7 @@
                     .Include(p => p.Partner)
                     .Where(fi => fi.Flight.Departure.Equals(departure) && fi.Flight.DepartureDate.Date > DateTime.Now.Date);
             }
-            else 
+            else
             {
                 return _dataContext.PremiumOffers
                     .Include(f => f.Flight)
@@ -142,6 +140,6 @@
             }
         }
 
-        
+
     }
 }

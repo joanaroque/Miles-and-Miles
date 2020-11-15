@@ -20,7 +20,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-
+    using CinelAirMilesLibrary.Common.Enums;
 
     public class AccountController : Controller
     {
@@ -30,6 +30,7 @@
         private readonly IMailHelper _mailHelper;
         private readonly IClientRepository _clientRepository;
         private readonly IClientConverterHelper _converterHelper;
+        private readonly INotificationHelper _notificationHelper;
 
         public AccountController(
             ICountryRepository countryRepository,
@@ -37,7 +38,8 @@
             IConfiguration configuration,
             IMailHelper mailHelper,
             IClientRepository clientRepository,
-            IClientConverterHelper converterHelper)
+            IClientConverterHelper converterHelper,
+            INotificationHelper notificationHelper)
         {
             _countryRepository = countryRepository;
             _userHelper = userHelper;
@@ -45,6 +47,7 @@
             _mailHelper = mailHelper;
             _clientRepository = clientRepository;
             _converterHelper = converterHelper;
+            _notificationHelper = notificationHelper;
         }
 
         public IActionResult AccountManager()
@@ -180,6 +183,8 @@
                         }, protocol: HttpContext.Request.Scheme);
 
                         _mailHelper.SendToNewClient(user.Email, tokenLink, user.Name);
+
+                        await _notificationHelper.CreateNotificationAsync(user.GuidId, UserType.Admin, "New Client Registration", NotificationType.NewClient);
 
                         return RedirectToAction(nameof(ConfirmRegistration));
                     }

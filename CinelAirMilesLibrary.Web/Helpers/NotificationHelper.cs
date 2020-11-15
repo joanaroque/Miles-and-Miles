@@ -5,22 +5,17 @@ using System.Threading.Tasks;
 using CinelAirMilesLibrary.Common.Data.Entities;
 using CinelAirMilesLibrary.Common.Data.Repositories;
 using CinelAirMilesLibrary.Common.Enums;
-using CinelAirMilesLibrary.Common.Hub.Notification;
-
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CinelAirMilesLibrary.Common.Helpers
 {
     public class NotificationHelper : INotificationHelper
     {
-        private readonly IHubContext<NotificationHub, INotify> _hubContext;
+        //private readonly IHubContext<NotificationHub, INotify> _hubContext;
         private readonly INotificationRepository _notificationRepository;
 
-        public NotificationHelper(IHubContext<NotificationHub, INotify> hubContext,
-            INotificationRepository notificationRepository)
+        public NotificationHelper(INotificationRepository notificationRepository)
         {
-            _hubContext = hubContext;
+            //_hubContext = hubContext;
             _notificationRepository = notificationRepository;
         }
 
@@ -37,7 +32,7 @@ namespace CinelAirMilesLibrary.Common.Helpers
             };
             await _notificationRepository.CreateAsync(notification);
 
-            await _hubContext.Clients.All.DbChangeNotification();
+            //await _hubContext.Clients.All.DbChangeNotification();
         }
 
 

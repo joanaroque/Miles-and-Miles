@@ -7,7 +7,6 @@
     using CinelAirMilesLibrary.Common.Data.Entities;
     using CinelAirMilesLibrary.Common.Data.Repositories;
     using CinelAirMilesLibrary.Common.Helpers;
-    using CinelAirMilesLibrary.Common.Hub.Notification;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -127,7 +126,7 @@
 
             });
 
-            services.AddSignalR();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -151,10 +150,6 @@
             app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<NotificationHub>("/notificationhub");
-            });
 
             app.UseMvc(routes =>
             {
