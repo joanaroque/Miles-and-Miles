@@ -80,7 +80,7 @@
         {
             if (ModelState.IsValid)
             {
-                var user = _userHelper.GetUserByGuidId(model.GuidId);
+                var user = await _userHelper.GetUserByGuidIdAsync(model.GuidId);
 
                 if (user == null)
                 {
@@ -237,7 +237,7 @@
         {
             if (ModelState.IsValid)
             {
-                var user = _userHelper.GetUserByGuidId(model.GuidId);
+                var user = await _userHelper.GetUserByGuidIdAsync(model.GuidId);
 
                 var email = user.Email;
 
@@ -287,7 +287,7 @@
         [HttpPost]
         public async Task<IActionResult> ResetPasswordClient(ResetPasswordViewModel model)
         {
-            var user = _userHelper.GetUserByGuidId(model.GuidId);
+            var user = await _userHelper.GetUserByGuidIdAsync(model.GuidId);
             if (user != null)
             {
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
