@@ -40,7 +40,25 @@
             {
                 return Json(null);
             }
-            return Json(_notificationRepository.GetNotificationsByRole(user.SelectedRole));
+            return Json(await _notificationRepository.GetNotificationsByRoleAsync(user.SelectedRole));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAdminNotifications()
+        {
+            var user = await GetUserByUserNameAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var response = new JsonResponse
+            {
+                Count = await _notificationRepository.GetAdminLenght(user.SelectedRole),
+                UserType = user.SelectedRole.ToString()
+            };
+
+            return Json(response);
         }
 
 
