@@ -22,51 +22,54 @@
 </section>
 <br />
 
-<table class="display table table-bordered table-striped index-table">
-    <thead>
-        <tr>
-            <th>Article Id</th>
-            <th>Title</th>
-            <th>Created On</th>
-            <th>Created By</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
+<div class="card">
+    <div class="card-body">
+        <table class="display table table-bordered table-striped index-table">
+            <thead>
+                <tr>
+                    <th>Article Id</th>
+                    <th>Title</th>
+                    <th>Created On</th>
+                    <th>Created By</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.PostGuidId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                <a onclick="openPartial()" action="AdvertisingDetails" class="btn btn-warning" data-value="@item.Id">
-                    <i class="fa fa-list"></i>
-                </a>
-                <a>-  -  - </a>
-                <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
-                    <i class="far fa-check-circle"></i>
-                </a>
-                <a>-  -  - </a>
-                <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
-                    <i class="fas fa-ban"></i>
-                </a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PostGuidId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td>
+                            <a onclick="openPartial()" action="AdvertisingDetails" class="btn btn-warning" data-value="@item.Id">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            <a>-  -  - </a>
+                            <a asp-action="ConfirmAdvertisingAndReferences" asp-route-id="@item.Id" class="btn btn-success">
+                                <i class="far fa-check-circle"></i>
+                            </a>
+                            <a>-  -  - </a>
+                            <a asp-action="CancelPublishAdvertising" asp-route-id="@item.Id" class="btn btn-danger">
+                                <i class="fas fa-ban"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 <div id="form_container">
 
 </div>
@@ -75,8 +78,6 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript">
-
-
     function imagePreview(input) {
         if (input.files && input.files[0]) {
             let fildr = new FileReader();
