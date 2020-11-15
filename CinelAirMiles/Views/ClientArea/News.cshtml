@@ -1,0 +1,25 @@
+﻿@model IEnumerable<NewsXmlViewModel>
+
+<div class="container">
+    <h1>Recent News</h1>
+    <br />
+    @foreach (var item in Model)
+    {
+        <a href="@item.Link">
+            <h3>@item.Title</h3>
+        </a>
+        <br />
+        <img src="@item.ImageLocation" alt="Alternate Text" />
+        <br /> <br />
+
+
+        <div>@item.Description </div>
+        <br />
+
+        <div>@item.PublishDate </div>
+        <br />
+
+    }
+    <br />
+
+</div>

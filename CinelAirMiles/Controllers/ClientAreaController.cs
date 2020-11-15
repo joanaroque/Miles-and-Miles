@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
 using CinelAirMiles.Helpers;
 using CinelAirMiles.Models;
 
@@ -668,5 +669,23 @@ namespace CinelAirMiles.Controllers
             return modelList;
         }
 
+        public IActionResult News()
+        {
+            WebClient wclient = new WebClient();
+            string RSSData = wclient.DownloadString("https://www.dailymail.co.uk/travel/index.rss");
+
+            XDocument xml = XDocument.Parse(RSSData);
+            var RSSFeedData = (from x in xml.Descendants("item")
+                               select new NewsXmlViewModel
+                               {
+                                   Title = ((string)x.Element("title")),
+                                   Link = ((string)x.Element("link")),
+                                   Description = ((string)x.Element("description")),
+                                   PublishDate = ((string)x.Element("pubDate")),
+                                   ImageLocation = ((string)x.Element("enclosure").Attribute("url"))
+                               });
+
+            return View(RSSFeedData.Take(5));
+        }
     }
 }
