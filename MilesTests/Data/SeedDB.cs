@@ -71,7 +71,7 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Type = NotificationType.Complaint,
                     Message = "Hey Joana, please check the account of client X",
-                    ItemId = GuidHelper.CreatedGuid()
+                    ItemId = "123456789"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -81,7 +81,7 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Type = NotificationType.Complaint,
                     Message = "Joana please don't fall asleep while programming!!",
-                    ItemId = GuidHelper.CreatedGuid()
+                    ItemId = "356985421"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -91,7 +91,7 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Type = NotificationType.Complaint,
                     Message = "Come and see our offers and promotions!",
-                    ItemId = GuidHelper.CreatedGuid()
+                    ItemId = "456525415"
                 });
 
                 _context.Notifications.Add(new Notification
@@ -101,7 +101,7 @@ namespace MilesBackOffice.Web.Data
                     Status = 1,
                     Type = NotificationType.Complaint,
                     Message = "Please check your tier increase in our Cinel Air Miles program!",
-                    ItemId = GuidHelper.CreatedGuid()
+                    ItemId = "541252226"
                 });
 
                 await _context.SaveChangesAsync();
@@ -209,7 +209,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Lisboa",
                     Designation = PartnerType.Airline,
                     Status = 0,
-                    PartnerGuidId = GuidHelper.CreatedGuid()
+                    PartnerGuidId = "789545524"
                 });
                 _context.Partners.Add(new Partner
                 {
@@ -217,7 +217,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Lisboa",
                     Designation = PartnerType.Airline,
                     Status = 0,
-                    PartnerGuidId = GuidHelper.CreatedGuid()
+                    PartnerGuidId = "563214788"
                 });
                 _context.Partners.Add(new Partner
                 {
@@ -225,7 +225,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Algarve",
                     Designation = PartnerType.Hotel,
                     Status = 0,
-                    PartnerGuidId = GuidHelper.CreatedGuid()
+                    PartnerGuidId = "896523652"
                 });
                 _context.Partners.Add(new Partner
                 {
@@ -233,7 +233,7 @@ namespace MilesBackOffice.Web.Data
                     Address = "Alentejo",
                     Designation = PartnerType.Hotel,
                     Status = 0,
-                    PartnerGuidId = GuidHelper.CreatedGuid()
+                    PartnerGuidId = "563256666"
                 });
 
                 await _context.SaveChangesAsync();
@@ -269,7 +269,7 @@ namespace MilesBackOffice.Web.Data
                     Price = 7000,
                     Status = 1,
                     Conditions = "Special offer for fear of flying passengers",
-                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    OfferIdGuid = "789456545",
                     Image = image1
                 });
                 _context.PremiumOffers.Add(new PremiumOffer
@@ -282,7 +282,7 @@ namespace MilesBackOffice.Web.Data
                     Price = 10000,
                     Status = 1,
                     Conditions = "Special offer for hungry clients",
-                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    OfferIdGuid = "785658965",
                     Image = image2
 
                 });
@@ -300,7 +300,7 @@ namespace MilesBackOffice.Web.Data
                     "Vila Vita Parc Resort & Spa is located on a 22-hectare property" +
                     " with lush sub-tropical gardens overlooking the Algarve coast and the Atlantic Ocean." +
                     "With the Cinel Air Miles Program you can enjoy your stay and earn and use miles.",
-                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    OfferIdGuid = "566523254",
                     Image = image3
 
                 });
@@ -318,7 +318,7 @@ namespace MilesBackOffice.Web.Data
                     "tranquility and leisure with Nature at 360º, combining a simple and elegant design " +
                     "inspired by the Alentejo landscape. It is the perfect getaway away from city life and " +
                     "confusion and is just an hour away from Lisbon and just minutes from Vila de Grândola. ",
-                    OfferIdGuid = GuidHelper.CreatedGuid(),
+                    OfferIdGuid = "785454121",
                     Image = image4
                 });
 
@@ -399,7 +399,7 @@ namespace MilesBackOffice.Web.Data
                     Partner = partner1,
                     Image = image1,
                     Status = 1,
-                    PostGuidId = GuidHelper.CreatedGuid(),
+                    PostGuidId = "788563252",
                     CreatedBy = user,
                     CreateDate = DateTime.Now
 
@@ -416,7 +416,7 @@ namespace MilesBackOffice.Web.Data
                     Partner = partner2,
                      Image = image2,
                     Status = 1,
-                    PostGuidId = GuidHelper.CreatedGuid(),
+                    PostGuidId = "785412658",
                     CreatedBy = user,
                     CreateDate = DateTime.Now
                 });
@@ -433,7 +433,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user6 = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "789987456",
                     Name = "Marilia Amélia Santos",
                     Email = "mariliaa@yopmail.com",
                     UserName = "Mariliazinha",
@@ -477,7 +477,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user5 = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "123321456",
                     Name = "Jacinto Simões Costa",
                     Email = "jacintoafonso@yopmail.com",
                     UserName = "JacintoSC83",
@@ -521,7 +521,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user4 = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "965632531",
                     Name = "Pedro Esteves Cardoso",
                     Email = "estevescardoso@yopmail.com",
                     UserName = "PedroCardoso",
@@ -566,7 +566,7 @@ namespace MilesBackOffice.Web.Data
 
                 user = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "456569863",
                     Name = "João Felix",
                     Email = "jpofelix@gmail.com",
                     UserName = "JoaoFelix",
@@ -610,7 +610,7 @@ namespace MilesBackOffice.Web.Data
 
                 user = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "223716111",
                     Name = "Cátia Oliveira",
                     Email = "catia-96@hotmail.com",
                     UserName = "CatiaOliveira",
@@ -654,7 +654,7 @@ namespace MilesBackOffice.Web.Data
             {
                 user = new User
                 {
-                    GuidId = GuidHelper.CreatedGuid(),
+                    GuidId = "111222333",
                     Name = "Joana Roque",
                     Email = "joanatpsi@gmail.com",
                     UserName = "JoanaRoque",
