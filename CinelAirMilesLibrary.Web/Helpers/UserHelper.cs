@@ -207,5 +207,14 @@
                 };
             }
         }
+
+
+        public IEnumerable<User> GetUsersInList(IEnumerable<Notification> list)
+        {
+            var users = _context.Users
+                .Where(u => u.GuidId.Equals(list.Select(i => i.Id)));
+
+            return users;
+        }
     }
 }
