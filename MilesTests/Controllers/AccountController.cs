@@ -163,9 +163,9 @@
 
 
 
-        public IActionResult ResetPassword(string userId, string validToken)
+        public IActionResult ResetPassword(string userId, string token)
         {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(validToken))
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
                 return new NotFoundViewResult("_Error404");
             }
@@ -173,7 +173,7 @@
             var model = new ResetPasswordViewModel
             {
                 UserId = userId,
-                Token = validToken
+                Token = token
             };
 
             return View(model);
@@ -186,7 +186,7 @@
             {
                 try
                 {
-                    var user = await _userHelper.GetUserByGuidIdAsync(model.UserId);
+                    var user = await _userHelper.GetUserByIdAsync(model.UserId);
                     if (user != null)
                     {
                         var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
