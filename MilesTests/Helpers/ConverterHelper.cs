@@ -278,5 +278,19 @@
                 TIN = user.TIN
             };
         }
+
+
+        public NotifyAdminViewModel ToNotifyViewModel(User user)
+        {
+            return new NotifyAdminViewModel
+            {
+                Id = user.GuidId,
+                Name = user.Name,
+                Email = user.Email,
+                TIN = user.TIN,
+                CountryName = user.Country.Name,
+                SelectedRole = user.SelectedRole
+            };
+        }
     }
 }

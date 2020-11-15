@@ -138,5 +138,6 @@
         /// <param name="user"></param>
         /// <returns></returns>
         NewClientsViewModel ToNewClientViewModel(User user);
+        NotifyAdminViewModel ToNotifyViewModel(User user);
     }
 }
