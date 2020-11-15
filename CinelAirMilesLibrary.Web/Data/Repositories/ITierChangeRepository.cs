@@ -26,18 +26,9 @@
 
 
 
-        /// <summary>
-        /// change tier client
-        /// </summary>
-        /// <returns>updated tier client</returns>
-        Task<TierChange> ChangeTierClient(User client);
+        //Task<TierChange> ChangeTierClient(User client);
 
 
-
-        /// <summary>
-        /// cancelation upgrade
-        /// </summary>
-        /// <returns>updated upgrade client</returns>
-        Task<TierChange> UpgradeCancelation();
+        //Task<TierChange> UpgradeCancelation();
     }
 }
