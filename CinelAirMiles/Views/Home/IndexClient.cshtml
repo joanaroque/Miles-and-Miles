@@ -1,6 +1,4 @@
-﻿@*@model CinelAirMiles.Models.HomeViewModel*@
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -21,7 +19,7 @@
         <!--<partial name="_Testemonials" />-->
 
         <!-- CONTACT -->
-        <partial name="_Contact" />
+        @*<partial name="_Contact" />*@
 
     </section>
 
@@ -32,6 +30,6 @@
             $("#feature").load("/Home/GetAdvertising");
             $("#offers").load("/Home/GetPremiumOffer");
         });
-        
+      
     </script>
 }
