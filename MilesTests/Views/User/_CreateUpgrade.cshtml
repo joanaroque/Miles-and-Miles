@@ -6,24 +6,24 @@
         <div><h2>New Premium Upgrade</h2></div>
         <form method="post" asp-action="CreateOffer">
             <input type="hidden" asp-for="Type" />
+            <label asp-for="Title"></label>
             <div class="form-group">
-                <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" required />
             </div>
+            <label>Flight Company</label>
             <div class="form-group">
-                <label>Flight Company</label>
                 <select type="text" asp-for="PartnerId" required asp-items="Model.PartnersList" onchange="GetFlights()"><option value="">Select...</option></select>
             </div>
+            <label asp-for="FlightId"></label>
             <div class="form-group">
-                <label asp-for="FlightId"></label>
                 <select type="text" asp-for="FlightId" required asp-items="Model.Flights" onchange="CalculatePrice()"><option value="">Select a flight</option></select>
             </div>
+            <label asp-for="Quantity"></label>
             <div class="form-group">
-                <label asp-for="Quantity"></label>
                 <input type="number" asp-for="Quantity" required min="1" value="1" />
             </div>
+            <label asp-for="Price"></label>
             <div class="form-group">
-                <label asp-for="Price"></label>
                 <input type="number" required min="0" asp-for="Price" />
             </div>
             <button type="submit" class="btn btn-outline-success">Create</button>

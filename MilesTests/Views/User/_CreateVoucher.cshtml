@@ -16,24 +16,24 @@
                 <label asp-for="ImageFile"></label>
                 <input asp-for="ImageFile" type="file" class="form-control" onchange="imagePreview(this)" />
             </div>
+            <label asp-for="Title"></label>
             <div class="form-group">
-                <label asp-for="Title"></label>
                 <input type="text" asp-for="Title" name="title" required />
             </div>
+            <label asp-for="PartnerId"></label>
             <div class="form-group">
-                <label asp-for="PartnerId"></label>
                 <select type="text" asp-for="PartnerId" asp-items="Model.PartnersList" required><option value="">Select a Partner</option></select>
             </div>
+            <label>Terms and Conditions</label>
             <div class="form-group">
-                <label>Terms and Conditions</label>
                 <textarea type="text" asp-for="Conditions" name="conditions" required></textarea>
             </div>
+            <label asp-for="Quantity"></label>
             <div class="form-group">
-                <label asp-for="Quantity"></label>
                 <input type="number" asp-for="Quantity" name="quantity" required min="1" value="1" />
             </div>
+            <label asp-for="Price"></label>
             <div class="form-group">
-                <label asp-for="Price"></label>
                 <input type="number" asp-for="Price" name="price" required min="0" />
             </div>
             <button type="submit" class="btn btn-outline-success">Create</button>
